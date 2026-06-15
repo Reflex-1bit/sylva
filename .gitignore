@@ -1,0 +1,52 @@
+# Environment & secrets
+.env
+*.env
+apikeys
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.venv/
+venv/
+env/
+
+# Rasterio / GIS outputs
+*.tif
+*.geotiff
+*.shp
+*.dbf
+*.prj
+*.shx
+
+# Data outputs (keep schemas, not raw downloads)
+farm_data/
+data/raw/
+*.nc
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs
+*.log
+logs/

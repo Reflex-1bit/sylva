@@ -1,0 +1,23 @@
+# Sylva backend dependencies
+
+# Core API
+fastapi>=0.111.0
+uvicorn[standard]>=0.29.0
+pydantic>=2.7.0
+
+# HTTP client (async)
+httpx>=0.27.0
+
+# Geospatial
+rasterio>=1.3.0
+numpy>=1.26.0
+
+# Earth Engine (NDVI)
+earthengine-api>=0.1.400
+geemap>=0.31.0
+
+# Dev / testing
+pytest>=8.0.0
+pytest-asyncio>=0.23.0
+httpx  # also used for TestClient
+python-dotenv>=1.0.0
