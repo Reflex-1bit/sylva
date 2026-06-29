@@ -1,0 +1,43 @@
+{
+  "downloaded": [
+    "Celtis australis",
+    "Ceratonia siliqua",
+    "Cupressus lusitanica",
+    "Cupressus torulosa",
+    "Ficus glumosa",
+    "Ficus religiosa",
+    "Ficus subcordata",
+    "Ficus sycomorus",
+    "Ficus thonningii",
+    "Fraxinus excelsior",
+    "Juniperus procera",
+    "Olea capensis",
+    "Phoenix dactylifera",
+    "Phoenix reclinata",
+    "Pinus caribaea",
+    "Pinus kesiya",
+    "Pinus merkusii",
+    "Pinus patula",
+    "Pinus wallichiana",
+    "Pistacia integerrima",
+    "Populus ciliata",
+    "Populus deltoides",
+    "Populus euphratica",
+    "Prunus africana",
+    "Punica granatum",
+    "Quercus floribunda",
+    "Quercus glauca",
+    "Quercus humboldtii",
+    "Quercus semecarpifolia",
+    "Robinia pseudoacacia",
+    "Salix babylonica",
+    "Tamarix aphylla"
+  ],
+  "failed": [
+    {
+      "species": "Olea europaea ssp. africana",
+      "url": "https://apps.worldagroforestry.org/treedb/AFTPDFS/Olea_europaea_ssp._africana.pdf",
+      "error": "500 Server Error: Service unavailable (with message) for url: https://apps.worldagroforestry.org/treedb/AFTPDFS/Olea_europaea_ssp._africana.pdf"
+    }
+  ]
+}
