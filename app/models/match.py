@@ -1,17 +1,32 @@
-from typing import List, Optional
-from pydantic import BaseModel, Field
-from app.models.farm import FarmProfileRequest, FarmProfile
+"""
+Sylva — Species match result model
+"""
 
-class FarmMatchRequest(FarmProfileRequest):
-    requested_uses: List[str] = Field(default_factory=list, description="Requested uses (e.g. food, timber, nitrogen_fixing)")
-    top_n: int = Field(default=10, description="Number of top species to return")
-    
+from __future__ import annotations
+from typing import Optional
+from pydantic import BaseModel
+
+
 class SpeciesMatchScore(BaseModel):
     species: str
+    common_names: list[str] = []
     total_score: float
-    score_breakdown: dict
+    score_breakdown: dict[str, float]
+    uses: list[str] = []
+    nitrogen_fixer: bool = False
+    drought_tolerance: Optional[str] = None
+    growth_rate: Optional[str] = None
+    soil_ph_min: Optional[float] = None
+    soil_ph_max: Optional[float] = None
+    rainfall_min_mm: Optional[int] = None
+    rainfall_max_mm: Optional[int] = None
+    soil_texture_preference: list[str] = []
+
+
+class FarmRecommendations(BaseModel):
+    """Full recommendation response: profile + ranked species + generated plan."""
     profile: dict
-    
-class FarmMatchResponse(BaseModel):
-    farm_profile: FarmProfile
-    matches: List[SpeciesMatchScore]
+    recommended_species: list[SpeciesMatchScore]
+    plan: dict
+    plan_model: str
+    retrieved_knowledge: list[str] = []

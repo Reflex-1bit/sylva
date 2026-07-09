@@ -1,110 +1,152 @@
+"""
+Sylva — Species matching service
+
+Scoring system (max 100 points before degradation bonus):
+  pH hard filter     — species outside farm pH range are excluded entirely
+  texture_match      — 15 pts if species prefers the farm's soil texture
+  use_alignment      — 25 pts per matching requested use (uncapped if no uses requested)
+  nitrogen_fixing    — 15 pts bonus
+  degradation_bonus  — 15 pts if farm is degraded (NDVI health_score <= 0.3)
+                        AND species is nitrogen-fixing AND drought tolerant
+"""
+
+from __future__ import annotations
+
 import json
-import os
-from typing import List, Optional
+from pathlib import Path
+from typing import Optional
+
 from app.models.farm import FarmProfile
 from app.models.match import SpeciesMatchScore
 
-class SpeciesMatchService:
-    def __init__(self, db_path: str = "data/species_db.json"):
-        self.db_path = db_path
-        self.db = []
-        self.load_db()
-        
-    def load_db(self):
-        if os.path.exists(self.db_path):
-            with open(self.db_path, "r", encoding="utf-8") as f:
-                self.db = json.load(f)
-        else:
-            self.db = []
-            
-    def match_species(self, farm_profile: FarmProfile, requested_uses: List[str], top_n: int = 10) -> List[SpeciesMatchScore]:
-        results = []
-        
-        farm_ph = None
-        farm_texture = None
-        if farm_profile.soil and farm_profile.soil.topsoil:
-            farm_ph = farm_profile.soil.topsoil.ph
-            farm_texture = farm_profile.soil.topsoil.texture_class
-            
-        farm_ndvi = None
-        if farm_profile.ndvi:
-            farm_ndvi = farm_profile.ndvi.mean_ndvi
+# Default DB path — the extraction script writes to data/species_db.json
+DEFAULT_DB_PATH = Path("data/species_db.json")
 
-        for species in self.db:
-            # 1. Hard filters
-            if farm_ph is not None:
-                min_ph = species.get("soil_ph_min")
-                max_ph = species.get("soil_ph_max")
-                if min_ph is not None and farm_ph < min_ph:
-                    continue
-                if max_ph is not None and farm_ph > max_ph:
-                    continue
-                    
-            # 2. Soft scores
-            score = 0
-            breakdown = {}
-            
-            # Soil texture (15)
-            pref_textures = species.get("soil_texture_preference", [])
-            texture_score = 0
-            if farm_texture and pref_textures:
-                if any(t.lower() in farm_texture.lower() for t in pref_textures):
-                    texture_score = 15
-            elif not pref_textures: # If it doesn't care, give some points
-                texture_score = 5
-            score += texture_score
-            breakdown["texture_match"] = texture_score
-            
-            # Drought tolerance vs NDVI (20)
-            drought_tol = str(species.get("drought_tolerance", "")).lower()
-            drought_score = 0
-            if farm_ndvi is not None:
-                if farm_ndvi < 0.3 and "high" in drought_tol:
-                    drought_score = 20
-                elif farm_ndvi < 0.5 and "medium" in drought_tol:
-                    drought_score = 15
-                elif farm_ndvi >= 0.5:
-                    drought_score = 20 # doesn't matter as much
-            score += drought_score
-            breakdown["drought_tolerance"] = drought_score
-            
-            # Use-case alignment (25)
-            use_score = 0
-            species_uses = [u.lower() for u in species.get("uses", [])]
-            if requested_uses and species_uses:
-                matches = sum(1 for req in requested_uses if any(req.lower() in su for su in species_uses))
-                use_score = min(25, int((matches / len(requested_uses)) * 25))
-            elif not requested_uses:
-                use_score = 25 # No specific uses requested
-            score += use_score
-            breakdown["use_alignment"] = use_score
-            
-            # N-fixation (15)
-            n_fix_score = 15 if species.get("nitrogen_fixing") else 0
-            score += n_fix_score
-            breakdown["nitrogen_fixing"] = n_fix_score
-            
-            # Growth rate (10)
-            growth = str(species.get("growth_rate", "")).lower()
-            growth_score = 10 if "fast" in growth else 5 if "moderate" in growth else 0
-            score += growth_score
-            breakdown["growth_rate"] = growth_score
-            
-            # Degradation bonus (15)
-            deg_bonus = 0
-            if farm_ndvi is not None and farm_ndvi < 0.3:
-                # If farm is degraded (low NDVI), give bonus to hardy, N-fixing, fast growing species
-                if species.get("nitrogen_fixing") and "high" in drought_tol:
-                    deg_bonus = 15
-            score += deg_bonus
-            breakdown["degradation_bonus"] = deg_bonus
-            
-            results.append(SpeciesMatchScore(
-                species=species.get("species", "Unknown"),
-                total_score=score,
-                score_breakdown=breakdown,
-                profile=species
-            ))
-            
-        results.sort(key=lambda x: x.total_score, reverse=True)
-        return results[:top_n]
+DEGRADATION_NDVI_THRESHOLD = 0.3
+
+
+class SpeciesMatchService:
+    def __init__(self, db_path: str | Path = DEFAULT_DB_PATH):
+        self._db_path = Path(db_path)
+        self._db: list[dict] | None = None
+
+    def _load_db(self) -> list[dict]:
+        if self._db is None:
+            if not self._db_path.exists():
+                raise FileNotFoundError(
+                    f"Species DB not found at {self._db_path}. "
+                    "Run ingest_aft_pdfs.py first."
+                )
+            self._db = json.loads(self._db_path.read_text(encoding="utf-8"))
+        return self._db
+
+    # ── Scoring helpers ───────────────────────────────────────────────────────
+
+    @staticmethod
+    def _ph_passes(species: dict, farm_ph: float) -> bool:
+        """Hard filter — returns False if farm pH is outside species tolerance."""
+        lo = species.get("soil_ph_min")
+        hi = species.get("soil_ph_max")
+        if lo is None or hi is None:
+            return True  # unknown tolerance → don't filter out
+        return lo <= farm_ph <= hi
+
+    @staticmethod
+    def _texture_score(species: dict, farm_texture: Optional[str]) -> float:
+        if not farm_texture:
+            return 0.0
+        prefs = [t.lower() for t in species.get("soil_texture_preference") or []]
+        if not prefs:
+            return 0.0
+        return 15.0 if farm_texture.lower() in prefs else 0.0
+
+    @staticmethod
+    def _use_alignment_score(species: dict, requested_uses: list[str]) -> float:
+        if not requested_uses:
+            return 0.0
+        species_uses = [u.lower() for u in species.get("uses") or []]
+        has_match = any(u.lower() in species_uses for u in requested_uses)
+        return 25.0 if has_match else 0.0
+
+    @staticmethod
+    def _nitrogen_fixing_score(species: dict) -> float:
+        return 15.0 if species.get("nitrogen_fixing") else 0.0
+
+    @staticmethod
+    def _degradation_bonus(species: dict, farm: FarmProfile) -> float:
+        """
+        Extra 15 pts for degraded farms (low NDVI) — only applies to species
+        that are both nitrogen-fixing AND highly drought tolerant, since these
+        are the best candidates for land restoration.
+        """
+        if farm.ndvi is None:
+            return 0.0
+        if farm.ndvi.health_score > DEGRADATION_NDVI_THRESHOLD:
+            return 0.0
+        is_n_fixer = bool(species.get("nitrogen_fixing"))
+        is_drought_tolerant = (species.get("drought_tolerance") or "").lower() == "high"
+        return 15.0 if (is_n_fixer and is_drought_tolerant) else 0.0
+
+    # ── Public interface ──────────────────────────────────────────────────────
+
+    def match_species(
+        self,
+        farm: FarmProfile,
+        requested_uses: list[str] | None = None,
+        top_n: int | None = None,
+    ) -> list[SpeciesMatchScore]:
+        """
+        Return species ranked by suitability for the given farm profile.
+
+        Args:
+            farm:           FarmProfile from the /farm/profile endpoint.
+            requested_uses: Optional list of desired uses (e.g. ["timber", "fodder"]).
+                            If empty/None, use_alignment scoring is skipped.
+            top_n:          Return only the top N matches. None = return all.
+        """
+        if requested_uses is None:
+            requested_uses = []
+
+        db = self._load_db()
+        farm_ph = farm.soil.topsoil.ph if farm.soil else None
+        farm_texture = farm.soil.topsoil.texture_class if farm.soil else None
+
+        results: list[SpeciesMatchScore] = []
+
+        for sp in db:
+            # Hard pH filter
+            if farm_ph is not None and not self._ph_passes(sp, farm_ph):
+                continue
+
+            breakdown: dict[str, float] = {
+                "texture_match":    self._texture_score(sp, farm_texture),
+                "use_alignment":    self._use_alignment_score(sp, requested_uses),
+                "nitrogen_fixing":  self._nitrogen_fixing_score(sp),
+                "degradation_bonus": self._degradation_bonus(sp, farm),
+            }
+
+            results.append(
+                SpeciesMatchScore(
+                    species=sp.get("species", ""),
+                    common_names=sp.get("common_names") or [],
+                    total_score=sum(breakdown.values()),
+                    score_breakdown=breakdown,
+                    uses=sp.get("uses") or [],
+                    nitrogen_fixer=bool(sp.get("nitrogen_fixing")),
+                    drought_tolerance=sp.get("drought_tolerance"),
+                    growth_rate=sp.get("growth_rate"),
+                    soil_ph_min=sp.get("soil_ph_min"),
+                    soil_ph_max=sp.get("soil_ph_max"),
+                    rainfall_min_mm=sp.get("rainfall_min_mm"),
+                    rainfall_max_mm=sp.get("rainfall_max_mm"),
+                    soil_texture_preference=sp.get("soil_texture_preference") or [],
+                )
+            )
+
+        # Sort by total score descending
+        results.sort(key=lambda r: r.total_score, reverse=True)
+
+        if top_n is not None:
+            results = results[:top_n]
+
+        return results
