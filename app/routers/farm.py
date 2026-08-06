@@ -4,7 +4,6 @@ Sylva — /farm router
 
 import asyncio
 import logging
-import os
 
 from fastapi import APIRouter, HTTPException, Query
 
@@ -16,11 +15,11 @@ LOG = logging.getLogger("sylva.router.farm")
 router = APIRouter()
 
 # Whole-request ceiling. Per-source caps keep one hung API from freezing the UI.
-PROFILE_TIMEOUT_S = 55
-SOIL_TIMEOUT_S = 25
-GBIF_TIMEOUT_S = 20
-TOPO_TIMEOUT_S = 25
-NDVI_TIMEOUT_S = 8
+PROFILE_TIMEOUT_S = 45
+SOIL_TIMEOUT_S = 10
+GBIF_TIMEOUT_S = 18
+TOPO_TIMEOUT_S = 15
+NDVI_TIMEOUT_S = 5
 
 
 async def _gather_named(tasks: dict[str, asyncio.Future]) -> dict[str, object]:
@@ -45,8 +44,10 @@ async def _build_profile(req: FarmProfileRequest) -> FarmProfile:
 
     tasks: dict[str, object] = {
         "soil": asyncio.wait_for(
-            soil_service.fetch_soil(req.lat, req.lon, timeout=SOIL_TIMEOUT_S),
-            timeout=SOIL_TIMEOUT_S + 2,
+            soil_service.fetch_soil(
+                req.lat, req.lon, timeout=SOIL_TIMEOUT_S, country=req.country
+            ),
+            timeout=SOIL_TIMEOUT_S + 3,
         ),
         "species": asyncio.wait_for(
             gbif_service.fetch_species(bbox, timeout=GBIF_TIMEOUT_S),
@@ -56,16 +57,12 @@ async def _build_profile(req: FarmProfileRequest) -> FarmProfile:
             ndvi_service.fetch_ndvi(bbox),
             timeout=NDVI_TIMEOUT_S,
         ),
-    }
-
-    api_key = os.environ.get("OPENTOPO_API_KEY")
-    if api_key:
-        tasks["topography"] = asyncio.wait_for(
-            topo_service.fetch_topography(bbox, api_key=api_key, timeout=TOPO_TIMEOUT_S),
+        # Open-Meteo — no API key required
+        "topography": asyncio.wait_for(
+            topo_service.fetch_topography(bbox, timeout=TOPO_TIMEOUT_S),
             timeout=TOPO_TIMEOUT_S + 2,
-        )
-    else:
-        warnings.append("OPENTOPO_API_KEY not set — topography skipped")
+        ),
+    }
 
     results = await _gather_named(tasks)
 

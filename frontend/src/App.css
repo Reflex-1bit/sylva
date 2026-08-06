@@ -427,6 +427,13 @@
   background: linear-gradient(90deg, var(--sun), var(--leaf));
 }
 
+.source-note {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--muted);
+  padding: 0.35rem 0.15rem 0;
+}
+
 .species {
   list-style: none;
   display: flex;

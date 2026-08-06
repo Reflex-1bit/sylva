@@ -171,6 +171,7 @@ function ResultsView({ place, data, query, setQuery, onSubmit, busy, inputRef, e
   const plan = data.plan || {}
   const profile = data.profile || {}
   const soil = profile.soil?.topsoil
+  const soilSource = profile.soil?.source || ''
   const ndvi = profile.ndvi
   const topo = profile.topography
   const species = plan.priority_species?.length
@@ -242,6 +243,9 @@ function ResultsView({ place, data, query, setQuery, onSubmit, busy, inputRef, e
           />
           {topo?.elevation?.mean_m != null && (
             <Vital label="Elevation" value={`${Math.round(topo.elevation.mean_m)} m`} />
+          )}
+          {soilSource && (
+            <p className="source-note">{soilSource}</p>
           )}
         </aside>
 

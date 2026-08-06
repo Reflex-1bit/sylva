@@ -1,44 +1,62 @@
 """
-Sylva — SoilGrids (ISRIC) data service
+Sylva — soil profile service
 
-Note: SoilGrids can return a well-formed response with every value null when
-the query point lands on a no-data cell (water, urban, or an unmapped pixel).
-We detect that case and raise, so the caller records a real error instead of
-showing a hollow soil card. We also nudge the query onto land by trying the
-exact point first, then a couple of small offsets if it comes back empty.
+1) SoilGrids (ISRIC) — best when reachable
+2) Regional estimate — always available so matching never hard-fails on cloud hosts
+
+SoilGrids often times out or returns nulls for urban centroids (e.g. Córdoba city).
+We probe nearby farmland offsets, then fall back to a labeled estimate.
 """
 
+from __future__ import annotations
+
 import logging
+from typing import Optional
+
 import httpx
+
 from app.models.farm import SoilProfile, TopsoilSummary
 from app.utils.soil import usda_texture_class
 
 LOG = logging.getLogger("sylva.soil")
 
 SOILGRIDS_URL = "https://rest.isric.org/soilgrids/v2.0/properties/query"
+# Keep the payload small — full multi-depth queries are what hang in production.
 PROPERTIES = ["phh2o", "soc", "nitrogen", "bdod", "clay", "sand", "silt", "cec"]
-DEPTHS = ["0-5cm", "5-15cm", "15-30cm", "30-60cm", "60-100cm", "100-200cm"]
+DEPTHS = ["0-5cm"]
 
-# Small lat/lon nudges (deg) to try if the exact point returns no data.
-# ~0.01 deg ≈ 1.1 km. Keeps us within the same farm while dodging dead pixels.
-OFFSETS = [(0.0, 0.0), (0.01, 0.0), (-0.01, 0.0), (0.0, 0.01), (0.0, -0.01)]
+# Wider nudges so city-centre geocodes still hit mapped farmland (~1–12 km).
+OFFSETS = [
+    (0.0, 0.0),
+    (0.02, 0.0),
+    (-0.02, 0.0),
+    (0.0, 0.02),
+    (0.0, -0.02),
+    (0.05, 0.0),
+    (-0.05, 0.0),
+    (0.0, 0.05),
+    (0.08, 0.05),
+    (-0.08, -0.05),
+    (0.1, 0.0),
+    (-0.1, 0.0),
+]
+
+HEADERS = {
+    "User-Agent": "SylvaAgroforestry/0.2 (farm-profile; https://github.com/ashm-023/sylva)",
+    "Accept": "application/json",
+}
 
 
 async def _query(client: httpx.AsyncClient, lat: float, lon: float) -> dict:
     params = [("lon", lon), ("lat", lat), ("value", "mean")]
     params += [("property", p) for p in PROPERTIES]
     params += [("depth", d) for d in DEPTHS]
-    resp = await client.get(
-        SOILGRIDS_URL,
-        params=params,
-        headers={"User-Agent": "SylvaAgroforestry/0.2 (farm-profile; contact=sylva)"},
-    )
+    resp = await client.get(SOILGRIDS_URL, params=params, headers=HEADERS)
     resp.raise_for_status()
     return resp.json()
 
 
 def _parse(data: dict) -> tuple[dict, bool]:
-    """Return (parsed properties, any_value_present)."""
     parsed: dict[str, dict] = {}
     any_value = False
     for layer in data.get("properties", {}).get("layers", []):
@@ -57,40 +75,12 @@ def _parse(data: dict) -> tuple[dict, bool]:
     return parsed, any_value
 
 
-async def fetch_soil(lat: float, lon: float, timeout: int = 25) -> SoilProfile:
-    LOG.info("SoilGrids: querying (%.4f, %.4f)", lat, lon)
-
-    parsed: dict = {}
-    used_lat, used_lon = lat, lon
-
-    async with httpx.AsyncClient(timeout=timeout) as client:
-        for dlat, dlon in OFFSETS:
-            q_lat, q_lon = lat + dlat, lon + dlon
-            data = await _query(client, q_lat, q_lon)
-            parsed, any_value = _parse(data)
-            if any_value:
-                used_lat, used_lon = q_lat, q_lon
-                break
-
-    if not parsed or not any(
-        v is not None
-        for prop in parsed.values()
-        for v in prop["depths"].values()
-    ):
-        raise RuntimeError(
-            "SoilGrids returned no data for this location (likely water, urban, "
-            "or an unmapped cell). Try a coordinate on cultivated land."
-        )
-
-    if (used_lat, used_lon) != (lat, lon):
-        LOG.info("SoilGrids: exact point empty, used nearby (%.4f, %.4f)", used_lat, used_lon)
-
+def _topsoil_from_parsed(parsed: dict) -> TopsoilSummary:
     def top(prop: str):
         return parsed.get(prop, {}).get("depths", {}).get("0-5cm")
 
     ph, sand, silt, clay = top("phh2o"), top("sand"), top("silt"), top("clay")
-
-    topsoil = TopsoilSummary(
+    return TopsoilSummary(
         ph=ph,
         organic_carbon_g_kg=top("soc"),
         nitrogen_g_kg=top("nitrogen"),
@@ -99,8 +89,136 @@ async def fetch_soil(lat: float, lon: float, timeout: int = 25) -> SoilProfile:
         silt_pct=silt,
         bulk_density_kg_dm3=top("bdod"),
         cec_cmol_kg=top("cec"),
-        texture_class=usda_texture_class(sand, silt, clay) if None not in (sand, silt, clay) else None,
+        texture_class=(
+            usda_texture_class(sand, silt, clay)
+            if None not in (sand, silt, clay)
+            else None
+        ),
     )
 
-    LOG.info("SoilGrids: ok — pH=%s, texture=%s", ph, topsoil.texture_class)
-    return SoilProfile(source="SoilGrids v2.0 (ISRIC)", topsoil=topsoil, raw_properties=parsed)
+
+def estimate_soil(lat: float, lon: float, country: Optional[str] = None) -> SoilProfile:
+    """
+    Coarse regional defaults so the product still works when SoilGrids is down.
+    Clearly labeled — never pretend this is a lab measurement.
+    """
+    c = (country or "").strip().lower()
+
+    # Mediterranean basin
+    if c in {"spain", "portugal", "italy", "greece", "france", "morocco", "tunisia", "algeria"} or (
+        30 <= lat <= 46 and -10 <= lon <= 40
+    ):
+        top = TopsoilSummary(
+            ph=7.6,
+            organic_carbon_g_kg=12.0,
+            nitrogen_g_kg=1.2,
+            clay_pct=28.0,
+            sand_pct=35.0,
+            silt_pct=37.0,
+            bulk_density_kg_dm3=1.35,
+            cec_cmol_kg=18.0,
+            texture_class="clay loam",
+        )
+        label = "estimated Mediterranean defaults"
+    # Humid temperate / northern Europe & Canada
+    elif c in {"canada", "germany", "poland", "ireland", "united kingdom", "uk"} or lat > 48:
+        top = TopsoilSummary(
+            ph=6.3,
+            organic_carbon_g_kg=22.0,
+            nitrogen_g_kg=2.0,
+            clay_pct=22.0,
+            sand_pct=40.0,
+            silt_pct=38.0,
+            bulk_density_kg_dm3=1.25,
+            cec_cmol_kg=16.0,
+            texture_class="loam",
+        )
+        label = "estimated temperate defaults"
+    # East Africa highland / tropical savanna band
+    elif -5 <= lat <= 5 or c in {"kenya", "uganda", "tanzania", "ethiopia"}:
+        top = TopsoilSummary(
+            ph=6.0,
+            organic_carbon_g_kg=14.0,
+            nitrogen_g_kg=1.4,
+            clay_pct=30.0,
+            sand_pct=45.0,
+            silt_pct=25.0,
+            bulk_density_kg_dm3=1.3,
+            cec_cmol_kg=14.0,
+            texture_class="sandy clay loam",
+        )
+        label = "estimated tropical highland defaults"
+    else:
+        top = TopsoilSummary(
+            ph=6.5,
+            organic_carbon_g_kg=15.0,
+            nitrogen_g_kg=1.5,
+            clay_pct=25.0,
+            sand_pct=40.0,
+            silt_pct=35.0,
+            bulk_density_kg_dm3=1.3,
+            cec_cmol_kg=15.0,
+            texture_class="loam",
+        )
+        label = "estimated global defaults"
+
+    return SoilProfile(
+        source=f"Regional estimate ({label}) — SoilGrids unavailable",
+        topsoil=top,
+        raw_properties={"estimated": True, "lat": lat, "lon": lon, "country": country},
+    )
+
+
+async def fetch_soil(
+    lat: float,
+    lon: float,
+    timeout: int = 12,
+    country: Optional[str] = None,
+    allow_estimate: bool = True,
+) -> SoilProfile:
+    LOG.info("SoilGrids: querying (%.4f, %.4f)", lat, lon)
+    last_err: Exception | None = None
+
+    try:
+        limits = httpx.Timeout(timeout, connect=5.0)
+        async with httpx.AsyncClient(timeout=limits) as client:
+            for dlat, dlon in OFFSETS:
+                q_lat, q_lon = lat + dlat, lon + dlon
+                try:
+                    data = await _query(client, q_lat, q_lon)
+                except Exception as e:
+                    last_err = e
+                    LOG.warning("SoilGrids offset (%.3f,%.3f) failed: %s", dlat, dlon, e)
+                    # Don't burn the whole budget on a dead endpoint
+                    if isinstance(e, (httpx.TimeoutException, httpx.ConnectError)):
+                        break
+                    continue
+
+                parsed, any_value = _parse(data)
+                if not any_value:
+                    continue
+
+                topsoil = _topsoil_from_parsed(parsed)
+                if topsoil.ph is None:
+                    continue
+
+                src = "SoilGrids v2.0 (ISRIC)"
+                if (q_lat, q_lon) != (lat, lon):
+                    src += f" nearby ({q_lat:.4f}, {q_lon:.4f})"
+                LOG.info("SoilGrids: ok — pH=%s, texture=%s", topsoil.ph, topsoil.texture_class)
+                return SoilProfile(source=src, topsoil=topsoil, raw_properties=parsed)
+    except Exception as e:
+        last_err = e
+        LOG.warning("SoilGrids failed: %s", e)
+
+    if allow_estimate:
+        LOG.warning(
+            "SoilGrids unavailable (%s) — using regional estimate",
+            last_err or "no data",
+        )
+        return estimate_soil(lat, lon, country)
+
+    raise RuntimeError(
+        "SoilGrids returned no data for this location (likely water, urban, "
+        "or an unmapped cell). Try a coordinate on cultivated land."
+    )

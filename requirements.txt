@@ -8,8 +8,7 @@ pydantic>=2.7.0
 # HTTP client (async)
 httpx>=0.27.0
 
-# Geospatial
-rasterio>=1.3.0
+# Geospatial (optional heavy stack — topo uses Open-Meteo now; rasterio not required in prod)
 numpy>=1.26.0
 
 # Earth Engine (NDVI) — optional; app degrades if unauthenticated

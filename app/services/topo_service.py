@@ -1,93 +1,87 @@
 """
-Sylva — OpenTopography DEM service
+Sylva — topography via Open-Meteo elevation (no rasterio / GDAL required).
+
+Samples a small elevation grid around the farm bbox and derives mean elevation
+plus a coarse slope estimate. OpenTopography+rasterio was failing in the
+Docker image; this path is free, keyless, and deploy-friendly.
 """
+
+from __future__ import annotations
 
 import logging
 import math
-import os
-import tempfile
-from pathlib import Path
 
 import httpx
-from app.models.farm import TopographyProfile, ElevationStats, SlopeStats
+
+from app.models.farm import ElevationStats, SlopeStats, TopographyProfile
 
 LOG = logging.getLogger("sylva.topo")
 
-OPENTOPO_URL = "https://portal.opentopography.org/API/globaldem"
-EARTH_KM_PER_DEG = 111.32
+OPEN_METEO_URL = "https://api.open-meteo.com/v1/elevation"
 
 
 async def fetch_topography(
     bbox: dict,
-    api_key: str | None = None,
-    demtype: str = "COP30",
-    timeout: int = 120,
+    api_key: str | None = None,  # unused — kept for call-site compatibility
+    demtype: str = "open-meteo",
+    timeout: int = 20,
 ) -> TopographyProfile:
-    key = api_key or os.environ.get("OPENTOPO_API_KEY")
-    if not key:
-        raise RuntimeError("No OpenTopography API key — set OPENTOPO_API_KEY env var")
+    """Estimate elevation/slope from an Open-Meteo point grid over the bbox."""
+    _ = api_key  # Open-Meteo needs no key
+
+    south, north = bbox["south"], bbox["north"]
+    west, east = bbox["west"], bbox["east"]
+
+    # 3x3 grid across the bbox
+    lats = [south, (south + north) / 2, north]
+    lons = [west, (west + east) / 2, east]
+    lat_params: list[float] = []
+    lon_params: list[float] = []
+    for la in lats:
+        for lo in lons:
+            lat_params.append(la)
+            lon_params.append(lo)
 
     params = {
-        "demtype": demtype,
-        "south": bbox["south"], "north": bbox["north"],
-        "west": bbox["west"],  "east": bbox["east"],
-        "outputFormat": "GTiff",
-        "API_Key": key,
+        "latitude": ",".join(f"{v:.5f}" for v in lat_params),
+        "longitude": ",".join(f"{v:.5f}" for v in lon_params),
     }
 
-    LOG.info("OpenTopography: downloading %s DEM", demtype)
+    LOG.info("Open-Meteo: elevation grid (%d points)", len(lat_params))
     async with httpx.AsyncClient(timeout=timeout) as client:
-        resp = await client.get(OPENTOPO_URL, params=params)
+        resp = await client.get(OPEN_METEO_URL, params=params)
         resp.raise_for_status()
+        data = resp.json()
 
-    ct = resp.headers.get("Content-Type", "")
-    if not resp.content or "json" in ct or "html" in ct:
-        raise RuntimeError(f"OpenTopography returned non-raster: {resp.text[:200]}")
+    elevs = data.get("elevation") or []
+    elevs = [float(e) for e in elevs if e is not None]
+    if not elevs:
+        raise RuntimeError("Open-Meteo returned no elevation values")
 
-    # Write to temp file and compute stats
-    try:
-        import numpy as np
-        import rasterio
-    except ImportError:
-        raise RuntimeError("rasterio + numpy required for DEM stats (pip install rasterio numpy)")
+    mean_m = sum(elevs) / len(elevs)
+    min_m = min(elevs)
+    max_m = max(elevs)
 
-    with tempfile.NamedTemporaryFile(suffix=".tif", delete=False) as f:
-        f.write(resp.content)
-        tmp_path = f.name
+    # Coarse slope from centre vs corners, using bbox span in metres
+    lat_m = abs(north - south) * 111_320
+    lon_m = abs(east - west) * 111_320 * max(0.2, math.cos(math.radians((south + north) / 2)))
+    run = max(lat_m, lon_m, 1.0)
+    rise = max_m - min_m
+    mean_slope = math.degrees(math.atan(rise / run))
+    max_slope = min(45.0, mean_slope * 1.8)
 
-    try:
-        with rasterio.open(tmp_path) as src:
-            band = src.read(1).astype("float64")
-            nodata = src.nodata
-            if nodata is not None:
-                band[band == nodata] = np.nan
-            res_x, res_y = src.res
-            clat = (bbox["north"] + bbox["south"]) / 2
-            mx = res_x * EARTH_KM_PER_DEG * 1000 * math.cos(math.radians(clat))
-            my = res_y * EARTH_KM_PER_DEG * 1000
-            dzdy, dzdx = np.gradient(band, my, mx)
-            slope = np.degrees(np.arctan(np.sqrt(dzdx**2 + dzdy**2)))
-            # Aspect
-            aspect = np.degrees(np.arctan2(-dzdx, dzdy)) % 360
+    elev = ElevationStats(
+        min_m=round(min_m, 1),
+        mean_m=round(mean_m, 1),
+        max_m=round(max_m, 1),
+    )
+    slp = SlopeStats(mean_deg=round(mean_slope, 2), max_deg=round(max_slope, 2))
 
-        elev = ElevationStats(
-            min_m=round(float(np.nanmin(band)), 1),
-            mean_m=round(float(np.nanmean(band)), 1),
-            max_m=round(float(np.nanmax(band)), 1),
-        )
-        slp = SlopeStats(
-            mean_deg=round(float(np.nanmean(slope)), 2),
-            max_deg=round(float(np.nanmax(slope)), 2),
-        )
-        aspect_mean = round(float(np.nanmean(aspect)), 1)
-    finally:
-        Path(tmp_path).unlink(missing_ok=True)
-
-    LOG.info("OpenTopography: ok — mean elev=%.0fm, slope=%.1f°", elev.mean_m, slp.mean_deg)
+    LOG.info("Open-Meteo: ok — mean elev=%.0fm, slope≈%.1f°", elev.mean_m, slp.mean_deg)
     return TopographyProfile(
-        source="OpenTopography",
+        source="Open-Meteo elevation",
         demtype=demtype,
         elevation=elev,
         slope=slp,
-        aspect_mean_deg=aspect_mean,
+        aspect_mean_deg=None,
     )
