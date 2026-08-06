@@ -1,120 +1,125 @@
-# Sylva 🌳
+# Sylva
 
-**Agroforestry intelligence platform** — geospatial farm profiling API.
+**Agroforestry decision-support** for farms transitioning toward regenerative /
+tree-integrated systems — with verifiable soil data from a low-cost field node.
 
-Given a GPS coordinate, Sylva pulls soil, topography, vegetation health, and observed species data to build a structured farm profile. This is the data foundation for species matching and agroforestry transition planning.
+Lead with the **plan** (species match + phased roadmap). Use hardware to make
+that plan defensible for subsidies and buyers. Do not pretend a solo project is
+a global 30-year financial + carbon engine.
+
+## What works today
+
+| Layer | Status |
+|---|---|
+| Farm profile (SoilGrids, OpenTopo, NDVI, GBIF) | ✅ API |
+| Species DB + suitability scoring | ✅ `data/species_db.json` |
+| RAG transition plan (Gemini + fallback) | ✅ `/farm/recommendations` |
+| Web UI | ✅ `frontend/` served at `/` |
+| ESP32 soil node prototype | ✅ `hardware/esp32/` |
+| Sensor ingest stub | ✅ `/sensors/ingest` |
+
+## Realistic scope (keep it narrow)
+
+**In scope for the next 3–6 months**
+
+1. One pilot region (e.g. Spain or Ontario)
+2. ~species DB you already extracted + scoring filter
+3. ESP32 moisture/temp node for compliance curves
+4. Farmer-facing plan: layout + priority species + year phases
+5. Manual subsidy notes (human + checklist), not auto-filed applications
+
+**Out of scope until you have agronomist partners + funding**
+
+- Global multi-objective “farm redesign engine”
+- Bank-grade 30-year NPV / carbon credit issuance
+- On-device local LLM in the field (Pi can come later for farm-office Q&A)
 
 ## Stack
 
 - **FastAPI** — async REST API
-- **SoilGrids (ISRIC)** — soil pH, organic carbon, texture, nitrogen, CEC
-- **OpenTopography** — SRTM/COP30 DEM → elevation + slope
-- **Google Earth Engine** — Sentinel-2 NDVI vegetation health timeseries
-- **GBIF** — observed plant species occurrences
+- **SoilGrids / OpenTopography / Earth Engine / GBIF** — site characterisation
+- **Species match** — rules over AgroForestree-derived JSON
+- **Gemini** — plan prose over retrieved agroforestry chunks (+ deterministic fallback)
+- **ESP32** — offline-first soil moisture + temperature node
 
 ## Quickstart
 
 ```bash
-# 1. Clone and set up environment
-git clone https://github.com/YOUR_USERNAME/sylva.git
-cd sylva
 python -m venv .venv
-.venv\Scripts\activate        # Windows
-# source .venv/bin/activate   # Mac/Linux
+.venv\Scripts\activate          # Windows
+# source .venv/bin/activate     # Mac/Linux
 
-# 2. Install dependencies
 pip install -r requirements.txt
-
-# 3. Set API keys
 cp .env.example .env
-# Edit .env and add your OPENTOPO_API_KEY
+# Set OPENTOPO_API_KEY and GEMINI_API_KEY in .env
 
-# 4. Authenticate Earth Engine (once)
+# Optional NDVI
 earthengine authenticate
 
-# 5. Run the API
+# API
 uvicorn app.main:app --reload
+
+# UI (separate terminal)
+cd frontend
+npm install
+npm run dev
 ```
 
-API docs at: http://localhost:8000/docs
+- UI (dev): http://127.0.0.1:5173/
+- UI (built, served by API): `cd frontend && npm run build` then http://localhost:8000/
+- API docs: http://localhost:8000/docs
+- Health: http://localhost:8000/health
+
+### Example — full recommendation
+
+```bash
+curl "http://localhost:8000/api/v1/farm/recommendations?lat=37.9&lon=-4.7&radius_km=5&country=Spain&top_n=10"
+```
+
+Without `GEMINI_API_KEY` the plan still returns (deterministic fallback).
+With a key, Gemini writes richer JSON using retrieved knowledge chunks.
 
 ## Endpoints
 
 | Method | Path | Description |
-|--------|------|-------------|
+|---|---|---|
 | GET | `/health` | Health check |
-| POST | `/api/v1/farm/profile` | Full farm profile (JSON body) |
-| GET | `/api/v1/farm/profile` | Full farm profile (query params) |
+| GET/POST | `/api/v1/farm/profile` | Soil + topo + NDVI + GBIF |
+| POST | `/api/v1/farm/match` | Profile + ranked species |
+| GET | `/api/v1/farm/recommendations` | Profile + match + RAG plan |
+| GET | `/api/v1/species/search` | Direct DB search |
+| POST | `/api/v1/sensors/ingest` | ESP32 batch upload |
+| GET | `/api/v1/sensors/{id}/latest` | Recent node samples |
 
-### Example request
-
-```bash
-curl "http://localhost:8000/api/v1/farm/profile?lat=37.9&lon=-4.7&radius_km=5&country=Spain"
-```
-
-### Example response
-
-```json
-{
-  "lat": 37.9,
-  "lon": -4.7,
-  "radius_km": 5.0,
-  "country": "Spain",
-  "bbox": { "south": 37.855, "north": 37.945, "west": -4.763, "east": -4.637 },
-  "soil": {
-    "topsoil": {
-      "ph": 7.8,
-      "organic_carbon_g_kg": 12.3,
-      "texture_class": "clay loam",
-      ...
-    }
-  },
-  "topography": {
-    "elevation": { "mean_m": 312.4, ... },
-    "slope": { "mean_deg": 3.2, ... }
-  },
-  "ndvi": {
-    "mean_ndvi": 0.42,
-    "health_score": 0.61,
-    "health_label": "moderate vegetation"
-  },
-  "observed_species": [
-    { "name": "Olea europaea", "occurrences": 14 },
-    ...
-  ],
-  "errors": {},
-  "warnings": []
-}
-```
-
-## Project structure
+## Project layout
 
 ```
 sylva/
 ├── app/
-│   ├── main.py              # FastAPI app
-│   ├── routers/
-│   │   └── farm.py          # /farm/profile endpoint
-│   ├── services/
-│   │   ├── soil_service.py  # SoilGrids
-│   │   ├── topo_service.py  # OpenTopography
-│   │   ├── ndvi_service.py  # Earth Engine NDVI
-│   │   └── gbif_service.py  # GBIF species
-│   ├── models/
-│   │   └── farm.py          # Pydantic schemas
-│   └── utils/
-│       ├── geometry.py      # Bbox / coordinate math
-│       └── soil.py          # USDA texture classifier
-├── tests/
-├── requirements.txt
-├── .env.example
-└── .gitignore
+│   ├── main.py
+│   ├── routers/          # farm, match, recommendations, sensors
+│   ├── services/         # soil, topo, ndvi, gbif, species_match, rag
+│   └── models/
+├── frontend/             # React (Vite) UI
+│   ├── src/App.jsx
+│   └── dist/             # production build (npm run build)
+├── hardware/esp32/       # soil node firmware + BOM map
+├── data/species_db.json
+├── scripts/ingest_aft_pdfs.py
+└── requirements.txt
 ```
+
+## ESP32 prototype
+
+See [`hardware/esp32/README.md`](hardware/esp32/README.md) for BOM, wiring,
+payload schema, and why ESP32 is the field unit (Pi LLM is optional later).
 
 ## Roadmap
 
-- [ ] Species agronomic database (AgroForestree extraction)
-- [ ] Species suitability filter (pH, rainfall, frost tolerance)
-- [ ] CAP eco-scheme eligibility checker (Spain)
-- [ ] Financial projection engine (NPV, carbon credits)
-- [ ] React frontend dashboard
+- [x] Species agronomic DB extraction
+- [x] Suitability filter + recommendations API
+- [x] RAG plan with Gemini + offline fallback
+- [x] ESP32 soil-node sketch + ingest stub
+- [ ] Weatherproof pilot BOM + solar
+- [ ] One-region subsidy checklist (human-in-the-loop)
+- [ ] Persist sensor time-series (Postgres/Timescale)

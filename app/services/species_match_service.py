@@ -40,6 +40,21 @@ class SpeciesMatchService:
             self._db = json.loads(self._db_path.read_text(encoding="utf-8"))
         return self._db
 
+    def reload_db(self) -> int:
+        """Force-reload species_db.json from disk. Returns species count."""
+        self._db = None
+        return len(self._load_db())
+
+    @staticmethod
+    def _texture_token_match(farm_texture: str, preference: str) -> bool:
+        """Loose match: 'clay loam' hits prefs like 'clay' or 'loams'."""
+        farm_tokens = set(farm_texture.lower().replace("-", " ").split())
+        pref_tokens = set(preference.lower().replace("-", " ").split())
+        # strip plural noise
+        farm_tokens = {t.rstrip("s") for t in farm_tokens if len(t) > 2}
+        pref_tokens = {t.rstrip("s") for t in pref_tokens if len(t) > 2}
+        return bool(farm_tokens & pref_tokens)
+
     # ── Scoring helpers ───────────────────────────────────────────────────────
 
     @staticmethod
@@ -51,14 +66,17 @@ class SpeciesMatchService:
             return True  # unknown tolerance → don't filter out
         return lo <= farm_ph <= hi
 
-    @staticmethod
-    def _texture_score(species: dict, farm_texture: Optional[str]) -> float:
+    def _texture_score(self, species: dict, farm_texture: Optional[str]) -> float:
         if not farm_texture:
             return 0.0
-        prefs = [t.lower() for t in species.get("soil_texture_preference") or []]
+        prefs = species.get("soil_texture_preference") or []
         if not prefs:
             return 0.0
-        return 15.0 if farm_texture.lower() in prefs else 0.0
+        ft = farm_texture.lower()
+        for pref in prefs:
+            if ft == pref.lower() or self._texture_token_match(ft, pref):
+                return 15.0
+        return 0.0
 
     @staticmethod
     def _use_alignment_score(species: dict, requested_uses: list[str]) -> float:

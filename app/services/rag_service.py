@@ -1,100 +1,169 @@
 """
-Sylva — RAG farm plan generation service (demo)
+Sylva — RAG farm plan generation
 
-Simple RAG pipeline:
-  1. matched species list + farm profile come in
-  2. retrieve relevant agroforestry knowledge chunks (in-memory demo corpus)
-  3. stuff context + profile + species into Gemini
-  4. return a structured, farmer-readable transition plan
+Pipeline:
+  1. matched species + farm profile in
+  2. keyword retrieve agroforestry knowledge chunks
+  3. call Gemini (REST) with structured JSON output
+  4. fall back to a deterministic plan if no key / LLM fails
 
-This is the DEMO version — a small in-memory keyword-retrieval corpus stands
-in for the full ChromaDB/graph-RAG pipeline. The OKF-style structured memory
-layer is being built separately; this proves the end-to-end flow works.
+Uses the Generative Language REST API directly so we are not tied to a
+specific google-genai / google.generativeai SDK version.
 """
 
 from __future__ import annotations
 
-import os
 import json
 import logging
+import os
+import re
 from dataclasses import dataclass
+
+import httpx
 
 LOG = logging.getLogger("sylva.rag")
 
-
-# ── Tiny demo knowledge corpus ────────────────────────────────────────────────
-# In production this becomes ChromaDB (simple RAG) then OKF structured memory
-# (graph RAG). Each entry is a self-contained agroforestry fact.
+# Prefer current Flash models; try several in case one region/key lacks access.
+GEMINI_MODELS = [
+    os.getenv("GEMINI_MODEL", "").strip() or "gemini-2.5-flash",
+    "gemini-3.1-flash-lite",
+    "gemini-2.5-flash-lite",
+    "gemini-flash-latest",
+]
 
 KNOWLEDGE_CORPUS: list[dict] = [
-    {"id": "alley-cropping", "tags": ["spacing", "layout", "cropland"],
-     "text": "Alley cropping places rows of trees with wide alleys between them for "
-             "growing annual crops. Tree rows are typically spaced 12-20m apart, oriented "
-             "east-west to reduce shading of the crop alleys."},
-    {"id": "n-fixing-benefit", "tags": ["nitrogen", "soil", "legume"],
-     "text": "Nitrogen-fixing trees (legumes) form root nodules with Rhizobium bacteria, "
-             "adding 50-200 kg N/ha/year to soil. Interplanting them with cereals can cut "
-             "fertiliser needs by 30-50% once established."},
-    {"id": "degraded-restoration", "tags": ["degraded", "restoration", "erosion"],
-     "text": "On degraded land, start with hardy pioneer species that tolerate poor soil and "
-             "drought. Nitrogen-fixing, drought-tolerant species rebuild soil biology fastest and "
-             "create shade that lets more sensitive species establish later."},
-    {"id": "establishment-phase", "tags": ["timeline", "cashflow", "establishment"],
-     "text": "Years 0-3 are the establishment phase: trees are planted, growth is slow, and there "
-             "is little or no tree income while crops continue. Years 3-7 bring first diversification "
-             "income from fruit, pods and thinnings. Years 7+ compound as inputs drop and outputs rise."},
-    {"id": "mediterranean-species", "tags": ["mediterranean", "spain", "drought"],
-     "text": "For Mediterranean climates with dry summers, olive, carob, almond, fig and stone pine "
-             "are proven agroforestry species. They tolerate alkaline soils, summer drought and only "
-             "need irrigation during establishment."},
-    {"id": "windbreak", "tags": ["shelter", "wind", "layout"],
-     "text": "Shelterbelts of trees on field edges reduce wind speed for a distance of 10-15x the "
-             "tree height downwind, cutting soil erosion and crop water stress. Use dense, wind-firm "
-             "species on the windward edge."},
-    {"id": "soil-ph-matching", "tags": ["ph", "soil", "matching"],
-     "text": "Match species to soil pH: most Mediterranean trees prefer neutral to alkaline soils "
-             "(pH 6.5-8.5). Acid-loving species struggle above pH 7.5. Always confirm topsoil pH "
-             "before selecting species."},
-    {"id": "intercrop-spacing", "tags": ["spacing", "competition", "water"],
-     "text": "Space trees far enough from crops to limit root competition for water — typically a "
-             "buffer of 1-2m of cultivated strip between the tree row and the crop. Wider on dry sites."},
+    {
+        "id": "alley-cropping",
+        "tags": ["spacing", "layout", "cropland", "alley"],
+        "text": (
+            "Alley cropping places rows of trees with wide alleys between them for "
+            "annual crops. Tree rows are typically spaced 12-20 m apart, oriented "
+            "east-west to reduce shading of the crop alleys."
+        ),
+    },
+    {
+        "id": "n-fixing-benefit",
+        "tags": ["nitrogen", "soil", "legume", "fertiliser"],
+        "text": (
+            "Nitrogen-fixing trees (legumes) form root nodules with Rhizobium, "
+            "adding roughly 50-200 kg N/ha/year. Interplanting them with cereals can "
+            "cut fertiliser need by 30-50% once established."
+        ),
+    },
+    {
+        "id": "degraded-restoration",
+        "tags": ["degraded", "restoration", "erosion", "pioneer"],
+        "text": (
+            "On degraded land, start with hardy pioneer species that tolerate poor "
+            "soil and drought. Nitrogen-fixing, drought-tolerant species rebuild soil "
+            "biology fastest and create microclimates for later plantings."
+        ),
+    },
+    {
+        "id": "establishment-phase",
+        "tags": ["timeline", "cashflow", "establishment", "finance"],
+        "text": (
+            "Years 0-3 are establishment: trees are planted, growth is slow, little "
+            "tree income while crops continue. Years 3-7 bring first diversification "
+            "income. Years 7+ compound as inputs drop and tree outputs mature."
+        ),
+    },
+    {
+        "id": "mediterranean-species",
+        "tags": ["mediterranean", "spain", "portugal", "italy", "greece", "drought"],
+        "text": (
+            "For Mediterranean climates with dry summers, olive, carob, almond, fig "
+            "and stone pine are proven agroforestry species. They tolerate alkaline "
+            "soils and summer drought; irrigate mainly during establishment."
+        ),
+    },
+    {
+        "id": "windbreak",
+        "tags": ["shelter", "wind", "layout", "erosion"],
+        "text": (
+            "Shelterbelts on field edges reduce wind speed for 10-15x tree height "
+            "downwind, cutting erosion and crop water stress. Use dense, wind-firm "
+            "species on the windward edge."
+        ),
+    },
+    {
+        "id": "soil-ph-matching",
+        "tags": ["ph", "soil", "matching"],
+        "text": (
+            "Match species to soil pH. Many Mediterranean trees prefer pH 6.5-8.5. "
+            "Acid-loving species struggle above pH 7.5. Always confirm topsoil pH "
+            "before selecting stock."
+        ),
+    },
+    {
+        "id": "intercrop-spacing",
+        "tags": ["spacing", "competition", "water"],
+        "text": (
+            "Leave a 1-2 m cultivated buffer between tree row and crop to limit root "
+            "competition for water — wider on dry sites."
+        ),
+    },
+    {
+        "id": "eu-eco-schemes",
+        "tags": ["subsidy", "eu", "cap", "finance", "spain", "france", "germany"],
+        "text": (
+            "EU CAP eco-schemes reward climate/environment practices such as diverse "
+            "rotations, cover crops and biodiversity grassland. Pair agroforestry "
+            "layouts with documented soil monitoring so applications stay bankable."
+        ),
+    },
+    {
+        "id": "sensor-verification",
+        "tags": ["sensor", "compliance", "hardware", "monitoring"],
+        "text": (
+            "Continuous soil moisture, pH, EC and temperature logs from field nodes "
+            "provide verifiable practice evidence for subsidy renewals and corporate "
+            "regenerative contracts — self-reporting alone is increasingly rejected."
+        ),
+    },
 ]
 
 
-def retrieve(farm_profile: dict, species_names: list[str], k: int = 4) -> list[dict]:
-    """
-    Dead-simple keyword retrieval over the demo corpus. Scores each chunk by how
-    many query terms (derived from the farm profile + matched species) it matches.
-    Real version swaps this for vector similarity / OKF structured retrieval.
-    """
+def retrieve(farm_profile: dict, species_names: list[str], k: int = 5) -> list[dict]:
+    """Score knowledge chunks by keyword overlap with farm context + species."""
     terms: set[str] = set()
 
     soil = (farm_profile.get("soil") or {}).get("topsoil") or {}
     if soil.get("texture_class"):
-        terms.update(soil["texture_class"].lower().split())
-    ph = soil.get("ph")
-    if ph is not None:
-        terms.add("ph")
-        terms.add("soil")
+        terms.update(re.findall(r"[a-z]+", soil["texture_class"].lower()))
+    if soil.get("ph") is not None:
+        terms.update(["ph", "soil", "matching"])
 
     ndvi = farm_profile.get("ndvi") or {}
-    if ndvi.get("health_score") is not None and ndvi["health_score"] <= 0.3:
-        terms.update(["degraded", "restoration"])
+    score = ndvi.get("health_score")
+    if score is not None and score <= 0.3:
+        terms.update(["degraded", "restoration", "pioneer", "erosion"])
 
     country = (farm_profile.get("country") or "").lower()
     if country:
         terms.add(country)
-    if country in ("spain", "portugal", "italy", "greece"):
-        terms.add("mediterranean")
+    if country in ("spain", "portugal", "italy", "greece", "france"):
+        terms.update(["mediterranean", "drought", "eu", "cap", "subsidy"])
+    if country in ("germany", "netherlands", "poland", "ireland"):
+        terms.update(["eu", "cap", "subsidy"])
+    if country in ("canada", "united states", "usa", "us"):
+        terms.update(["finance", "subsidy"])
 
-    # matched species imply layout/nitrogen concerns
-    terms.update(["spacing", "layout", "timeline", "nitrogen"])
+    terms.update(["spacing", "layout", "timeline", "nitrogen", "cashflow", "monitoring"])
 
-    scored = []
+    for name in species_names:
+        for token in re.findall(r"[a-z]+", (name or "").lower()):
+            if len(token) > 3:
+                terms.add(token)
+
+    scored: list[tuple[int, dict]] = []
     for chunk in KNOWLEDGE_CORPUS:
-        score = len(terms.intersection(chunk["tags"]))
-        if score > 0:
-            scored.append((score, chunk))
+        hit = len(terms.intersection(chunk["tags"]))
+        # soft boost if any query term appears in the body text
+        body = chunk["text"].lower()
+        hit += sum(1 for t in terms if len(t) > 4 and t in body) // 3
+        if hit > 0:
+            scored.append((hit, chunk))
     scored.sort(key=lambda x: x[0], reverse=True)
     return [c for _, c in scored[:k]]
 
@@ -114,11 +183,14 @@ Write a concise, practical agroforestry transition plan for this specific farm.
 Structure it as JSON with these keys:
 - "summary": 2-3 sentence overview of the opportunity for this farm
 - "recommended_layout": which agroforestry design fits (alley cropping, silvopasture, shelterbelt, etc.) and why
-- "priority_species": list of 3-5 species from the matched list with a one-line reason each
-- "phased_plan": object with "years_0_3", "years_3_7", "years_7_plus" describing what happens in each phase
+- "priority_species": list of 3-5 objects {{"species": "...", "reason": "..."}} drawn ONLY from the matched list
+- "phased_plan": object with "years_0_3", "years_3_7", "years_7_plus"
 - "soil_notes": what the soil data means for this plan
+- "next_actions": list of 3 concrete next steps the farmer can take this season
 
-Base everything on the actual farm data and matched species above. Do not invent species that aren't in the matched list. Output ONLY valid JSON.
+Base everything on the actual farm data and matched species above.
+Do not invent species that are not in the matched list.
+Output ONLY valid JSON.
 """
 
 
@@ -129,48 +201,58 @@ class RAGResult:
     model: str
 
 
+def _api_key() -> str | None:
+    return (
+        os.getenv("GEMINI_API_KEY")
+        or os.getenv("GOOGLE_API_KEY")
+        or os.getenv("GOOGLE_GENAI_API_KEY")
+    )
+
+
 async def generate_farm_plan(
     farm_profile: dict,
     matched_species: list[dict],
     top_species: int = 8,
 ) -> RAGResult:
-    """
-    Generate a farm plan via retrieval + Gemini. Falls back to a structured
-    non-LLM plan if no API key is set, so the demo always returns something.
-    """
     species_subset = matched_species[:top_species]
     species_names = [s.get("species", "") for s in species_subset]
     chunks = retrieve(farm_profile, species_names)
-    context_text = "\n".join(f"- {c['text']}" for c in chunks)
+    context_text = "\n".join(f"- {c['text']}" for c in chunks) or "- (no corpus hits)"
 
-    api_key = os.getenv("GEMINI_API_KEY")
+    api_key = _api_key()
     if not api_key:
-        LOG.warning("GEMINI_API_KEY not set — returning fallback plan (no LLM)")
+        LOG.warning("GEMINI_API_KEY not set — returning fallback plan")
         return RAGResult(
             plan=_fallback_plan(farm_profile, species_subset, chunks),
             retrieved_chunks=[c["id"] for c in chunks],
             model="fallback (no API key)",
         )
 
+    prompt = PLAN_PROMPT.format(
+        profile=json.dumps(_slim_profile(farm_profile), indent=2),
+        species=json.dumps(
+            [
+                {
+                    "species": s.get("species"),
+                    "uses": s.get("uses"),
+                    "nitrogen_fixer": s.get("nitrogen_fixer"),
+                    "drought_tolerance": s.get("drought_tolerance"),
+                    "score": s.get("total_score"),
+                }
+                for s in species_subset
+            ],
+            indent=2,
+        ),
+        context=context_text,
+    )
+
     try:
-        import google.generativeai as genai
-        genai.configure(api_key=api_key)
-        model = genai.GenerativeModel(
-            "gemini-1.5-flash",
-            generation_config={"response_mime_type": "application/json", "temperature": 0.3},
+        plan, model_used = await _call_gemini(api_key, prompt)
+        return RAGResult(
+            plan=plan,
+            retrieved_chunks=[c["id"] for c in chunks],
+            model=model_used,
         )
-        prompt = PLAN_PROMPT.format(
-            profile=json.dumps(_slim_profile(farm_profile), indent=2),
-            species=json.dumps(
-                [{"species": s.get("species"), "uses": s.get("uses"),
-                  "nitrogen_fixer": s.get("nitrogen_fixer")} for s in species_subset],
-                indent=2,
-            ),
-            context=context_text,
-        )
-        resp = await model.generate_content_async(prompt)
-        plan = json.loads(resp.text)
-        return RAGResult(plan=plan, retrieved_chunks=[c["id"] for c in chunks], model="gemini-1.5-flash")
     except Exception as e:
         LOG.warning("LLM generation failed (%s) — returning fallback", e)
         return RAGResult(
@@ -180,40 +262,108 @@ async def generate_farm_plan(
         )
 
 
+async def _call_gemini(api_key: str, prompt: str) -> tuple[dict, str]:
+    """Try Gemini models in order; return (parsed_json, model_name)."""
+    # de-dupe while preserving order
+    models: list[str] = []
+    for m in GEMINI_MODELS:
+        if m and m not in models:
+            models.append(m)
+
+    errors: list[str] = []
+    async with httpx.AsyncClient(timeout=60.0) as client:
+        for model in models:
+            url = (
+                "https://generativelanguage.googleapis.com/v1beta/models/"
+                f"{model}:generateContent"
+            )
+            payload = {
+                "contents": [{"role": "user", "parts": [{"text": prompt}]}],
+                "generationConfig": {
+                    "temperature": 0.3,
+                    "responseMimeType": "application/json",
+                },
+            }
+            try:
+                resp = await client.post(url, params={"key": api_key}, json=payload)
+                if resp.status_code >= 400:
+                    errors.append(f"{model}: HTTP {resp.status_code} {resp.text[:200]}")
+                    continue
+                data = resp.json()
+                text = (
+                    data.get("candidates", [{}])[0]
+                    .get("content", {})
+                    .get("parts", [{}])[0]
+                    .get("text", "")
+                )
+                if not text:
+                    errors.append(f"{model}: empty response")
+                    continue
+                plan = _parse_json(text)
+                return plan, model
+            except Exception as e:
+                errors.append(f"{model}: {e}")
+                continue
+
+    raise RuntimeError("; ".join(errors) or "all Gemini models failed")
+
+
+def _parse_json(text: str) -> dict:
+    text = text.strip()
+    if text.startswith("```"):
+        text = re.sub(r"^```(?:json)?\s*", "", text)
+        text = re.sub(r"\s*```$", "", text)
+    return json.loads(text)
+
+
 def _slim_profile(profile: dict) -> dict:
-    """Trim the full profile to just what the LLM needs."""
     soil = (profile.get("soil") or {}).get("topsoil") or {}
     ndvi = profile.get("ndvi") or {}
+    topo = profile.get("topography") or {}
+    elev = (topo.get("elevation") or {}) if isinstance(topo, dict) else {}
     return {
         "country": profile.get("country"),
-        "lat": profile.get("lat"), "lon": profile.get("lon"),
+        "lat": profile.get("lat"),
+        "lon": profile.get("lon"),
         "soil_ph": soil.get("ph"),
         "soil_texture": soil.get("texture_class"),
         "organic_carbon_g_kg": soil.get("organic_carbon_g_kg"),
         "ndvi_health_score": ndvi.get("health_score"),
         "ndvi_label": ndvi.get("health_label"),
+        "elevation_mean_m": elev.get("mean_m"),
     }
 
 
 def _fallback_plan(profile: dict, species: list[dict], chunks: list[dict]) -> dict:
-    """Deterministic non-LLM plan so the demo works without an API key."""
     soil = (profile.get("soil") or {}).get("topsoil") or {}
     ndvi = profile.get("ndvi") or {}
     degraded = ndvi.get("health_score") is not None and ndvi["health_score"] <= 0.3
-    layout = "restoration planting with pioneer species" if degraded else "alley cropping"
+    layout = (
+        "restoration planting with pioneer species"
+        if degraded
+        else "alley cropping"
+    )
     return {
         "summary": (
-            f"This {profile.get('country', 'farm')} site has pH {soil.get('ph')} "
-            f"{soil.get('texture_class', '')} soil. "
-            + ("Vegetation health is low, so the priority is soil restoration. "
-               if degraded else "Conditions support diversified agroforestry. ")
+            f"This {profile.get('country') or 'farm'} site has pH {soil.get('ph')} "
+            f"{soil.get('texture_class') or ''} soil. "
+            + (
+                "Vegetation health is low, so the priority is soil restoration. "
+                if degraded
+                else "Conditions support diversified agroforestry. "
+            )
             + f"{len(species)} species match this farm's profile."
         ),
         "recommended_layout": layout,
         "priority_species": [
-            {"species": s.get("species"),
-             "reason": "nitrogen-fixing, builds soil" if s.get("nitrogen_fixer")
-                       else f"suited to this soil; uses: {', '.join(s.get('uses', [])[:2])}"}
+            {
+                "species": s.get("species"),
+                "reason": (
+                    "nitrogen-fixing, builds soil"
+                    if s.get("nitrogen_fixer")
+                    else f"suited to this soil; uses: {', '.join((s.get('uses') or [])[:2])}"
+                ),
+            }
             for s in species[:5]
         ],
         "phased_plan": {
@@ -221,7 +371,15 @@ def _fallback_plan(profile: dict, species: list[dict], chunks: list[dict]) -> di
             "years_3_7": "First diversification income from fruit/pods/thinnings; reduce fertiliser.",
             "years_7_plus": "Compounding returns as input costs fall and tree outputs mature.",
         },
-        "soil_notes": f"Topsoil pH {soil.get('ph')}, texture {soil.get('texture_class')}, "
-                      f"organic carbon {soil.get('organic_carbon_g_kg')} g/kg.",
-        "_note": "Generated without LLM (no GEMINI_API_KEY). Set the key for a richer plan.",
+        "soil_notes": (
+            f"Topsoil pH {soil.get('ph')}, texture {soil.get('texture_class')}, "
+            f"organic carbon {soil.get('organic_carbon_g_kg')} g/kg."
+        ),
+        "next_actions": [
+            "Confirm topsoil pH with a lab test before ordering nursery stock.",
+            "Plant 1-2 nitrogen-fixing rows on the most degraded strip first.",
+            "Install the soil node and log moisture/EC through the first dry season.",
+        ],
+        "_note": "Generated without LLM. Set GEMINI_API_KEY for a richer plan.",
+        "_retrieved": [c.get("id") for c in chunks],
     }

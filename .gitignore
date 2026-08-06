@@ -2,7 +2,12 @@
 .env
 *.env
 apikeys
+apikeys.txt
 *.key
+
+# ESP32 local secrets
+hardware/esp32/**/secrets.h
+hardware/**/.pio/
 
 # Python
 __pycache__/
@@ -50,3 +55,8 @@ htmlcov/
 # Logs
 *.log
 logs/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+

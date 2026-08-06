@@ -1,0 +1,60 @@
+:root {
+  --ink: #14241b;
+  --ink-soft: #3d5548;
+  --muted: #6b8074;
+  --line: rgba(20, 36, 27, 0.12);
+  --paper: #f2f5ef;
+  --paper-2: #e7ece3;
+  --leaf: #2f6b4f;
+  --leaf-deep: #1e4634;
+  --sun: #c9a227;
+  --danger: #a84b32;
+  --radius: 4px;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Sora', system-ui, sans-serif;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+::selection {
+  background: rgba(47, 107, 79, 0.22);
+}

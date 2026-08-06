@@ -16,8 +16,10 @@ numpy>=1.26.0
 earthengine-api>=0.1.400
 geemap>=0.31.0
 
+# LLM (RAG plan generation — REST via httpx; SDK optional for ingest script)
+google-generativeai>=0.8.0
+
 # Dev / testing
 pytest>=8.0.0
 pytest-asyncio>=0.23.0
-httpx  # also used for TestClient
 python-dotenv>=1.0.0
