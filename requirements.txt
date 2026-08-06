@@ -12,9 +12,8 @@ httpx>=0.27.0
 rasterio>=1.3.0
 numpy>=1.26.0
 
-# Earth Engine (NDVI)
+# Earth Engine (NDVI) — optional; app degrades if unauthenticated
 earthengine-api>=0.1.400
-geemap>=0.31.0
 
 # LLM (RAG plan generation — REST via httpx; SDK optional for ingest script)
 google-generativeai>=0.8.0

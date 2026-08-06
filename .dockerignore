@@ -1,0 +1,15 @@
+.git
+.venv
+venv
+__pycache__
+*.pyc
+.env
+apikeys.txt
+frontend/node_modules
+frontend/dist
+agroforestree_data
+hardware
+tests*
+*.md
+.cursor
+agent-transcripts

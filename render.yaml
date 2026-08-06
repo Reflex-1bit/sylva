@@ -1,0 +1,17 @@
+# One-click deploy: https://render.com/deploy?repo=https://github.com/ashm-023/sylva
+services:
+  - type: web
+    name: sylva
+    runtime: docker
+    plan: free
+    region: oregon
+    healthCheckPath: /health
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: OPENTOPO_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash
+      - key: SENSOR_INGEST_TOKEN
+        sync: false

@@ -42,7 +42,17 @@ a global 30-year financial + carbon engine.
 - **Gemini** — plan prose over retrieved agroforestry chunks (+ deterministic fallback)
 - **ESP32** — offline-first soil moisture + temperature node
 
-## Quickstart
+## Deploy the website (public HTTPS)
+
+See **[DEPLOY.md](DEPLOY.md)** for full steps.
+
+Fastest path — one-click on Render:
+
+**https://render.com/deploy?repo=https://github.com/ashm-023/sylva**
+
+Set `GEMINI_API_KEY` and `OPENTOPO_API_KEY`, wait for the build, open the `.onrender.com` URL. That is a normal public website (UI + API on one domain).
+
+## Quickstart (local)
 
 ```bash
 python -m venv .venv
@@ -52,9 +62,6 @@ python -m venv .venv
 pip install -r requirements.txt
 cp .env.example .env
 # Set OPENTOPO_API_KEY and GEMINI_API_KEY in .env
-
-# Optional NDVI
-earthengine authenticate
 
 # API
 uvicorn app.main:app --reload
@@ -66,7 +73,7 @@ npm run dev
 ```
 
 - UI (dev): http://127.0.0.1:5173/
-- UI (built, served by API): `cd frontend && npm run build` then http://localhost:8000/
+- UI (production build): `cd frontend && npm run build` then http://localhost:8000/
 - API docs: http://localhost:8000/docs
 - Health: http://localhost:8000/health
 
