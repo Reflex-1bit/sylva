@@ -272,6 +272,15 @@
   animation: pulse 1.4s ease-in-out infinite;
 }
 
+.banner__hint {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  animation: none;
+  opacity: 1;
+}
+
 .banner--error {
   color: var(--danger);
 }

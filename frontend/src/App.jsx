@@ -96,7 +96,12 @@ export default function App() {
             />
 
             {phase === 'error' && <p className="banner banner--error" role="alert">{error}</p>}
-            {busy && <p className="banner banner--busy">Reading soil · matching species · drafting plan…</p>}
+            {busy && (
+              <p className="banner banner--busy">
+                Reading soil · matching species · drafting plan…
+                <span className="banner__hint"> usually under 30s</span>
+              </p>
+            )}
 
             {!busy && phase !== 'error' && (
               <div className="examples">

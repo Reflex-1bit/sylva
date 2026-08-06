@@ -9,15 +9,25 @@ import os
 from fastapi import APIRouter, HTTPException, Query
 
 from app.models.farm import FarmProfile, FarmProfileRequest
+from app.services import gbif_service, ndvi_service, soil_service, topo_service
 from app.utils.geometry import bbox_from_radius
-from app.services import soil_service, topo_service, ndvi_service, gbif_service
 
 LOG = logging.getLogger("sylva.router.farm")
 router = APIRouter()
 
-# Hard ceiling for the whole profile request. Individual services have their
-# own (shorter) timeouts; this guards against the total stacking up.
-PROFILE_TIMEOUT_S = 150
+# Whole-request ceiling. Per-source caps keep one hung API from freezing the UI.
+PROFILE_TIMEOUT_S = 55
+SOIL_TIMEOUT_S = 25
+GBIF_TIMEOUT_S = 20
+TOPO_TIMEOUT_S = 25
+NDVI_TIMEOUT_S = 8
+
+
+async def _gather_named(tasks: dict[str, asyncio.Future]) -> dict[str, object]:
+    """Run named coroutines concurrently; exceptions become values."""
+    keys = list(tasks.keys())
+    results = await asyncio.gather(*tasks.values(), return_exceptions=True)
+    return dict(zip(keys, results))
 
 
 async def _build_profile(req: FarmProfileRequest) -> FarmProfile:
@@ -33,25 +43,41 @@ async def _build_profile(req: FarmProfileRequest) -> FarmProfile:
         bbox=bbox,
     )
 
-    # Run the independent external calls concurrently rather than serially.
-    tasks = {
-        "soil": soil_service.fetch_soil(req.lat, req.lon),
-        "ndvi": ndvi_service.fetch_ndvi(bbox),
-        "species": gbif_service.fetch_species(bbox),
+    tasks: dict[str, object] = {
+        "soil": asyncio.wait_for(
+            soil_service.fetch_soil(req.lat, req.lon, timeout=SOIL_TIMEOUT_S),
+            timeout=SOIL_TIMEOUT_S + 2,
+        ),
+        "species": asyncio.wait_for(
+            gbif_service.fetch_species(bbox, timeout=GBIF_TIMEOUT_S),
+            timeout=GBIF_TIMEOUT_S + 2,
+        ),
+        "ndvi": asyncio.wait_for(
+            ndvi_service.fetch_ndvi(bbox),
+            timeout=NDVI_TIMEOUT_S,
+        ),
     }
 
     api_key = os.environ.get("OPENTOPO_API_KEY")
     if api_key:
-        tasks["topography"] = topo_service.fetch_topography(bbox, api_key=api_key)
+        tasks["topography"] = asyncio.wait_for(
+            topo_service.fetch_topography(bbox, api_key=api_key, timeout=TOPO_TIMEOUT_S),
+            timeout=TOPO_TIMEOUT_S + 2,
+        )
     else:
         warnings.append("OPENTOPO_API_KEY not set — topography skipped")
 
-    results = await asyncio.gather(*tasks.values(), return_exceptions=True)
+    results = await _gather_named(tasks)
 
-    for name, result in zip(tasks.keys(), results):
+    for name, result in results.items():
         if isinstance(result, Exception):
-            LOG.warning("%s failed: %s", name, result)
-            errors[name] = str(result)
+            msg = (
+                f"timed out after deadline"
+                if isinstance(result, asyncio.TimeoutError)
+                else str(result)
+            )
+            LOG.warning("%s failed: %s", name, msg)
+            errors[name] = msg
             continue
         if name == "soil":
             profile.soil = result

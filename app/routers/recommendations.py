@@ -7,19 +7,22 @@ Chains:
 
 from __future__ import annotations
 
+import asyncio
 import logging
 
 from fastapi import APIRouter, HTTPException, Query
 
 from app.models.farm import FarmProfileRequest
 from app.models.match import FarmRecommendations
-from app.routers.farm import _build_profile
+from app.routers.farm import PROFILE_TIMEOUT_S, _build_profile
 from app.services import rag_service
 from app.services.species_match_service import SpeciesMatchService
 
 LOG = logging.getLogger("sylva.router.recommendations")
 router = APIRouter()
 _match_service = SpeciesMatchService()
+
+RECOMMEND_TIMEOUT_S = PROFILE_TIMEOUT_S + 35
 
 
 @router.get("/farm/recommendations", response_model=FarmRecommendations)
@@ -35,6 +38,28 @@ async def get_recommendations(
     top_n: int = Query(default=10, ge=1, le=50),
 ):
     """Profile the farm, match suitable species, generate a transition plan."""
+    try:
+        return await asyncio.wait_for(
+            _recommend(lat, lon, radius_km, country, uses, top_n),
+            timeout=RECOMMEND_TIMEOUT_S,
+        )
+    except HTTPException:
+        raise
+    except asyncio.TimeoutError:
+        raise HTTPException(
+            status_code=504,
+            detail=f"Recommendations timed out after {RECOMMEND_TIMEOUT_S}s. Try again.",
+        )
+
+
+async def _recommend(
+    lat: float,
+    lon: float,
+    radius_km: float,
+    country: str | None,
+    uses: str | None,
+    top_n: int,
+) -> FarmRecommendations:
     req = FarmProfileRequest(lat=lat, lon=lon, radius_km=radius_km, country=country)
     profile = await _build_profile(req)
 

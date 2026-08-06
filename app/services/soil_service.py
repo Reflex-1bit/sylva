@@ -28,7 +28,11 @@ async def _query(client: httpx.AsyncClient, lat: float, lon: float) -> dict:
     params = [("lon", lon), ("lat", lat), ("value", "mean")]
     params += [("property", p) for p in PROPERTIES]
     params += [("depth", d) for d in DEPTHS]
-    resp = await client.get(SOILGRIDS_URL, params=params)
+    resp = await client.get(
+        SOILGRIDS_URL,
+        params=params,
+        headers={"User-Agent": "SylvaAgroforestry/0.2 (farm-profile; contact=sylva)"},
+    )
     resp.raise_for_status()
     return resp.json()
 
@@ -53,7 +57,7 @@ def _parse(data: dict) -> tuple[dict, bool]:
     return parsed, any_value
 
 
-async def fetch_soil(lat: float, lon: float, timeout: int = 60) -> SoilProfile:
+async def fetch_soil(lat: float, lon: float, timeout: int = 25) -> SoilProfile:
     LOG.info("SoilGrids: querying (%.4f, %.4f)", lat, lon)
 
     parsed: dict = {}
