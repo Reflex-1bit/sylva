@@ -56,6 +56,17 @@ Calibrated pH comes in v1.1 with lab cross-checks.
 | IP65 junction box + epoxy cable gland | field survival | 5–8 |
 | **Total** | | **~$35–60** |
 
+## Related research
+
+Cheap ESP32 soil nodes are well studied. Sylva follows the same sense → buffer → sync → sleep pattern:
+
+- López et al. (2024) — LoRa soil water stations for woody crops, ~€300 vs commercial €1.5–2.5k — https://doi.org/10.3390/s24248104
+- Froiz-Míguez et al. (2021) — ESP32 Wi-Fi WSN placement in orchards — https://doi.org/10.3390/s21051693
+- Adamo et al. (2025) — capacitive SEN0193 calibration (ESP32) — https://pmc.ncbi.nlm.nih.gov/articles/PMC11768944/
+- Castro et al. (2025) — I-Canopy resilient ESP32 edge monitoring — PDF via University of Iowa
+
+Full writeup + how to deposit on Zenodo/arXiv: [`docs/sylva-soil-node-preprint.md`](../../docs/sylva-soil-node-preprint.md)
+
 ## Firmware behaviour
 
 1. Wake → read sensors (3 samples, median)
