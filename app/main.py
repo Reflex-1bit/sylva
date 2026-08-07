@@ -81,3 +81,10 @@ def favicon():
 @app.get("/icons.svg")
 def icons():
     return _serve_spa_file("icons.svg")
+
+
+@app.get("/hardware")
+@app.get("/hardware/")
+def hardware_spa():
+    """SPA route — React Router owns /hardware."""
+    return _serve_spa_file()
