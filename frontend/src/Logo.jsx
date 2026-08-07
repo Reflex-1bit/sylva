@@ -1,0 +1,32 @@
+export default function Logo({ className = '', title = 'Sylva' }) {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 64 64"
+      fill="none"
+      role="img"
+      aria-label={title}
+    >
+      <path
+        fill="currentColor"
+        d="M32 6c-9.2 0-16.8 6.4-18.8 14.9C7.4 22.2 4 27.2 4 33c0 7.2 5.4 13.2 12.5 14.7C17.8 54.2 24.3 58 32 58s14.2-3.8 15.5-10.3C54.6 46.2 60 40.2 60 33c0-5.8-3.4-10.8-8.2-12.1C49.8 12.4 42.2 6 32 6Z"
+      />
+      <path
+        fill="currentColor"
+        opacity="0.35"
+        d="M32 14c-5.8 0-10.7 3.6-12.6 8.8 4.1-1.4 8.6-1.2 12.6.4 4-1.6 8.5-1.8 12.6-.4C42.7 17.6 37.8 14 32 14Z"
+      />
+      <path
+        fill="currentColor"
+        opacity="0.75"
+        d="M29.2 40.5c.6 4.2 1.4 8.2 2.8 11.5.4.9 1.6.9 2 0 1.4-3.3 2.2-7.3 2.8-11.5-2.4.7-5.2.7-7.6 0Z"
+      />
+      <path
+        fill="#c9a227"
+        d="M18 54.5c3.8 1.6 8.6 2.5 14 2.5s10.2-.9 14-2.5c-3.2 2.8-8.2 4.5-14 4.5s-10.8-1.7-14-4.5Z"
+        opacity="0.9"
+      />
+    </svg>
+  )
+}

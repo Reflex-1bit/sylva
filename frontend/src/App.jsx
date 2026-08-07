@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState, useTransition } from 'react'
+import { Link } from 'react-router-dom'
 import { fetchRecommendations, geocode } from './api'
+import Logo from './Logo'
 import './App.css'
 
 const EXAMPLES = ['Córdoba, Spain', 'Nairobi, Kenya', 'Guelph, Ontario']
@@ -67,21 +69,27 @@ export default function App() {
 
       <header className="topbar">
         <button type="button" className="brand" onClick={reset} aria-label="Sylva home">
-          <span className="brand__mark" aria-hidden="true" />
-          Sylva
+          <Logo className="brand__logo" />
+          <span className="brand__name">Sylva</span>
         </button>
-        {showResults && (
-          <button type="button" className="ghost-btn" onClick={reset}>
-            New location
-          </button>
-        )}
+        <nav className="topnav">
+          <Link to="/hardware">Hardware</Link>
+          {showResults && (
+            <button type="button" className="ghost-btn" onClick={reset}>
+              New location
+            </button>
+          )}
+        </nav>
       </header>
 
       <main className="main">
         {!showResults ? (
           <section className="hero">
             <p className="hero__eyebrow">Agroforestry intelligence</p>
-            <h1 className="hero__title">Sylva</h1>
+            <div className="hero__brand">
+              <Logo className="hero__logo" />
+              <h1 className="hero__title">Sylva</h1>
+            </div>
             <p className="hero__lede">
               Match trees to your soil. Get a phased transition plan you can actually plant.
             </p>
