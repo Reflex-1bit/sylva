@@ -20,7 +20,7 @@ Sylva is one HTTPS site: the React UI and API share the same domain
 If the live site is on Vercel, set this env var on the Render service:
 
 ```
-SITE_REDIRECT_URL=https://sylva-sandy.vercel.app
+SITE_REDIRECT_URL=https://sylvagro.vercel.app/hardware
 ```
 
 Redeploy Render. Visitors to `*.onrender.com` are permanently redirected to Vercel

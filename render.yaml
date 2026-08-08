@@ -17,4 +17,4 @@ services:
         sync: false
       # Send all visitors to the Vercel site (keeps /health on Render)
       - key: SITE_REDIRECT_URL
-        value: https://sylva-sandy.vercel.app
+        value: https://sylvagro.vercel.app/hardware

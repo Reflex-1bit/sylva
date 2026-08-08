@@ -81,7 +81,7 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
 
 
 class SiteRedirectMiddleware(BaseHTTPMiddleware):
-    """301 everything except /health to SITE_REDIRECT_URL (Vercel)."""
+    """301 to SITE_REDIRECT_URL (exact); /health stays on this host."""
 
     async def dispatch(self, request: Request, call_next):
         if not SITE_REDIRECT_URL:
@@ -89,10 +89,7 @@ class SiteRedirectMiddleware(BaseHTTPMiddleware):
         path = request.url.path
         if path == "/health" or path.startswith("/health/"):
             return await call_next(request)
-        target = f"{SITE_REDIRECT_URL}{path}"
-        if request.url.query:
-            target = f"{target}?{request.url.query}"
-        return RedirectResponse(url=target, status_code=301)
+        return RedirectResponse(url=SITE_REDIRECT_URL, status_code=301)
 
 
 app.add_middleware(SecurityHeadersMiddleware)
