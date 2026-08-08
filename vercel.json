@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "cd frontend && npm ci && npm run build",
+  "buildCommand": "cd frontend && npm ci && npm run build && rm -rf node_modules",
   "outputDirectory": "frontend/dist",
   "installCommand": "cd frontend && npm ci",
   "framework": null,
@@ -10,7 +10,7 @@
       "maxDuration": 60,
       "memory": 1024,
       "includeFiles": "{data/species_db.json,app/**/*.py}",
-      "excludeFiles": "{frontend/**,hardware/**,**/.venv/**,**/node_modules/**,**/.git/**,**/__pycache__/**,**/*.md,requirements-docker.txt}"
+      "excludeFiles": "{frontend/**,hardware/**,docs/**,.git/**,.vercel/**,**/.venv/**,**/node_modules/**,**/__pycache__/**,**/*.md,requirements-docker.txt,Dockerfile,render.yaml}"
     }
   },
   "rewrites": [

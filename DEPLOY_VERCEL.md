@@ -3,8 +3,10 @@
 Vercel serves the **React UI** and a **slim FastAPI** function (`api/index.py`).
 
 Earth Engine / heavy Google packages are **not** installed on Vercel (they blew the
-225 MB function limit). NDVI stays off (`ENABLE_NDVI=0`). Gemini still works via
-**httpx REST** using `GEMINI_API_KEY` on the server.
+function size limit). The frontend build also deletes `frontend/node_modules` after
+`vite build` so npm packages are not packed into the Python function. NDVI stays
+off (`ENABLE_NDVI=0`). Gemini still works via **httpx REST** using `GEMINI_API_KEY`
+on the server.
 
 ## Secrets (never use `VITE_`)
 

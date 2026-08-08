@@ -10,8 +10,16 @@ venv
 __pycache__
 *.pyc
 .git
+**/node_modules
 frontend/node_modules
 .pytest_cache
 *.log
 .DS_Store
 hardware/
+docs/
+.cursor/
+**/*.tif
+**/*.tiff
+**/*.npz
+**/*.h5
+**/*.pkl
