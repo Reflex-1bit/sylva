@@ -5,9 +5,18 @@
   "installCommand": "cd frontend && npm ci",
   "framework": null,
   "regions": ["iad1"],
+  "functions": {
+    "api/index.py": {
+      "maxDuration": 60,
+      "memory": 1024,
+      "includeFiles": "{data/species_db.json,app/**/*.py}",
+      "excludeFiles": "{frontend/**,hardware/**,**/.venv/**,**/node_modules/**,**/.git/**,**/__pycache__/**,**/*.md,requirements-docker.txt}"
+    }
+  },
   "rewrites": [
-    { "source": "/health", "destination": "/api/health" },
-    { "source": "/((?!api/|assets/).*)", "destination": "/index.html" }
+    { "source": "/api/(.*)", "destination": "/api/index" },
+    { "source": "/health", "destination": "/api/index" },
+    { "source": "/((?!assets/).*)", "destination": "/index.html" }
   ],
   "headers": [
     {

@@ -1,75 +1,33 @@
-# Deploy Sylva on Vercel (secure)
+# Deploy Sylva on Vercel (secure, under size limit)
 
-Vercel hosts the **website only** (React).  
-Your FastAPI API stays on **Render/Docker** with all secrets.
+Vercel serves the **React UI** and a **slim FastAPI** function (`api/index.py`).
 
-Why not Python on Vercel? The full API bundle (~260 MB with scientific deps) exceeds Vercel’s **225 MB** function limit. A tiny Edge proxy stays well under the limit and keeps keys off the client.
+Earth Engine / heavy Google packages are **not** installed on Vercel (they blew the
+225 MB function limit). NDVI stays off (`ENABLE_NDVI=0`). Gemini still works via
+**httpx REST** using `GEMINI_API_KEY` on the server.
 
-```
-Browser  →  Vercel (static UI, no secrets)
-         →  /api/*  →  Edge proxy  →  Render FastAPI (GEMINI_*, tokens, …)
-```
+## Secrets (never use `VITE_`)
 
-## Critical: secrets never hit the website
+In Vercel → Project **sylva** → Settings → Environment Variables:
 
-| Variable | Where | In browser? |
-|---|---|---|
-| `GEMINI_API_KEY` | **Render** (or Docker) only | No |
-| `OPENTOPO_API_KEY` | Render only | No |
-| `SENSOR_INGEST_TOKEN` | Render only | No |
-| `API_UPSTREAM_URL` | Vercel (e.g. `https://sylva.onrender.com`) | No — server/Edge only |
-| `VITE_*` secrets | **Never** | Would leak |
+| Name | Notes |
+|---|---|
+| `GEMINI_API_KEY` | Server only |
+| `SENSOR_INGEST_TOKEN` | Long random string |
+| `ALLOWED_ORIGINS` | `https://sylva-reflex-1bits-projects.vercel.app` (and custom domain) |
+| `OPENTOPO_API_KEY` | Optional |
+| `ENABLE_API_DOCS` | `0` in production |
+| `ENABLE_NDVI` | `0` (default on Vercel) |
 
-## Setup
+**Do not** add `VITE_GEMINI_API_KEY` or any secret as `VITE_*`.
 
-### 1. Keep / deploy the API on Render
+## GitHub link (important)
 
-Use [DEPLOY.md](DEPLOY.md). Confirm:
+Vercel must build **this** codebase — not an empty “Initial commit” from vercel.com/new.
 
-- `https://YOUR-APP.onrender.com/health` returns OK  
-- Env vars `GEMINI_API_KEY`, etc. are set **there**
+- Linked repo should contain `vercel.json`, `frontend/`, `api/index.py`, `app/`
+- For Reflex-1bit: push `main` to `https://github.com/Reflex-1bit/sylva`
 
-### 2. Import the real GitHub repo on Vercel
+## Verify no key leak
 
-Do **not** use a blank “Initial commit” from vercel.com/new.
-
-1. [vercel.com/new](https://vercel.com/new) → **Import** `ashm-023/sylva` (or your fork)  
-2. Framework: **Other** (root `vercel.json`)  
-3. Root directory: leave empty (repo root)  
-4. Add Environment Variable (Production + Preview):
-
-   ```
-   API_UPSTREAM_URL=https://YOUR-APP.onrender.com
-   ```
-
-   No other secrets on Vercel.
-
-5. Deploy.
-
-### 3. Lock CORS on the API
-
-On Render, set:
-
-```
-ALLOWED_ORIGINS=https://YOUR-PROJECT.vercel.app
-```
-
-Redeploy Render once.
-
-### 4. Verify keys are not in the client
-
-DevTools → Network → open `assets/index-*.js` → search for your Gemini key / `AIza` → **nothing**.
-
-## Local
-
-```bash
-# API with .env secrets
-uvicorn app.main:app --reload --port 8000
-
-# UI
-cd frontend && npm run dev
-```
-
-## If you previously created an empty Vercel project
-
-Delete that project (Settings → Delete). Import `ashm-023/sylva` again so builds use this repo’s `vercel.json`, not an empty initial commit.
+After deploy: DevTools → `assets/*.js` → search your key / `AIza` → nothing.
