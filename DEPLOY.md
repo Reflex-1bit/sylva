@@ -15,6 +15,17 @@ Sylva is one HTTPS site: the React UI and API share the same domain
 5. Wait for the Docker build (~5–10 min first time).
 6. Open the `.onrender.com` URL — that is your website.
 
+### Redirect Render → Vercel
+
+If the live site is on Vercel, set this env var on the Render service:
+
+```
+SITE_REDIRECT_URL=https://sylva-sandy.vercel.app
+```
+
+Redeploy Render. Visitors to `*.onrender.com` are permanently redirected to Vercel
+(`/health` stays on Render for uptime checks).
+
 Custom domain later: Render → Settings → Custom Domains → add `sylva.yourdomain.com`.
 
 ## Option B — Railway

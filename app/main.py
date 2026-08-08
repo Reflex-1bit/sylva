@@ -17,7 +17,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, Response
+from fastapi.responses import FileResponse, RedirectResponse, Response
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.base import BaseHTTPMiddleware
 
@@ -29,6 +29,9 @@ APP_VERSION = "0.2.0"
 API_ONLY = os.getenv("SYLVA_API_ONLY", "").strip().lower() in {"1", "true", "yes", "on"} or bool(
     os.getenv("VERCEL")
 )
+# When set (e.g. on Render), send browsers to the canonical Vercel site.
+# /health is left alone so Render health checks keep working.
+SITE_REDIRECT_URL = os.getenv("SITE_REDIRECT_URL", "").strip().rstrip("/")
 
 
 def _allowed_origins() -> list[str]:
@@ -77,7 +80,23 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         return response
 
 
+class SiteRedirectMiddleware(BaseHTTPMiddleware):
+    """301 everything except /health to SITE_REDIRECT_URL (Vercel)."""
+
+    async def dispatch(self, request: Request, call_next):
+        if not SITE_REDIRECT_URL:
+            return await call_next(request)
+        path = request.url.path
+        if path == "/health" or path.startswith("/health/"):
+            return await call_next(request)
+        target = f"{SITE_REDIRECT_URL}{path}"
+        if request.url.query:
+            target = f"{target}?{request.url.query}"
+        return RedirectResponse(url=target, status_code=301)
+
+
 app.add_middleware(SecurityHeadersMiddleware)
+app.add_middleware(SiteRedirectMiddleware)
 
 app.include_router(farm.router, prefix="/api/v1", tags=["farm"])
 app.include_router(match.router, prefix="/api/v1", tags=["match"])

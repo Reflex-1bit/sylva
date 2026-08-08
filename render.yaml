@@ -15,3 +15,6 @@ services:
         value: gemini-2.5-flash
       - key: SENSOR_INGEST_TOKEN
         sync: false
+      # Send all visitors to the Vercel site (keeps /health on Render)
+      - key: SITE_REDIRECT_URL
+        value: https://sylva-sandy.vercel.app
