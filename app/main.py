@@ -89,7 +89,7 @@ class SiteRedirectMiddleware(BaseHTTPMiddleware):
         path = request.url.path
         if path == "/health" or path.startswith("/health/"):
             return await call_next(request)
-        return RedirectResponse(url=SITE_REDIRECT_URL, status_code=301)
+        return RedirectResponse(url=SITE_REDIRECT_URL, status_code=302)
 
 
 app.add_middleware(SecurityHeadersMiddleware)
