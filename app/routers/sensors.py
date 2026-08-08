@@ -42,16 +42,30 @@ class SensorBatch(BaseModel):
 async def ingest_batch(
     batch: SensorBatch,
     x_device_token: str | None = Header(default=None),
+    x_ingest_token: str | None = Header(default=None),
 ):
     """
     Accept a batch of soil-node readings.
-    Auth is a shared device token for the prototype (tighten later).
+    Requires SENSOR_INGEST_TOKEN in production (Vercel / SYLVA_REQUIRE_AUTH).
     """
-    # Optional: set SENSOR_INGEST_TOKEN in .env to enforce
     import os
 
-    expected = os.getenv("SENSOR_INGEST_TOKEN")
-    if expected and x_device_token != expected:
+    expected = os.getenv("SENSOR_INGEST_TOKEN", "").strip()
+    require = (
+        bool(expected)
+        or os.getenv("VERCEL")
+        or os.getenv("SYLVA_REQUIRE_AUTH", "").strip().lower() in {"1", "true", "yes", "on"}
+    )
+    provided = x_device_token or x_ingest_token
+    if require:
+        if not expected:
+            raise HTTPException(
+                status_code=503,
+                detail="SENSOR_INGEST_TOKEN is not configured on the server",
+            )
+        if provided != expected:
+            raise HTTPException(status_code=401, detail="invalid device token")
+    elif expected and provided != expected:
         raise HTTPException(status_code=401, detail="invalid device token")
 
     bucket = _STORE.setdefault(batch.device_id, [])

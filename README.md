@@ -44,13 +44,12 @@ a global 30-year financial + carbon engine.
 
 ## Deploy the website (public HTTPS)
 
-See **[DEPLOY.md](DEPLOY.md)** for full steps.
+- **Vercel (UI + API, secrets stay server-side):** see **[DEPLOY_VERCEL.md](DEPLOY_VERCEL.md)**
+- **Render (Docker):** see **[DEPLOY.md](DEPLOY.md)** —  
+  **https://render.com/deploy?repo=https://github.com/ashm-023/sylva**
 
-Fastest path — one-click on Render:
-
-**https://render.com/deploy?repo=https://github.com/ashm-023/sylva**
-
-Set `GEMINI_API_KEY` and `OPENTOPO_API_KEY`, wait for the build, open the `.onrender.com` URL. That is a normal public website (UI + API on one domain).
+On either host, set `GEMINI_API_KEY` / `OPENTOPO_API_KEY` as **server** env vars only.  
+Never use `VITE_` for secrets — those are embedded in the public JavaScript bundle.
 
 ## Quickstart (local)
 

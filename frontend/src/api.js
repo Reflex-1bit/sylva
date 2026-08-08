@@ -1,4 +1,6 @@
 const API_BASE = import.meta.env.VITE_API_BASE || '/api/v1'
+// Security: never put GEMINI_API_KEY / OPENTOPO / tokens in VITE_* vars.
+// Those are embedded in the public JS bundle. Secrets belong on the server only.
 
 const GEOCODE_TIMEOUT_MS = 12_000
 const RECOMMEND_TIMEOUT_MS = 70_000

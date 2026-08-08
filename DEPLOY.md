@@ -46,3 +46,12 @@ Open http://localhost:8000
 | `/docs` | API docs |
 
 NDVI may show as skipped until Google Earth Engine credentials are added on the server — soil matching and plans still work.
+
+## Render: “Deploy latest” but site looks unchanged
+
+1. **Wait for a finished deploy** — Docker rebuilds the React UI every time. Free tier often takes **5–15 minutes**. Events must show **Live** with the new commit SHA, not just “Build started”.
+2. **Use Clear build cache & deploy** — Manual deploy menu → **Clear build cache & deploy**. Plain “Deploy latest commit” can reuse a stale Docker layer for the frontend.
+3. **Hard-refresh the browser** — `Ctrl+Shift+R`. Old `index.html` in cache will keep showing the previous UI until revalidated.
+4. **Confirm the repo/branch** — Service → Settings → Build & Deploy should point at `ashm-023/sylva` (or wherever you pushed) and branch `main`.
+5. **Avoid “Deploy a specific commit”** unless you mean it — that **turns off auto-deploys**, so later pushes won’t go live until you turn auto-deploy back on.
+6. **Check the build log** — If `npm run build` fails (OOM / missing deps), Render may keep the previous Live instance. Scroll the deploy log for `npm run build` / `ERROR`.

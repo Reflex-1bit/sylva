@@ -1,0 +1,20 @@
+# Never upload secrets or local junk to Vercel builds
+.env
+.env.*
+!.env.example
+apikeys.txt
+**/secrets.h
+**/.pio
+.venv
+venv
+__pycache__
+*.pyc
+.git
+frontend/node_modules
+.pytest_cache
+*.log
+.DS_Store
+# API runs on Render — don't ship Python/data into the Vercel bundle
+app/
+data/
+hardware/
