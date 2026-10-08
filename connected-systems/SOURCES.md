@@ -12,7 +12,7 @@ Sources older than two years are marked with their year; many foundational works
 
 | Key | Source | Tag |
 |---|---|---|
-| Sylva | `ashm-023/sylva`, commit `b411e90`: README.md, AGROFORESTREE_DB.md, `app/services/species_match_service.py`, `app/services/rag_service.py`, `scripts/ingest_aft_pdfs.py`, `data/species_db.json` (611 records; 512 missing `soil_ph_min`, 516 missing `soil_ph_max`, 117 missing `rainfall_min_mm`, 142 missing `rainfall_max_mm`; 153 nitrogen fixers), `hardware/esp32/README.md`, `docs/sylva-soil-node-preprint.md`, `agroforestree_data/pdfs/` (about 150 cached PDFs) | [Certain] |
+| Sylva | `ashm-023/sylva`, commit `b411e90`: README.md, AGROFORESTREE_DB.md, `app/services/species_match_service.py`, `app/services/rag_service.py`, `scripts/ingest_aft_pdfs.py`, `data/species_db.json` (611 records; 512 missing `soil_ph_min`, 516 missing `soil_ph_max`, 117 missing `rainfall_min_mm`, 142 missing `rainfall_max_mm`; 153 nitrogen fixers), `hardware/esp32/README.md`, `docs/sylva-soil-node-preprint.md`, `agroforestree_data/pdfs/` (609 cached PDFs, per `git ls-files`) | [Certain] |
 | ReachOut | `Aarrushh/reachout`, commit `466f311`: README.md, PROJECT_OVERVIEW.md, `reachout/_config/product.md`, `reachout/_config/constraints.md`, `reachout/_config/tech_stack.md`, `reachout/stages/*/CONTEXT.md`, `reachout/shared/schemas/*.json`, `demand/CONTEXT.md`, `demand/shared/schemas/recommendation.schema.json`, `docs/CODEBASE_OVERVIEW.md`, `docs/TRACKER.md`, `docs/DECISIONS_V2.md` | [Certain] |
 
 ## A. Attention, algorithms and the alternatives
@@ -231,6 +231,26 @@ Method note: for this section the research agent could search the web but could 
 | Meta 2025 | Marketing Dive on the WSJ report, June 2025. https://www.marketingdive.com/news/meta-plans-to-enable-fully-ai-automated-ads-by-2026/749613/ | 2025 | Fully AI-created and targeted ads by end of 2026 | [Likely] |
 | Herman and Chomsky 1988 | Manufacturing Consent. Pantheon. | 1988 | Propaganda model with critics | [Likely] |
 | Descartes 1641 | Meditations on First Philosophy. | 1641 | Substance dualism | [Guessing; standard] |
+
+## F. The mind, bias, contact and community (added 2026-10-08 for the chapter 1 and 4 rewrite)
+
+Method note: a research agent checked each row on 2026-10-08 against the arXiv, publisher or DOI landing page or two independent sources. Figures are quoted as the source states them. Rows stay [Likely] because full texts were not read end to end.
+
+| Key | Source | Year | What it supports | Tag |
+|---|---|---|---|---|
+| TRIBE v2 2026 | d'Ascoli, Rapin, Benchetrit, Brooks, Begany, Raugel, Banville, King. "A foundation model of vision, audition, and language for in-silico neuroscience." arXiv:2605.04326, v1 5 May 2026. https://arxiv.org/abs/2605.04326. Meta announcement 26 March 2026. Weights: https://huggingface.co/facebook/tribev2 | 2026 | Tri-modal model predicting fMRI responses to video, audio and language; trained on over 1,000 hours of fMRI across 720 subjects; enables in-silico experiments; an encoder, not a thought decoder; weights CC BY-NC 4.0, text features from Llama 3.2 under separate terms. Meta's blog gives smaller figures; the paper's are used here | [Likely] |
+| Poldrack 2006 | Poldrack. "Can cognitive processes be inferred from neuroimaging data?" Trends in Cognitive Sciences 10(2):59-63. https://doi.org/10.1016/j.tics.2005.12.004 | 2006 | The reverse-inference problem: activation in a region does not by itself show which mental process occurred | [Likely] |
+| Bail 2018 | Bail et al. "Exposure to opposing views on social media can increase political polarization." PNAS 115(37):9216-9221. https://doi.org/10.1073/pnas.1804840115 | 2018 | Paid to follow an opposing-view bot for a month, Republicans became substantially more conservative; Democrats' shift was slight and not significant | [Likely] |
+| Roozenbeek 2022 | Roozenbeek, van der Linden, Goldberg, Rathje, Lewandowsky. "Psychological inoculation improves resilience against misinformation on social media." Science Advances 8(34):eabo6254. https://doi.org/10.1126/sciadv.abo6254 | 2022 | Six experiments (n = 6,464) and a YouTube field study (n = 22,632): short prebunking videos improved recognition of manipulation techniques across the political spectrum | [Likely] |
+| Biddlestone 2025 | Biddlestone, Basol, van der Linden, Roozenbeek et al. "Video inoculation against election misinformation across 12 EU nations." Communications Psychology. https://doi.org/10.1038/s44271-025-00379-3 | 2025 | 12 EU nations, N = 19,735; small but significant effects (d about 0.08 to 0.38). Not cited in the text; volume, year and reach figures unconfirmed | [Guessing] |
+| Allport 1954 | Allport. The Nature of Prejudice. Addison-Wesley. | 1954 | Contact hypothesis: equal status, common goals, cooperation, support of authorities, law or custom | [Likely] |
+| Pettigrew 2006 | Pettigrew, Tropp. "A meta-analytic test of intergroup contact theory." Journal of Personality and Social Psychology 90(5):751-783. https://doi.org/10.1037/0022-3514.90.5.751 | 2006 | 713 samples from 515 studies: intergroup contact typically reduces prejudice; stronger under Allport's conditions, which help but are not essential | [Likely] |
+| Sampson 1997 | Sampson, Raudenbush, Earls. "Neighborhoods and violent crime: a multilevel study of collective efficacy." Science 277(5328):918-924. https://doi.org/10.1126/science.277.5328.918 | 1997 | 8,782 residents in 343 Chicago neighbourhood clusters: collective efficacy negatively associated with violence after controls | [Likely] |
+| Pronin 2002 | Pronin, Lin, Ross. "The bias blind spot: perceptions of bias in self versus others." Personality and Social Psychology Bulletin 28(3):369-381. https://doi.org/10.1177/0146167202286008 | 2002 | People see bias much more in others than in themselves; replicated by Chandrashekar et al. 2021 | [Likely] |
+| Holt-Lunstad 2010 | Holt-Lunstad, Smith, Layton. "Social relationships and mortality risk: a meta-analytic review." PLOS Medicine 7(7):e1000316. https://doi.org/10.1371/journal.pmed.1000316 | 2010 | 148 studies, 308,849 participants: "50% increased likelihood of survival" with stronger social relationships (odds ratio 1.50, 95% CI 1.42 to 1.59) | [Likely] |
+| Mayer 2004 | Mayer, Frantz. "The connectedness to nature scale." Journal of Environmental Psychology 24(4):503-515. https://doi.org/10.1016/j.jenvp.2004.10.001 | 2004 | A validated measure of feeling in community with nature; correlates with ecological behaviour | [Likely] |
+| Herzog 2011 | Herzog. "The impact of pets on human health and psychological well-being: fact, fiction, or hypothesis?" Current Directions in Psychological Science 20(4):236-239. https://doi.org/10.1177/0963721411415220 | 2011 | A general "pet effect" is an unsubstantiated hypothesis | [Likely] |
+| Scoresby 2021 | Scoresby et al. "Pet ownership and quality of life: a systematic review of the literature." Veterinary Sciences 8(12):332. https://doi.org/10.3390/vetsci8120332 | 2021 | Mental-health studies: 17 positive, 19 mixed, 13 no impact, 5 negative | [Likely] |
 
 ## Items the research agents could not verify this session
 

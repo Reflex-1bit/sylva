@@ -39,7 +39,7 @@ Add the form: record something you did outside, with a photo and a location, fla
 
 ### Step 6. Bridging and the published ranking table (after a year of data)
 
-Only now add ranking. Publish the three signals (action conversion, bridging, reciprocity) as a table anyone can read. Run the barrio-versus-control comparison described in chapter 4.9.
+Only now add ranking. Publish the three signals (action conversion, bridging, contribution) as a table anyone can read. Run the barrio-versus-control comparison described in chapter 4.7.
 
 ## 5.2 What exists for each step
 

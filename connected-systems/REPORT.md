@@ -1,13 +1,15 @@
-# One system, three products, one thesis
+# Freed time, spent on the ground
 
 **A report connecting Sylva, ReachOut, the biomimicry intelligence firm, and the consciousness thesis.**
-Written 2026-10-05. Chapters 1 to 5 and the sources file hold the depth; this document is the whole argument in one sitting.
+Written 2026-10-05. Chapters 1 and 4 rewritten 2026-10-08 around the author's grounding thesis: chapter 1 now leads with the human pattern, and chapter 4 is a manifesto. Chapters 1 to 5 and the sources file hold the depth; this document is the whole argument in one sitting.
 
 Tags: [Certain] was read directly from a repository or primary document this session. [Likely] was agreed by several independent sources but not read at the primary source. [Guessing] is an inference to verify. Almost nothing from the web is [Certain] here, because the session's network proxy blocked publisher and government pages; the repository facts are. `SOURCES.md` has every citation.
 
 ## 1. The answer
 
-The four things in the brief are one system seen four times.
+**The pattern.** The single biggest trap of life today is that people are never grounded. AI is freeing more human time and attention than any wave of automation before it. That time can drift back into the screen, or it can turn toward the healthiest life a person can live: outside, in a place, with other people, making things, caring for land, animals and each other. The turn is circular: freed time goes into the ground under people, value stays in the place, knowledge travels to every other place, and other places copy what works. The day it designs for is mostly doing, less being, and least consuming, done with an open mind. Chapter 1 sets this out.
+
+**The mechanism.** The four things in the brief are one system seen four times, and that system is an early build of the turn.
 
 - **The system** is a router. It takes a need in plain language, finds the nearest grounded source of an answer, lets a model touch only the language, sends the person to a human or a place to act, and routes the money back to where the knowledge lives.
 - **Sylva** is that router for land: coordinate in, seven-year planting plan out, soil node to prove it, subsidies and buyer contracts flowing to the farm [Certain].
@@ -15,12 +17,12 @@ The four things in the brief are one system seen four times.
 - **The biomimicry firm** is that router for industrial problems: design question in, ranked organisms and mechanisms out, a fee share to the reserve that holds them. It is pitched, not built.
 - **The thesis** says attention algorithms erode self, shared reality and empathy, and that the counterforce is connection, nature and doing. Checked claim by claim, its core about algorithms holds and is now backed by field experiments, its physics is wrong, its empathy statistic reversed in 2025, and its best evidence is a finding it does not cite: people prefer a human's care even when a machine's words score higher.
 
-What they do together that none does alone: the same place (a Spanish dehesa, a barrio, a reserve) can run all three loops with one set of partners; the honesty rules in the two repos become one shared standard; and each product's output is already a thing to do rather than a thing to watch. That last property is accidental today. The design in chapter 4 makes it deliberate and calls it the connection algorithm: personalise the place, not the person; rank by verified action off screen; let contribution be visible and never owed.
+What they do together that none does alone: the same place (a Spanish dehesa, a barrio, a reserve) can run all three loops with one set of partners; the honesty rules in the two repos become one shared standard; and each product's output is already a thing to do rather than a thing to watch. That last property is accidental today. Chapter 4 makes it the point, as a manifesto: a social algorithm that lights up innovation, empathy and care instead of maximising attention, widens views instead of hardening them, rewards the real over the aesthetic, helps people see how their own minds were shaped, and shows each person where they are needed in their community.
 
 Two things found in the repositories need attention before anything else is built [Certain]:
 
 1. **The provenance flag the pitch describes does not exist in Sylva.** None of the eleven fields in the species database records whether a value was AI-extracted or checked by a person. Related: 84 percent of species have no pH range, so the "hard pH filter" passes most species through, and rainfall ranges, which are far better covered, are not used in scoring at all.
-2. **Sylva's source data has a licence problem.** The Agroforestree Database the 611 records were extracted from carries an all-rights-reserved notice and no open licence was found [Likely], and about 150 of its PDFs are committed to this public repository [Certain]. Ask CIFOR-ICRAF for written permission, remove the cached PDFs from the public tree in the meantime, and rebuild from openly licensed sources over time.
+2. **Sylva's source data has a licence problem.** The Agroforestree Database the 611 records were extracted from carries an all-rights-reserved notice and no open licence was found [Likely], and 609 of its PDFs are committed to this public repository [Certain]. Ask CIFOR-ICRAF for written permission, remove the cached PDFs from the public tree in the meantime, and rebuild from openly licensed sources over time.
 
 ## 2. What each does alone
 
@@ -54,7 +56,26 @@ flowchart LR
 
 **The strong version**, in the thesis's own voice: engagement-ranked feeds favour anger and a different ranking undoes it; personalisation removes the shared reference points any collective action needs; empathy as measured is not collapsing, but direct contact with nature and place is thin, and contact, not knowledge, predicts care; the felt things cannot be ranked into existence, and people still prefer the human; the counterforce with evidence behind it is doing things with other people in a place. We owe each other everything, and the systems can be rebuilt.
 
-## 5. The connection algorithm in five rules
+## 5. The grounding manifesto in brief
+
+Chapter 4 is written as twelve articles. In one line each:
+
+1. **Light up innovation, empathy and care, not attention,** through signals that can be seen and checked (making, bridging, verified help), never by secretly steering brains.
+2. **Widen, don't harden.** Showing people the other side's posts can backfire [Bail 2018]; understanding why others believe, bridging ranking, and doing things together across difference work better [Piccardi 2025; Pettigrew 2006].
+3. **Real over aesthetic.** No signal rewards polish, filters or follower counts.
+4. **Know your own mind.** A private mind mirror shows what you were fed and its predicted effect, using brain-encoding models such as Meta's TRIBE v2 [TRIBE v2 2026], alongside prebunking [Roozenbeek 2022] and a trace of how strong views reached you. The mirror is a mirror and a public audit tool, never the ranking engine, never a reading of your feelings [Poldrack 2006], and trusted only where it matches what people actually do offline.
+5. **Every person has a call to action.** The consumer profile becomes a contributor profile: same data about interests and skills, used to show where you are needed locally. Opt-in, visible, never sold. Every hard story ships with one local action.
+6. **Ground people** in body, place, people and purpose: nature through feeling, animals, the same people weekly, music and art as making, stewardship.
+7. **Connect the world through art.** Culture, history and religion told by their own communities; the model cites and never invents.
+8. **Local by default, global by need. Prove it, don't impose it,** through pilot places others can visit and copy.
+9. **The hardest case first:** the city poor, the disabled, the elderly, the shift worker.
+10. **The app that wants you to leave.** Measure people, not usage.
+11. **Never sell attention.** No ads; institutions that benefit from people doing pay.
+12. **No guru.** State what would prove the manifesto wrong (chapter 4.8).
+
+The goal is a conscious, educated, informed population, aware of its own biases, focused on real spirituality: nature, animals and love.
+
+How it could work, in five rules:
 
 1. **Personalise the place, not the person.** Everyone in a barrio, a reserve buffer, or a soil-and-climate zone sees the same feed. ReachOut already assigns shops to 24 barrios and scopes streams by region; Sylva's plan is a function of coordinates [Certain]. This restores shared reference points and is the cheapest privacy design, because the system stores the place, never the trail.
 2. **Rank by verified action off screen.** Show the item most likely to end with the phone in a pocket and the person somewhere else: a pickup at a shop, a soil node installed, a repair done at the monthly event, a fee paid to a reserve. Time to close the app after an action is a success metric. Daily active use is not a goal.
@@ -84,12 +105,14 @@ The law supports the pitch's instinct. The Nagoya Protocol defines utilisation a
 8. Personalise the place, not the person, across all three products.
 9. Publish the ranking signals as a table.
 10. Gifted skills next to shops, a monthly repair-and-teach event, euros that stay local; never a ledger.
+11. A mind mirror and public feed audits built on open brain-encoding models: describe what feeds do to people, never use it to rank them.
+12. Flip the consumer profile into a contributor profile: show people where they are needed, not what to buy.
 
 ## 8. Why it will work, and why it might not
 
 **Why it can work.** The hard parts exist. Both repos already refuse to let a model invent a fact, already route needs to local sources, already plan to be paid by institutions rather than by attention, and already produce actions rather than engagement [Certain]. The pattern that scaled in the history of post-consumption economics (money kept local, ledgers removed, cheap events, law) is the pattern the design uses [Likely]. The ranking experiments of 2025 and 2026 show the lever is real [Piccardi 2025; PRC 2026].
 
-**Why it might not.** It becomes another feed the moment it gets a scroll and a notification. The action metric gets gamed unless a human with standing verifies it. Bridging can bury a correct minority. Algorithm choice alone has not changed behaviour where it has been offered: Bluesky's custom feeds have many creators and limited uptake [Likely]. The doing metric privileges the able and the time-rich. The thesis is partly wrong, and a product sold as the cure for an empathy collapse is selling a cure for a disease that may not exist; sell a plan for your land, a shop that has the thing, a report that funds a reserve, and measure the connection honestly. And one person cannot carry three products; the first hire signs reserve agreements and is not an engineer. Chapter 5 gives each risk its mitigation and names the three results that should end the project rather than pivot it.
+**Why it might not.** It becomes another feed the moment it gets a scroll and a notification. The action metric gets gamed unless a human with standing verifies it. Bridging can bury a correct minority. Algorithm choice alone has not changed behaviour where it has been offered: Bluesky's custom feeds have many creators and limited uptake [Likely]. The doing metric privileges the able and the time-rich. A mind mirror built on brain prediction can be over-read as mind reading, and a contributor profile can feel like surveillance; both live or die on consent and on matching real behaviour. The thesis is partly wrong, and a product sold as the cure for an empathy collapse is selling a cure for a disease that may not exist; sell a plan for your land, a shop that has the thing, a report that funds a reserve, and measure the connection honestly. And one person cannot carry three products; the first hire signs reserve agreements and is not an engineer. Chapter 5 gives each risk its mitigation and names the three results that should end the project rather than pivot it.
 
 ## 9. The first ninety days
 
@@ -107,9 +130,9 @@ Five research agents checked the external claims in this report. They could sear
 
 | File | What it holds |
 |---|---|
-| [`01-the-pattern.md`](01-the-pattern.md) | The shared system abstracted from the pitch and the two repos, side by side; what each does alone and together |
+| [`01-the-pattern.md`](01-the-pattern.md) | The human pattern (freed time, spent grounding) and the router that is its early build: the pitch and the two repos side by side, what each does alone and together |
 | [`02-biomimicry-blueprint.md`](02-biomimicry-blueprint.md) | Record design, pipeline reuse, matcher, money loop, legal map, competition, first six months |
 | [`03-thesis-evidence-check.md`](03-thesis-evidence-check.md) | The thesis checked claim by claim, part by part, with a scorecard and the strong version |
-| [`04-connection-algorithm.md`](04-connection-algorithm.md) | A social algorithm whose objective is doing and connecting; nature as a spec; skills without ledgers; how the three products plug in |
+| [`04-connection-algorithm.md`](04-connection-algorithm.md) | The grounding manifesto: twelve articles for an algorithm built for doing, the mind mirror, the contributor profile, how it could work, how we will know, what would prove it wrong |
 | [`05-roadmap-and-risks.md`](05-roadmap-and-risks.md) | Six steps, what exists for each, ten ways it fails, three results that should stop it |
 | [`SOURCES.md`](SOURCES.md) | Every source with year and confidence tag, and the list of what could not be verified |

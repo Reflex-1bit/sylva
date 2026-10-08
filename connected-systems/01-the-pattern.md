@@ -1,58 +1,74 @@
-# 1. The pattern: one system, three instances
+# 1. The pattern: freed time, spent on the ground
 
-The biomimicry pitch, Sylva, and ReachOut look like three unrelated projects. They are not. They are the same machine pointed at three different flows. This chapter separates the pitch into its parts, shows that the parts are already built in the two repos, and names what each instance does alone and what they do together.
+This chapter names the pattern the whole report is about. It is a pattern in people first and in software second. The human pattern comes first (1.1 to 1.6). The second half (1.7 to 1.11) shows that Sylva, ReachOut and the biomimicry pitch are early, partial builds of it.
 
-Everything in this chapter about the two codebases was read directly from the files in `ashm-023/sylva` and `Aarrushh/reachout` on 2026-10-05. Those statements are tagged [Certain]. Interpretations are tagged as such.
+Tags: [Certain] was read directly from a repository or primary source; [Likely] is consistent across sources but the primary was not read; [Guessing] is an inference or a belief to test. Statements of what this project believes are not tagged; they are positions, not findings. Repository facts were read from `ashm-023/sylva` and `Aarrushh/reachout` on 2026-10-05.
 
-## 1.1 Taking the pitch apart
+## 1.1 The trap
 
-The biomimicry pitch, stripped to its moving parts:
+The single biggest trap of life today is that you are never grounded. Most people are more connected than any generation before, and they feel more disconnected: from their bodies, from the place they live, from the people on their street, and from any sense that what they do matters.
 
-| Part in the pitch | What it actually is |
-|---|---|
-| "Species profile: traits, components, mechanisms" | A structured record extracted from unstructured text |
-| "Mapped to sectors and products" | A second index over the same records, keyed by the buyer's problem rather than the organism |
-| "Tagged AI-extracted or expert-validated" | A provenance flag on every record |
-| "RAG pipeline reads open research and builds the profiles" | The extraction step: corpus in, structured JSON out |
-| "Search: we need a self-cleaning surface, get ranked species" | A match-and-rank step: need in, ranked sources out |
-| "Companies pay for custom research" | The consulting layer is the first revenue; the database is the second |
-| "Reserves join as research partners and get a share" | A value-return loop to the place the knowledge came from |
-| "Start with 50 to 100 species, 1 or 2 sectors, one region" | Narrow scope, one pilot region |
+The feeds that fill the gap are built to hold attention, not to return it. Chapter 3 checks that claim against the evidence and finds the core of it holds: engagement-ranked feeds favour anger and out-group hostility, and people do not prefer that content [Milli 2025, Likely]. The deeper cost this project cares about is simpler. Hours spent consuming are hours not spent doing, and since we are not doing, we are struggling [Guessing, the central hypothesis of this report; chapter 4 says how to test it].
 
-So the pitch is: a grounded corpus, an extraction layer with provenance, a need-to-source matcher, a paid human layer on top, and a loop that sends money back to the source. That is the system.
+## 1.2 The pattern
 
-## 1.2 Sylva is the same system for land
+Every wave of automation frees human time and attention. AI is the largest such wave yet. As more of the routine work of thinking is automated, what is left for people becomes more abstract and more creative. That can go two ways.
 
-Sylva's repo does this today [Certain]:
+- **The drift.** Freed time goes back into the screen. Thought gets more abstract and less grounded. People make things they do not understand and consume things they did not choose. This is the default, because the attention economy is waiting to absorb every freed hour.
+- **The turn.** Freed time goes into the healthiest life a person can live: outside, in a place, with other people, making things with their hands, caring for land, animals and each other. AI is used to equip people for that life, not to replace it.
 
-- **Grounded corpus.** 611 species profiles extracted from World Agroforestry's Agroforestree PDF database into `data/species_db.json`, plus live site data from SoilGrids, OpenTopography, NDVI and GBIF for any coordinate.
-- **Extraction layer.** `scripts/ingest_aft_pdfs.py` downloads each PDF, pulls text with pdfplumber, and asks Gemini for a fixed JSON schema (pH range, rainfall range, drought tolerance, nitrogen fixing, growth rate, uses, soil texture).
-- **Match-and-rank.** `species_match_service.py` applies a hard pH filter and a weighted score (texture 15, use alignment 25, nitrogen fixing 15, degradation bonus 15). No model is involved in scoring.
-- **Language layer.** `rag_service.py` retrieves knowledge chunks by keyword and asks Gemini for a transition plan, with the instruction "Do not invent species that are not in the matched list". If no key or the call fails, a deterministic plan is returned.
-- **Verification hardware.** An ESP32 soil node, under 60 dollars in parts, logs moisture, temperature and optional EC so the plan is defensible for subsidies and buyers.
-- **Paid layer.** The README is explicit: lead with the plan, use the hardware to make it defensible, do not pretend to be a global carbon engine.
-- **Value return.** The farmer gets a plan tied to EU CAP eco-schemes and buyer contracts. The money flows toward the land, not away from it.
+The pattern this report is built on is the turn, and it is circular:
 
-Two honest gaps I found while reading the data [Certain]:
+```mermaid
+flowchart LR
+  A[AI automates routine work] --> T[Time and attention are freed]
+  T --> G[Spent grounding: nature, art, music, community, care]
+  G --> V[Value stays in the place: land, skills, culture, money]
+  V --> K[Knowledge is shared with every other place]
+  K --> I[Other places see it working and copy it]
+  I --> A
+```
 
-1. **The provenance flag the pitch mentions does not exist yet in Sylva.** `species_db.json` has eleven fields and none of them records whether a value was AI-extracted or human-checked. The README and preprint talk about human-in-the-loop, but the data does not carry it. The biomimicry pitch's "like Sylva's validation flag" is describing something to build, not something built.
-2. **The hard pH filter mostly does not filter.** In the current database, 512 of 611 species have no `soil_ph_min` and 516 have no `soil_ph_max`. The matcher treats unknown tolerance as a pass. So for 84% of species the "hard filter" is a pass-through, and the ranking is carried by texture, uses and nitrogen fixing. Rainfall ranges are better covered (117 and 142 nulls) but are not used in the current scorer at all; they are only returned. This is not a bug in the code. It is a data coverage problem that a provenance flag would make visible to the user.
+People invest in the future by investing in the ground under them. The return is a healthier place, which frees more time, which is invested again. Value stays local; knowledge travels.
 
-## 1.3 ReachOut is the same system for everyday needs
+## 1.3 What grounded means
 
-ReachOut's repo does this today [Certain]:
+Four anchors. A person is grounded when they have all four, and the design goal is to strengthen each one [these are working definitions, not findings]:
 
-- **Grounded corpus.** 3,328 real Madrid shops from OpenStreetMap, assigned to 24 barrios, with deliberately synthetic stock that is flagged `synthetic: true` on every row.
-- **Extraction layer.** Stage 01 turns a plain-language need ("algo para el dolor de cabeza") into a structured intent, using only the user's words plus a committed synonym table. The LLM is optional and its output is validated against a JSON Schema before anything trusts it.
-- **Match-and-rank.** Stage 03 is pure Python: in-stock rows only, whole-word match, rank by distance then stock then price. The stage document says why: "An AI guessing here would invent stock that does not exist. That is the exact failure ReachOut cannot have."
-- **Routing to humans.** Every matched shop is pinged. The shopper walks there or asks for delivery. The output of a search is a trip to a neighbour, not a checkout page.
-- **Honesty layer.** Every payload crosses a boundary through a schema with `additionalProperties: false`. The recommendation schema makes `confidence` and `caveat` required fields, so a recommendation without a caveat cannot be served. The dashboard shows a "practice data" banner whenever the payload says `generated_from: "fixture"`.
-- **Supply-side first.** The demand service ingests public Google Trends data for a curated list of Madrid retail terms (47 seed keywords, 49 in the live run) and gives a shopkeeper something useful before they have installed anything. That is how ReachOut plans to solve its two-sided cold start.
-- **Value return.** Money that would go to a warehouse goes to a shop within two kilometres.
+1. **Body.** Senses, movement, rest, time outdoors.
+2. **Place.** Knowing and caring for where you live: its soil, species, seasons, history.
+3. **People.** The same faces, in the same place, on a regular rhythm.
+4. **Purpose.** A part to play that someone else would notice if you stopped.
 
-ReachOut's one design rule is the clearest statement of the pattern in either repo: "Work that must be exact is pure Python. AI only touches language." Sylva follows the same rule in practice (scoring is rules, prose is the model) but does not state it. The biomimicry blueprint in chapter 2 adopts it as a founding rule.
+## 1.4 The day we are designing for
 
-## 1.4 The three side by side
+The biggest part of the day is **doing**. A smaller part is **being**: existing, resting, grounding yourself. The smallest part is **consuming**, and that part is done with an open mind: to understand information and to see how you can contribute to it.
+
+- **Doing** means acting with your hands or presence in a way that changes something real. Caregiving counts. Making music counts. Hustle does not count, and rest is not failure; rest is part of being.
+- **The ratio is a compass, not a quota.** Each person sets their own. Nobody is scored on it.
+- **Technology lives only in the consuming slice,** and its job there is to point outward, toward the doing.
+
+## 1.5 Two balances to hold
+
+**Creativity and understanding.** As AI does more of the making, the risk is people who can produce anything and understand nothing. The rule: AI is a lens and a teacher; the human keeps authorship. If you cannot explain what you made, you did not make it.
+
+**Automation and stewardship.** The gains from automation should not only flow to shareholders and screens. A share should fund the work machines cannot do and people need most: stewardship of land, care, teaching, and culture.
+
+## 1.6 AI's place in the pattern
+
+AI can help humanity enormously, and the most important way is by equipping people to live grounded, connected and spiritual lives. In this report, real spirituality means nature, animals and love: feeling part of something larger than yourself, without doctrine, open to every faith and to none.
+
+Three jobs, in order of importance:
+
+1. **Point outward.** Show each person where they are needed in their own community, based on the interests and skills they already have (chapter 4, article 5).
+2. **Connect people across difference through art.** History, culture and religion shown through their art, told by the communities they belong to, so people understand why others believe what they believe. The model cites its sources and never invents a tradition.
+3. **Help people know their own minds.** Show people how their views and habits were shaped (by nature, by upbringing, and by the feeds they were fed) so they can choose for themselves (chapter 4, article 4).
+
+**Local by default, global by need.** Not everything can be local, and the world stays open: trade, travel and global knowledge continue. The claim is that a life rooted in a place is a stronger way to live than the one most people have today. The method is proof, not imposition: pilot places that show it working, which other places can visit, twin with and copy.
+
+## 1.7 The same pattern, already half built
+
+The pattern needs a mechanism: something that takes a need and sends a person to a real place or a real person to act on it. Three projects already do this for one kind of need each. Stripped to their parts, they are the same machine [interpretation, Likely]:
 
 | Component | Biomimicry firm (pitch) | Sylva (built) | ReachOut (built) |
 |---|---|---|---|
@@ -65,25 +81,29 @@ ReachOut's one design rule is the clearest statement of the pattern in either re
 | Where AI is allowed | Reading literature, drafting reports | Reading PDFs, drafting plans | Parsing language, phrasing results |
 | Where AI is forbidden | Claiming a mechanism is validated | Scoring species | Stock, distance, price, ranking |
 | Human layer | Consultants, reserve biologists | Agronomists, the farmer | Shopkeepers |
-| Verification | Expert review, lab tests | ESP32 soil node, lab pH | Live inventory rows, qty >= 1 |
-| First revenue | Paid research projects | Subsidy-grade plans | Retailer dashboard, then inventory sync |
-| Value return | Revenue share to the reserve | Subsidies and buyer contracts to the farm | Local sales to the shop |
 | Output is an action | Fund a reserve, change a design | Plant trees over 7 years | Walk to a shop |
-| Pilot | Spain, 50 to 100 species, 1 or 2 sectors | Spain or Ontario, one region | Madrid, five categories |
+| Value return | Revenue share to the reserve | Subsidies and buyer contracts to the farm | Local sales to the shop |
 
-Interpretation [Likely]: the reason the three "have the exact same format" is that each one is a router between a need and a local source, with a rule that facts come from data and only language comes from a model, and with the money moving toward the source rather than away from it.
+Each is a router between a need and a local source, with a rule that facts come from data and only language comes from a model, and with money moving toward the source rather than away from it. ReachOut states the rule outright: "Work that must be exact is pure Python. AI only touches language." [Certain]. Sylva follows it in practice (scoring is rules, prose is the model) without stating it [Certain].
 
-## 1.5 What each does alone
+## 1.8 What each does today
 
-**Sylva alone** turns a coordinate into a plan to do something slow on land. Its value is that a farmer, an agronomist and a subsidy officer can look at the same evidence. Its weakness is data coverage (see 1.2) and the fact that it is one person's project with no agronomist partners yet, which the README says itself.
+**Sylva** turns a coordinate into a plan to do something slow on land [Certain]. 611 species profiles were extracted from World Agroforestry's Agroforestree PDFs into `data/species_db.json` by `scripts/ingest_aft_pdfs.py` (pdfplumber plus Gemini, fixed JSON schema). `species_match_service.py` applies a hard pH filter and a weighted score (texture 15, use alignment 25, nitrogen fixing 15, degradation bonus 15), with no model in the scoring. `rag_service.py` asks Gemini for a transition plan with the instruction "Do not invent species that are not in the matched list", and returns a deterministic plan when there is no key. An ESP32 soil node, under 60 dollars in parts, logs moisture and temperature so the plan can back a subsidy claim.
 
-**ReachOut alone** turns a need into a trip to a neighbour. Its value is that it refuses to invent facts and refuses to tell stories about shops. Its weakness is the cold start: live stock needs merchants, merchants need shoppers. The demand dashboard is the workaround. As of the repo's own context files, the demand tables hold rows from a live Google Trends backfill run in August 2026 (49 keywords), while the analytics endpoint still serves a committed fixture unless it is switched to live, and the dashboard shows a "practice data" banner whenever that is the case.
+**ReachOut** turns a need into a walk to a neighbour [Certain]. 3,328 real Madrid shops from OpenStreetMap across 24 barrios, with synthetic stock flagged `synthetic: true` on every row. A plain-language need becomes a schema-validated intent; matching is pure Python (in stock, whole-word, ranked by distance then stock then price); every match is pinged. Every payload crosses a boundary through a schema with `additionalProperties: false`, and a recommendation without a `caveat` cannot be served. It built the merchant side first, from public search-demand data, to solve its two-sided cold start.
 
-**The biomimicry firm alone** turns an industrial problem into a ranked list of organisms and mechanisms, and sends a share of the fee back to the reserve that holds those organisms. Its value is the money loop, which AskNature does not have. Its weaknesses are legal (chapter 2 covers the Nagoya Protocol and digital sequence information) and the fact that AskNature already exists and is free.
+**The biomimicry firm** would turn an industrial problem into a ranked list of organisms and mechanisms, and send a share of the fee back to the reserve that holds them. It is pitched, not built; chapter 2 is its blueprint.
 
-## 1.6 What they do together
+## 1.9 Two honest gaps
 
-Alone, each one is a niche tool. Together they are three edges of one graph:
+Found while reading Sylva's data [Certain]:
+
+1. **The provenance flag the pitch mentions does not exist yet in Sylva.** `species_db.json` has eleven fields and none records whether a value was AI-extracted or human-checked. The biomimicry pitch's "like Sylva's validation flag" describes something to build, not something built.
+2. **The hard pH filter mostly does not filter.** 512 of 611 species have no `soil_ph_min` and 516 have no `soil_ph_max`, and the matcher treats unknown tolerance as a pass. For 84 percent of species the "hard filter" is a pass-through. Rainfall ranges are better covered (117 and 142 nulls) but are not used in scoring. This is a data coverage problem that a provenance flag would make visible.
+
+These matter to the pattern. A system that sends people to act on the ground has to be honest about what it actually knows.
+
+## 1.10 What they do together
 
 ```mermaid
 flowchart LR
@@ -92,27 +112,20 @@ flowchart LR
     L[Land]
     P[People and shops]
   end
-  subgraph Needs["A need, in plain language"]
-    I[Industry: a design problem]
-    F[Farmer: what to plant]
-    S[Shopper: what I need today]
-  end
-  I -- "biomimicry router" --> N
-  F -- "Sylva" --> L
-  S -- "ReachOut" --> P
+  I[Industry: a design problem] -- "biomimicry router" --> N
+  F[Farmer: what to plant] -- "Sylva" --> L
+  S[Shopper: what I need today] -- "ReachOut" --> P
   N -. "fee share" .-> Place
   L -. "subsidy, buyer contract" .-> Place
   P -. "local sale" .-> Place
 ```
 
-Three things happen only when they are combined:
+1. **The same place appears in all three.** A Spanish dehesa holds species Sylva recommends to nearby farms, organisms the biomimicry router would profile, and villages whose shops ReachOut would route to. One region, three loops, one set of partners. That makes it a candidate pilot place: somewhere to prove the pattern rather than argue for it.
+2. **The honesty layer becomes a shared standard.** ReachOut's schema discipline, Sylva's deterministic fallback and the biomimicry provenance flag are one idea: never let a model state a fact it did not read.
+3. **Each output is a thing to do, not a thing to watch.** Sylva's output is seven years of planting. ReachOut's is a walk. The biomimicry router's is a design change and a payment to a reserve. None is built to maximise time in the app. That property is accidental in the current code. Chapter 4 makes it the point.
 
-1. **The same reserve or region appears in all three.** A Spanish dehesa holds species that Sylva recommends to nearby farms, organisms that the biomimicry router would profile, and villages whose shops ReachOut would route to. One region, three revenue loops, one set of partners.
-2. **The honesty layer becomes a shared standard.** ReachOut's schema discipline, Sylva's deterministic fallback and the biomimicry provenance flag are one idea: never let a model state a fact it did not read. Written once as a rule, it applies to all three.
-3. **Each output is a thing to do, not a thing to watch.** None of the three is built to maximise time spent in the app. Sylva's output is seven years of planting. ReachOut's output is a walk. The biomimicry router's output is a design change and a payment to a reserve. That is the connection to the thesis in chapter 3 and the design in chapter 4: these are already products whose objective function is doing rather than consuming. That property is accidental in the current code. Chapter 4 makes it deliberate.
+## 1.11 The one sentence
 
-## 1.7 The one sentence
+Use the time AI frees to ground people in their bodies, their place, each other and a purpose; build tools that turn a need into an action in a real place with real people; keep the value local and share the knowledge with everyone.
 
-A router that takes a need in plain language, finds the nearest grounded source of an answer, lets a model only touch the language, sends the person to a human or a place to act, and routes the money back to where the knowledge lives.
-
-Sylva and ReachOut are that sentence, built. The biomimicry firm is that sentence, pitched. The rest of this report is about what happens when you build the sentence on purpose, and point it at the thing the thesis cares about: attention, consumption and connection.
+Sylva and ReachOut are early builds of the second clause. Chapter 4 is the manifesto for the whole sentence.

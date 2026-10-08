@@ -16,10 +16,10 @@ Start with `REPORT.md`. It is the whole argument in one sitting. The numbered ch
 | File | What it holds |
 |---|---|
 | [`REPORT.md`](REPORT.md) | The connecting report: what each system does alone, what they do together, and what to build next |
-| [`01-the-pattern.md`](01-the-pattern.md) | The shared system abstracted from the pitch and the two repos, side by side |
+| [`01-the-pattern.md`](01-the-pattern.md) | The human pattern: AI frees time, and that time is spent grounding people in nature, art and community; the pitch and the two repos as its early build |
 | [`02-biomimicry-blueprint.md`](02-biomimicry-blueprint.md) | The second database: record design, pipeline reuse, matcher, money loop, legal map, where to innovate |
 | [`03-thesis-evidence-check.md`](03-thesis-evidence-check.md) | The consciousness thesis checked claim by claim against sources |
-| [`04-connection-algorithm.md`](04-connection-algorithm.md) | A social algorithm whose objective is doing and connecting, not attention; how AI gets people back into nature and into each other's skills |
+| [`04-connection-algorithm.md`](04-connection-algorithm.md) | The grounding manifesto: a social algorithm for innovation, empathy, care and doing, not attention; the mind mirror; how it could work and how it could fail |
 | [`05-roadmap-and-risks.md`](05-roadmap-and-risks.md) | What to do first with what exists, and why this might fail |
 | [`SOURCES.md`](SOURCES.md) | Every source used, with year and a confidence tag |
 
@@ -33,4 +33,4 @@ Every factual claim carries one of three tags.
 
 Sources older than two years carry their year in the text. Nothing here is coded. The report is the deliverable.
 
-Written 2026-10-05 from `ashm-023/sylva` at commit `b411e90` and `Aarrushh/reachout` at commit `466f311`.
+Written 2026-10-05 from `ashm-023/sylva` at commit `b411e90` and `Aarrushh/reachout` at commit `466f311`. Chapters 1 and 4 rewritten 2026-10-08 around the author's grounding thesis.
