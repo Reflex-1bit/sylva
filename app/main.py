@@ -23,9 +23,9 @@ from starlette.middleware.base import BaseHTTPMiddleware
 
 load_dotenv()
 
-from app.routers import farm, match, recommendations, sensors  # noqa: E402
+from app.routers import farm, match, nature, recommendations, sensors  # noqa: E402
 
-APP_VERSION = "0.2.0"
+APP_VERSION = "0.3.0"
 API_ONLY = os.getenv("SYLVA_API_ONLY", "").strip().lower() in {"1", "true", "yes", "on"} or bool(
     os.getenv("VERCEL")
 )
@@ -99,6 +99,7 @@ app.include_router(farm.router, prefix="/api/v1", tags=["farm"])
 app.include_router(match.router, prefix="/api/v1", tags=["match"])
 app.include_router(recommendations.router, prefix="/api/v1", tags=["recommendations"])
 app.include_router(sensors.router, prefix="/api/v1", tags=["sensors"])
+app.include_router(nature.router, prefix="/api/v1", tags=["nature"])
 
 FRONTEND_DIST = Path(__file__).resolve().parent.parent / "frontend" / "dist"
 
@@ -168,4 +169,9 @@ if not API_ONLY:
     @app.get("/hardware")
     @app.get("/hardware/")
     def hardware_spa():
+        return _serve_spa_file()
+
+    @app.get("/nature")
+    @app.get("/nature/")
+    def nature_spa():
         return _serve_spa_file()
