@@ -38,21 +38,42 @@ FetchJson = Callable[[str, Optional[dict]], Optional[dict]]
 
 
 def fetch_json(url: str, params: dict | None = None) -> dict | None:
-    """GET a JSON document; None on 404. Other HTTP errors raise."""
+    """GET a JSON document; None on 404.
+
+    Retries timeouts, 429 (honouring Retry-After) and 5xx up to 3 attempts with
+    exponential backoff; raises after the last attempt.
+    """
     import httpx
 
-    resp = httpx.get(url, params=params, timeout=20.0, follow_redirects=True)
-    if resp.status_code == 404:
-        return None
-    resp.raise_for_status()
-    return resp.json()
+    attempts = 3
+    for attempt in range(attempts):
+        last = attempt == attempts - 1
+        wait = 2.0**attempt
+        try:
+            resp = httpx.get(url, params=params, timeout=20.0, follow_redirects=True)
+        except httpx.TransportError:
+            if last:
+                raise
+            time.sleep(wait)
+            continue
+        if resp.status_code == 404:
+            return None
+        if resp.status_code == 429 or resp.status_code >= 500:
+            if last:
+                resp.raise_for_status()
+            retry_after = resp.headers.get("Retry-After", "")
+            time.sleep(min(float(retry_after), 30.0) if retry_after.isdigit() else wait)
+            continue
+        resp.raise_for_status()
+        return resp.json()
+    return None  # unreachable
 
 
 # ── Pure decision functions ───────────────────────────────────────────────────
 
 
 def _tokens(text: str) -> set[str]:
-    folded = unicodedata.normalize("NFKD", text or "")
+    folded = unicodedata.normalize("NFKD", re.sub(r"<[^>]+>", " ", text or ""))
     folded = "".join(c for c in folded if not unicodedata.combining(c)).lower()
     return set(re.findall(r"[a-z0-9]+", folded))
 
@@ -108,48 +129,57 @@ def _crossref_year(message: dict) -> int | None:
 
 # ── Verification ──────────────────────────────────────────────────────────────
 
+NOT_FOUND = "not_found"  # DOI missing / title mismatch: a real verification failure
+ERROR = "error"  # network / HTTP problem: says nothing about the DOI
 
-def verify_evidence(ev: dict, fetch: FetchJson, mailto: str | None) -> tuple[dict, str | None]:
-    """Return (updated evidence dict, failure reason or None)."""
+
+def verify_evidence(
+    ev: dict, fetch: FetchJson, mailto: str | None
+) -> tuple[dict, str | None, str | None]:
+    """Return (updated evidence dict, category or None, reason or None).
+
+    On an ERROR the evidence is returned unchanged.
+    """
     out = dict(ev)
     params = {"mailto": mailto} if mailto else None
     try:
         data = fetch(CROSSREF_URL + quote(ev["doi"], safe="/()"), params)
-    except Exception as exc:  # network / HTTP error: report, do not crash
-        out["verified"] = False
-        return out, f"Crossref error: {exc}"
+    except Exception as exc:
+        return out, ERROR, f"Crossref error: {exc}"
     message = (data or {}).get("message")
     if not message:
         out["verified"] = False
-        return out, "DOI not found on Crossref"
+        return out, NOT_FOUND, "DOI not found on Crossref"
     title = (message.get("title") or [""])[0]
     if not title_matches(title, ev.get("citation", "")):
         out["verified"] = False
-        return out, f"title mismatch: Crossref says {title!r}"
+        return out, NOT_FOUND, f"title mismatch: Crossref says {title!r}"
     out["verified"] = True
     year = _crossref_year(message)
     if year:
         out["year"] = year
-    licence = licence_from_crossref(message.get("license"))
-    out["licence"] = licence
-    out["open_access"] = licence is not None
-    return out, None
+    licenses = message.get("license")
+    if licenses:  # no licence info from Crossref: keep what the record already says
+        licence = licence_from_crossref(licenses)
+        out["licence"] = licence
+        out["open_access"] = licence is not None
+    return out, None, None
 
 
-def match_organism(org: dict, fetch: FetchJson) -> tuple[dict, str]:
-    """Return (updated organism dict, outcome: matched | needs_review | error)."""
+def match_organism(org: dict, fetch: FetchJson) -> tuple[dict, str, str | None]:
+    """Return (updated organism, outcome: matched | needs_review | error, error message)."""
     out = dict(org)
     try:
         match = fetch(GBIF_URL, {"name": org["scientific_name"]})
-    except Exception:
-        return out, "error"
+    except Exception as exc:
+        return out, ERROR, str(exc)
     if not accept_gbif(match):
-        return out, "needs_review"
+        return out, "needs_review", None
     out["gbif_usage_key"] = match["usageKey"]
     out["gbif_match_type"] = match["matchType"]
     if match.get("kingdom"):
         out["kingdom"] = match["kingdom"]
-    return out, "matched"
+    return out, "matched", None
 
 
 def verify_library(
@@ -159,44 +189,66 @@ def verify_library(
     mailto: str | None = None,
     delay: float = 0.1,
 ) -> tuple[list[dict], dict]:
-    """Return (updated records in the same order, report dict)."""
+    """Return (updated records in the same order, report dict).
+
+    Counts and failure lists cover only records whose update was actually kept;
+    records that fail re-validation are listed under "invalid" and left untouched.
+    """
     report: dict = {
         "records": len(records),
         "dois_checked": 0,
         "verified": 0,
         "failed": [],
+        "errors": [],
         "organisms_matched": 0,
         "needs_review": [],
         "invalid": [],
     }
+    cache: dict = {}
+
+    def cached_fetch(url: str, params: dict | None = None):
+        key = (url, json.dumps(params, sort_keys=True))
+        if key not in cache:
+            cache[key] = fetch(url, params)  # errors propagate and are not cached
+            sleep(delay)
+        return cache[key]
+
     updated = []
     for rec in records:
         new = json.loads(json.dumps(rec))
+        local = {"dois_checked": 0, "verified": 0, "organisms_matched": 0,
+                 "failed": [], "errors": [], "needs_review": []}
         for i, ev in enumerate(new.get("evidence", [])):
             if not ev.get("doi"):
                 continue
-            report["dois_checked"] += 1
-            new["evidence"][i], reason = verify_evidence(ev, fetch, mailto)
-            sleep(delay)
-            if reason is None:
-                report["verified"] += 1
+            local["dois_checked"] += 1
+            new["evidence"][i], category, reason = verify_evidence(ev, cached_fetch, mailto)
+            if category is None:
+                local["verified"] += 1
+            elif category == ERROR:
+                local["errors"].append({"id": rec["id"], "doi": ev["doi"], "reason": reason})
             else:
-                report["failed"].append({"id": rec["id"], "doi": ev["doi"], "reason": reason})
+                local["failed"].append({"id": rec["id"], "doi": ev["doi"], "reason": reason})
         org = new.get("organism")
         if org and org.get("scientific_name"):
-            new["organism"], outcome = match_organism(org, fetch)
-            sleep(delay)
+            name = org["scientific_name"]
+            new["organism"], outcome, message = match_organism(org, cached_fetch)
             if outcome == "matched":
-                report["organisms_matched"] += 1
+                local["organisms_matched"] += 1
+            elif outcome == ERROR:
+                local["errors"].append({"id": rec["id"], "scientific_name": name, "reason": f"GBIF error: {message}"})
             else:
-                report["needs_review"].append(
-                    {"id": rec["id"], "scientific_name": org["scientific_name"], "outcome": outcome}
-                )
+                local["needs_review"].append({"id": rec["id"], "scientific_name": name, "outcome": outcome})
         try:
             LibraryRecord.model_validate(new)
         except Exception as exc:
             report["invalid"].append({"id": rec["id"], "error": str(exc)})
-            new = rec  # keep the original rather than write an invalid record
+            updated.append(rec)  # keep the original rather than write an invalid record
+            continue
+        for k in ("dois_checked", "verified", "organisms_matched"):
+            report[k] += local[k]
+        for k in ("failed", "errors", "needs_review"):
+            report[k].extend(local[k])
         updated.append(new)
     return updated, report
 
@@ -205,8 +257,9 @@ def summary_line(report: dict) -> str:
     return (
         f"records={report['records']} dois_checked={report['dois_checked']} "
         f"verified={report['verified']} failed={len(report['failed'])} "
+        f"errors={len(report['errors'])} "
         f"organisms_matched={report['organisms_matched']} "
-        f"needs_review={len(report['needs_review'])}"
+        f"needs_review={len(report['needs_review'])} invalid={len(report['invalid'])}"
     )
 
 
@@ -223,15 +276,17 @@ def main(argv: list[str] | None = None) -> int:
 
     for item in report["failed"]:
         print(f"FAILED {item['id']} {item['doi']}: {item['reason']}")
+    for item in report["errors"]:
+        print(f"ERROR {item['id']} {item.get('doi') or item.get('scientific_name')}: {item['reason']}")
     for item in report["needs_review"]:
         print(f"REVIEW {item['id']} {item['scientific_name']}: {item['outcome']}")
     for item in report["invalid"]:
         print(f"INVALID {item['id']}: {item['error']}")
 
     if not args.dry_run:
-        path.write_text(
-            json.dumps(updated, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
-        )
+        tmp = path.with_suffix(".json.tmp")
+        tmp.write_text(json.dumps(updated, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        os.replace(tmp, path)
     if args.report:
         args.report.write_text(
             json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"

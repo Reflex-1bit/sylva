@@ -117,16 +117,88 @@ def test_dry_run_does_not_write(tmp_path, monkeypatch):
     assert path.read_text(encoding="utf-8") == before
 
 
-def test_invalid_update_keeps_original():
+def _msg(extra=None):
+    m = {"title": ["Purity of the <i>sacred</i> lotus"], "issued": {"date-parts": [[1997]]}}
+    m.update(extra or {})
+    return {"message": m}
+
+
+def _curated():
     rec = _record()
     rec["evidence"][0]["supporting_sentence"] = "quoted"
-    rec["evidence"][0]["licence"] = "CC-BY-4.0"  # valid before; Crossref says no licence below
+    rec["evidence"][0]["licence"] = "CC-BY-4.0"
+    rec["evidence"][0]["open_access"] = True
+    return rec
 
+
+def _run(rec, crossref, gbif=None):
     def fetch(url, params=None):
         if url.startswith(vs.CROSSREF_URL):
-            return {"message": {"title": ["Purity of the sacred lotus"], "issued": {"date-parts": [[1997]]}}}
-        return None
+            if isinstance(crossref, Exception):
+                raise crossref
+            return crossref
+        if isinstance(gbif, Exception):
+            raise gbif
+        return gbif
 
-    updated, report = vs.verify_library([rec], fetch=fetch, sleep=lambda s: None)
+    return vs.verify_library([rec], fetch=fetch, sleep=lambda s: None)
+
+
+def test_curated_licence_preserved_when_crossref_has_none():
+    updated, report = _run(_curated(), _msg())
+    ev = updated[0]["evidence"][0]
+    assert ev["verified"] is True and ev["licence"] == "CC-BY-4.0" and ev["open_access"] is True
+    assert report["invalid"] == [] and report["verified"] == 1
+
+
+def test_invalid_update_keeps_original_and_is_not_counted():
+    rec = _curated()
+    nc = _msg({"license": [{"URL": "https://creativecommons.org/licenses/by-nc/4.0/"}]})
+    updated, report = _run(rec, nc)
     assert updated[0] == rec
-    assert report["invalid"] and report["invalid"][0]["id"] == "lib-0001"
+    assert report["invalid"][0]["id"] == "lib-0001"
+    assert report["verified"] == 0 and report["dois_checked"] == 0
+    assert "invalid=1" in vs.summary_line(report)
+
+
+def test_transient_error_leaves_evidence_unchanged():
+    rec = _record()
+    rec["evidence"][0]["verified"] = True
+    rec["evidence"][0]["year"] = 1997
+    updated, report = _run(rec, RuntimeError("timeout"), RuntimeError("boom"))
+    assert updated[0] == rec
+    assert report["failed"] == [] and len(report["errors"]) == 2
+    assert "Crossref error: timeout" in report["errors"][0]["reason"]
+    assert "GBIF error: boom" in report["errors"][1]["reason"]
+    assert "errors=2" in vs.summary_line(report)
+
+
+def test_crossref_payload_without_title_fails_verification():
+    updated, report = _run(_record(), {"message": {"issued": {"date-parts": [[1997]]}}})
+    assert updated[0]["evidence"][0]["verified"] is False
+    assert report["failed"] and report["errors"] == []
+
+
+def test_markup_in_crossref_title_is_ignored():
+    assert vs.title_matches("Purity of the <jats:italic>sacred</jats:italic> lotus", "Purity of the sacred lotus")
+
+
+def test_duplicate_lookups_are_cached():
+    calls = []
+
+    def fetch(url, params=None):
+        calls.append(url)
+        if url.startswith(vs.CROSSREF_URL):
+            return _msg()
+        return {"usageKey": 1, "matchType": "EXACT", "confidence": 99}
+
+    vs.verify_library([_record("lib-0001"), _record("lib-0002")], fetch=fetch, sleep=lambda s: None)
+    assert len(calls) == 2
+
+
+def test_atomic_write_leaves_no_temp_file(tmp_path, monkeypatch):
+    (tmp_path / "library.json").write_text(json.dumps([_record()]), encoding="utf-8")
+    orig = vs.verify_library
+    monkeypatch.setattr(vs, "verify_library", lambda r, **kw: orig(r, fetch=_fake_fetch, sleep=lambda s: None))
+    vs.main(["--data-dir", str(tmp_path)])
+    assert [p.name for p in tmp_path.iterdir()] == ["library.json"]
