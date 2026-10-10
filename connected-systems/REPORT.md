@@ -1,7 +1,9 @@
 # Freed time, spent on the ground
 
 **A report connecting Sylva, ReachOut, the biomimicry intelligence firm, and the consciousness thesis.**
-Written 2026-10-05. Chapters 1 and 4 rewritten 2026-10-08 around the author's grounding thesis: chapter 1 now leads with the human pattern, and chapter 4 is a manifesto. Chapters 1 to 5 and the sources file hold the depth; this document is the whole argument in one sitting.
+Written 2026-10-05. Chapters 1 and 4 rewritten 2026-10-08 around the author's grounding thesis: chapter 1 now leads with the human pattern, and chapter 4 is a manifesto. Chapters 1 to 5 and the sources file hold the depth; this document is the whole argument in one sitting. On 2026-10-09 the plan this report serves was added as chapter 0, and the business and ethics of the nature-in-industry firm as chapter 6.
+
+**The plan in brief (chapter 0).** The goal is to reroute today's consumption loop into doing. Four parts reach it. **Land:** Sylva, a farm dashboard paired with a field robot, proves that regenerative farming and agroforestry keep soil healthier and earn farmers the subsidies they are owed, with a transition roadmap and financial help; live now. **Industry:** a nature-in-industry firm helps companies look to nature first, through biomimicry and nature-friendly materials, energy, design and process, builds a database of where industry demand is concentrated, and pays reserves a fixed share of every fee; the main focus now. **City:** a co-op-owned supplier for a city's local shops, run like quick commerce, so local retailers get the scale and the demand data the monopolies have; built in parallel in its own repository. **Mind:** the social algorithm in chapter 4, far in the future, because a feed that sends people to do things needs the first three parts to have built things to do.
 
 Tags: [Certain] was read directly from a repository or primary document this session. [Likely] was agreed by several independent sources but not read at the primary source. [Guessing] is an inference to verify. Almost nothing from the web is [Certain] here, because the session's network proxy blocked publisher and government pages; the repository facts are. `SOURCES.md` has every citation.
 
@@ -93,6 +95,8 @@ The money loop is the reason the company exists: a scoped research project pays 
 
 The law supports the pitch's instinct. The Nagoya Protocol defines utilisation as research on genetic or biochemical composition; copying a shape from published literature, without collecting specimens, does not fit that definition, though no legal commentary on biomimicry specifically was found, so confirm it with a lawyer [Likely; inference Guessing]. The new Cali Fund for digital sequence information expects 1 percent of profits or 0.1 percent of revenue from sequence-using companies and had received about 6,000 dollars in total by August 2026 [Likely]; morphology from literature is not sequence data. Tag every trait morphological, biochemical or genetic, gate the last two, quarantine anything from traditional knowledge, and do not call the reserve payment "benefit-sharing".
 
+**The business around it (chapter 6).** Ignore the headline market figures: the 1.6 trillion dollar biomimicry number is a commissioned 2013 projection, and the 20 to 80 billion dollar "biomimetic materials" figures are sales of materials, not spending on advice [Da Vinci Index 2013; AMR 2021, Likely]. Bottom-up, Spain has about 6,000 industrial companies big enough to buy, and the firm needs 10 to 40 of them in three years [INE DIRCE 2025, Certain; arithmetic Guessing]. In 2026 reporting-driven demand shrank while product and decarbonisation rules grew, so the firm leads with eco-design and decarbonisation work that already has money behind it and uses biomimicry as its difference; it sells to heads of R&D, not of sustainability [Omnibus I 2026; ESPR plan 2025; PERTE DI 2026, Likely]. No credible sector map of bio-inspired patents exists, so the database's market map fills a documented gap [Bae 2023, Certain]. A ten-point code, published before the first client, answers the ethics: no claim without a life-cycle assessment, no weapons or surveillance clients, non-invasive and authorised fieldwork, a fixed and published reserve share with a reserve veto, credited local knowledge. Verdict: feasible as a small, honest consultancy with grants in years one and two; not as a pure biomimicry business waiting to be paid for inspiration.
+
 ## 7. Where to innovate
 
 1. Sell provenance: a queryable AI-extracted versus expert-validated flag on every record, which neither AskNature nor Sylva exposes today.
@@ -130,9 +134,11 @@ Five research agents checked the external claims in this report. They could sear
 
 | File | What it holds |
 |---|---|
+| [`00-the-plan.md`](00-the-plan.md) | The plan: one goal, four parts (land, industry, city, mind), their status, how they feed each other, one number per part |
 | [`01-the-pattern.md`](01-the-pattern.md) | The human pattern (freed time, spent grounding) and the router that is its early build: the pitch and the two repos side by side, what each does alone and together |
 | [`02-biomimicry-blueprint.md`](02-biomimicry-blueprint.md) | Record design, pipeline reuse, matcher, money loop, legal map, competition, first six months |
 | [`03-thesis-evidence-check.md`](03-thesis-evidence-check.md) | The thesis checked claim by claim, part by part, with a scorecard and the strong version |
 | [`04-connection-algorithm.md`](04-connection-algorithm.md) | The grounding manifesto: twelve articles for an algorithm built for doing, the mind mirror, the contributor profile, how it could work, how we will know, what would prove it wrong |
 | [`05-roadmap-and-risks.md`](05-roadmap-and-risks.md) | Six steps, what exists for each, ten ways it fails, three results that should stop it |
+| [`06-nature-in-industry.md`](06-nature-in-industry.md) | The nature-in-industry firm: services, market size, 2026 demand drivers, competitors, how to enter the market, the ethics and the firm's code, a feasibility verdict |
 | [`SOURCES.md`](SOURCES.md) | Every source with year and confidence tag, and the list of what could not be verified |

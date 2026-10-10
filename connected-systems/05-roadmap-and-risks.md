@@ -4,6 +4,8 @@ This chapter sequences the work so that each step uses something that already ex
 
 Tags as in the other chapters.
 
+Note added 2026-10-09: the plan (chapter 0) runs Sylva, the nature-in-industry firm and the city supplier in parallel, with the firm as the main focus, and leaves the social algorithm for much later. Read the steps below as the order of work within a shared pilot region, not as gates between the parts. The firm's own three-year shape and stop conditions are in chapter 6.6 and 6.8.
+
 ## 5.1 Sequence
 
 ### Step 0. Write the shared rule down once (one week)
