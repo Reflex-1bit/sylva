@@ -7,7 +7,10 @@ score = evidence (0-30) + provenance (0-25) + fit (0-20)
 Ranking is published and never touched by an LLM.
 """
 
+from typing import Optional
+
 from app.models.nature import LibraryHit, LibraryRecord, MapRecord
+from app.services.nature.keywords import WEAK_KEYWORDS
 from app.services.nature.store import NatureStore
 from app.services.nature.text import normalise, tokenize
 
@@ -17,19 +20,6 @@ FIT_MAX = 20.0
 MANUFACTURABILITY_POINTS = 15
 RESERVE_POINTS = 10
 REGION_POINTS = 5
-
-
-# Generic keywords that never assign a function on their own (mirrors Ruling 3-1 in the
-# OpenAlex harvester). "in water" is one: tokenising drops "in", leaving the bare word
-# "water", which made every water-related challenge parse make-at-ambient-conditions.
-WEAK_KEYWORDS = frozenset(
-    """
-    packaging package container embalaje envase wastewater network red joint joining union
-    detergent detergente strength membrane membrana plantilla templating rigid rigidity sliding
-    bearing lift wing ala motor cuenca seto mixing modular dirt residue wood cork mold mould
-    oxidation cellular flight crack deposit scaling erosion lifetime monitoring reserve
-    """.split()
-) | {"aguas residuales", "in water"}
 
 
 def _contains(haystack: list[str], needle: list[str]) -> bool:
@@ -54,6 +44,41 @@ def _regional_points(rec: LibraryRecord) -> int:
     if rec.source_region is None:
         return 0
     return RESERVE_POINTS if rec.source_region.reserve_id else REGION_POINTS
+
+
+def with_function_candidates(
+    hits: list[tuple[LibraryRecord, float]],
+    parsed_functions: list[str],
+    store: NatureStore,
+    *,
+    areas: Optional[list[str]] = None,
+    functions: Optional[list[str]] = None,
+    sectors: Optional[list[str]] = None,
+    kinds: Optional[list[str]] = None,
+    statuses: Optional[list[str]] = None,
+) -> list[tuple[LibraryRecord, float]]:
+    """Ruling 5-2: add servable records matching a parsed function, with retrieval 0.
+
+    Text search alone finds nothing for a Spanish or Portuguese challenge against an
+    English library. Added records pass the same filters as the search and sit at the
+    bottom of the retrieval normalisation (fit 0). No-op when nothing was parsed.
+    """
+    if not parsed_functions:
+        return list(hits)
+    wanted = set(parsed_functions)
+    seen = {r.id for r, _ in hits}
+    extras = [
+        (r, 0.0)
+        for r in store.library(servable_only=True)
+        if r.id not in seen
+        and wanted & set(r.functions)
+        and (not areas or set(areas) & set(r.areas))
+        and (not functions or set(functions) & set(r.functions))
+        and (not sectors or set(sectors) & set(r.sector_tags))
+        and (not kinds or r.kind in kinds)
+        and (not statuses or r.provenance.status in statuses)
+    ]
+    return list(hits) + extras
 
 
 def score_library(
@@ -85,7 +110,10 @@ def score_library(
 
     out = []
     for rec, raw in kept:
-        norm = (raw - lo) / (hi - lo) if hi > lo else 1.0
+        if hi > lo:
+            norm = (raw - lo) / (hi - lo)
+        else:  # single hit (or all tied): full fit, unless there is no retrieval signal at all
+            norm = 1.0 if hi > 0 else 0.0
         ratio = len(wanted & set(rec.functions)) / len(wanted) if wanted else 1.0
         grade = store.evidence_grade(rec)
         parts = {

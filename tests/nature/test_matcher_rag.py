@@ -429,3 +429,34 @@ async def test_real_data_top_hits_carry_expected_function(no_key, challenge, fun
     top3 = res.library_hits[:3]
     assert all(function in h.record.functions for h in top3)
     assert res.library_hits[0].record.id != wrong_first
+
+
+# ── Ruling 5-2: function-only candidates (Spanish/Portuguese recall) ──────────
+
+
+def test_function_only_candidate_gets_fit_zero_and_respects_filters(tmp_path):
+    store = tier_store(tmp_path)
+    from app.services.nature.matcher import with_function_candidates
+
+    recs = {r.id: r for r in store.library()}
+    out = with_function_candidates([(recs["lib-0001"], 1.0)], ["shed-water"], store)
+    assert [(r.id, s) for r, s in out] == [("lib-0001", 1.0), ("lib-0002", 0.0)]
+    assert with_function_candidates([], [], store) == []  # nothing parsed: no-op
+    assert with_function_candidates([], ["shed-water"], store, kinds=["material"]) == []
+    scored = score_library(out, ["shed-water"], store, [])
+    extra = next(h for h in scored if h.record.id == "lib-0002")
+    assert extra.breakdown["retrieval_raw"] == 0.0
+    assert extra.breakdown["retrieval_normalised"] == 0.0
+    assert extra.breakdown["fit"] == 0.0
+    # only function-only candidates: no retrieval signal at all, fit stays 0
+    (only,) = score_library([(recs["lib-0002"], 0.0)], ["shed-water"], store, [])
+    assert only.breakdown["fit"] == 0.0
+
+
+@pytest.mark.asyncio
+async def test_spanish_challenge_finds_english_records_real_data(no_key):
+    store = NatureStore(DEFAULT_DIR)
+    res = await ask(AskRequest(challenge="superficie que repele la suciedad"), store, NatureSearch(store))
+    assert "self-clean" in res.parsed_functions
+    assert len(res.library_hits) >= 3
+    assert all("self-clean" in h.record.functions for h in res.library_hits)

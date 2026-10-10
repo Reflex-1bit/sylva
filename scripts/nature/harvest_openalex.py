@@ -42,6 +42,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _files import write_json_atomic  # noqa: E402
 from _http import fetch_json  # noqa: E402
 from app.models.nature import MapRecord  # noqa: E402
+from app.services.nature.keywords import WEAK_KEYWORDS  # noqa: E402
 from app.services.nature.store import DEFAULT_DIR  # noqa: E402
 
 OPENALEX_URL = "https://api.openalex.org/works"
@@ -96,16 +97,6 @@ LINK_RULES = [
                                "humedal", "infraestructura verde"]),
 ]
 
-# Generic keywords that must never assign a function on their own (they were the main
-# source of false labels in the v0 sample). A function therefore needs a non-weak
-# keyword hit; weak keywords are ignored. Matched after accent folding.
-WEAK_KEYWORDS = {
-    "packaging", "package", "container", "embalaje", "envase", "wastewater", "aguas residuales",
-    "network", "red", "joint", "joining", "union", "detergent", "detergente", "strength",
-    "membrane", "membrana", "plantilla", "templating", "rigid", "rigidity", "sliding", "bearing",
-    "lift", "wing", "ala", "motor", "cuenca", "seto", "mixing", "modular", "dirt", "residue",
-    "wood", "cork", "mold", "mould", "oxidation", "cellular", "flight", "crack", "deposit", "scaling", "erosion", "lifetime", "monitoring", "reserve", "in water",
-}
 # Spanish/Portuguese keywords apply only when the title looks Spanish or Portuguese.
 _ES_PT_WORDS = {"de", "la", "el", "los", "las", "del", "para", "con", "em", "uma", "dos", "das",
                 "por", "una", "con", "sobre", "mediante"}

@@ -33,7 +33,7 @@ from app.models.nature import (
 from app.services import rag_service
 from app.services.nature import rag
 from app.services.nature.links import sector_gaps, sectors_for_record
-from app.services.nature.matcher import parse_functions, score_library
+from app.services.nature.matcher import parse_functions, score_library, with_function_candidates
 from app.services.nature.search import NatureSearch
 from app.services.nature.store import NatureDataError, NatureStore, get_store
 
@@ -147,6 +147,16 @@ async def list_library(
                 statuses=[status] if status else None,
                 k=limit * 3,
                 api_key=rag_service._api_key(),
+            )
+            raw = with_function_candidates(
+                raw,
+                functions,
+                store,
+                areas=[area] if area else None,
+                functions=[function] if function else None,
+                sectors=[sector] if sector else None,
+                kinds=[kind] if kind else None,
+                statuses=[status] if status else None,
             )
             return score_library(raw, functions, store, store.industry_map())[:limit]
 

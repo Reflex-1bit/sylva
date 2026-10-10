@@ -14,7 +14,7 @@ from typing import Optional
 from app.models.nature import AskRequest, AskResponse, LibraryHit, MapHit
 from app.services import rag_service
 from app.services.nature.links import sector_gaps
-from app.services.nature.matcher import parse_functions, score_library
+from app.services.nature.matcher import parse_functions, score_library, with_function_candidates
 from app.services.nature.search import NatureSearch
 from app.services.nature.store import NatureStore
 
@@ -209,6 +209,7 @@ async def ask(req: AskRequest, store: NatureStore, search: NatureSearch) -> AskR
     )
     map_raw = await search.search_map(req.challenge, sector=req.sector, k=MAP_K, api_key=api_key)
 
+    lib_raw = with_function_candidates(lib_raw, functions, store, areas=req.areas or None)
     hits = score_library(
         lib_raw, functions, store, store.industry_map(), strict_functions=req.strict_functions
     )[: req.top_k]
