@@ -85,6 +85,8 @@ def _verdict(hits: list[LibraryHit]) -> str:
     if not hits:
         return "no_strong_option"
     top = hits[0]
+    if top.breakdown.get("tier") == 2:  # no hit overlaps the parsed functions
+        return "weak"
     if top.score >= PROMISING_SCORE and top.evidence_grade in ("strong", "moderate"):
         return "promising"
     return "weak"

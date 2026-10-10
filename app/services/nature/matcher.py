@@ -9,7 +9,7 @@ Ranking is published and never touched by an LLM.
 
 from app.models.nature import LibraryHit, LibraryRecord, MapRecord
 from app.services.nature.store import NatureStore
-from app.services.nature.text import tokenize
+from app.services.nature.text import normalise, tokenize
 
 EVIDENCE_POINTS = {"strong": 30, "moderate": 20, "weak": 10, "contested": 0}
 PROVENANCE_POINTS = {"expert_validated": 25, "ai_extracted": 10, "disputed": 0}
@@ -17,6 +17,19 @@ FIT_MAX = 20.0
 MANUFACTURABILITY_POINTS = 15
 RESERVE_POINTS = 10
 REGION_POINTS = 5
+
+
+# Generic keywords that never assign a function on their own (mirrors Ruling 3-1 in the
+# OpenAlex harvester). "in water" is one: tokenising drops "in", leaving the bare word
+# "water", which made every water-related challenge parse make-at-ambient-conditions.
+WEAK_KEYWORDS = frozenset(
+    """
+    packaging package container embalaje envase wastewater network red joint joining union
+    detergent detergente strength membrane membrana plantilla templating rigid rigidity sliding
+    bearing lift wing ala motor cuenca seto mixing modular dirt residue wood cork mold mould
+    oxidation cellular flight crack deposit scaling erosion lifetime monitoring reserve
+    """.split()
+) | {"aguas residuales", "in water"}
 
 
 def _contains(haystack: list[str], needle: list[str]) -> bool:
@@ -31,7 +44,8 @@ def parse_functions(text: str, taxonomy: dict) -> list[str]:
     found = []
     for fn in taxonomy.get("functions", []):
         keywords = [*fn.get("keywords_en", []), *fn.get("keywords_es", [])]
-        if any(_contains(tokens, tokenize(k)) for k in keywords):
+        strong = [k for k in keywords if normalise(k).strip() not in WEAK_KEYWORDS]
+        if any(_contains(tokens, tokenize(k)) for k in strong):
             found.append(fn["id"])
     return found
 
@@ -54,7 +68,9 @@ def score_library(
     With strict_functions and at least one parsed function, records with no
     function overlap are removed before the retrieval score is min-max
     normalised over the remaining hit list (top = 1.0, bottom = 0.0, a single
-    hit = 1.0). Sorted by score descending, then id.
+    hit = 1.0). Ruling 5-1: when functions were parsed, hits with function overlap
+    (tier 1) sort before those without (tier 2); within a tier by score descending,
+    then id. Scores are unchanged; `breakdown["tier"]` publishes the tier.
     """
     wanted = set(parsed_functions)
     kept = [(r, s) for r, s in hits if store.is_servable(r)]
@@ -83,6 +99,7 @@ def score_library(
         }
         breakdown = {
             **{k: round(v, 4) for k, v in parts.items()},
+            "tier": float(1 if (not wanted or ratio > 0) else 2),
             "retrieval_raw": round(raw, 6),
             "retrieval_normalised": round(norm, 6),
             "function_overlap_ratio": round(ratio, 6),
@@ -95,5 +112,5 @@ def score_library(
                 evidence_grade=grade,
             )
         )
-    out.sort(key=lambda h: (-h.score, h.record.id))
+    out.sort(key=lambda h: (h.breakdown["tier"], -h.score, h.record.id))
     return out

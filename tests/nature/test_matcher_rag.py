@@ -366,3 +366,66 @@ async def test_ask_never_surfaces_quarantined_link(tmp_path, no_key):
     res = await run_ask(store, sector="packaging", challenge="Water repellent self-cleaning cartons")
     assert "lib-0009" not in res.model_dump_json()
     assert res.map_hits[0].record.library_links == ["lib-0001"]
+
+
+# ── Ruling 5-1: function-overlap tiers ────────────────────────────────────────
+
+
+def tier_store(tmp_path):
+    strong_off = lib(id="lib-0001", functions=["self-clean"], known_products=["X"],
+                     provenance={**PROV, "status": "expert_validated",
+                                 "validated_by": "Dr X", "validated_on": "2026-02-01"})
+    weak_on = lib(id="lib-0002", functions=["shed-water"], organism=None,
+                  evidence=[{"citation": "A"}], performance=[])
+    return make_store(tmp_path, [strong_off, weak_on])
+
+
+def test_overlapping_low_evidence_outranks_non_overlapping_high_evidence(tmp_path):
+    store = tier_store(tmp_path)
+    recs = {r.id: r for r in store.library()}
+    hits = [(recs["lib-0001"], 1.0), (recs["lib-0002"], 0.9)]
+    out = score_library(hits, ["shed-water"], store, [])
+    assert [h.record.id for h in out] == ["lib-0002", "lib-0001"]
+    assert out[0].breakdown["tier"] == 1 and out[1].breakdown["tier"] == 2
+    assert out[1].score > out[0].score  # published scores are unchanged
+    # no parsed functions: single tier, ordered by score
+    out = score_library(hits, [], store, [])
+    assert [h.record.id for h in out] == ["lib-0001", "lib-0002"]
+    assert {h.breakdown["tier"] for h in out} == {1}
+
+
+@pytest.mark.asyncio
+async def test_tier_two_only_verdict_is_weak(tmp_path, no_key):
+    store = tier_store(tmp_path)
+    # request.functions asks for cool-passively; neither record has it, so all hits are tier 2
+    res = await run_ask(store, challenge="roughness traps air", functions=["cool-passively"])
+    top = res.library_hits[0]
+    assert top.breakdown["tier"] == 2
+    assert top.score >= 60 and top.evidence_grade in ("strong", "moderate")
+    assert res.verdict == "weak"
+
+
+def test_weak_keyword_alone_does_not_assign_function():
+    tax = {"functions": [{"id": "amb", "keywords_en": ["in water", "ambient"], "keywords_es": []},
+                         {"id": "cap", "keywords_en": ["capture water"], "keywords_es": []}]}
+    assert parse_functions("capture water from air", tax) == ["cap"]
+    assert parse_functions("ambient conditions", tax) == ["amb"]
+    real = NatureStore(DEFAULT_DIR).taxonomy()
+    assert "make-at-ambient-conditions" not in parse_functions("capture water from air", real)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "challenge, function, wrong_first",
+    [
+        ("capture water from air", "capture-water", "lib-0001"),
+        ("lighter structural component for cars", "lighten-structure", "lib-0037"),
+    ],
+)
+async def test_real_data_top_hits_carry_expected_function(no_key, challenge, function, wrong_first):
+    store = NatureStore(DEFAULT_DIR)
+    res = await ask(AskRequest(challenge=challenge), store, NatureSearch(store))
+    assert function in res.parsed_functions
+    top3 = res.library_hits[:3]
+    assert all(function in h.record.functions for h in top3)
+    assert res.library_hits[0].record.id != wrong_first
