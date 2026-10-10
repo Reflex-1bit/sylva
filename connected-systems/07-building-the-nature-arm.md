@@ -103,6 +103,14 @@ The steps overlap. Months are counted from the day you start; they are targets t
 - **Output:** the library, version 0, published openly, with its coverage statistics on the front page (how many records, how many validated, how many with measured values).
 - **Done when:** a client question in one of the chosen sectors returns at least five relevant records with sources.
 
+> **Build status (2026-10-10).** Version 0 of both databases and the tool that searches them are built and in the repository. This is software and seed data, not the finished step: nothing in the library is expert-validated yet.
+>
+> - **Library:** 66 records, 61 served and 5 held back (biochemical or genetic traits waiting on legal review; the serving gate is in `app/services/nature/store.py`). Provenance is `ai_extracted` for 57 served records and `disputed` for 4. Two records carry a measured value. 87 of 88 DOIs verify against Crossref.
+> - **Map:** 502 papers and 5 companies in Spain and Portugal across ten sectors, harvested from OpenAlex. Only about 31% of papers carry a problem label, because the labels come from keywords and precision was favoured over recall (about 22% of the labels are estimated doubtful). Sector gaps are therefore computed from classified papers only, and the unclassified count is shown beside them.
+> - **Search and answers:** `app/services/nature/` and `app/routers/nature.py`, with a `/nature` page in `frontend/src/Nature.jsx`. Ranking is the published formula plus two rules: records matching the challenge's parsed functions rank first, and records carrying those functions are added even when the text does not match, which is how Spanish and Portuguese challenges find the English records. The model only phrases the answer and can cite only retrieved ids. Without `GEMINI_API_KEY` the answers are a deterministic fallback; the embedding and model paths are tested with mocks only.
+> - **Pipeline:** `scripts/nature/` holds the validator, the DOI checker, the OpenAlex harvester, the index builder, the extraction pipeline and the review tool.
+> - **Not yet done:** the "at least five relevant records" check passes on five test challenges, not on client questions. Expert validation, patents and grants in the map, and links between map items and library records are still to do. The datasheet and known gaps are in `data/nature/README.md`.
+
 ### Step 6. Sign the first partners (months 2 to 6)
 
 - **Do:** one reserve or land-stewardship body (much of the dehesa is private, so a private estate or a stewardship organisation may be the first, not a park [Extremadura forests 2021, Likely]); one university group with a biologist and an engineer, for validation and bench tests; introductions to Biomimicry Iberia, the Spanish business and biodiversity initiative (IEEB) and EUROPARC-España. Use Sylva's existing relationships with farmers and landscapes first.

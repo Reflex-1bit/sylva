@@ -17,6 +17,7 @@ a global 30-year financial + carbon engine.
 | Web UI | ✅ `frontend/` served at `/` |
 | ESP32 soil node prototype | ✅ `hardware/esp32/` |
 | Sensor ingest stub | ✅ `/sensors/ingest` |
+| Nature arm: open nature library + industry R&D map, search and RAG | ✅ `/api/v1/nature/*`, `/nature` (v0) |
 
 ## Realistic scope (keep it narrow)
 
@@ -97,13 +98,39 @@ With a key, Gemini writes richer JSON using retrieved knowledge chunks.
 | POST | `/api/v1/sensors/ingest` | ESP32 batch upload |
 | GET | `/api/v1/sensors/{id}/latest` | Recent node samples |
 
+### Nature arm endpoints
+
+| Method | Path | Description |
+|---|---|---|
+| GET | `/api/v1/nature/meta` | Taxonomy, licence and attribution |
+| GET | `/api/v1/nature/stats` | Coverage statistics (served records) |
+| GET | `/api/v1/nature/library` | Search or filter the nature library (`q`, `area`, `function`, `sector`, `kind`, `status`) |
+| GET | `/api/v1/nature/library/{id}` | One library record |
+| GET | `/api/v1/nature/map` | Search or filter the industry R&D map |
+| GET | `/api/v1/nature/map/{id}` | One map record |
+| GET | `/api/v1/nature/sectors` | Sectors |
+| GET | `/api/v1/nature/sectors/{id}/gaps` | Sector gaps (classified papers only, unclassified count shown) |
+| POST | `/api/v1/nature/ask` | Challenge in, ranked records and a cited answer out |
+| GET | `/api/v1/nature/export/{db}?format=json` or `csv` | Open export; `db` is `library` (served records only) or `map` |
+
+```bash
+curl -X POST http://localhost:8000/api/v1/nature/ask \
+  -H "Content-Type: application/json" \
+  -d '{"challenge":"surface that sheds dirt without detergent"}'
+```
+
+Without `GEMINI_API_KEY`, `ask` uses BM25 plus function recall and a deterministic
+answer. To switch on embeddings and the model-written answer, set the key and run
+`python scripts/nature/build_index.py`. The datasheet, licence (CC BY 4.0) and known
+gaps are in [`data/nature/README.md`](data/nature/README.md).
+
 ## Project layout
 
 ```
 sylva/
 ├── app/
 │   ├── main.py
-│   ├── routers/          # farm, match, recommendations, sensors
+│   ├── routers/          # farm, match, recommendations, sensors, nature
 │   ├── services/         # soil, topo, ndvi, gbif, species_match, rag
 │   └── models/
 ├── frontend/             # React (Vite) UI
@@ -111,6 +138,9 @@ sylva/
 │   └── dist/             # production build (npm run build)
 ├── hardware/esp32/       # soil node firmware + BOM map
 ├── data/species_db.json
+├── data/nature/          # open nature library + industry R&D map (CC BY 4.0)
+├── app/services/nature/  # store, text, bm25, embeddings, search, matcher, links, rag
+├── scripts/nature/       # validate, verify sources, harvest, index, extract, review
 ├── scripts/ingest_aft_pdfs.py
 └── requirements.txt
 ```
@@ -126,6 +156,8 @@ payload schema, and why ESP32 is the field unit (Pi LLM is optional later).
 - [x] Suitability filter + recommendations API
 - [x] RAG plan with Gemini + offline fallback
 - [x] ESP32 soil-node sketch + ingest stub
+- [x] Nature arm v0: 66-record nature library, 507-record Iberian industry map, search + RAG, `/nature` page
+- [ ] Nature arm: expert validation of library records, patents and grants in the map, embeddings live (needs `GEMINI_API_KEY`)
 - [ ] Weatherproof pilot BOM + solar
 - [ ] One-region subsidy checklist (human-in-the-loop)
 - [ ] Persist sensor time-series (Postgres/Timescale)

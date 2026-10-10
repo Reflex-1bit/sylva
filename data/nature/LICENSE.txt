@@ -1,0 +1,50 @@
+Sylva nature databases: licence notice
+
+Covered files
+  data/nature/taxonomy.json
+  data/nature/library.json
+  data/nature/industry_map.json
+  data/nature/README.md
+
+Licence
+  These files are released under the Creative Commons Attribution 4.0
+  International licence (CC BY 4.0).
+  Full text: https://creativecommons.org/licenses/by/4.0/legalcode
+  Summary:   https://creativecommons.org/licenses/by/4.0/
+
+  You may copy, redistribute, adapt and use the data for any purpose,
+  including commercial use, provided you give attribution, link to the
+  licence and indicate whether you made changes.
+
+Attribution string (use this wording)
+  Sylva — nature library and industry R&D map, CC BY 4.0
+
+Third-party data keeps its own licence
+  The databases contain facts taken from other open sources. Those facts
+  stay under the licence of their source, not under this one.
+  - GBIF names and usage keys: CC BY 4.0 (https://www.gbif.org). Cite GBIF
+    when you reuse them.
+  - OpenAlex records (DOI, title, year, institutions, topics): CC0
+    (https://openalex.org).
+  - Crossref bibliographic metadata (DOI, title, year, licence flags):
+    metadata is free to reuse (https://www.crossref.org/documentation/).
+  - NACE Rev.2.1 / CNAE-2025 codes and the Horizon Europe TRL wording are
+    public-body classifications and definitions, quoted for reference.
+  Publisher abstracts are not stored. A supporting sentence is quoted only
+  from papers whose own licence is CC BY or CC0.
+
+Not covered, link only
+  AskNature text and taxonomy are not copied. The database holds links to
+  AskNature pages in the "see_also" field and nothing else from that site.
+  Sylva's own data/species_db.json is a different dataset and is not covered
+  by this notice.
+
+Status of the licence choice
+  CC BY 4.0 is the current choice. Whether to use CC BY 4.0 or CC0 is still
+  open (connected-systems/07-building-the-nature-arm.md, section 7.9,
+  item 4). Until that is settled, treat CC BY 4.0 as binding.
+
+Warranty
+  The data is provided as is. Records marked ai_extracted have not been
+  checked by an expert. Read the caveat field on every record before using
+  it in a decision.
