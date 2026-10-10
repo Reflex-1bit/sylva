@@ -33,7 +33,7 @@ Generated with `python scripts/nature/validate_db.py --markdown`.
 | Map by country | ES 322, PT 185 |
 | Map by sector | steel-aluminium 58, construction-materials 59, packaging 57, cosmetics 51, textiles 53, automotive 47, energy 42, agrifood 41, water-utilities 50, chemicals 49 |
 
-Source checks: 154 of 155 DOIs in the library verify against Crossref (see Known gaps for the one that does not).
+Source checks: 153 of 154 DOIs in the library verify against Crossref (see Known gaps for the one that does not).
 
 The library was extended on 2026-10-11 (lib-0067 to lib-0109).
 
@@ -160,7 +160,7 @@ Reviewers are welcome, especially for traditional knowledge (consent) and the bi
 - **The map holds papers and companies only.** No patents, grants or projects in v0. Company type comes from OpenAlex and is taken at face value (a synchrotron facility is tagged as a company).
 - **Map labels are not linked to the library yet.** `library_links` is empty until reviewers set it.
 - **Iberia only.** Spain and Portugal, 10 sectors. Titles and summaries are English; only some common names are Spanish or Portuguese. Spanish and Portuguese challenges work through function keywords.
-- **One DOI does not verify automatically.** Chertow 2000 is correct, but its Crossref title contains markup, so the title check fails. 154 of 155 DOIs verify.
+- **One DOI does not verify automatically.** Chertow 2000 is correct, but its Crossref title contains markup, so the title check fails. 153 of 154 DOIs verify.
 - **`known_products` is loose.** Some entries are product categories rather than specific products, and still earn the manufacturability points.
 - **Keyword overlaps.** A few terms (superhydrophobic, aerodynamics) sit under two neighbouring functions, so a query can pull in both.
 - **Embeddings and the model path are untested live.** They need `GEMINI_API_KEY` (or `GOOGLE_API_KEY`).
