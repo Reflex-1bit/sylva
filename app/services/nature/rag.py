@@ -24,7 +24,7 @@ PROMISING_SCORE = 60.0
 MAP_K = 10
 FALLBACK_OPTIONS = 5
 
-_ID_RE = re.compile(r"\b(?:lib|map)-[0-9A-Za-z]+\b")
+_ID_RE = re.compile(r"(?i)\b(?:lib|map)-\d{4,}\b")  # "map-based" is not an id
 _BRACKET_RE = re.compile(r"\[([^\[\]]*)\]")
 _KEY_RE = re.compile(r"AIza[0-9A-Za-z_-]{20,}")
 
@@ -102,11 +102,13 @@ def _verdict(hits: list[LibraryHit]) -> str:
 
 
 def _clean_text(text: str, allowed: set[str], dropped: set[str]) -> str:
-    """Remove ids not in `allowed` from text, recording them in `dropped`."""
+    """Remove ids not in `allowed` from text, recording them in `dropped`.
+
+    Ids match case-insensitively; a kept id is written in its canonical lower case.
+    """
 
     def bracket(m: re.Match) -> str:
-        inner = m.group(1)
-        ids = _ID_RE.findall(inner)
+        ids = [i.lower() for i in _ID_RE.findall(m.group(1))]
         if not ids:
             return m.group(0)
         keep = [i for i in ids if i in allowed]
@@ -116,42 +118,53 @@ def _clean_text(text: str, allowed: set[str], dropped: set[str]) -> str:
     text = _BRACKET_RE.sub(bracket, text)
 
     def bare(m: re.Match) -> str:
-        if m.group(0) in allowed:
-            return m.group(0)
-        dropped.add(m.group(0))
+        rid = m.group(0).lower()
+        if rid in allowed:
+            return rid
+        dropped.add(rid)
         return ""
 
     text = _ID_RE.sub(bare, text)
     return re.sub(r"[ \t]{2,}", " ", text).strip()
 
 
-def citation_guard(raw: dict, allowed_ids: set[str]) -> dict:
-    """Return a sanitised answer: only allowed record ids survive.
+def citation_guard(raw: dict, ranked_ids: list[str]) -> dict:
+    """Return a sanitised answer: only retrieved record ids survive.
 
-    Drops options whose record_id was not retrieved, strips unknown
-    [lib-...]/[map-...] ids from all text, and lists everything removed in
-    answer["_guard"]["dropped_ids"]. Unknown keys from the model are discarded.
+    `ranked_ids` holds the library ids in published rank order, then the map ids
+    in map rank order. Options whose record_id was not retrieved are dropped,
+    duplicates collapse to the first, and the rest are put in `ranked_ids` order,
+    so the model cannot re-rank. Unknown [lib-...]/[map-...] ids are stripped from
+    all text and listed in answer["_guard"]["dropped_ids"]. Unknown keys from the
+    model are discarded; a non-object answer yields an empty one.
     """
+    rank = {rid: i for i, rid in enumerate(ranked_ids)}
+    allowed = set(rank)
     dropped: set[str] = set()
+    if not isinstance(raw, dict):
+        raw = {}
 
     def text(value) -> str:
-        return _clean_text(value, allowed_ids, dropped) if isinstance(value, str) else ""
+        return _clean_text(value, allowed, dropped) if isinstance(value, str) else ""
 
     def text_list(value) -> list[str]:
         return [t for t in (text(v) for v in value) if t] if isinstance(value, list) else []
 
-    options = []
+    options: dict[str, dict] = {}
     for opt in raw.get("options") if isinstance(raw.get("options"), list) else []:
         rid = opt.get("record_id") if isinstance(opt, dict) else None
-        if not isinstance(rid, str) or rid not in allowed_ids:
-            if isinstance(rid, str):
-                dropped.add(rid)
+        if not isinstance(rid, str):
             continue
-        options.append({"record_id": rid, "why": text(opt.get("why")), "caveat": text(opt.get("caveat"))})
+        rid = rid.strip().lower()
+        if rid not in allowed:
+            dropped.add(rid)
+            continue
+        if rid not in options:
+            options[rid] = {"record_id": rid, "why": text(opt.get("why")), "caveat": text(opt.get("caveat"))}
 
     answer = {
         "summary": text(raw.get("summary")),
-        "options": options,
+        "options": sorted(options.values(), key=lambda o: rank[o["record_id"]]),
         "open_questions": text_list(raw.get("open_questions")),
         "next_steps": text_list(raw.get("next_steps")),
     }
@@ -247,8 +260,12 @@ async def ask(req: AskRequest, store: NatureStore, search: NatureSearch) -> AskR
         )
         try:
             raw, model_used = await rag_service._call_gemini(api_key, prompt)
-            allowed = {h.record.id for h in hits} | {h.record.id for h in map_hits}
-            answer = citation_guard(raw, allowed)
+            if not isinstance(raw, dict):
+                raise ValueError(f"model returned a JSON {type(raw).__name__}, not an object")
+            ranked = [h.record.id for h in hits] + [h.record.id for h in map_hits]
+            answer = citation_guard(raw, ranked)
+            if not answer["options"]:  # the guard removed every option: use the ranked ones
+                answer["options"] = _fallback_answer(verdict, hits, functions)["options"]
             model = model_used
         except Exception as exc:
             log.warning(

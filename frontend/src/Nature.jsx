@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   askNature,
-  fetchLibraryRecord,
   fetchNatureMeta,
   fetchNatureStats,
   fetchSectorGaps,
@@ -42,6 +41,7 @@ const VERDICT_LABEL = {
 }
 
 const pct = (x) => `${Math.round((x || 0) * 100)}%`
+const LIBRARY_LIMIT = 100 // the API maximum; v0 serves fewer records than this
 
 function labelMap(list, key = 'label') {
   const out = {}
@@ -130,7 +130,23 @@ function EvidenceLinks({ evidence }) {
   )
 }
 
-function RecordCard({ record, grade, why, caveat, labels }) {
+// A model-written caveat is shown apart from the record's own, and only when it adds something.
+function modelNoteFor(note, recordCaveat) {
+  const text = typeof note === 'string' ? note.trim() : ''
+  return text && text !== (recordCaveat || '').trim() ? text : ''
+}
+
+function ModelNote({ note }) {
+  if (!note) return null
+  return (
+    <p className="nat-caveat">
+      <strong>Model note: </strong>
+      {note}
+    </p>
+  )
+}
+
+function RecordCard({ record, grade, why, modelNote, labels }) {
   const organism = record.organism
   return (
     <article className="nat-card">
@@ -159,8 +175,9 @@ function RecordCard({ record, grade, why, caveat, labels }) {
       </div>
       <p className="nat-caveat">
         <strong>Caveat: </strong>
-        {caveat || record.caveat}
+        {record.caveat}
       </p>
+      <ModelNote note={modelNoteFor(modelNote, record.caveat)} />
       {record.popular_claim_note && <p className="nat-caveat">{record.popular_claim_note}</p>}
       <EvidenceLinks evidence={record.evidence} />
       {(record.see_also || []).filter(safeUrl).length > 0 && (
@@ -247,7 +264,6 @@ function AskTab({ meta, labels }) {
   const [phase, setPhase] = useState('idle')
   const [error, setError] = useState('')
   const [result, setResult] = useState(null)
-  const [extra, setExtra] = useState({})
 
   const tooShort = challenge.trim().length < 8
   const toggleArea = (id) => setAreas((a) => (a.includes(id) ? a.filter((x) => x !== id) : [...a, id]))
@@ -258,24 +274,10 @@ function AskTab({ meta, labels }) {
     setPhase('loading')
     setError('')
     setResult(null)
-    setExtra({})
     try {
       const res = await askNature({ challenge: challenge.trim(), sector: sector || null, areas })
       setResult(res)
       setPhase('done')
-      // Options are normally in library_hits; fetch only ids that are missing.
-      const have = new Set([
-        ...res.library_hits.map((h) => h.record.id),
-        ...(res.map_hits || []).map((h) => h.record.id),
-      ])
-      const missing = (res.answer?.options || [])
-        .map((o) => o.record_id)
-        .filter((id) => !have.has(id) && String(id).startsWith('lib-'))
-      for (const id of missing) {
-        fetchLibraryRecord(id)
-          .then((r) => setExtra((x) => ({ ...x, [id]: r })))
-          .catch(() => setExtra((x) => ({ ...x, [id]: { failed: true } })))
-      }
     } catch (err) {
       setError(err.message || 'Something went wrong')
       setPhase('error')
@@ -283,16 +285,20 @@ function AskTab({ meta, labels }) {
   }
 
   const answer = result?.answer
-  const hitById = useMemo(() => {
+  // The cards follow Sylva's published ranking (library_hits); the model only adds "why" text.
+  const optionById = useMemo(() => {
     const m = {}
-    for (const h of result?.library_hits || []) m[h.record.id] = h
+    for (const o of result?.answer?.options || []) if (!(o.record_id in m)) m[o.record_id] = o
     return m
   }, [result])
-  const mapById = useMemo(() => {
-    const m = {}
-    for (const h of result?.map_hits || []) m[h.record.id] = h.record
-    return m
-  }, [result])
+  const mapOptions = useMemo(() => {
+    const mapById = {}
+    for (const h of result?.map_hits || []) mapById[h.record.id] = h.record
+    return Object.values(optionById)
+      .filter((o) => mapById[o.record_id])
+      .map((o) => ({ option: o, record: mapById[o.record_id] }))
+  }, [result, optionById])
+  const rankedHits = result?.library_hits || []
   const isFallback = result?.model?.startsWith('fallback')
 
   return (
@@ -354,36 +360,28 @@ function AskTab({ meta, labels }) {
           )}
           {answer.summary && <p className="nat-summary">{answer.summary}</p>}
 
-          {(answer.options || []).length > 0 && (
+          {(rankedHits.length > 0 || mapOptions.length > 0) && (
             <section aria-label="Options">
               <h3>Options</h3>
+              <p className="nat-note">In rank order, by Sylva&apos;s published scoring.</p>
               <div className="nat-grid">
-                {answer.options.map((o) => {
-                  const hit = hitById[o.record_id]
-                  const mapRec = !hit && mapById[o.record_id]
-                  if (mapRec) {
-                    return (
-                      <div key={o.record_id}>
-                        {o.why && <p className="nat-why">{o.why}</p>}
-                        <MapCard record={mapRec} labels={labels} />
-                        {o.caveat && <p className="nat-caveat"><strong>Caveat: </strong>{o.caveat}</p>}
-                      </div>
-                    )
-                  }
-                  const record = hit?.record || extra[o.record_id]?.record
-                  const grade = hit?.evidence_grade || extra[o.record_id]?.evidence_grade
-                  if (!record) {
-                    const failed = extra[o.record_id]?.failed || !String(o.record_id).startsWith('lib-')
-                    return (
-                      <p key={o.record_id} className="nat-muted">
-                        {failed ? `Record ${o.record_id} is unavailable.` : `Loading ${o.record_id}…`}
-                      </p>
-                    )
-                  }
-                  return (
-                    <RecordCard key={o.record_id} record={record} grade={grade} why={o.why} caveat={o.caveat} labels={labels} />
-                  )
-                })}
+                {rankedHits.map((h) => (
+                  <RecordCard
+                    key={h.record.id}
+                    record={h.record}
+                    grade={h.evidence_grade}
+                    why={optionById[h.record.id]?.why}
+                    modelNote={optionById[h.record.id]?.caveat}
+                    labels={labels}
+                  />
+                ))}
+                {mapOptions.map(({ option, record }) => (
+                  <div key={record.id}>
+                    {option.why && <p className="nat-why">{option.why}</p>}
+                    <MapCard record={record} labels={labels} />
+                    <ModelNote note={modelNoteFor(option.caveat, '')} />
+                  </div>
+                ))}
               </div>
             </section>
           )}
@@ -422,9 +420,6 @@ function AskTab({ meta, labels }) {
           )}
 
           {answer.sector_gaps && <SectorGaps data={answer.sector_gaps} labels={labels} />}
-          {result.gaps?.length > 0 && (
-            <p className="nat-muted">Unmet needs noted: {result.gaps.join('; ')}</p>
-          )}
         </div>
       )}
     </div>
@@ -445,7 +440,7 @@ function LibraryTab({ meta, labels }) {
     setPhase('loading')
     setError('')
     const timer = setTimeout(() => {
-      searchLibrary({ ...f, q: f.q.trim(), limit: 30 })
+      searchLibrary({ ...f, q: f.q.trim(), limit: LIBRARY_LIMIT })
         .then((r) => live && (setHits(r), setPhase('done')))
         .catch((e) => live && (setError(e.message), setPhase('error')))
     }, 250)

@@ -233,7 +233,7 @@ def test_citation_guard_pure_function():
         "next_steps": "not a list",
         "verdict": "promising",
     }
-    out = citation_guard(raw, {"lib-0001", "map-0001"})
+    out = citation_guard(raw, ["lib-0001", "map-0001"])
     assert out["summary"] == "Use the lotus surface [lib-0001] or [map-0001]; also works."
     assert [o["record_id"] for o in out["options"]] == ["lib-0001"]
     assert out["options"][0]["why"] == "Good [lib-0001]"
@@ -242,6 +242,39 @@ def test_citation_guard_pure_function():
     assert "verdict" not in out
     assert out["_guard"]["dropped_ids"] == [
         "lib-4242", "lib-5555", "lib-8888", "lib-9999", "map-7777"]
+
+
+def test_citation_guard_orders_options_by_published_rank():
+    raw = {"options": [
+        {"record_id": "map-0001", "why": "industry"},
+        {"record_id": "lib-0001", "why": "second"},
+        {"record_id": "lib-0002", "why": "first"},
+    ]}
+    out = citation_guard(raw, ["lib-0002", "lib-0001", "map-0001"])
+    assert [o["record_id"] for o in out["options"]] == ["lib-0002", "lib-0001", "map-0001"]
+
+
+def test_citation_guard_id_pattern_and_duplicates():
+    raw = {
+        "summary": "A map-based survey; LIB-0047 is invented; [LIB-0048] too; lib-0001 is real.",
+        "options": [
+            {"record_id": "lib-0001", "why": "first"},
+            {"record_id": "lib-0001", "why": "again"},
+            {"record_id": "LIB-0001", "why": "shouting"},
+        ],
+    }
+    out = citation_guard(raw, ["lib-0001"])
+    assert "map-based" in out["summary"]
+    assert "LIB-0047" not in out["summary"] and "LIB-0048" not in out["summary"]
+    assert "lib-0001 is real" in out["summary"]
+    assert [o["record_id"] for o in out["options"]] == ["lib-0001"]
+    assert out["options"][0]["why"] == "first"
+    assert out["_guard"]["dropped_ids"] == ["lib-0047", "lib-0048"]
+
+
+def test_citation_guard_tolerates_non_dict():
+    out = citation_guard(["not", "an", "object"], ["lib-0001"])
+    assert out["options"] == [] and out["summary"] == ""
 
 
 # ── ask ───────────────────────────────────────────────────────────────────────
@@ -345,6 +378,52 @@ async def test_llm_path_guard_and_llm_cannot_change_ranking_or_verdict(tmp_path,
     scores = [(-h.score, h.record.id) for h in res.library_hits]
     assert scores == sorted(scores)
     assert "lib-0002" in seen["prompt"] and "nature is the first place to look" in seen["prompt"]
+
+
+@pytest.mark.asyncio
+async def test_llm_options_follow_ranking_not_llm_order(tmp_path, with_key, monkeypatch):
+    store = ask_store(tmp_path)
+
+    async def fake(api_key, prompt):
+        return {"summary": "s", "options": [
+            {"record_id": "map-0001", "why": "industry", "caveat": ""},
+            {"record_id": "lib-0002", "why": "weak one first", "caveat": ""},
+            {"record_id": "lib-0001", "why": "best", "caveat": ""},
+        ]}, "gemini-test"
+
+    monkeypatch.setattr(rag_service, "_call_gemini", fake)
+    res = await run_ask(store, challenge="water repellent coatings with fog droplets and cactus spines")
+    assert [h.record.id for h in res.map_hits] == ["map-0001"]
+    lib_rank = [h.record.id for h in res.library_hits]
+    assert lib_rank[0] == "lib-0001" and "lib-0002" in lib_rank
+    got = [o["record_id"] for o in res.answer["options"]]
+    assert got == [i for i in lib_rank if i in got] + ["map-0001"]
+
+
+@pytest.mark.asyncio
+async def test_options_emptied_by_guard_get_fallback_options(tmp_path, with_key, monkeypatch):
+    async def invented(api_key, prompt):
+        return {"summary": "Try [lib-9999].", "options": [{"record_id": "lib-9999", "why": "x"}]}, "gemini-test"
+
+    monkeypatch.setattr(rag_service, "_call_gemini", invented)
+    res = await run_ask(ask_store(tmp_path))
+    assert res.model == "gemini-test"
+    assert res.answer["options"]
+    assert [o["record_id"] for o in res.answer["options"]] == [h.record.id for h in res.library_hits][:5]
+    assert res.answer["options"][0]["caveat"] == "Lab data only."
+    assert res.answer["_guard"]["dropped_ids"] == ["lib-9999"]
+
+
+@pytest.mark.asyncio
+async def test_non_dict_llm_json_falls_back(tmp_path, with_key, monkeypatch):
+    async def listy(api_key, prompt):
+        return [{"record_id": "lib-0001"}], "gemini-test"
+
+    monkeypatch.setattr(rag_service, "_call_gemini", listy)
+    res = await run_ask(ask_store(tmp_path))
+    assert res.model == "fallback (LLM error)"
+    assert res.answer["options"][0]["record_id"] == "lib-0001"
+    assert "conventional engineering" in res.answer["summary"] or "closest match" in res.answer["summary"]
 
 
 @pytest.mark.asyncio
