@@ -23,9 +23,9 @@
       "common_names": [
         "sacred lotus"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Plantae",
+      "gbif_usage_key": 2882449,
+      "gbif_match_type": "EXACT"
     },
     "trait": "leaf surface",
     "structure": "micrometre-scale papillae covered with nanoscale epicuticular wax crystals",
@@ -52,7 +52,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       },
       {
         "citation": "Neinhuis C, Barthlott W (1997). Characterization and distribution of water-repellent, self-cleaning plant surfaces. Annals of Botany 79: 667-677.",
@@ -63,7 +63,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [
@@ -104,9 +104,9 @@
       "common_names": [
         "tokay gecko"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Animalia",
+      "gbif_usage_key": 2447367,
+      "gbif_match_type": "EXACT"
     },
     "trait": "toe pad setae",
     "structure": "branched keratin hairs ending in nanoscale spatulae",
@@ -126,7 +126,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -170,9 +170,9 @@
       "common_names": [
         "fanged pitcher plant"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Plantae",
+      "gbif_usage_key": 3702248,
+      "gbif_match_type": "EXACT"
     },
     "trait": "peristome (pitcher rim)",
     "structure": "radial micro-ridges that hold a continuous liquid film",
@@ -192,7 +192,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       },
       {
         "citation": "Wong TS, Kang SH, Tang SKY, Smythe EJ, Hatton BD, Grinthal A, Aizenberg J (2011). Bioinspired self-repairing slippery surfaces with pressure-stable omniphobicity. Nature 477: 443-447.",
@@ -203,7 +203,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -243,9 +243,9 @@
       "common_names": [
         "clanger cicada"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Animalia",
+      "gbif_usage_key": 4778414,
+      "gbif_match_type": "EXACT"
     },
     "trait": "wing surface",
     "structure": "dense arrays of nanoscale cones with a water-repellent coating",
@@ -265,7 +265,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -305,9 +305,9 @@
       "common_names": [
         "clanger cicada"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Animalia",
+      "gbif_usage_key": 4778414,
+      "gbif_match_type": "EXACT"
     },
     "trait": "wing surface",
     "structure": "regular arrays of nanopillars roughly a hundred nanometres apart",
@@ -327,7 +327,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -369,9 +369,9 @@
       "common_names": [
         "rice"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Plantae",
+      "gbif_usage_key": 2703459,
+      "gbif_match_type": "EXACT"
     },
     "trait": "leaf surface",
     "structure": "parallel micro-grooves with hierarchical wax papillae",
@@ -391,7 +391,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -432,9 +432,9 @@
       "common_names": [
         "giant springtail"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Animalia",
+      "gbif_usage_key": 4538324,
+      "gbif_match_type": "EXACT"
     },
     "trait": "cuticle",
     "structure": "nanoscale comb-like network with overhanging (re-entrant) edges",
@@ -454,7 +454,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -496,9 +496,9 @@
       "common_names": [
         "giant salvinia"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Plantae",
+      "gbif_usage_key": 5274863,
+      "gbif_match_type": "EXACT"
     },
     "trait": "leaf hairs",
     "structure": "egg-beater-shaped water-repellent hairs with water-attracting tips",
@@ -518,7 +518,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -559,9 +559,9 @@
       "common_names": [
         "shortfin mako shark"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Animalia",
+      "gbif_usage_key": 5216248,
+      "gbif_match_type": "EXACT"
     },
     "trait": "skin",
     "structure": "overlapping ridged dermal denticles",
@@ -574,14 +574,14 @@
     "evidence": [
       {
         "citation": "Oeffner J, Lauder GV (2012). The hydrodynamic function of shark skin and two biomimetic applications. Journal of Experimental Biology 215: 785-795.",
-        "doi": "10.1242/jeb.060717",
+        "doi": "10.1242/jeb.063040",
         "url": null,
         "year": 2012,
         "open_access": false,
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       },
       {
         "citation": "Dean B, Bhushan B (2010). Shark-skin surfaces for fluid-drag reduction in turbulent flow: a review. Philosophical Transactions of the Royal Society A 368: 4775-4806.",
@@ -592,7 +592,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -631,9 +631,9 @@
       "common_names": [
         "Galapagos shark"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Animalia",
+      "gbif_usage_key": 2417964,
+      "gbif_match_type": "EXACT"
     },
     "trait": "skin",
     "structure": "engineered diamond pattern of parallel micro-ridges of different lengths",
@@ -653,7 +653,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [
@@ -690,13 +690,13 @@
       "agrifood"
     ],
     "organism": {
-      "scientific_name": "Stenocara gracilipes",
+      "scientific_name": "Stenocara",
       "common_names": [
         "Namib desert beetle"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Animalia",
+      "gbif_usage_key": 4723841,
+      "gbif_match_type": "EXACT"
     },
     "trait": "elytra (wing cases)",
     "structure": "smooth bumps that attract water on a waxy, water-repellent background",
@@ -716,7 +716,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -755,9 +755,9 @@
       "common_names": [
         "cribellate orb-weaver spider"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Animalia",
+      "gbif_usage_key": 2142516,
+      "gbif_match_type": "EXACT"
     },
     "trait": "capture silk thread",
     "structure": "spindle-shaped knots of random nanofibrils joined by aligned-fibril joints",
@@ -777,7 +777,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -816,9 +816,9 @@
       "common_names": [
         "bunny ears cactus"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Plantae",
+      "gbif_usage_key": 7283961,
+      "gbif_match_type": "EXACT"
     },
     "trait": "spine clusters",
     "structure": "conical spines with barbs at the tip and grooves graded along their length",
@@ -838,7 +838,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -878,9 +878,9 @@
       "common_names": [
         "Namib dune grass"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Plantae",
+      "gbif_usage_key": 4130207,
+      "gbif_match_type": "EXACT"
     },
     "trait": "leaf surface",
     "structure": "longitudinal grooves along upright leaves",
@@ -900,7 +900,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -939,9 +939,9 @@
       "common_names": [
         "Texas horned lizard"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Animalia",
+      "gbif_usage_key": 5222413,
+      "gbif_match_type": "EXACT"
     },
     "trait": "skin between scales",
     "structure": "interconnected capillary channels that narrow and widen periodically",
@@ -961,7 +961,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -1001,9 +1001,9 @@
       "common_names": [
         "tokay gecko"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Animalia",
+      "gbif_usage_key": 2447367,
+      "gbif_match_type": "EXACT"
     },
     "trait": "toe pads",
     "structure": "hierarchy of setae branching into hundreds of nanoscale spatulae",
@@ -1023,7 +1023,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       },
       {
         "citation": "Autumn K, Sitti M, Liang YA, et al. (2002). Evidence for van der Waals adhesion in gecko setae. Proceedings of the National Academy of Sciences USA 99: 12252-12256.",
@@ -1034,7 +1034,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -1074,9 +1074,9 @@
       "common_names": [
         "blue mussel"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Animalia",
+      "gbif_usage_key": 8288896,
+      "gbif_match_type": "EXACT"
     },
     "trait": "byssal thread adhesive plaque",
     "structure": "protein-based adhesive plaque at the end of each byssus thread",
@@ -1096,7 +1096,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       },
       {
         "citation": "Lee H, Dellatore SM, Miller WM, Messersmith PB (2007). Mussel-inspired surface chemistry for multifunctional coatings. Science 318: 426-430.",
@@ -1107,7 +1107,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -1148,9 +1148,9 @@
       "common_names": [
         "golden orb-weaver spider"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Animalia",
+      "gbif_usage_key": 2149476,
+      "gbif_match_type": "EXACT"
     },
     "trait": "dragline silk and its spinning duct",
     "structure": "silk proteins stored as a liquid crystal and drawn through a tapering duct",
@@ -1170,7 +1170,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -1212,9 +1212,9 @@
       "common_names": [
         "greater burdock"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Plantae",
+      "gbif_usage_key": 7353729,
+      "gbif_match_type": "EXACT"
     },
     "trait": "seed head bracts",
     "structure": "stiff bracts ending in small flexible hooks",
@@ -1248,7 +1248,7 @@
       "validated_by": null,
       "validated_on": null
     },
-    "confidence": "medium",
+    "confidence": "low",
     "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. The burr-to-fastener story comes from the inventor's own account and patent; the patent text describes the fabric, not burdock biology.",
     "source_region": null,
     "contributors": [],
@@ -1278,9 +1278,9 @@
       "common_names": [
         "red abalone"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Animalia",
+      "gbif_usage_key": 2293078,
+      "gbif_match_type": "EXACT"
     },
     "trait": "shell inner layer",
     "structure": "aragonite tablets about half a micrometre thick layered with thin organic sheets",
@@ -1293,14 +1293,14 @@
     "evidence": [
       {
         "citation": "Jackson AP, Vincent JFV, Turner RM (1988). The mechanical design of nacre. Proceedings of the Royal Society B 234: 415-440.",
-        "doi": "10.1098/rspb.1988.0057",
+        "doi": "10.1098/rspb.1988.0056",
         "url": null,
         "year": 1988,
         "open_access": false,
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       },
       {
         "citation": "Munch E, Launey ME, Alsem DH, Saiz E, Tomsia AP, Ritchie RO (2008). Tough, bio-inspired hybrid materials. Science 322: 1516-1520.",
@@ -1311,7 +1311,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -1352,9 +1352,9 @@
       "common_names": [
         "human"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Animalia",
+      "gbif_usage_key": 2436436,
+      "gbif_match_type": "EXACT"
     },
     "trait": "cancellous (spongy) bone",
     "structure": "open lattice of trabeculae aligned with principal stress directions",
@@ -1374,7 +1374,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       },
       {
         "citation": "Gibson LJ (2005). Biomechanics of cellular solids. Journal of Biomechanics 38: 377-399.",
@@ -1385,7 +1385,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -1439,7 +1439,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -1501,7 +1501,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -1514,7 +1514,7 @@
       "validated_on": null
     },
     "confidence": "medium",
-    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Bamboo as a building material varies widely between species and harvests; this record covers the grading principle.",
+    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Bamboo as a building material varies widely between species and harvests; this record covers the grading principle. Organism given at genus level; GBIF has several genera with this name, so no backbone key is set.",
     "source_region": null,
     "contributors": [],
     "see_also": []
@@ -1541,9 +1541,9 @@
       "common_names": [
         "Venus' flower basket"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Animalia",
+      "gbif_usage_key": 5180237,
+      "gbif_match_type": "EXACT"
     },
     "trait": "skeleton",
     "structure": "square-grid glass lattice with diagonal bracing; struts made of laminated silica",
@@ -1563,7 +1563,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -1616,7 +1616,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -1658,9 +1658,9 @@
       "common_names": [
         "peacock mantis shrimp"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Animalia",
+      "gbif_usage_key": 4316608,
+      "gbif_match_type": "EXACT"
     },
     "trait": "dactyl club",
     "structure": "mineralised impact surface over a helicoidal (twisted plywood) fibre region",
@@ -1680,7 +1680,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -1719,9 +1719,9 @@
       "common_names": [
         "yellow boxfish"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Animalia",
+      "gbif_usage_key": 5213766,
+      "gbif_match_type": "EXACT"
     },
     "trait": "carapace shape",
     "structure": "rigid, box-shaped body armour of fused bony plates",
@@ -1741,7 +1741,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -1782,9 +1782,9 @@
       "common_names": [
         "humpback whale"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Animalia",
+      "gbif_usage_key": 5220086,
+      "gbif_match_type": "EXACT"
     },
     "trait": "pectoral flipper",
     "structure": "rounded tubercles along the leading edge",
@@ -1811,7 +1811,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       },
       {
         "citation": "Miklosovic DS, Murray MM, Howle LE, Fish FE (2004). Leading-edge tubercles delay stall on humpback whale (Megaptera novaeangliae) flippers. Physics of Fluids 16: L39-L42.",
@@ -1822,7 +1822,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -1863,9 +1863,9 @@
       "common_names": [
         "barn owl"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Animalia",
+      "gbif_usage_key": 2497921,
+      "gbif_match_type": "EXACT"
     },
     "trait": "wing feathers",
     "structure": "leading-edge serrations, trailing-edge fringes and a porous velvety surface",
@@ -1885,7 +1885,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -1925,9 +1925,9 @@
       "common_names": [
         "common kingfisher"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Animalia",
+      "gbif_usage_key": 2475532,
+      "gbif_match_type": "EXACT"
     },
     "trait": "beak and head shape",
     "structure": "long, tapering beak blending into the head",
@@ -1947,7 +1947,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -2004,7 +2004,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -2060,7 +2060,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -2100,9 +2100,9 @@
       "common_names": [
         "many-headed slime mould"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Protozoa",
+      "gbif_usage_key": 3214606,
+      "gbif_match_type": "EXACT"
     },
     "trait": "foraging network",
     "structure": "network of protoplasmic tubes linking food sources",
@@ -2122,7 +2122,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -2163,9 +2163,9 @@
       "common_names": [
         "mound-building termite"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Animalia",
+      "gbif_usage_key": 9809773,
+      "gbif_match_type": "EXACT"
     },
     "trait": "mound architecture",
     "structure": "porous walls with a network of surface conduits and a central chimney",
@@ -2196,7 +2196,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -2237,9 +2237,9 @@
       "common_names": [
         "Saharan silver ant"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Animalia",
+      "gbif_usage_key": 1319624,
+      "gbif_match_type": "FUZZY"
     },
     "trait": "body hairs",
     "structure": "hairs with a triangular cross-section and corrugated surfaces",
@@ -2259,7 +2259,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -2322,7 +2322,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -2335,7 +2335,7 @@
       "validated_on": null
     },
     "confidence": "medium",
-    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Synthetic scattering networks are lab-scale; cost and durability compared with titanium dioxide are unproven.",
+    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Synthetic scattering networks are lab-scale; cost and durability compared with titanium dioxide are unproven. Organism given at genus level; GBIF has several genera with this name, so no backbone key is set.",
     "source_region": null,
     "contributors": [],
     "see_also": []
@@ -2362,9 +2362,9 @@
       "common_names": [
         "Morpho butterfly"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Animalia",
+      "gbif_usage_key": 5133094,
+      "gbif_match_type": "EXACT"
     },
     "trait": "wing scales",
     "structure": "ridges with stacked, tree-like lamellae of chitin and air",
@@ -2377,14 +2377,14 @@
     "evidence": [
       {
         "citation": "Vukusic P, Sambles JR, Lawrence CR, Wootton RJ (1999). Quantified interference and diffraction in single Morpho butterfly scales. Proceedings of the Royal Society B 266: 1403-1411.",
-        "doi": "10.1098/rspb.1999.0802",
+        "doi": "10.1098/rspb.1999.0794",
         "url": null,
         "year": 1999,
         "open_access": false,
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       },
       {
         "citation": "Kinoshita S, Yoshioka S, Fujii Y, Okamoto N (2002). Mechanisms of structural colour in the Morpho butterfly: cooperation of regularity and irregularity in an iridescent scale. Proceedings of the Royal Society B 269: 1417-1421.",
@@ -2395,7 +2395,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [
@@ -2460,7 +2460,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       },
       {
         "citation": "Reichert S, Menges A, Correa D (2015). Meteorosensitive architecture: biomimetic building skins based on materially embedded and hydraulically operated responsiveness. Computer-Aided Design 60: 50-69.",
@@ -2471,7 +2471,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -2484,7 +2484,7 @@
       "validated_on": null
     },
     "confidence": "medium",
-    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Responds to humidity, not to temperature or sunlight directly; wood-based facade elements need protection from decay and fatigue.",
+    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Responds to humidity, not to temperature or sunlight directly; wood-based facade elements need protection from decay and fatigue. Organism given at genus level; GBIF has several genera named Pinus, so no backbone key is set.",
     "source_region": null,
     "contributors": [],
     "see_also": []
@@ -2512,9 +2512,9 @@
         "holm oak",
         "encina"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Plantae",
+      "gbif_usage_key": 2879098,
+      "gbif_match_type": "EXACT"
     },
     "trait": "root system and water use",
     "structure": "deep tap and sinker roots reaching groundwater",
@@ -2534,7 +2534,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -2588,7 +2588,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       },
       {
         "citation": "Karst J, Jones MD, Hoeksema JD (2023). Positive citation bias and overinterpreted results lead to misinformation on common mycorrhizal networks in forests. Nature Ecology & Evolution 7: 501-511.",
@@ -2599,7 +2599,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -2645,9 +2645,9 @@
         "cork oak",
         "alcornoque"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Plantae",
+      "gbif_usage_key": 2879411,
+      "gbif_match_type": "EXACT"
     },
     "trait": "outer bark (phellem)",
     "structure": "closed, prism-shaped cells with thin suberin-rich walls",
@@ -2667,7 +2667,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       },
       {
         "citation": "Silva SP, Sabino MA, Fernandes EM, Correlo VM, Boesel LF, Reis RL (2005). Cork: properties, capabilities and applications. International Materials Reviews 50: 345-365.",
@@ -2678,7 +2678,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [
@@ -2734,22 +2734,22 @@
         "doi": "10.1016/j.matdes.2019.108397",
         "url": null,
         "year": 2020,
-        "open_access": false,
-        "licence": null,
+        "open_access": true,
+        "licence": "CC-BY-4.0",
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       },
       {
         "citation": "Haneef M, Ceseracciu L, Canale C, Bayer IS, Heredia-Guerrero JA, Athanassiou A (2017). Advanced materials from fungal mycelium: fabrication and tuning of physical properties. Scientific Reports 7: 41292.",
         "doi": "10.1038/srep41292",
         "url": null,
         "year": 2017,
-        "open_access": false,
-        "licence": null,
+        "open_access": true,
+        "licence": "CC-BY-4.0",
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [
@@ -2806,7 +2806,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       },
       {
         "citation": "Faruk O, Bledzki AK, Fink HP, Sain M (2012). Biocomposites reinforced with natural fibers: 2000-2010. Progress in Polymer Science 37: 1552-1596.",
@@ -2817,7 +2817,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [
@@ -2874,7 +2874,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       },
       {
         "citation": "Faruk O, Bledzki AK, Fink HP, Sain M (2012). Biocomposites reinforced with natural fibers: 2000-2010. Progress in Polymer Science 37: 1552-1596.",
@@ -2885,7 +2885,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -2942,7 +2942,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       },
       {
         "citation": "Elsabee MZ, Abdou ES (2013). Chitosan based edible films and coatings: a review. Materials Science and Engineering C 33: 1819-1841.",
@@ -2953,7 +2953,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -3008,7 +3008,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -3064,7 +3064,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -3115,11 +3115,11 @@
         "doi": "10.1016/j.rser.2016.09.107",
         "url": null,
         "year": 2017,
-        "open_access": false,
-        "licence": null,
+        "open_access": true,
+        "licence": "CC-BY-4.0",
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [
@@ -3163,9 +3163,9 @@
       "common_names": [
         "industrial hemp"
       ],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Plantae",
+      "gbif_usage_key": 5361880,
+      "gbif_match_type": "EXACT"
     },
     "trait": null,
     "structure": null,
@@ -3185,7 +3185,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -3242,7 +3242,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -3296,7 +3296,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -3334,9 +3334,9 @@
     "organism": {
       "scientific_name": "Sporosarcina pasteurii",
       "common_names": [],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Bacteria",
+      "gbif_usage_key": 3228027,
+      "gbif_match_type": "EXACT"
     },
     "trait": null,
     "structure": null,
@@ -3356,7 +3356,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       },
       {
         "citation": "Jonkers HM, Thijssen A, Muyzer G, Copuroglu O, Schlangen E (2010). Application of bacteria as self-healing agent for the development of sustainable concrete. Ecological Engineering 36: 230-235.",
@@ -3367,7 +3367,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -3407,9 +3407,9 @@
     "organism": {
       "scientific_name": "Komagataeibacter xylinus",
       "common_names": [],
-      "kingdom": null,
-      "gbif_usage_key": null,
-      "gbif_match_type": null
+      "kingdom": "Bacteria",
+      "gbif_usage_key": 11256256,
+      "gbif_match_type": "EXACT"
     },
     "trait": null,
     "structure": null,
@@ -3429,7 +3429,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       },
       {
         "citation": "Klemm D, Heublein B, Fink HP, Bohn A (2005). Cellulose: fascinating biopolymer and sustainable raw material. Angewandte Chemie International Edition 44: 3358-3393.",
@@ -3440,7 +3440,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -3496,7 +3496,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [
@@ -3554,7 +3554,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -3609,7 +3609,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [
@@ -3663,12 +3663,12 @@
         "citation": "Vymazal J (2011). Constructed wetlands for wastewater treatment: five decades of experience. Environmental Science & Technology 45: 61-69.",
         "doi": "10.1021/es101403q",
         "url": null,
-        "year": 2011,
+        "year": 2010,
         "open_access": false,
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -3719,11 +3719,11 @@
         "doi": "10.3390/su7044199",
         "url": null,
         "year": 2015,
-        "open_access": false,
-        "licence": null,
+        "open_access": true,
+        "licence": "CC-BY-4.0",
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -3779,7 +3779,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       },
       {
         "citation": "Moreno G, Pulido FJ (2009). The functioning, management and persistence of dehesas. In: Rigueiro-Rodriguez A, McAdam J, Mosquera-Losada MR (eds) Agroforestry in Europe. Springer, 127-160.",
@@ -3790,7 +3790,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -3852,7 +3852,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       },
       {
         "citation": "Chertow MR (2000). Industrial symbiosis: literature and taxonomy. Annual Review of Energy and the Environment 25: 313-337.",
@@ -3919,7 +3919,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       },
       {
         "citation": "Getter KL, Rowe DB (2006). The role of extensive green roofs in sustainable development. HortScience 41: 1276-1285.",
@@ -3930,7 +3930,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -3984,7 +3984,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -4039,7 +4039,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -4091,7 +4091,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       },
       {
         "citation": "Blaauw BR, Isaacs R (2014). Flower plantings increase wild bee abundance and the pollination services provided to a pollination-dependent crop. Journal of Applied Ecology 51: 890-898.",
@@ -4102,7 +4102,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -4156,7 +4156,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
@@ -4207,12 +4207,12 @@
         "citation": "Fletcher TD, Shuster W, Hunt WF, et al. (2015). SUDS, LID, BMPs, WSUD and more - the evolution and application of terminology surrounding urban drainage. Urban Water Journal 12: 525-542.",
         "doi": "10.1080/1573062X.2014.916314",
         "url": null,
-        "year": 2015,
+        "year": 2014,
         "open_access": false,
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       },
       {
         "citation": "Dietz ME (2007). Low impact development practices: a review of current research and recommendations for future directions. Water, Air, and Soil Pollution 186: 351-363.",
@@ -4223,7 +4223,7 @@
         "licence": null,
         "supporting_sentence": null,
         "page": null,
-        "verified": false
+        "verified": true
       }
     ],
     "known_products": [],
