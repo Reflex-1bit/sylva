@@ -80,6 +80,10 @@ async function natureJson(path, options = {}, timeoutMs = 30_000) {
     try {
       const body = await res.json()
       if (typeof body.detail === 'string') detail = body.detail
+      else if (Array.isArray(body.detail)) {
+        const msgs = body.detail.map((d) => d?.msg).filter(Boolean)
+        if (msgs.length) detail = msgs.join('; ')
+      }
     } catch {
       /* ignore */
     }

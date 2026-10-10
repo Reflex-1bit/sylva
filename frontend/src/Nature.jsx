@@ -264,12 +264,17 @@ function AskTab({ meta, labels }) {
       setResult(res)
       setPhase('done')
       // Options are normally in library_hits; fetch only ids that are missing.
-      const have = new Set(res.library_hits.map((h) => h.record.id))
-      const missing = (res.answer?.options || []).map((o) => o.record_id).filter((id) => !have.has(id))
+      const have = new Set([
+        ...res.library_hits.map((h) => h.record.id),
+        ...(res.map_hits || []).map((h) => h.record.id),
+      ])
+      const missing = (res.answer?.options || [])
+        .map((o) => o.record_id)
+        .filter((id) => !have.has(id) && String(id).startsWith('lib-'))
       for (const id of missing) {
         fetchLibraryRecord(id)
           .then((r) => setExtra((x) => ({ ...x, [id]: r })))
-          .catch(() => {})
+          .catch(() => setExtra((x) => ({ ...x, [id]: { failed: true } })))
       }
     } catch (err) {
       setError(err.message || 'Something went wrong')
@@ -281,6 +286,11 @@ function AskTab({ meta, labels }) {
   const hitById = useMemo(() => {
     const m = {}
     for (const h of result?.library_hits || []) m[h.record.id] = h
+    return m
+  }, [result])
+  const mapById = useMemo(() => {
+    const m = {}
+    for (const h of result?.map_hits || []) m[h.record.id] = h.record
     return m
   }, [result])
   const isFallback = result?.model?.startsWith('fallback')
@@ -350,9 +360,26 @@ function AskTab({ meta, labels }) {
               <div className="nat-grid">
                 {answer.options.map((o) => {
                   const hit = hitById[o.record_id]
+                  const mapRec = !hit && mapById[o.record_id]
+                  if (mapRec) {
+                    return (
+                      <div key={o.record_id}>
+                        {o.why && <p className="nat-why">{o.why}</p>}
+                        <MapCard record={mapRec} labels={labels} />
+                        {o.caveat && <p className="nat-caveat"><strong>Caveat: </strong>{o.caveat}</p>}
+                      </div>
+                    )
+                  }
                   const record = hit?.record || extra[o.record_id]?.record
                   const grade = hit?.evidence_grade || extra[o.record_id]?.evidence_grade
-                  if (!record) return <p key={o.record_id} className="nat-muted">Loading {o.record_id}…</p>
+                  if (!record) {
+                    const failed = extra[o.record_id]?.failed || !String(o.record_id).startsWith('lib-')
+                    return (
+                      <p key={o.record_id} className="nat-muted">
+                        {failed ? `Record ${o.record_id} is unavailable.` : `Loading ${o.record_id}…`}
+                      </p>
+                    )
+                  }
                   return (
                     <RecordCard key={o.record_id} record={record} grade={grade} why={o.why} caveat={o.caveat} labels={labels} />
                   )
@@ -416,6 +443,7 @@ function LibraryTab({ meta, labels }) {
   useEffect(() => {
     let live = true
     setPhase('loading')
+    setError('')
     const timer = setTimeout(() => {
       searchLibrary({ ...f, q: f.q.trim(), limit: 30 })
         .then((r) => live && (setHits(r), setPhase('done')))
@@ -441,11 +469,11 @@ function LibraryTab({ meta, labels }) {
         <Select id="nat-lib-kind" label="Kind" value={f.kind} onChange={set('kind')} options={Object.entries(KIND_LABEL)} />
         <Select id="nat-lib-status" label="Review status" value={f.status} onChange={set('status')} options={Object.entries(STATUS_LABEL)} />
       </div>
-      {phase === 'loading' && <Loading>Loading records…</Loading>}
+      {phase === 'loading' && <Loading>{hits.length ? 'Updating results…' : 'Loading records…'}</Loading>}
       {phase === 'error' && <ErrorBox error={error} />}
       {phase === 'done' && hits.length === 0 && <p className="nat-state">No records match these filters.</p>}
-      {phase === 'done' && (
-        <div className="nat-grid">
+      {phase !== 'error' && hits.length > 0 && (
+        <div className="nat-grid" aria-busy={phase === 'loading'} style={phase === 'loading' ? { opacity: 0.6 } : undefined}>
           {hits.map((h) => (
             <RecordCard key={h.record.id} record={h.record} grade={h.evidence_grade} labels={labels} />
           ))}
@@ -467,9 +495,16 @@ function MapTab({ meta, labels }) {
   const [gaps, setGaps] = useState(null)
 
   useEffect(() => {
-    if (!sector) return undefined
+    if (!sector) {
+      setHits([])
+      setGaps(null)
+      setError('')
+      setPhase('idle')
+      return undefined
+    }
     let live = true
     setPhase('loading')
+    setError('')
     Promise.all([searchMap({ sector, type, limit: 30 }), fetchSectorGaps(sector)])
       .then(([m, g]) => {
         if (!live) return
