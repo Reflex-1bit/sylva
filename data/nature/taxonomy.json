@@ -1,0 +1,1837 @@
+{
+  "version": "0.1.0",
+  "licence": "CC-BY-4.0",
+  "areas": [
+    {
+      "id": "form",
+      "label": "Form",
+      "question": "Can a shape or structure from nature do this job better?"
+    },
+    {
+      "id": "process",
+      "label": "Process",
+      "question": "Can we make this the way nature makes things: at ambient temperature and pressure, in water, without toxic inputs?"
+    },
+    {
+      "id": "materials",
+      "label": "Materials",
+      "question": "Can a bio-based, recycled or regenerative material replace this one?"
+    },
+    {
+      "id": "energy",
+      "label": "Energy",
+      "question": "Can this use less energy, the way living systems run on what is around them?"
+    },
+    {
+      "id": "circularity",
+      "label": "Circularity",
+      "question": "Can this be designed so nothing is wasted, as in an ecosystem?"
+    },
+    {
+      "id": "systems",
+      "label": "Systems",
+      "question": "Can the site or supply chain work like an ecosystem?"
+    },
+    {
+      "id": "place",
+      "label": "Place",
+      "question": "Can the company's land and surroundings support nature rather than replace it?"
+    }
+  ],
+  "function_groups": [
+    {
+      "id": "manage-water",
+      "label": "Manage water"
+    },
+    {
+      "id": "manage-heat",
+      "label": "Manage heat"
+    },
+    {
+      "id": "manage-air-and-gases",
+      "label": "Manage air and gases"
+    },
+    {
+      "id": "resist-and-support-loads",
+      "label": "Resist and support loads"
+    },
+    {
+      "id": "protect-surfaces",
+      "label": "Protect surfaces"
+    },
+    {
+      "id": "attach-and-join",
+      "label": "Attach and join"
+    },
+    {
+      "id": "make-and-assemble",
+      "label": "Make and assemble"
+    },
+    {
+      "id": "break-down-and-recycle",
+      "label": "Break down and recycle"
+    },
+    {
+      "id": "sense-and-respond",
+      "label": "Sense and respond"
+    },
+    {
+      "id": "move-efficiently",
+      "label": "Move efficiently"
+    },
+    {
+      "id": "sustain-ecosystems",
+      "label": "Sustain ecosystems"
+    },
+    {
+      "id": "optimise-systems",
+      "label": "Optimise systems"
+    }
+  ],
+  "functions": [
+    {
+      "id": "shed-water",
+      "group": "manage-water",
+      "label": "Shed water",
+      "keywords_en": [
+        "shed water",
+        "water repellent",
+        "hydrophobic",
+        "waterproof",
+        "water-repellent",
+        "rain runoff",
+        "droplets roll off",
+        "superhydrophobic"
+      ],
+      "keywords_es": [
+        "repeler agua",
+        "hidrofobico",
+        "hidrófobo",
+        "impermeable",
+        "repelente al agua",
+        "escurrir agua",
+        "gotas",
+        "superhidrofobico",
+        "superhidrofóbico"
+      ]
+    },
+    {
+      "id": "capture-water",
+      "group": "manage-water",
+      "label": "Capture water",
+      "keywords_en": [
+        "capture water",
+        "harvest water",
+        "water from air",
+        "fog harvesting",
+        "collect water",
+        "condensation",
+        "dew",
+        "atmospheric water"
+      ],
+      "keywords_es": [
+        "captar agua",
+        "recoger agua",
+        "agua del aire",
+        "niebla",
+        "recolectar agua",
+        "condensacion",
+        "condensación",
+        "rocio",
+        "rocío",
+        "agua atmosferica"
+      ]
+    },
+    {
+      "id": "filter-water",
+      "group": "manage-water",
+      "label": "Filter water",
+      "keywords_en": [
+        "filter water",
+        "water filtration",
+        "purify water",
+        "desalinate",
+        "desalination",
+        "water treatment",
+        "membrane",
+        "wastewater"
+      ],
+      "keywords_es": [
+        "filtrar agua",
+        "filtracion de agua",
+        "filtración",
+        "depurar agua",
+        "desalinizar",
+        "desalinizacion",
+        "desalación",
+        "tratamiento de agua",
+        "membrana",
+        "aguas residuales"
+      ]
+    },
+    {
+      "id": "store-water",
+      "group": "manage-water",
+      "label": "Store water",
+      "keywords_en": [
+        "store water",
+        "water storage",
+        "retain water",
+        "water retention",
+        "reservoir",
+        "hold moisture",
+        "drought buffer"
+      ],
+      "keywords_es": [
+        "almacenar agua",
+        "almacenamiento de agua",
+        "retener agua",
+        "retencion de agua",
+        "retención",
+        "embalse",
+        "depósito",
+        "humedad del suelo",
+        "sequia",
+        "sequía"
+      ]
+    },
+    {
+      "id": "move-water",
+      "group": "manage-water",
+      "label": "Move water",
+      "keywords_en": [
+        "move water",
+        "transport water",
+        "water transport",
+        "wicking",
+        "passive pumping",
+        "capillary",
+        "drainage",
+        "irrigation"
+      ],
+      "keywords_es": [
+        "mover agua",
+        "transportar agua",
+        "transporte de agua",
+        "capilaridad",
+        "bombeo pasivo",
+        "drenaje",
+        "riego",
+        "canalizar agua"
+      ]
+    },
+    {
+      "id": "cool-passively",
+      "group": "manage-heat",
+      "label": "Cool passively",
+      "keywords_en": [
+        "cool passively",
+        "passive cooling",
+        "reduce cooling energy",
+        "cooling energy",
+        "cooling load",
+        "building cooling",
+        "keep cool",
+        "overheating",
+        "air conditioning",
+        "shading"
+      ],
+      "keywords_es": [
+        "enfriamiento pasivo",
+        "refrigeracion pasiva",
+        "refrigeración pasiva",
+        "reducir energia de refrigeracion",
+        "climatizacion",
+        "climatización",
+        "aire acondicionado",
+        "sobrecalentamiento",
+        "sombra",
+        "enfriar edificio"
+      ]
+    },
+    {
+      "id": "insulate",
+      "group": "manage-heat",
+      "label": "Insulate",
+      "keywords_en": [
+        "insulate",
+        "insulation",
+        "thermal insulation",
+        "heat loss",
+        "retain heat",
+        "low conductivity",
+        "thermal barrier"
+      ],
+      "keywords_es": [
+        "aislar",
+        "aislamiento",
+        "aislamiento termico",
+        "aislamiento térmico",
+        "perdida de calor",
+        "pérdida de calor",
+        "retener calor",
+        "barrera termica",
+        "conductividad baja"
+      ]
+    },
+    {
+      "id": "recover-heat",
+      "group": "manage-heat",
+      "label": "Recover heat",
+      "keywords_en": [
+        "recover heat",
+        "waste heat",
+        "heat recovery",
+        "heat exchanger",
+        "reuse heat",
+        "heat exchange",
+        "countercurrent"
+      ],
+      "keywords_es": [
+        "recuperar calor",
+        "calor residual",
+        "recuperacion de calor",
+        "recuperación de calor",
+        "intercambiador de calor",
+        "reutilizar calor",
+        "contracorriente"
+      ]
+    },
+    {
+      "id": "regulate-temperature",
+      "group": "manage-heat",
+      "label": "Regulate temperature",
+      "keywords_en": [
+        "regulate temperature",
+        "thermoregulation",
+        "thermal regulation",
+        "temperature control",
+        "thermal comfort",
+        "heat management",
+        "thermal buffering"
+      ],
+      "keywords_es": [
+        "regular temperatura",
+        "termorregulacion",
+        "termorregulación",
+        "control de temperatura",
+        "confort termico",
+        "confort térmico",
+        "gestion termica",
+        "gestión térmica",
+        "inercia termica"
+      ]
+    },
+    {
+      "id": "ventilate",
+      "group": "manage-air-and-gases",
+      "label": "Ventilate",
+      "keywords_en": [
+        "ventilate",
+        "ventilation",
+        "natural ventilation",
+        "airflow",
+        "air flow",
+        "air circulation",
+        "stack effect",
+        "passive airflow"
+      ],
+      "keywords_es": [
+        "ventilar",
+        "ventilacion",
+        "ventilación",
+        "ventilacion natural",
+        "flujo de aire",
+        "circulacion de aire",
+        "efecto chimenea",
+        "aireacion",
+        "aireación"
+      ]
+    },
+    {
+      "id": "capture-gases",
+      "group": "manage-air-and-gases",
+      "label": "Capture gases",
+      "keywords_en": [
+        "capture gases",
+        "carbon capture",
+        "capture co2",
+        "co2 capture",
+        "carbon dioxide",
+        "sequester carbon",
+        "carbon sequestration",
+        "absorb gas"
+      ],
+      "keywords_es": [
+        "capturar gases",
+        "captura de carbono",
+        "captura de co2",
+        "dioxido de carbono",
+        "dióxido de carbono",
+        "secuestro de carbono",
+        "absorber gas",
+        "capturar co2"
+      ]
+    },
+    {
+      "id": "filter-air",
+      "group": "manage-air-and-gases",
+      "label": "Filter air",
+      "keywords_en": [
+        "filter air",
+        "air filtration",
+        "air purification",
+        "particulate",
+        "particles",
+        "air quality",
+        "dust capture",
+        "pollutants in air"
+      ],
+      "keywords_es": [
+        "filtrar aire",
+        "filtracion de aire",
+        "filtración de aire",
+        "purificacion del aire",
+        "particulas",
+        "partículas",
+        "calidad del aire",
+        "captura de polvo",
+        "contaminantes del aire"
+      ]
+    },
+    {
+      "id": "stiffen",
+      "group": "resist-and-support-loads",
+      "label": "Stiffen",
+      "keywords_en": [
+        "stiffen",
+        "stiffness",
+        "rigid",
+        "rigidity",
+        "strong structure",
+        "strength",
+        "structural strength",
+        "high strength",
+        "buckling"
+      ],
+      "keywords_es": [
+        "rigidizar",
+        "rigidez",
+        "rigido",
+        "rígido",
+        "resistencia estructural",
+        "alta resistencia",
+        "pandeo",
+        "estructura resistente",
+        "resistencia mecanica"
+      ]
+    },
+    {
+      "id": "lighten-structure",
+      "group": "resist-and-support-loads",
+      "label": "Lighten structure",
+      "keywords_en": [
+        "lighter structural component",
+        "lightweight",
+        "lightweighting",
+        "light and strong",
+        "weight reduction",
+        "reduce weight",
+        "low density",
+        "lattice",
+        "honeycomb",
+        "cellular",
+        "structural component"
+      ],
+      "keywords_es": [
+        "componente estructural mas ligero",
+        "ligero",
+        "aligerar",
+        "aligeramiento",
+        "reduccion de peso",
+        "reducir peso",
+        "baja densidad",
+        "celosia",
+        "celosía",
+        "panal",
+        "estructura celular",
+        "componente estructural"
+      ]
+    },
+    {
+      "id": "absorb-impact",
+      "group": "resist-and-support-loads",
+      "label": "Absorb impact",
+      "keywords_en": [
+        "absorb impact",
+        "impact resistance",
+        "shock absorption",
+        "energy absorption",
+        "crash",
+        "damping",
+        "cushioning",
+        "protective helmet"
+      ],
+      "keywords_es": [
+        "absorber impacto",
+        "resistencia al impacto",
+        "absorcion de impactos",
+        "absorción de energía",
+        "colision",
+        "colisión",
+        "amortiguacion",
+        "amortiguación",
+        "casco protector"
+      ]
+    },
+    {
+      "id": "resist-fracture",
+      "group": "resist-and-support-loads",
+      "label": "Resist fracture",
+      "keywords_en": [
+        "resist fracture",
+        "fracture toughness",
+        "toughness",
+        "crack",
+        "crack propagation",
+        "tough",
+        "brittle",
+        "damage tolerance"
+      ],
+      "keywords_es": [
+        "resistir fractura",
+        "tenacidad",
+        "tenacidad a la fractura",
+        "grieta",
+        "propagacion de grietas",
+        "frágil",
+        "fragil",
+        "tolerancia al daño"
+      ]
+    },
+    {
+      "id": "resist-fatigue",
+      "group": "resist-and-support-loads",
+      "label": "Resist fatigue",
+      "keywords_en": [
+        "resist fatigue",
+        "fatigue",
+        "cyclic loading",
+        "durability",
+        "long service life",
+        "lifetime",
+        "load cycles"
+      ],
+      "keywords_es": [
+        "resistir fatiga",
+        "fatiga",
+        "carga ciclica",
+        "carga cíclica",
+        "durabilidad",
+        "larga vida util",
+        "vida útil",
+        "ciclos de carga"
+      ]
+    },
+    {
+      "id": "self-clean",
+      "group": "protect-surfaces",
+      "label": "Self-clean",
+      "keywords_en": [
+        "self-clean",
+        "self-cleaning",
+        "sheds dirt",
+        "surface that sheds dirt",
+        "dirt",
+        "detergent",
+        "without detergent",
+        "lotus",
+        "superhydrophobic",
+        "stain resistant",
+        "easy to clean"
+      ],
+      "keywords_es": [
+        "autolimpiante",
+        "autolimpieza",
+        "limpieza automatica",
+        "repeler suciedad",
+        "suciedad",
+        "detergente",
+        "sin detergente",
+        "loto",
+        "superhidrofobico",
+        "antimanchas",
+        "facil de limpiar"
+      ]
+    },
+    {
+      "id": "prevent-fouling",
+      "group": "protect-surfaces",
+      "label": "Prevent fouling",
+      "keywords_en": [
+        "prevent fouling",
+        "antifouling",
+        "anti-fouling",
+        "biofouling",
+        "marine growth",
+        "barnacles",
+        "algae growth",
+        "scaling",
+        "deposit"
+      ],
+      "keywords_es": [
+        "evitar incrustaciones",
+        "antiincrustante",
+        "antifouling",
+        "biofouling",
+        "bioincrustacion",
+        "bioincrustación",
+        "percebes",
+        "crecimiento de algas",
+        "depositos",
+        "depósitos"
+      ]
+    },
+    {
+      "id": "resist-microbes",
+      "group": "protect-surfaces",
+      "label": "Resist microbes",
+      "keywords_en": [
+        "resist microbes",
+        "antimicrobial",
+        "antibacterial",
+        "anti-bacterial",
+        "bacteria",
+        "hygiene",
+        "sterile",
+        "disinfect",
+        "pathogen",
+        "mould",
+        "mold"
+      ],
+      "keywords_es": [
+        "resistir microbios",
+        "antimicrobiano",
+        "antibacteriano",
+        "bacterias",
+        "higiene",
+        "estéril",
+        "esteril",
+        "desinfectar",
+        "patogeno",
+        "patógeno",
+        "moho"
+      ]
+    },
+    {
+      "id": "resist-wear",
+      "group": "protect-surfaces",
+      "label": "Resist wear",
+      "keywords_en": [
+        "resist wear",
+        "wear resistance",
+        "abrasion",
+        "abrasion resistant",
+        "scratch resistant",
+        "hard surface",
+        "erosion",
+        "hardness",
+        "durable coating"
+      ],
+      "keywords_es": [
+        "resistir desgaste",
+        "resistencia al desgaste",
+        "abrasion",
+        "abrasión",
+        "resistente al rayado",
+        "superficie dura",
+        "erosion",
+        "erosión",
+        "dureza",
+        "recubrimiento duradero"
+      ]
+    },
+    {
+      "id": "reduce-drag",
+      "group": "protect-surfaces",
+      "label": "Reduce drag",
+      "keywords_en": [
+        "reduce drag",
+        "drag reduction",
+        "low drag",
+        "riblets",
+        "streamlined",
+        "shark skin",
+        "hydrodynamic",
+        "skin friction"
+      ],
+      "keywords_es": [
+        "reducir resistencia",
+        "reduccion de arrastre",
+        "reducción de arrastre",
+        "bajo arrastre",
+        "aerodinamica",
+        "piel de tiburon",
+        "piel de tiburón",
+        "hidrodinamico",
+        "hidrodinámico",
+        "friccion superficial"
+      ]
+    },
+    {
+      "id": "resist-corrosion",
+      "group": "protect-surfaces",
+      "label": "Resist corrosion",
+      "keywords_en": [
+        "resist corrosion",
+        "corrosion",
+        "rust",
+        "anti-corrosion",
+        "oxidation",
+        "protective coating",
+        "degradation of metal",
+        "weathering"
+      ],
+      "keywords_es": [
+        "resistir corrosion",
+        "corrosión",
+        "oxido",
+        "óxido",
+        "anticorrosion",
+        "anticorrosión",
+        "oxidacion",
+        "oxidación",
+        "recubrimiento protector",
+        "degradacion del metal",
+        "intemperie"
+      ]
+    },
+    {
+      "id": "adhere-reversibly",
+      "group": "attach-and-join",
+      "label": "Adhere reversibly",
+      "keywords_en": [
+        "adhere reversibly",
+        "reversible adhesion",
+        "dry adhesive",
+        "gecko",
+        "removable adhesive",
+        "reusable adhesive",
+        "stick and release",
+        "gripping"
+      ],
+      "keywords_es": [
+        "adhesion reversible",
+        "adhesión reversible",
+        "adhesivo seco",
+        "gecko",
+        "adhesivo removible",
+        "adhesivo reutilizable",
+        "agarre",
+        "pegar y despegar"
+      ]
+    },
+    {
+      "id": "adhere-underwater",
+      "group": "attach-and-join",
+      "label": "Adhere underwater",
+      "keywords_en": [
+        "adhere underwater",
+        "wet adhesion",
+        "underwater glue",
+        "mussel",
+        "barnacle adhesive",
+        "bonding in water",
+        "wet surface adhesive",
+        "bioadhesive"
+      ],
+      "keywords_es": [
+        "adherir bajo el agua",
+        "adhesion humeda",
+        "adhesión húmeda",
+        "pegamento submarino",
+        "mejillon",
+        "mejillón",
+        "union en agua",
+        "adhesivo superficie mojada",
+        "bioadhesivo"
+      ]
+    },
+    {
+      "id": "join-without-fasteners",
+      "group": "attach-and-join",
+      "label": "Join without fasteners",
+      "keywords_en": [
+        "join without fasteners",
+        "no screws",
+        "fastener free",
+        "interlocking",
+        "snap fit",
+        "joint",
+        "joining",
+        "velcro",
+        "dovetail",
+        "assembly without glue"
+      ],
+      "keywords_es": [
+        "unir sin fijaciones",
+        "sin tornillos",
+        "sin elementos de fijacion",
+        "encaje",
+        "ensamblaje sin adhesivo",
+        "union",
+        "unión",
+        "velcro",
+        "cola de milano",
+        "machihembrado"
+      ]
+    },
+    {
+      "id": "make-at-ambient-conditions",
+      "group": "make-and-assemble",
+      "label": "Make at ambient conditions",
+      "keywords_en": [
+        "ambient temperature",
+        "room temperature",
+        "low energy manufacturing",
+        "low temperature process",
+        "in water",
+        "green chemistry",
+        "no toxic",
+        "non-toxic",
+        "benign chemistry",
+        "energy-intensive process"
+      ],
+      "keywords_es": [
+        "temperatura ambiente",
+        "fabricacion a baja energia",
+        "fabricación de bajo consumo",
+        "proceso a baja temperatura",
+        "en agua",
+        "quimica verde",
+        "química verde",
+        "sin toxicos",
+        "sin tóxicos",
+        "no toxico",
+        "proceso intensivo en energia"
+      ]
+    },
+    {
+      "id": "self-assemble",
+      "group": "make-and-assemble",
+      "label": "Self-assemble",
+      "keywords_en": [
+        "self-assemble",
+        "self-assembly",
+        "bottom-up",
+        "templating",
+        "crystallisation",
+        "crystallization",
+        "mineralisation",
+        "mineralization",
+        "autonomous assembly"
+      ],
+      "keywords_es": [
+        "autoensamblaje",
+        "autoensamblado",
+        "auto-ensamblaje",
+        "ensamblaje ascendente",
+        "plantilla",
+        "cristalizacion",
+        "cristalización",
+        "mineralizacion",
+        "mineralización"
+      ]
+    },
+    {
+      "id": "colour-without-pigment",
+      "group": "make-and-assemble",
+      "label": "Colour without pigment",
+      "keywords_en": [
+        "structural colour",
+        "structural color",
+        "colour without pigment",
+        "color without pigment",
+        "iridescent",
+        "iridescence",
+        "pigment-free",
+        "dye free",
+        "photonic",
+        "non-toxic dye"
+      ],
+      "keywords_es": [
+        "color estructural",
+        "color sin pigmento",
+        "iridiscente",
+        "iridiscencia",
+        "sin pigmentos",
+        "sin tintes",
+        "fotonico",
+        "fotónico",
+        "colorante no toxico",
+        "tinte"
+      ]
+    },
+    {
+      "id": "grow-material",
+      "group": "make-and-assemble",
+      "label": "Grow material",
+      "keywords_en": [
+        "grow material",
+        "grown material",
+        "mycelium",
+        "biofabrication",
+        "biofabricated",
+        "bacterial cellulose",
+        "living material",
+        "bio-based material",
+        "natural fibre",
+        "natural fiber",
+        "cork",
+        "wood"
+      ],
+      "keywords_es": [
+        "crecer material",
+        "material cultivado",
+        "micelio",
+        "biofabricacion",
+        "biofabricación",
+        "celulosa bacteriana",
+        "material vivo",
+        "material biobasado",
+        "fibra natural",
+        "corcho",
+        "madera"
+      ]
+    },
+    {
+      "id": "biodegrade",
+      "group": "break-down-and-recycle",
+      "label": "Biodegrade",
+      "keywords_en": [
+        "biodegrade",
+        "biodegradable",
+        "compostable",
+        "packaging that biodegrades",
+        "degrades safely",
+        "bioplastic",
+        "plastic alternative",
+        "single-use plastic",
+        "plastic replacement",
+        "packaging"
+      ],
+      "keywords_es": [
+        "biodegradar",
+        "biodegradable",
+        "compostable",
+        "envase biodegradable",
+        "embalaje que se biodegrada",
+        "degrada de forma segura",
+        "bioplastico",
+        "bioplástico",
+        "alternativa al plastico",
+        "plastico de un solo uso",
+        "sustituto del plastico",
+        "embalaje",
+        "envase"
+      ]
+    },
+    {
+      "id": "design-for-disassembly",
+      "group": "break-down-and-recycle",
+      "label": "Design for disassembly",
+      "keywords_en": [
+        "design for disassembly",
+        "disassembly",
+        "demountable",
+        "recyclable design",
+        "recyclability",
+        "modular",
+        "separable materials",
+        "end of life",
+        "take back"
+      ],
+      "keywords_es": [
+        "diseño para desmontaje",
+        "desmontaje",
+        "desmontable",
+        "diseño reciclable",
+        "reciclabilidad",
+        "modular",
+        "materiales separables",
+        "fin de vida",
+        "retorno de producto"
+      ]
+    },
+    {
+      "id": "reuse-waste-as-input",
+      "group": "break-down-and-recycle",
+      "label": "Reuse waste as input",
+      "keywords_en": [
+        "reuse waste",
+        "waste as input",
+        "waste as resource",
+        "by-product",
+        "byproduct",
+        "upcycle",
+        "upcycling",
+        "recycle waste",
+        "valorise waste",
+        "circular economy",
+        "residue"
+      ],
+      "keywords_es": [
+        "reutilizar residuos",
+        "residuo como insumo",
+        "residuo como recurso",
+        "subproducto",
+        "valorizar residuos",
+        "reciclar residuos",
+        "economia circular",
+        "economía circular",
+        "reciclaje",
+        "valorizacion de residuos"
+      ]
+    },
+    {
+      "id": "repair",
+      "group": "break-down-and-recycle",
+      "label": "Repair",
+      "keywords_en": [
+        "self-healing",
+        "self repair",
+        "repair",
+        "healing",
+        "regenerate",
+        "damage repair",
+        "repairable",
+        "restore",
+        "extend lifetime"
+      ],
+      "keywords_es": [
+        "autorreparacion",
+        "autorreparación",
+        "autorreparable",
+        "reparar",
+        "curacion",
+        "curación",
+        "regenerar",
+        "reparacion de daños",
+        "reparable",
+        "alargar vida util"
+      ]
+    },
+    {
+      "id": "sense-environment",
+      "group": "sense-and-respond",
+      "label": "Sense environment",
+      "keywords_en": [
+        "sense environment",
+        "sensor",
+        "sensing",
+        "detect",
+        "detection",
+        "monitoring",
+        "humidity sensing",
+        "strain sensing",
+        "biosensor",
+        "early warning"
+      ],
+      "keywords_es": [
+        "detectar el entorno",
+        "sensor",
+        "sensado",
+        "detectar",
+        "deteccion",
+        "detección",
+        "monitorizacion",
+        "monitorización",
+        "sensor de humedad",
+        "biosensor",
+        "alerta temprana"
+      ]
+    },
+    {
+      "id": "respond-adaptively",
+      "group": "sense-and-respond",
+      "label": "Respond adaptively",
+      "keywords_en": [
+        "respond adaptively",
+        "adaptive",
+        "responsive",
+        "stimuli-responsive",
+        "smart material",
+        "shape change",
+        "shape-changing",
+        "self-adjusting",
+        "actuating",
+        "hygromorphic"
+      ],
+      "keywords_es": [
+        "respuesta adaptativa",
+        "adaptativo",
+        "adaptable",
+        "sensible a estimulos",
+        "material inteligente",
+        "cambio de forma",
+        "autoajustable",
+        "actuador",
+        "higromorfico",
+        "higromórfico"
+      ]
+    },
+    {
+      "id": "reduce-friction",
+      "group": "move-efficiently",
+      "label": "Reduce friction",
+      "keywords_en": [
+        "reduce friction",
+        "low friction",
+        "friction reduction",
+        "lubrication",
+        "lubricant",
+        "slippery",
+        "anti-friction",
+        "sliding",
+        "bearing"
+      ],
+      "keywords_es": [
+        "reducir friccion",
+        "reducir fricción",
+        "baja friccion",
+        "lubricacion",
+        "lubricación",
+        "lubricante",
+        "resbaladizo",
+        "antifriccion",
+        "deslizamiento",
+        "rodamiento"
+      ]
+    },
+    {
+      "id": "move-fluids-efficiently",
+      "group": "move-efficiently",
+      "label": "Move fluids efficiently",
+      "keywords_en": [
+        "move fluids efficiently",
+        "fluid flow",
+        "pump efficiency",
+        "pumping energy",
+        "pipe flow",
+        "mixing",
+        "vortex",
+        "turbine",
+        "fan efficiency",
+        "pressure drop"
+      ],
+      "keywords_es": [
+        "mover fluidos eficientemente",
+        "flujo de fluidos",
+        "eficiencia de bombeo",
+        "energia de bombeo",
+        "tuberia",
+        "mezclado",
+        "vortice",
+        "vórtice",
+        "turbina",
+        "eficiencia de ventilador",
+        "perdida de carga"
+      ]
+    },
+    {
+      "id": "improve-aerodynamics",
+      "group": "move-efficiently",
+      "label": "Improve aerodynamics",
+      "keywords_en": [
+        "improve aerodynamics",
+        "aerodynamic",
+        "aerodynamics",
+        "wing",
+        "wind turbine blade",
+        "lift",
+        "noise reduction",
+        "quieter",
+        "airfoil",
+        "flight"
+      ],
+      "keywords_es": [
+        "mejorar aerodinamica",
+        "aerodinámica",
+        "aerodinamico",
+        "ala",
+        "pala de aerogenerador",
+        "sustentacion",
+        "sustentación",
+        "reduccion de ruido",
+        "mas silencioso",
+        "perfil alar",
+        "vuelo"
+      ]
+    },
+    {
+      "id": "build-soil",
+      "group": "sustain-ecosystems",
+      "label": "Build soil",
+      "keywords_en": [
+        "build soil",
+        "soil health",
+        "soil carbon",
+        "regenerative agriculture",
+        "compost",
+        "soil fertility",
+        "erosion control",
+        "cover crop",
+        "soil regeneration",
+        "soil organic matter"
+      ],
+      "keywords_es": [
+        "construir suelo",
+        "salud del suelo",
+        "carbono del suelo",
+        "agricultura regenerativa",
+        "compost",
+        "fertilidad del suelo",
+        "control de erosion",
+        "control de erosión",
+        "cubierta vegetal",
+        "regeneracion del suelo",
+        "materia organica"
+      ]
+    },
+    {
+      "id": "support-pollinators",
+      "group": "sustain-ecosystems",
+      "label": "Support pollinators",
+      "keywords_en": [
+        "support pollinators",
+        "pollinator",
+        "pollination",
+        "bees",
+        "biodiversity",
+        "wildflower",
+        "insect habitat",
+        "hedgerow",
+        "flower strips"
+      ],
+      "keywords_es": [
+        "apoyar polinizadores",
+        "polinizador",
+        "polinizacion",
+        "polinización",
+        "abejas",
+        "biodiversidad",
+        "flores silvestres",
+        "habitat de insectos",
+        "seto",
+        "franjas florales"
+      ]
+    },
+    {
+      "id": "provide-habitat",
+      "group": "sustain-ecosystems",
+      "label": "Provide habitat",
+      "keywords_en": [
+        "provide habitat",
+        "habitat",
+        "wildlife",
+        "ecological corridor",
+        "nature-based solution",
+        "green roof",
+        "green infrastructure",
+        "restoration",
+        "rewilding",
+        "native species",
+        "reserve"
+      ],
+      "keywords_es": [
+        "proporcionar habitat",
+        "hábitat",
+        "fauna silvestre",
+        "corredor ecologico",
+        "corredor ecológico",
+        "solucion basada en la naturaleza",
+        "solución basada en la naturaleza",
+        "cubierta verde",
+        "infraestructura verde",
+        "restauracion",
+        "restauración",
+        "especies nativas",
+        "reserva"
+      ]
+    },
+    {
+      "id": "regulate-water-cycle",
+      "group": "sustain-ecosystems",
+      "label": "Regulate water cycle",
+      "keywords_en": [
+        "regulate water cycle",
+        "water cycle",
+        "flood control",
+        "stormwater",
+        "runoff",
+        "infiltration",
+        "wetland",
+        "groundwater recharge",
+        "watershed",
+        "drought resilience"
+      ],
+      "keywords_es": [
+        "regular ciclo del agua",
+        "ciclo hidrologico",
+        "ciclo hidrológico",
+        "control de inundaciones",
+        "aguas pluviales",
+        "escorrentia",
+        "escorrentía",
+        "infiltracion",
+        "infiltración",
+        "humedal",
+        "recarga de acuiferos",
+        "cuenca",
+        "resiliencia a la sequia"
+      ]
+    },
+    {
+      "id": "distribute-through-networks",
+      "group": "optimise-systems",
+      "label": "Distribute through networks",
+      "keywords_en": [
+        "distribute through networks",
+        "network",
+        "distribution network",
+        "branching",
+        "decentralised",
+        "decentralized",
+        "logistics",
+        "routing",
+        "resilient network",
+        "supply network",
+        "swarm"
+      ],
+      "keywords_es": [
+        "distribuir en red",
+        "red",
+        "red de distribucion",
+        "red de distribución",
+        "ramificacion",
+        "ramificación",
+        "descentralizado",
+        "logistica",
+        "logística",
+        "enrutamiento",
+        "red resiliente",
+        "red de suministro",
+        "enjambre"
+      ]
+    },
+    {
+      "id": "share-resources-symbiotically",
+      "group": "optimise-systems",
+      "label": "Share resources symbiotically",
+      "keywords_en": [
+        "industrial symbiosis",
+        "symbiosis",
+        "share resources",
+        "resource sharing",
+        "shared infrastructure",
+        "cascade use",
+        "eco-industrial park",
+        "waste exchange",
+        "cooperation",
+        "neighbouring plants"
+      ],
+      "keywords_es": [
+        "simbiosis industrial",
+        "simbiosis",
+        "compartir recursos",
+        "recursos compartidos",
+        "infraestructura compartida",
+        "uso en cascada",
+        "parque ecoindustrial",
+        "intercambio de residuos",
+        "cooperacion",
+        "cooperación",
+        "plantas vecinas"
+      ]
+    },
+    {
+      "id": "source-locally",
+      "group": "optimise-systems",
+      "label": "Source locally",
+      "keywords_en": [
+        "source locally",
+        "local sourcing",
+        "local materials",
+        "regional supply",
+        "short supply chain",
+        "locally available",
+        "km0",
+        "proximity",
+        "local feedstock"
+      ],
+      "keywords_es": [
+        "abastecimiento local",
+        "aprovisionamiento local",
+        "materiales locales",
+        "suministro regional",
+        "cadena de suministro corta",
+        "disponible localmente",
+        "km0",
+        "proximidad",
+        "materia prima local"
+      ]
+    }
+  ],
+  "sectors": [
+    {
+      "id": "steel-aluminium",
+      "label_en": "Steel and aluminium",
+      "label_es": "Acero y aluminio",
+      "nace_rev21_divisions": [
+        "24"
+      ],
+      "keywords_en": [
+        "steel",
+        "aluminium",
+        "aluminum",
+        "metal",
+        "metallurgy",
+        "foundry",
+        "smelter",
+        "casting",
+        "rolling mill"
+      ],
+      "keywords_es": [
+        "acero",
+        "aluminio",
+        "metal",
+        "metalurgia",
+        "fundicion",
+        "fundición",
+        "fundidora",
+        "laminacion",
+        "siderurgia"
+      ]
+    },
+    {
+      "id": "construction-materials",
+      "label_en": "Construction materials",
+      "label_es": "Materiales de construcción",
+      "nace_rev21_divisions": [
+        "23",
+        "41",
+        "42",
+        "43"
+      ],
+      "keywords_en": [
+        "construction",
+        "building",
+        "cement",
+        "concrete",
+        "brick",
+        "glass",
+        "ceramic",
+        "mortar",
+        "facade",
+        "roof",
+        "insulation panel",
+        "civil engineering"
+      ],
+      "keywords_es": [
+        "construccion",
+        "construcción",
+        "edificio",
+        "edificacion",
+        "cemento",
+        "hormigon",
+        "hormigón",
+        "ladrillo",
+        "vidrio",
+        "ceramica",
+        "cerámica",
+        "mortero",
+        "fachada",
+        "cubierta",
+        "obra civil"
+      ]
+    },
+    {
+      "id": "packaging",
+      "label_en": "Packaging",
+      "label_es": "Envases y embalajes",
+      "nace_rev21_divisions": [
+        "17",
+        "22"
+      ],
+      "keywords_en": [
+        "packaging",
+        "package",
+        "container",
+        "paper",
+        "cardboard",
+        "plastic",
+        "film",
+        "bottle",
+        "bag",
+        "wrapper",
+        "label"
+      ],
+      "keywords_es": [
+        "envase",
+        "embalaje",
+        "empaque",
+        "contenedor",
+        "papel",
+        "carton",
+        "cartón",
+        "plastico",
+        "plástico",
+        "film",
+        "botella",
+        "bolsa",
+        "etiqueta"
+      ]
+    },
+    {
+      "id": "cosmetics",
+      "label_en": "Cosmetics",
+      "label_es": "Cosmética",
+      "nace_rev21_divisions": [
+        "20"
+      ],
+      "keywords_en": [
+        "cosmetics",
+        "cosmetic",
+        "skincare",
+        "personal care",
+        "perfume",
+        "fragrance",
+        "pigment",
+        "dye",
+        "emulsion",
+        "sunscreen"
+      ],
+      "keywords_es": [
+        "cosmetica",
+        "cosmética",
+        "cosmeticos",
+        "cosméticos",
+        "cuidado de la piel",
+        "cuidado personal",
+        "perfume",
+        "fragancia",
+        "pigmento",
+        "tinte",
+        "emulsion",
+        "protector solar"
+      ]
+    },
+    {
+      "id": "textiles",
+      "label_en": "Textiles",
+      "label_es": "Textil",
+      "nace_rev21_divisions": [
+        "13",
+        "14"
+      ],
+      "keywords_en": [
+        "textile",
+        "textiles",
+        "fabric",
+        "fibre",
+        "fiber",
+        "garment",
+        "clothing",
+        "apparel",
+        "yarn",
+        "dyeing",
+        "leather",
+        "footwear"
+      ],
+      "keywords_es": [
+        "textil",
+        "textiles",
+        "tejido",
+        "tela",
+        "fibra",
+        "prenda",
+        "ropa",
+        "confeccion",
+        "confección",
+        "hilo",
+        "tintura",
+        "cuero",
+        "calzado"
+      ]
+    },
+    {
+      "id": "automotive",
+      "label_en": "Automotive",
+      "label_es": "Automoción",
+      "nace_rev21_divisions": [
+        "29"
+      ],
+      "keywords_en": [
+        "automotive",
+        "car",
+        "cars",
+        "vehicle",
+        "vehicles",
+        "automobile",
+        "truck",
+        "electric vehicle",
+        "chassis",
+        "bodywork",
+        "tyre",
+        "tire",
+        "engine"
+      ],
+      "keywords_es": [
+        "automocion",
+        "automoción",
+        "coche",
+        "coches",
+        "vehiculo",
+        "vehículo",
+        "automovil",
+        "automóvil",
+        "camion",
+        "camión",
+        "vehiculo electrico",
+        "chasis",
+        "carroceria",
+        "carrocería",
+        "neumatico",
+        "motor"
+      ]
+    },
+    {
+      "id": "energy",
+      "label_en": "Energy",
+      "label_es": "Energía",
+      "nace_rev21_divisions": [
+        "35"
+      ],
+      "keywords_en": [
+        "energy",
+        "power",
+        "electricity",
+        "solar",
+        "wind",
+        "battery",
+        "grid",
+        "heat pump",
+        "renewable",
+        "hydrogen",
+        "utility"
+      ],
+      "keywords_es": [
+        "energia",
+        "energía",
+        "electricidad",
+        "solar",
+        "eolica",
+        "eólica",
+        "bateria",
+        "batería",
+        "red electrica",
+        "red eléctrica",
+        "bomba de calor",
+        "renovable",
+        "hidrogeno",
+        "hidrógeno"
+      ]
+    },
+    {
+      "id": "agrifood",
+      "label_en": "Agriculture and food",
+      "label_es": "Agroalimentario",
+      "nace_rev21_divisions": [
+        "01",
+        "10",
+        "11"
+      ],
+      "keywords_en": [
+        "agriculture",
+        "agrifood",
+        "farm",
+        "farming",
+        "food",
+        "food processing",
+        "crop",
+        "livestock",
+        "dairy",
+        "beverage",
+        "olive",
+        "vineyard",
+        "cork oak",
+        "dehesa"
+      ],
+      "keywords_es": [
+        "agricultura",
+        "agroalimentario",
+        "finca",
+        "explotacion agraria",
+        "explotación agraria",
+        "alimentacion",
+        "alimentación",
+        "industria alimentaria",
+        "cultivo",
+        "ganaderia",
+        "ganadería",
+        "lacteo",
+        "lácteo",
+        "bebida",
+        "olivar",
+        "vinedo",
+        "viñedo",
+        "alcornoque",
+        "dehesa"
+      ]
+    },
+    {
+      "id": "water-utilities",
+      "label_en": "Water and waste utilities",
+      "label_es": "Agua y residuos",
+      "nace_rev21_divisions": [
+        "36",
+        "37"
+      ],
+      "keywords_en": [
+        "water utility",
+        "water supply",
+        "wastewater",
+        "sewage",
+        "treatment plant",
+        "desalination plant",
+        "waste management",
+        "water network",
+        "sanitation"
+      ],
+      "keywords_es": [
+        "servicio de agua",
+        "abastecimiento de agua",
+        "aguas residuales",
+        "alcantarillado",
+        "depuradora",
+        "planta desaladora",
+        "gestion de residuos",
+        "gestión de residuos",
+        "red de agua",
+        "saneamiento"
+      ]
+    },
+    {
+      "id": "chemicals",
+      "label_en": "Chemicals",
+      "label_es": "Química",
+      "nace_rev21_divisions": [
+        "20"
+      ],
+      "keywords_en": [
+        "chemicals",
+        "chemical",
+        "chemistry",
+        "polymer",
+        "resin",
+        "adhesive",
+        "coating",
+        "paint",
+        "solvent",
+        "surfactant",
+        "catalyst",
+        "fertiliser"
+      ],
+      "keywords_es": [
+        "quimica",
+        "química",
+        "quimicos",
+        "químicos",
+        "polimero",
+        "polímero",
+        "resina",
+        "adhesivo",
+        "recubrimiento",
+        "pintura",
+        "disolvente",
+        "tensioactivo",
+        "catalizador",
+        "fertilizante"
+      ]
+    }
+  ],
+  "trl": {
+    "source": "Horizon Europe Work Programme 2026-2027, General Annexes, p.15",
+    "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/wp-call/2026-2027/wp-15-general-annexes_horizon-2026-2027_en.pdf",
+    "levels": [
+      {
+        "level": 1,
+        "label": "Basic principles observed"
+      },
+      {
+        "level": 2,
+        "label": "Technology concept formulated"
+      },
+      {
+        "level": 3,
+        "label": "Experimental proof of concept"
+      },
+      {
+        "level": 4,
+        "label": "Technology validated in a lab"
+      },
+      {
+        "level": 5,
+        "label": "Technology validated in a relevant environment (industrially relevant environment in the case of key enabling technologies)"
+      },
+      {
+        "level": 6,
+        "label": "Technology demonstrated in a relevant environment (industrially relevant environment in the case of key enabling technologies)"
+      },
+      {
+        "level": 7,
+        "label": "System prototype demonstration in an operational environment"
+      },
+      {
+        "level": 8,
+        "label": "System complete and qualified"
+      },
+      {
+        "level": 9,
+        "label": "Actual system proven in an operational environment (competitive manufacturing in the case of key enabling technologies, or in space)"
+      }
+    ]
+  },
+  "evidence_grades": [
+    {
+      "id": "strong",
+      "rule": "At least 2 sources with a DOI or URL and at least 1 measured value."
+    },
+    {
+      "id": "moderate",
+      "rule": "At least 2 sources, or 1 source with a measured value."
+    },
+    {
+      "id": "weak",
+      "rule": "1 source and no measured value."
+    },
+    {
+      "id": "contested",
+      "rule": "Provenance is disputed or a popular-claim note is set. Takes precedence over all other grades."
+    }
+  ],
+  "provenance_statuses": [
+    {
+      "id": "ai_extracted",
+      "meaning": "Drafted by an extraction pipeline from the cited sources; not yet checked by an expert."
+    },
+    {
+      "id": "expert_validated",
+      "meaning": "Checked against the cited sources by a named expert on a recorded date."
+    },
+    {
+      "id": "disputed",
+      "meaning": "A claim in this record is contested in the literature or by a reviewer."
+    }
+  ]
+}
