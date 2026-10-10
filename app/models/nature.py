@@ -236,7 +236,7 @@ class AskRequest(_Strict):
 class AskResponse(_Strict):
     challenge: str
     parsed_functions: list[str]
-    verdict: str
+    verdict: Literal["promising", "weak", "no_strong_option"]
     answer: dict
     library_hits: list[LibraryHit]
     map_hits: list[MapHit]
