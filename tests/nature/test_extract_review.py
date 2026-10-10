@@ -275,7 +275,8 @@ def test_promoted_library_passes_validator(data_dir, monkeypatch):
     validator = _load("validate_db")
     assert validator.main(["--data-dir", str(data_dir)]) == 0
     lib = json.loads((data_dir / "library.json").read_text(encoding="utf-8"))
-    assert lib[-1]["id"] == "lib-0067"
+    next_id = max(int(r["id"].split("-")[1]) for r in lib[:-1]) + 1
+    assert lib[-1]["id"] == f"lib-{next_id:04d}"
 
 
 def test_validate_and_dispute_mutate_and_log(data_dir):
