@@ -339,3 +339,13 @@ def test_validate_script_fails_on_bad_data(tmp_path):
                             cwd=REPO, capture_output=True, text=True)
     assert result.returncode == 1
     assert "levitate" in result.stderr
+
+
+def test_validate_markdown_matches_the_datasheet_table():
+    result = subprocess.run([sys.executable, "scripts/nature/validate_db.py", "--markdown"],
+                            cwd=REPO, capture_output=True, text=True, encoding="utf-8")
+    assert result.returncode == 0, result.stderr
+    table = [line for line in result.stdout.splitlines() if line.startswith("|")]
+    assert table[0] == "| Metric | Value |" and len(table) == 12
+    readme = (REPO / "data" / "nature" / "README.md").read_text(encoding="utf-8")
+    assert "\n".join(table) in readme

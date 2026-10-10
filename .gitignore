@@ -63,3 +63,7 @@ frontend/dist/
 
 # Nature harvest raw-response cache
 scripts/nature/.cache/
+
+# Nature review workflow files (local, not served). data/nature/index/ stays committable.
+data/nature/library_staging.json
+data/nature/review_log.jsonl

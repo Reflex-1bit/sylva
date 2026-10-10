@@ -1,7 +1,7 @@
 """
 Sylva - Nature arm: Gemini embeddings client and on-disk index loader.
 
-gemini-embedding-2 takes no taskType; the task is encoded in the text prefix.
+gemini-embedding-2 takes no task-type field; the task is encoded in the text prefix.
 Auth is the x-goog-api-key header (never the query string).
 """
 

@@ -111,7 +111,7 @@ With a key, Gemini writes richer JSON using retrieved knowledge chunks.
 | GET | `/api/v1/nature/sectors` | Sectors |
 | GET | `/api/v1/nature/sectors/{id}/gaps` | Sector gaps (classified papers only, unclassified count shown) |
 | POST | `/api/v1/nature/ask` | Challenge in, ranked records and a cited answer out |
-| GET | `/api/v1/nature/export/{db}?format=json` or `csv` | Open export; `db` is `library` (served records only) or `map` |
+| GET | `/api/v1/nature/export/{db}?format=json` or `csv` | Open export; `db` is `library` (served records only) or `industry_map` (alias `map`) |
 
 ```bash
 curl -X POST http://localhost:8000/api/v1/nature/ask \
@@ -119,10 +119,16 @@ curl -X POST http://localhost:8000/api/v1/nature/ask \
   -d '{"challenge":"surface that sheds dirt without detergent"}'
 ```
 
-Without `GEMINI_API_KEY`, `ask` uses BM25 plus function recall and a deterministic
-answer. To switch on embeddings and the model-written answer, set the key and run
-`python scripts/nature/build_index.py`. The datasheet, licence (CC BY 4.0) and known
-gaps are in [`data/nature/README.md`](data/nature/README.md).
+Without `GEMINI_API_KEY` (or its alias `GOOGLE_API_KEY`), `ask` uses BM25 plus function
+recall and a deterministic answer. To switch on embeddings and the model-written answer,
+set the key and run `python scripts/nature/build_index.py`. The datasheet, licence
+(CC BY 4.0) and known gaps are in [`data/nature/README.md`](data/nature/README.md).
+
+The nature data is CC BY 4.0. Attribute it as
+**Sylva — nature library and industry R&D map, CC BY 4.0**. JSON exports carry the
+licence and this attribution in the file. CSV exports are a plain table that carries
+them only in the `Link` and `X-Attribution` response headers and the file name, so if you
+reuse a CSV export you must keep the attribution with it.
 
 ## Project layout
 

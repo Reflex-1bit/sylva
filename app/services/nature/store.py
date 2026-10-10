@@ -1,8 +1,8 @@
 """
 Sylva — Nature arm data store: lazy load, validate, serving gate, stats.
 
-Reads data/nature/{taxonomy,library,industry_map}.json. Never touches
-data/species_db.json.
+Reads data/nature/{taxonomy,library,industry_map}.json. Never touches the
+Agroforestree species file (all rights reserved).
 """
 
 import json

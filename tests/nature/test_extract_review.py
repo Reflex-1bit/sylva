@@ -374,7 +374,7 @@ def test_promote_is_idempotent_after_crash_between_writes(data_dir, monkeypatch)
     assert _log(data_dir)[-1]["action"] == "promote_dedup"
 
 
-def test_promote_dedup_by_title_when_no_doi(data_dir):
+def test_promote_dedups_content_identical_record_without_doi(data_dir):
     lib_rec = _lib_record("lib-0001")
     stg = json.loads(json.dumps(lib_rec))
     stg["id"] = "stg-0001"

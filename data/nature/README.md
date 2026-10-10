@@ -12,7 +12,7 @@ This folder holds two open databases and the vocabulary that joins them.
 | `library.json` | The nature library: mechanisms, materials, processes and practices, each with sources. |
 | `industry_map.json` | The industry R&D map: papers and companies in Spain and Portugal, by sector. |
 
-Files created on demand and not committed: `library_staging.json` (extraction output awaiting review), `review_log.jsonl` (reviewer actions), `index/` (embeddings, only after `build_index.py` runs with a key).
+Files created on demand: `library_staging.json` (extraction output awaiting review) and `review_log.jsonl` (reviewer actions) are local and git-ignored; `index/` (embeddings, only after `build_index.py` runs with a key) can be committed so the vectors ship with the data.
 
 The design is in `connected-systems/07-building-the-nature-arm.md` (sections 7.2 and 7.3) and `connected-systems/02-biomimicry-blueprint.md` (the ranking, section 2.4).
 
@@ -95,10 +95,10 @@ Both are enforced by pydantic models in `app/models/nature.py` (unknown fields a
 | Allowed in these files | Link or cite only, never copy |
 |---|---|
 | Our own summaries, written from primary literature | AskNature text and taxonomy |
-| DOI, title, year, venue, institutions (facts; OpenAlex and Crossref) | Publisher abstracts (`abstract_inverted_index` is never stored) |
+| DOI, title, year, venue, institutions (facts; OpenAlex and Crossref) | Publisher abstracts (the OpenAlex abstract field is never stored) |
 | GBIF names and usage keys (CC BY 4.0, attributed) | EPO OPS or Lens raw data |
 | NACE Rev.2.1 / CNAE-2025 codes, Horizon Europe TRL wording | Sylva's `data/species_db.json` |
-| A verbatim supporting sentence, only from papers licensed CC BY or CC0 | Client problems or findings |
+| A verbatim supporting sentence, only from papers licensed CC BY or CC0 (not SA, NC or ND) | Client problems or findings |
 
 No DOI, GBIF key, company or measured value is invented. A null is used instead of a guess. Every DOI is checked by `scripts/nature/verify_sources.py`.
 
@@ -128,13 +128,14 @@ Two rules sit on top of the formula:
 1. **Function-first tiers.** When the challenge parses to at least one function, records that match one of those functions rank above all others. Within a tier, the score decides. A record outside the first tier cannot get a "promising" verdict.
 2. **Function-based recall.** Records carrying the parsed functions are added to the candidates even when their text does not match the query. This is why a challenge written in Spanish or Portuguese finds the English-language records: the function is read from the Spanish or Portuguese keywords, and the library text is English.
 
-The answer text is phrased by a model when `GEMINI_API_KEY` is set. It can only cite record ids that were retrieved, and a citation guard enforces that. Without a key, retrieval is BM25 plus function recall only, and the answer is a deterministic fallback built from the ranked records. The embedding index and the model path are implemented, but have only been tested with mocks so far. To activate them, set the key and run `python scripts/nature/build_index.py`.
+The answer text is phrased by a model when `GEMINI_API_KEY` (or its alias `GOOGLE_API_KEY`) is set. It can only cite record ids that were retrieved, and a citation guard enforces that. Without a key, retrieval is BM25 plus function recall only, and the answer is a deterministic fallback built from the ranked records. The embedding index and the model path are implemented, but have only been tested with mocks so far. To activate them, set the key and run `python scripts/nature/build_index.py`.
 
 Sector gaps are computed from classified map papers only. The response always shows how many papers in the sector are unclassified.
 
 ## Using the data
 
-- API: `GET /api/v1/nature/library`, `/map`, `/sectors`, `/sectors/{id}/gaps`, `/stats`, `/meta`, `POST /api/v1/nature/ask`, and `GET /api/v1/nature/export/{library|map}?format=json|csv`. Exports carry the licence in the `X-License` header. Library exports contain served records only.
+- API: `GET /api/v1/nature/library`, `/map`, `/sectors`, `/sectors/{id}/gaps`, `/stats`, `/meta`, `POST /api/v1/nature/ask`, and `GET /api/v1/nature/export/{library|industry_map}?format=json|csv` (`map` is accepted as an alias for `industry_map`). Library exports contain served records only.
+- Licence in exports: JSON exports are an object `{"licence", "licence_url", "attribution", "version", "db", "records": [...]}`. CSV exports stay a plain table with no comment rows; the licence travels in the `Link: <https://creativecommons.org/licenses/by/4.0/>; rel="license"` and `X-Attribution` headers (ASCII, with "-" for the dash) and in the file name (`...-CC-BY-4.0.csv`). **If you use a CSV export, you must keep the attribution with it yourself.**
 - Files: read the three JSON files directly. Remember to apply the serving gate if you republish the library.
 - Web page: `/nature`.
 
@@ -160,5 +161,5 @@ Reviewers are welcome, especially for traditional knowledge (consent) and the bi
 - **One DOI does not verify automatically.** Chertow 2000 is correct, but its Crossref title contains markup, so the title check fails. 87 of 88 DOIs verify.
 - **`known_products` is loose.** Some entries are product categories rather than specific products, and still earn the manufacturability points.
 - **Keyword overlaps.** A few terms (superhydrophobic, aerodynamics) sit under two neighbouring functions, so a query can pull in both.
-- **Embeddings and the model path are untested live.** They need `GEMINI_API_KEY`.
+- **Embeddings and the model path are untested live.** They need `GEMINI_API_KEY` (or `GOOGLE_API_KEY`).
 - **CC BY or CC0 is undecided** (7.9, item 4).
