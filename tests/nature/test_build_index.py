@@ -49,3 +49,31 @@ async def test_build_writes_loadable_index(tmp_path):
         assert np.allclose(np.linalg.norm(matrix, axis=1), 1.0, atol=1e-5)
     # the quarantined records are not embedded
     assert len(meta["dbs"]["library"]["ids"]) == len(store.library(servable_only=True))
+
+
+@pytest.mark.asyncio
+async def test_partial_failure_leaves_old_index_intact(tmp_path):
+    for name in ("taxonomy.json", "library.json", "industry_map.json"):
+        shutil.copy(DEFAULT_DIR / name, tmp_path / name)
+    index = tmp_path / "index"
+    index.mkdir()
+    (index / "library.npy").write_bytes(b"old-library")
+    (index / "industry_map.npy").write_bytes(b"old-map")
+    (index / "index_meta.json").write_text("old-meta")
+
+    calls = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        calls.append(1)
+        if len(calls) > 1:  # the library embeds fine, the map embedding fails
+            return httpx.Response(500, json={"error": "boom"})
+        n = len(json.loads(request.content)["requests"])
+        return httpx.Response(200, json={"embeddings": [{"values": [1.0] * 768} for _ in range(n)]})
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        with pytest.raises(httpx.HTTPStatusError):
+            await build_index.build(tmp_path, "K", client=client)
+
+    assert (index / "library.npy").read_bytes() == b"old-library"
+    assert (index / "industry_map.npy").read_bytes() == b"old-map"
+    assert (index / "index_meta.json").read_text() == "old-meta"

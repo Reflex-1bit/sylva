@@ -34,6 +34,7 @@ async def build(data_dir: Path, api_key: str, client=None) -> dict:
     index_dir = Path(data_dir) / "index"
     index_dir.mkdir(parents=True, exist_ok=True)
     meta: dict = {"model": model, "dim": DEFAULT_DIM, "dbs": {}}
+    pending: list[tuple[Path, Path]] = []  # (temp, final); swapped in only after all succeed
     for name, (records, texts) in index_documents(store).items():
         matrix = await embed_texts(
             texts,
@@ -43,12 +44,17 @@ async def build(data_dir: Path, api_key: str, client=None) -> dict:
             model=model,
             client=client,
         )
-        np.save(index_dir / f"{name}.npy", matrix)
+        tmp = index_dir / f"{name}.npy.tmp"
+        with open(tmp, "wb") as fh:
+            np.save(fh, matrix)
+        pending.append((tmp, index_dir / f"{name}.npy"))
         meta["dbs"][name] = {"hash": content_hash(texts), "ids": [r.id for r in records]}
         print(f"{name}: {len(records)} records embedded")
-    (index_dir / "index_meta.json").write_text(
-        json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8"
-    )
+    meta_tmp = index_dir / "index_meta.json.tmp"
+    meta_tmp.write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
+    pending.append((meta_tmp, index_dir / "index_meta.json"))
+    for tmp, final in pending:
+        os.replace(tmp, final)
     return meta
 
 

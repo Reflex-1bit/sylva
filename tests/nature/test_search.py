@@ -27,7 +27,34 @@ def test_accent_fold():
 def test_tokenize_stopwords_short_and_plurals():
     assert tokenize("The sheds of a leaf, de la hoja") == ["shed", "leaf", "hoja"]
     assert tokenize("x 7 ok") == ["ok"]
-    assert tokenize("batteries glass leaves") == ["battery", "glass", "leave"]
+    assert tokenize("batteries glass") == ["battery", "glass"]
+
+
+@pytest.mark.parametrize(
+    "plural, singular",
+    [
+        ("processes", "process"),
+        ("boxes", "box"),
+        ("patches", "patch"),
+        ("gases", "gas"),
+        ("materiales", "material"),
+        ("flores", "flor"),
+        ("ciudades", "ciudad"),
+        ("naciones", "nacion"),
+        ("procesos", "proceso"),
+        ("stores", "store"),  # English -ores is not read as Spanish
+        ("scores", "score"),
+        ("tables", "table"),
+        ("surfaces", "surface"),
+    ],
+)
+def test_plural_forms_meet_their_singular(plural, singular):
+    assert tokenize(plural) == tokenize(singular) == [singular]
+
+
+def test_plural_known_limitation_irregulars():
+    # Pinned limitation: irregular plurals are not folded, leaves != leaf.
+    assert tokenize("leaves") != tokenize("leaf")
 
 
 # ── bm25 ─────────────────────────────────────────────────────────────────
@@ -129,6 +156,17 @@ async def test_embed_400_retries_once_with_top_level_dimension():
     assert out.shape == (1, 2)
 
 
+@pytest.mark.asyncio
+async def test_400_fallback_form_is_reused_for_later_batches():
+    calls = []
+    async with httpx.AsyncClient(transport=_transport(calls, reject_nested=True)) as client:
+        await embed_texts(["t"] * 250, kind="document", api_key="K", dim=2, client=client)
+    # 1 rejected nested try + 3 batches in the top-level form, no per-batch retry
+    assert len(calls) == 4
+    assert "embedContentConfig" in calls[0][1]["requests"][0]
+    assert all("embedContentConfig" not in b["requests"][0] for _, b in calls[1:])
+
+
 def test_model_env_override(monkeypatch):
     monkeypatch.setenv("NATURE_EMBED_MODEL", "other-model")
     assert embeddings.embed_model() == "other-model"
@@ -188,25 +226,56 @@ async def test_library_filters():
     search = NatureSearch(REAL_STORE)
     hits = await search.search_library("water", functions=["capture-water"], k=50)
     assert hits and all("capture-water" in r.functions for r, _ in hits)
-    hits = await search.search_library("surface", kinds=["practice"], k=50)
+
+    unfiltered = await search.search_library("material", k=500)
+    assert any(r.kind != "practice" for r, _ in unfiltered)
+    assert any(r.kind == "practice" for r, _ in unfiltered)
+    hits = await search.search_library("material", kinds=["practice"], k=500)
+    assert hits
     assert all(r.kind == "practice" for r, _ in hits)
+    practice_ids = {r.id for r, _ in unfiltered if r.kind == "practice"}
+    assert {r.id for r, _ in hits} == practice_ids
+
+
+@pytest.mark.asyncio
+async def test_filter_applies_before_top_k():
+    """A restrictive filter still returns hits the unfiltered top-k would cut off."""
+    search = NatureSearch(REAL_STORE)
+    top = await search.search_library("material", k=3)
+    assert all(r.kind != "practice" for r, _ in top)  # practices are outside the top 3
+    hits = await search.search_library("material", kinds=["practice"], k=3)
+    assert len(hits) == 3
+    assert all(r.kind == "practice" for r, _ in hits)
+    assert hits[0][1] == 1.0
 
 
 @pytest.mark.asyncio
 async def test_map_search_and_filters():
     search = NatureSearch(REAL_STORE)
-    hits = await search.search_map("biomimetic", k=5)
-    assert hits and len(hits) <= 5
-    target = REAL_STORE.industry_map()[0]
+    base = await search.search_map("material", k=1000)
+    assert len(base) > 20
+
+    # sector + type + country: pick a combination that excludes some matches
+    target = base[0][0]
     hits = await search.search_map(
-        "the", sector=target.sector, types=[target.type], country=target.country, k=50
+        "material", sector=target.sector, types=[target.type], country=target.country, k=1000
     )
+    assert hits and len(hits) < len(base)
     assert all(
         r.sector == target.sector and r.type == target.type and r.country == target.country
         for r, _ in hits
     )
-    hits = await search.search_map("energy", year_from=2020, year_to=2022, k=50)
+
+    # year range: the query matches records inside and outside the range
+    inside = {r.id for r, _ in base if r.year is not None and 2020 <= r.year <= 2022}
+    outside = {r.id for r, _ in base if r.year is None or not 2020 <= r.year <= 2022}
+    assert inside and outside
+    hits = await search.search_map("material", year_from=2020, year_to=2022, k=1000)
+    assert hits
     assert all(r.year is not None and 2020 <= r.year <= 2022 for r, _ in hits)
+    # base is capped at the fusion depth (100), so the filtered list may reach deeper
+    assert inside <= {r.id for r, _ in hits}
+    assert not outside & {r.id for r, _ in hits}
 
 
 def test_doc_text_includes_labels():

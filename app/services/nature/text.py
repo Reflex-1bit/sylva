@@ -33,11 +33,35 @@ def normalise(s: str) -> str:
 STOPWORDS = frozenset(normalise(w) for w in _STOPWORDS_EN + _STOPWORDS_ES)
 
 
+# Words whose plural does not follow the suffix rules below.
+_IRREGULAR = {"gases": "gas", "biases": "bias", "buses": "bus"}
+# English plurals in -ores that must not be read as Spanish (flores -> flor).
+_NOT_SPANISH_ORES = frozenset(
+    "scores stores cores pores spores shores chores explores restores ignores bores".split()
+)
+
+
 def _singular(tok: str) -> str:
+    """Conservative EN+ES plural strip. Applied to queries and documents alike.
+
+    Known limitation: irregular plurals are not handled (leaves stays 'leave',
+    never 'leaf'), and a Spanish singular (proceso) is not joined to its English
+    cognate (process).
+    """
     n = len(tok)
+    if tok in _IRREGULAR:
+        return _IRREGULAR[tok]
     if n > 4 and tok.endswith("ies"):
         return tok[:-3] + "y"
     if n > 4 and tok.endswith("sses"):
+        return tok[:-2]
+    # English -es after a sibilant: processes, boxes, patches, brushes
+    if n > 4 and tok.endswith(("xes", "ches", "shes")):
+        return tok[:-2]
+    # Spanish -es: materiales, ciudades, naciones, flores
+    if n >= 7 and tok.endswith(("ales", "dades", "iones")):
+        return tok[:-2]
+    if n >= 6 and tok.endswith("ores") and tok not in _NOT_SPANISH_ORES:
         return tok[:-2]
     if n > 3 and tok.endswith("s") and not tok.endswith(("ss", "us", "is")):
         return tok[:-1]

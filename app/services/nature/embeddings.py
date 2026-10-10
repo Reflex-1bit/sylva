@@ -42,10 +42,20 @@ def _request_body(texts: list[str], model: str, dim: int, nested: bool) -> dict:
 
 
 async def _post_batch(
-    client: httpx.AsyncClient, url: str, headers: dict, texts: list[str], model: str, dim: int
+    client: httpx.AsyncClient,
+    url: str,
+    headers: dict,
+    texts: list[str],
+    model: str,
+    dim: int,
+    nested: list[bool],
 ) -> list[list[float]]:
-    resp = await client.post(url, headers=headers, json=_request_body(texts, model, dim, True))
-    if resp.status_code == 400:
+    """POST one batch. `nested` is a one-item state shared across the batches of a
+    call: once the nested form is rejected (400), the top-level form is used for
+    every later batch without retrying."""
+    resp = await client.post(url, headers=headers, json=_request_body(texts, model, dim, nested[0]))
+    if resp.status_code == 400 and nested[0]:
+        nested[0] = False
         resp = await client.post(url, headers=headers, json=_request_body(texts, model, dim, False))
     resp.raise_for_status()
     vectors = [e["values"] for e in resp.json()["embeddings"]]
@@ -75,9 +85,10 @@ async def embed_texts(
     client = client or httpx.AsyncClient(timeout=60.0)
     try:
         vectors: list[list[float]] = []
+        nested = [True]
         for i in range(0, len(formatted), BATCH_SIZE):
             vectors += await _post_batch(
-                client, url, headers, formatted[i : i + BATCH_SIZE], model, dim
+                client, url, headers, formatted[i : i + BATCH_SIZE], model, dim, nested
             )
     finally:
         if own:
