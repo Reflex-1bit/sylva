@@ -3,7 +3,9 @@
 For each record:
   * every evidence.doi is looked up on Crossref; evidence.verified is set when the
     DOI resolves and the Crossref title shares >= 60% of its tokens with the citation.
-    year, open_access and licence are filled from Crossref (only CC BY / CC0 count).
+    year, open_access and licence are filled from Crossref. Any Creative Commons
+    licence (including SA, NC, ND) sets open_access; only CC BY / CC0 allow a
+    supporting sentence (is_open_licence).
   * organism.scientific_name is matched on GBIF; usage key, match type and kingdom
     are filled only for EXACT/FUZZY matches with confidence >= 90.
 
@@ -135,7 +137,7 @@ def verify_evidence(
     if licenses:  # no licence info from Crossref: keep what the record already says
         licence = licence_from_crossref(licenses)
         out["licence"] = licence
-        out["open_access"] = is_open_licence(licence)
+        out["open_access"] = licence is not None
     return out, None, None
 
 

@@ -53,10 +53,12 @@ def test_licence_mapping():
     assert vs.licence_from_crossref(None) is None
 
 
-def test_only_cc_by_and_cc0_are_open():
+def test_any_cc_licence_is_open_access_but_only_cc_by_and_cc0_allow_sentences():
+    from app.models.nature import is_open_licence
+
     lic = lambda u: vs.licence_from_crossref([{"URL": u}])  # noqa: E731
     ev = {"citation": "Sun 2005 lotus", "doi": "10.1/x"}
-    for url, is_open in [
+    for url, sentence_ok in [
         ("https://creativecommons.org/licenses/by/4.0/", True),
         ("https://creativecommons.org/publicdomain/zero/1.0/", True),
         ("https://creativecommons.org/licenses/by-sa/4.0/", False),
@@ -67,7 +69,11 @@ def test_only_cc_by_and_cc0_are_open():
         out, category, _ = vs.verify_evidence(ev, lambda u, p, m=msg: m, None)
         assert category is None
         assert out["licence"] == lic(url)
-        assert out["open_access"] is is_open, url
+        assert out["open_access"] is True, url
+        assert is_open_licence(out["licence"]) is sentence_ok, url
+    msg = {"message": {"title": ["Sun 2005 lotus"], "license": [{"URL": "https://www.springer.com/tdm"}]}}
+    out, _, _ = vs.verify_evidence(ev, lambda u, p, m=msg: m, None)
+    assert out["licence"] is None and out["open_access"] is False
 
 
 def test_accept_gbif():

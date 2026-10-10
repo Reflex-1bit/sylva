@@ -312,7 +312,16 @@ async def nature_ask(
     store: NatureStore = Depends(get_store),
     search: NatureSearch = Depends(get_search),
 ):
-    """Unknown sector or area values return 422, as on GET /nature/library."""
+    """Unknown sector or area values return 422, as on GET /nature/library.
+
+    An empty or blank sector means no sector; blank areas are ignored.
+    """
+    req = req.model_copy(
+        update={
+            "sector": (req.sector or "").strip() or None,
+            "areas": [a.strip() for a in req.areas if a.strip()],
+        }
+    )
     with _serving():
         taxonomy = store.taxonomy()
     _check(req.sector, _ids(taxonomy, "sectors"), "sector")

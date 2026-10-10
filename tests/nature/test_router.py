@@ -357,6 +357,13 @@ def test_ask_known_sector_and_area_ok(client):
     assert client.post(f"{API}/ask", json=body).status_code == 200
 
 
+@pytest.mark.parametrize("body", [{"sector": ""}, {"sector": "  "}, {"areas": ["", " "]}])
+def test_ask_blank_sector_or_areas_mean_unset(client, body):
+    resp = client.post(f"{API}/ask", json={"challenge": "We need a water repellent coating", **body})
+    assert resp.status_code == 200
+    assert "sector_gaps" not in resp.json()["answer"]
+
+
 def test_ask_timeout_value():
     assert router_mod.ASK_TIMEOUT_S == 50
 
