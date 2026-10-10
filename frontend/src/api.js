@@ -69,3 +69,46 @@ export async function fetchRecommendations({ lat, lon, country, topN = 10 }) {
   }
   return res.json()
 }
+
+// ── Nature library / industry R&D map ────────────────────────────────────────
+
+async function natureJson(path, options = {}, timeoutMs = 30_000) {
+  const res = await fetchWithTimeout(`${API_BASE}/nature${path}`, options, timeoutMs)
+  if (!res.ok) {
+    let detail = `Request failed (${res.status})`
+    if (res.status === 504) detail = 'The question took too long to answer. Try again or shorten it.'
+    try {
+      const body = await res.json()
+      if (typeof body.detail === 'string') detail = body.detail
+    } catch {
+      /* ignore */
+    }
+    throw new Error(detail)
+  }
+  return res.json()
+}
+
+function withParams(path, params) {
+  const sp = new URLSearchParams()
+  for (const [k, v] of Object.entries(params || {})) {
+    if (v !== undefined && v !== null && v !== '') sp.set(k, String(v))
+  }
+  const qs = sp.toString()
+  return qs ? `${path}?${qs}` : path
+}
+
+export const natureExportUrl = (db, format) => `${API_BASE}/nature/export/${db}?format=${format}`
+
+export const fetchNatureStats = () => natureJson('/stats')
+export const fetchNatureMeta = () => natureJson('/meta')
+export const searchLibrary = (params) => natureJson(withParams('/library', params))
+export const fetchLibraryRecord = (id) => natureJson(`/library/${encodeURIComponent(id)}`)
+export const searchMap = (params) => natureJson(withParams('/map', params))
+export const fetchSectorGaps = (sectorId, limit = 10) =>
+  natureJson(withParams(`/sectors/${encodeURIComponent(sectorId)}/gaps`, { limit }))
+export const askNature = (body) =>
+  natureJson(
+    '/ask',
+    { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) },
+    75_000,
+  )
