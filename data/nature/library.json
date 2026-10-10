@@ -4307,7 +4307,7 @@
       "validated_on": null
     },
     "confidence": "high",
-    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. The iron mineral is laid down by biochemical control that is not covered here; this record covers only the structure. Engineered analogues are at lab scale. Tagged steel-aluminium for wear parts such as liners, chutes and rolls, not for steelmaking itself.",
+    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. The iron mineral is laid down by biochemical control that is not covered here; this record covers only the structure. Engineered analogues are at lab scale. Tagged steel-aluminium for wear parts such as liners, chutes and rolls (our inference, not tested in the sources), not for steelmaking itself.",
     "source_region": null,
     "contributors": [],
     "see_also": []
@@ -4316,7 +4316,7 @@
     "id": "lib-0068",
     "kind": "mechanism",
     "title": "Limpet teeth: iron-oxide nanofibres in one of the strongest biological materials",
-    "summary": "Limpets scrape algae from rock with teeth reinforced by densely packed nanofibres of goethite, an iron oxide, in a chitin matrix. Tensile tests on tiny pieces of tooth gave strengths of 3 to 6.5 GPa, among the highest measured for any biological material, and the strength hardly changed with the size of the piece. The teeth point to fibre-reinforced composites that combine strength with abrasion resistance.",
+    "summary": "Limpets scrape algae from rock with teeth reinforced by densely packed nanofibres of goethite, an iron oxide, in a softer organic (chitin-protein) matrix. Tensile tests on tiny pieces of tooth gave strengths of 3 to 6.5 GPa, among the highest measured for any biological material, and the strength hardly changed with the size of the piece. The teeth point to fibre-reinforced composites that combine strength with abrasion resistance.",
     "areas": [
       "form",
       "materials"
@@ -4339,7 +4339,7 @@
       "gbif_match_type": "EXACT"
     },
     "trait": "radular teeth",
-    "structure": "closely packed goethite nanofibres embedded in a chitin matrix",
+    "structure": "closely packed goethite nanofibres embedded in a softer organic (chitin-protein) matrix",
     "mechanism": "very thin, well-aligned mineral fibres carry load with few flaws, so strength stays high and is little affected by the size of the loaded volume",
     "trait_type": "morphological",
     "legal_review": "not_required",
@@ -4728,7 +4728,7 @@
     "consent": "not_applicable",
     "performance": [
       {
-        "metric": "nickel yield per hectare, best field system in Albania (2005-2009 trials)",
+        "metric": "nickel yield per hectare, long-term Albanian field system (2005-2009 trials)",
         "value": 105,
         "units": "kg/ha",
         "measured_in": "literature"
@@ -4768,7 +4768,7 @@
       "validated_on": null
     },
     "confidence": "medium",
-    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Yields vary widely: the best Albanian system reached about 105 kg Ni per hectare, while first-season Galician plots gave only a few kg per hectare. Hyperaccumulator species can become invasive outside their range; nickel recovery from ash is still at pilot scale. Tagged steel-aluminium because nickel is a main alloying element of stainless steel.",
+    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Yields vary widely: the Albanian field system reached about 105 kg Ni per hectare in the 2005-2009 trials (later years up to 112 and 139 kg/ha), while first-season Galician plots gave only about 3 to 4 kg per hectare. Hyperaccumulator species can become invasive outside their range; nickel recovery from ash is still at pilot scale. Tagged steel-aluminium because nickel is a main alloying element of stainless steel.",
     "source_region": {
       "region": "Galicia, north-west Spain (Melide ultramafic complex)",
       "reserve_id": null,
@@ -4917,8 +4917,8 @@
   {
     "id": "lib-0077",
     "kind": "practice",
-    "title": "Tree and hedge belts that trap dust near roads and industrial sites",
-    "summary": "Leaves and needles catch airborne particles on their waxy, hairy or rough surfaces, and rain later washes them to the ground. Belts of trees and shrubs around roads, stockyards and plants can therefore take some dust out of the air. Species differ greatly in how much they capture, which depends on leaf shape, hairs and wax, and conifers that keep their needles in winter work all year.",
+    "title": "Tree and hedge belts that trap dust near roads",
+    "summary": "Leaves and needles catch airborne particles on their waxy, hairy or rough surfaces, and rain later washes them to the ground. Belts of trees and shrubs along roads and around built-up areas can therefore take some dust out of the air. Species differ greatly in how much they capture, which depends on leaf shape, hairs and wax, and conifers that keep their needles in winter work all year.",
     "areas": [
       "place",
       "systems"
@@ -4927,10 +4927,7 @@
       "filter-air",
       "provide-habitat"
     ],
-    "sector_tags": [
-      "steel-aluminium",
-      "construction-materials"
-    ],
+    "sector_tags": [],
     "organism": null,
     "trait": null,
     "structure": null,
@@ -4974,7 +4971,7 @@
       "validated_on": null
     },
     "confidence": "medium",
-    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. The amount removed is modest and can never replace control of emissions at the source; dense planting in narrow street canyons can even trap pollution near the ground. Tagged for dusty sites such as steelworks stockyards, quarries and cement plants.",
+    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. The amount removed is modest and can never replace control of emissions at the source; dense planting in narrow street canyons can even trap pollution near the ground. No source cited here tested planting at industrial sites; applying it to stockyards or quarries is untested.",
     "source_region": null,
     "contributors": [],
     "see_also": []
@@ -5103,7 +5100,7 @@
       }
     ],
     "known_products": [
-      "Festo OctopusGripper (Bionic Learning Network concept, 2017)"
+      "Festo OctopusGripper / TentacleGripper (2017; copies the octopus arm and suction cups, not the sucker protuberance)"
     ],
     "popular_claim_note": null,
     "provenance": {
@@ -5131,9 +5128,7 @@
       "adhere-underwater",
       "adhere-reversibly"
     ],
-    "sector_tags": [
-      "water-utilities"
-    ],
+    "sector_tags": [],
     "organism": {
       "scientific_name": "Gobiesox maeandricus",
       "common_names": [
@@ -5185,7 +5180,7 @@
       "validated_on": null
     },
     "confidence": "medium",
-    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Bioinspired cups are prototypes. Tagged water-utilities for fixing sensors or tools to wet, rough or fouled surfaces such as tanks and pipes; this use is our inference, not tested in the sources.",
+    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Bioinspired cups are prototypes. No sector tag is given because the sources describe research suction cups only; no industrial use is documented.",
     "source_region": null,
     "contributors": [],
     "see_also": []
@@ -5464,7 +5459,7 @@
       "validated_on": null
     },
     "confidence": "medium",
-    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. The foam coating seals small punctures only and adds weight; long-term ageing is not reported. Tagged textiles for coated technical fabrics and construction for pneumatic building membranes.",
+    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. The foam coating seals small punctures only and adds weight; long-term ageing is not reported. Tagged textiles for coated technical fabrics and construction for pneumatic building membranes; textiles use is our inference from the membrane work.",
     "source_region": null,
     "contributors": [],
     "see_also": []
@@ -5663,7 +5658,7 @@
     "id": "lib-0088",
     "kind": "mechanism",
     "title": "Spider slit sensors: detecting tiny strains through cracks",
-    "summary": "Spiders sense vibrations and leg strain with slit-shaped organs in their exoskeleton near the joints. The slits are tiny, fluid-filled gaps whose width changes when the shell is strained, which nerve cells detect. Engineers copied this with thin metal films on a flexible base that carry controlled nanoscale cracks; as the cracks open and close, electrical resistance changes sharply, giving very sensitive strain and vibration sensors.",
+    "summary": "Spiders sense vibrations and leg strain with slit-shaped organs in their exoskeleton near the joints. The slits are tiny gaps in the exoskeleton whose width changes when the shell is strained, which nerve cells detect. Engineers copied this with thin metal films on a flexible base that carry controlled nanoscale cracks; as the cracks open and close, electrical resistance changes sharply, giving very sensitive strain and vibration sensors.",
     "areas": [
       "form"
     ],
@@ -5725,7 +5720,7 @@
       "validated_on": null
     },
     "confidence": "high",
-    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Crack-based sensors can drift and wear with repeated cycling; tags reflect possible uses in vehicle and structural monitoring, not tested deployments.",
+    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Crack-based sensors can drift and wear with repeated cycling; tags reflect possible uses (our inference) in vehicle and structural monitoring, not tested deployments.",
     "source_region": null,
     "contributors": [],
     "see_also": []
@@ -5734,7 +5729,7 @@
     "id": "lib-0089",
     "kind": "mechanism",
     "title": "Pollia berries and cellulose crystals: brilliant colour from plant fibre",
-    "summary": "The berries of the African plant Pollia condensata are an intense, glittering blue without any blue pigment. In each cell wall, layers of cellulose fibrils are stacked in a slowly twisting spiral that reflects light of one colour, and the colour stays even in dried fruit. Cellulose nanocrystals from wood or cotton self-assemble into the same twisted structure when a suspension dries, giving plant-based colourants and glitter that could replace dyes and plastic glitter.",
+    "summary": "The berries of the African plant Pollia condensata are an intense, glittering blue without any blue pigment. In each cell wall, layers of cellulose fibrils are stacked in a slowly twisting spiral that reflects one colour from each cell, so the berry looks pixelated, and the colour stays even in dried fruit. Cellulose nanocrystals from wood or cotton self-assemble into the same twisted structure when a suspension dries, giving plant-based colourants and glitter that could replace dyes and plastic glitter.",
     "areas": [
       "form",
       "materials"
@@ -5882,8 +5877,7 @@
       "process"
     ],
     "functions": [
-      "self-assemble",
-      "biodegrade"
+      "self-assemble"
     ],
     "sector_tags": [
       "cosmetics",
@@ -5932,7 +5926,7 @@
       "validated_on": null
     },
     "confidence": "medium",
-    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Extracts vary in composition and some saponins are irritant or toxic at high doses; this record covers their use as an ingredient, not their biosynthesis.",
+    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Extracts vary in composition and some saponins are irritant or toxic at high doses; this record covers their use as an ingredient, not their biosynthesis. Quillaja is harvested in Chile; access and benefit-sharing rules may apply to use of the plant material.",
     "source_region": null,
     "contributors": [],
     "see_also": []
@@ -5985,9 +5979,7 @@
         "verified": true
       }
     ],
-    "known_products": [
-      "Caudalie grape polyphenol skincare"
-    ],
+    "known_products": [],
     "popular_claim_note": null,
     "provenance": {
       "status": "ai_extracted",
@@ -6060,12 +6052,8 @@
       "validated_on": null
     },
     "confidence": "medium",
-    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Many of the extraction methods are at lab or pilot scale; the residue after extraction still needs treatment. The Andalusia note is general context, not a finding of the cited review.",
-    "source_region": {
-      "region": "Andalusia, Spain",
-      "reserve_id": null,
-      "note": "Spain is the largest olive oil producer and Andalusia holds most of its olive groves and mills, so these by-products are concentrated there."
-    },
+    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Many of the extraction methods are at lab or pilot scale; the residue after extraction still needs treatment.",
+    "source_region": null,
     "contributors": [],
     "see_also": []
   },
@@ -6073,14 +6061,13 @@
     "id": "lib-0094",
     "kind": "material",
     "title": "Gum rockrose: resin and essential oil from Iberian scrubland",
-    "summary": "The gum rockrose covers large areas of poor, dry soils in the south-west of the Iberian Peninsula. Its sticky leaves give labdanum, a resin long used in perfumery, and an essential oil, and the shrub also offers biomass and other bioactive compounds. Researchers argue it is an under-used local resource that could support rural income in Mediterranean scrubland.",
+    "summary": "The gum rockrose covers large areas of poor, dry soils in the south-west of the Iberian Peninsula. Its sticky leaves give labdanum, a resin used in perfumery, and an essential oil, and the shrub also offers biomass and other bioactive compounds. Researchers argue it is an under-used local resource that could support rural income in Mediterranean scrubland.",
     "areas": [
       "materials",
       "place"
     ],
     "functions": [
-      "source-locally",
-      "grow-material"
+      "source-locally"
     ],
     "sector_tags": [
       "cosmetics",
@@ -6201,7 +6188,7 @@
     "id": "lib-0096",
     "kind": "material",
     "title": "Esparto grass fibre: a tough, drought-grown fibre from Iberian steppes",
-    "summary": "Esparto is a tussock grass of the dry steppes of south-eastern Spain and North Africa. Its long, stiff leaves have been gathered for rope, baskets, matting and shoe soles for centuries, and are still used in Spanish crafts. Tests on the fibres show useful strength and stiffness as a reinforcement for composites, from a plant that needs no irrigation.",
+    "summary": "Esparto is a tussock grass of the dry steppes of south-eastern Spain and North Africa. Tests on its long, stiff leaf fibres show useful strength and stiffness as a reinforcement for composites, from a plant that needs no irrigation.",
     "areas": [
       "materials",
       "place"
@@ -6248,17 +6235,6 @@
         "verified": true
       },
       {
-        "citation": "Fajardo J, Verde A, Rivera D, Obon C, Leopold S (2015). Traditional craft techniques of esparto grass (Stipa tenacissima L.) in Spain. Economic Botany 69: 370-376.",
-        "doi": "10.1007/s12231-015-9323-x",
-        "url": null,
-        "year": 2015,
-        "open_access": false,
-        "licence": null,
-        "supporting_sentence": null,
-        "page": null,
-        "verified": true
-      },
-      {
         "citation": "Baz G, Hinojosa M, Quirce S, Cuevas M (1999). Occupational asthma caused by esparto grass (Stipa tenacissima) fibers. Allergy 54: 86-87.",
         "doi": "10.1034/j.1398-9995.1999.00976.x",
         "url": null,
@@ -6280,11 +6256,11 @@
       "validated_on": null
     },
     "confidence": "medium",
-    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. The fibre tests used North African (Tunisian) esparto. Craft techniques are cited only to show documented use in Spain; the craft know-how itself is not recorded here and would need the craft communities' consent. Harvesting can damage steppes if overdone; dust from the fibre has caused occupational asthma.",
+    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. The fibre tests used North African (Tunisian) esparto. Harvesting can damage steppes if overdone; dust from the fibre has caused occupational asthma.",
     "source_region": {
       "region": "Semi-arid steppes of south-eastern Spain",
       "reserve_id": null,
-      "note": "Fajardo et al. (2015) document esparto craft traditions in Spain."
+      "note": "Esparto grows in the semi-arid steppes of south-eastern Spain; fibre tests in the cited study used Tunisian material."
     },
     "contributors": [],
     "see_also": []
@@ -6382,8 +6358,8 @@
     "mechanism": null,
     "trait_type": "ecological",
     "legal_review": "not_required",
-    "knowledge_source": "peer_reviewed",
-    "consent": "not_applicable",
+    "knowledge_source": "traditional",
+    "consent": "pending",
     "performance": [],
     "evidence": [
       {
@@ -6432,9 +6408,7 @@
       "build-soil"
     ],
     "sector_tags": [
-      "agrifood",
-      "water-utilities",
-      "packaging"
+      "agrifood"
     ],
     "organism": null,
     "trait": null,
@@ -6468,7 +6442,7 @@
       "validated_on": null
     },
     "confidence": "high",
-    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Poorly managed piles emit ammonia, methane and nitrous oxide; contaminants in the inputs (metals, plastics) end up in the compost. Tagged packaging because certified compostable packaging relies on industrial composting.",
+    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Poorly managed piles emit ammonia, methane and nitrous oxide; contaminants in the inputs (metals, plastics) end up in the compost. Composting of certified compostable packaging is outside the cited review.",
     "source_region": null,
     "contributors": [],
     "see_also": []
@@ -6667,7 +6641,7 @@
     "id": "lib-0103",
     "kind": "mechanism",
     "title": "Bird nests and loose aggregates: structures that hold without glue and come apart again",
-    "summary": "A bird nest is a loose pile of twigs and grass held together only by friction and entanglement, yet it is stiff enough to carry eggs and parent. Architects have built walls and domes from loose, specially shaped particles poured into place with no binder, which can be taken apart and reused. Such jammed aggregates are a model for reversible, fastener-free construction.",
+    "summary": "A bird nest is a loose pile of twigs and grass held together only by friction and entanglement, yet it is stiff enough to carry eggs and parent (Weiner and colleagues describe the nest mechanics). Separately, Dierichs and Menges describe how architects have built walls and domes from loose, specially shaped particles poured into place with no binder, which can be taken apart and reused. Such jammed aggregates are a model for reversible, fastener-free construction.",
     "areas": [
       "form",
       "circularity"
@@ -6856,7 +6830,7 @@
     "id": "lib-0106",
     "kind": "mechanism",
     "title": "Fish schools as a layout for vertical-axis wind farms",
-    "summary": "Fish swimming in schools are thought to benefit from the swirling wakes of their neighbours. Inspired by this, researchers arranged vertical-axis wind turbines in tight pairs that spin in opposite directions, so each turbine gains from the flow around the others. Modelling backed by field data suggested such arrays could give far more power per area of land than conventional wind farms with widely spaced turbines.",
+    "summary": "Fish swimming in schools are thought to benefit from the swirling wakes of their neighbours. Inspired by this, researchers modelled vertical-axis wind turbines laid out like the vortices behind schooling fish, so each turbine gains from the flow around the others. A potential-flow model suggested that such arrays could give more than ten times the power per area of land of conventional horizontal-axis wind farms; the result has not been shown in a full-scale farm.",
     "areas": [
       "systems",
       "energy"
@@ -6871,7 +6845,7 @@
     "organism": null,
     "trait": "schooling behaviour",
     "structure": "regular arrangement of swimming fish in a school",
-    "mechanism": "placing counter-rotating turbines close together lets each one use flow accelerated by its neighbours, increasing power per unit of land area",
+    "mechanism": "placing turbines close together in a fish-school-like layout lets each one use flow accelerated by its neighbours, increasing power per unit of land area",
     "trait_type": "behavioural",
     "legal_review": "not_required",
     "knowledge_source": "peer_reviewed",
@@ -6900,7 +6874,7 @@
       "validated_on": null
     },
     "confidence": "low",
-    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. The energy benefit of schooling for real fish is itself debated; the wind farm results come from modelling and small-scale field data. Vertical-axis turbines are less efficient per machine than large horizontal-axis ones.",
+    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. The energy benefit of schooling for real fish is itself debated; the wind farm result comes from a computer model in the cited paper; field tests are a separate study not cited here. Vertical-axis turbines are less efficient per machine than large horizontal-axis ones.",
     "source_region": null,
     "contributors": [],
     "see_also": []

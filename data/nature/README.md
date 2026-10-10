@@ -23,12 +23,12 @@ Generated with `python scripts/nature/validate_db.py --markdown`.
 | Metric | Value |
 |---|---|
 | Library records | 109 |
-| Served by the API | 101 |
-| Quarantined (never served) | 8 |
-| Provenance (served records) | 97 ai_extracted, 4 disputed, 0 expert_validated |
+| Served by the API | 100 |
+| Quarantined (never served) | 9 |
+| Provenance (served records) | 96 ai_extracted, 4 disputed, 0 expert_validated |
 | Records with a measured value | 4 (4.0%) |
-| Records by kind (served) | 60 mechanism, 15 material, 11 process, 15 practice |
-| Records by area (served) | form 55, materials 32, energy 24, place 24, systems 21, circularity 20, process 15 (a record can have several areas) |
+| Records by kind (served) | 60 mechanism, 15 material, 10 process, 15 practice |
+| Records by area (served) | form 55, materials 32, energy 23, place 23, systems 21, circularity 20, process 14 (a record can have several areas) |
 | Map records | 507: 502 papers, 5 companies |
 | Map by country | ES 322, PT 185 |
 | Map by sector | steel-aluminium 58, construction-materials 59, packaging 57, cosmetics 51, textiles 53, automotive 47, energy 42, agrifood 41, water-utilities 50, chemicals 49 |
@@ -111,7 +111,7 @@ A record stays in `library.json` with its status visible, but is **never served*
 - the trait is biochemical or genetic and `legal_review` is `pending`, or
 - the knowledge is traditional and `consent` is not `granted`.
 
-In v0, 8 of 109 records are quarantined this way (for example PHA and bacterial cellulose, held for legal review). Map `library_links` that point at a quarantined record are dropped from responses. The gate is `NatureStore.is_servable` in `app/services/nature/store.py`.
+In v0, 9 of 109 records are quarantined this way (for example PHA and bacterial cellulose, held for legal review, and the Aveiro salt pans, held until the salt workers consent). Map `library_links` that point at a quarantined record are dropped from responses. The gate is `NatureStore.is_servable` in `app/services/nature/store.py`.
 
 ## How a record is ranked
 
@@ -159,8 +159,8 @@ Reviewers are welcome, especially for traditional knowledge (consent) and the bi
 - **The map's function labels come from keywords.** Precision was favoured over recall: about 22% of the labels that exist are estimated to be doubtful, and about 69% of papers (347 of 502) have no label at all. Gap counts are therefore biased low and are reported as "classified papers only", with the unclassified count shown.
 - **The map holds papers and companies only.** No patents, grants or projects in v0. Company type comes from OpenAlex and is taken at face value (a synchrotron facility is tagged as a company).
 - **Map labels are not linked to the library yet.** `library_links` is empty until reviewers set it.
-- **Iberia only.** Spain and Portugal, 10 sectors. The library has no Spanish or Portuguese text; Spanish and Portuguese challenges work through function keywords.
-- **One DOI does not verify automatically.** Chertow 2000 is correct, but its Crossref title contains markup, so the title check fails. 87 of 88 DOIs verify.
+- **Iberia only.** Spain and Portugal, 10 sectors. Titles and summaries are English; only some common names are Spanish or Portuguese. Spanish and Portuguese challenges work through function keywords.
+- **One DOI does not verify automatically.** Chertow 2000 is correct, but its Crossref title contains markup, so the title check fails. 154 of 155 DOIs verify.
 - **`known_products` is loose.** Some entries are product categories rather than specific products, and still earn the manufacturability points.
 - **Keyword overlaps.** A few terms (superhydrophobic, aerodynamics) sit under two neighbouring functions, so a query can pull in both.
 - **Embeddings and the model path are untested live.** They need `GEMINI_API_KEY` (or `GOOGLE_API_KEY`).
