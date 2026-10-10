@@ -109,6 +109,19 @@ def next_lib_id(library: list[dict]) -> str:
     return f"lib-{max(nums, default=0) + 1:04d}"
 
 
+def _duplicate_in_library(staged_rec: dict, library: list[dict]) -> str | None:
+    """Id of the library record with the same DOI (or the same title when the staged one has no DOI)."""
+    dois = {e["doi"].lower() for e in staged_rec.get("evidence", []) if e.get("doi")}
+    title = (staged_rec.get("title") or "").strip().lower()
+    for r in library:
+        if dois:
+            if dois & {e["doi"].lower() for e in r.get("evidence", []) if e.get("doi")}:
+                return r["id"]
+        elif title and (r.get("title") or "").strip().lower() == title:
+            return r["id"]
+    return None
+
+
 def cmd_promote(data_dir: Path, stg_id: str, by: str) -> int:
     staged = read_json_list(data_dir / STAGING_NAME)
     idx = _find(staged, stg_id)
@@ -116,7 +129,21 @@ def cmd_promote(data_dir: Path, stg_id: str, by: str) -> int:
         raise ReviewError(f"unknown staged id {stg_id}")
     library = read_json_list(data_dir / LIBRARY_NAME)
 
+    dup = _duplicate_in_library(staged[idx], library)
+    if dup:  # a previous promote wrote the library but crashed before cleaning staging
+        del staged[idx]
+        write_json_atomic(data_dir / STAGING_NAME, staged)
+        log_action(data_dir, "promote_dedup", stg_id, by, library_id=dup)
+        print(f"{stg_id} is already in the library as {dup}; removed from staging")
+        return 0
+
     rec = dict(staged[idx])
+    rec["provenance"] = {
+        **rec.get("provenance", {}),
+        "status": "ai_extracted",
+        "validated_by": None,
+        "validated_on": None,
+    }
     rec["id"] = next_lib_id(library)
     if rec.get("trait_type") in ("biochemical", "genetic"):
         rec["legal_review"] = "pending"

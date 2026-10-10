@@ -27,6 +27,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from _files import write_json_atomic  # noqa: E402
 from _http import fetch_json  # noqa: E402
 from app.models.nature import LibraryRecord  # noqa: E402
 from app.services.nature.store import DEFAULT_DIR  # noqa: E402
@@ -255,9 +256,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"INVALID {item['id']}: {item['error']}")
 
     if not args.dry_run:
-        tmp = path.with_suffix(".json.tmp")
-        tmp.write_text(json.dumps(updated, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-        os.replace(tmp, path)
+        write_json_atomic(path, updated)
     if args.report:
         args.report.write_text(
             json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"

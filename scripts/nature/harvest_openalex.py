@@ -39,6 +39,7 @@ from typing import Callable, Optional
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from _files import write_json_atomic  # noqa: E402
 from _http import fetch_json  # noqa: E402
 from app.models.nature import MapRecord  # noqa: E402
 from app.services.nature.store import DEFAULT_DIR  # noqa: E402
@@ -454,9 +455,7 @@ def main(argv: list[str] | None = None) -> int:
         MapRecord.model_validate(rec)
     if not args.dry_run:
         path = args.data_dir / "industry_map.json"
-        tmp = path.with_suffix(".json.tmp")
-        tmp.write_text(json.dumps(records, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-        os.replace(tmp, path)
+        write_json_atomic(path, records)
     print(json.dumps(summary, indent=2))
     return 0
 

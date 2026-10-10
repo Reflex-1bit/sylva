@@ -355,3 +355,96 @@ def test_timing_cli_text_and_json(data_dir, capsys):
 def test_timing_empty_log(data_dir, capsys):
     assert rv.main(["--data-dir", str(data_dir), "timing", "--json"]) == 0
     assert json.loads(capsys.readouterr().out)["median_minutes"] is None
+
+
+# â”€â”€ fix round 1 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+
+def test_promote_is_idempotent_after_crash_between_writes(data_dir, monkeypatch):
+    _write_library(data_dir, [_lib_record("lib-0001")])
+    _stage_record(data_dir, monkeypatch)
+    staging_before = (data_dir / "library_staging.json").read_text(encoding="utf-8")
+    assert rv.main(["--data-dir", str(data_dir), "promote", "stg-0001", "--by", "Ana"]) == 0
+    # simulate the crash: library written, staging not cleaned
+    (data_dir / "library_staging.json").write_text(staging_before, encoding="utf-8")
+    assert rv.main(["--data-dir", str(data_dir), "promote", "stg-0001", "--by", "Ana"]) == 0
+    lib = json.loads((data_dir / "library.json").read_text(encoding="utf-8"))
+    assert [r["id"] for r in lib] == ["lib-0001", "lib-0002"]
+    assert _staged(data_dir) == []
+    assert _log(data_dir)[-1]["action"] == "promote_dedup"
+
+
+def test_promote_dedup_by_title_when_no_doi(data_dir):
+    lib_rec = _lib_record("lib-0001")
+    stg = json.loads(json.dumps(lib_rec))
+    stg["id"] = "stg-0001"
+    for rec in (lib_rec, stg):
+        for e in rec["evidence"]:
+            e["doi"] = None
+    _write_library(data_dir, [lib_rec])
+    (data_dir / "library_staging.json").write_text(json.dumps([stg]), encoding="utf-8")
+    assert rv.main(["--data-dir", str(data_dir), "promote", "stg-0001", "--by", "Ana"]) == 0
+    assert len(json.loads((data_dir / "library.json").read_text(encoding="utf-8"))) == 1
+    assert _staged(data_dir) == []
+
+
+def test_promote_forces_ai_extracted(data_dir, monkeypatch):
+    _write_library(data_dir, [_lib_record("lib-0001")])
+    _stage_record(data_dir, monkeypatch)
+    staged = _staged(data_dir)
+    staged[0]["provenance"].update(status="expert_validated", validated_by="Fake", validated_on="2026-01-01")
+    (data_dir / "library_staging.json").write_text(json.dumps(staged), encoding="utf-8")
+    assert rv.main(["--data-dir", str(data_dir), "promote", "stg-0001", "--by", "Ana"]) == 0
+    prov = json.loads((data_dir / "library.json").read_text(encoding="utf-8"))[-1]["provenance"]
+    assert prov["status"] == "ai_extracted" and prov["validated_by"] is None and prov["validated_on"] is None
+
+
+def test_fetch_oa_text_rejects_non_http_scheme(capsys):
+    assert ex.fetch_oa_text("file:///etc/passwd") == ""
+    assert ex.fetch_oa_text("ftp://example.org/x") == ""
+    assert "only http/https" in capsys.readouterr().err
+
+
+def test_fetch_oa_text_ok_and_size_cap(monkeypatch, capsys):
+    import httpx
+
+    ok = httpx.MockTransport(lambda r: httpx.Response(200, html="<p>Hello <b>world</b></p>"))
+    assert ex.fetch_oa_text("https://example.org/a", transport=ok) == "Hello world"
+
+    monkeypatch.setattr(ex, "MAX_DOWNLOAD_BYTES", 1000)
+    big = httpx.MockTransport(lambda r: httpx.Response(200, content=b"a" * 5000, headers={"content-type": "text/html"}))
+    assert ex.fetch_oa_text("https://example.org/big", transport=big) == ""
+    assert "over 1000 bytes" in capsys.readouterr().err
+
+
+def test_fetch_oa_text_logs_http_error(capsys):
+    import httpx
+
+    bad = httpx.MockTransport(lambda r: httpx.Response(500))
+    assert ex.fetch_oa_text("https://example.org/e", transport=bad) == ""
+    assert "HTTPStatusError" in capsys.readouterr().err
+
+
+def test_untrusted_model_fields_are_stripped(data_dir, monkeypatch):
+    out = _model_output(
+        organism={"scientific_name": "Nelumbo nucifera", "common_names": [], "gbif_usage_key": 123, "gbif_match_type": "EXACT"},
+        performance=[{"metric": "angle", "value": 150, "units": "deg", "measured_in": "field"}],
+        see_also=["https://asknature.org/x"],
+        contributors=[{"name": "Fake", "role": "expert"}],
+        source_region={"region": "Mars"},
+    )
+    _run(data_dir, ["10.1/a"], [out], monkeypatch=monkeypatch)
+    rec = _staged(data_dir)[0]
+    assert rec["organism"]["gbif_usage_key"] is None and rec["organism"]["gbif_match_type"] is None
+    assert rec["performance"][0]["measured_in"] == "literature"
+    assert rec["see_also"] == [] and rec["contributors"] == [] and rec["source_region"] is None
+
+
+def test_timing_even_count_median():
+    t0 = datetime(2026, 1, 1, tzinfo=timezone.utc)
+    entries = [
+        _entry(t0, 0, "show", "lib-0001"), _entry(t0, 10, "validate", "lib-0001"),
+        _entry(t0, 0, "show", "lib-0002"), _entry(t0, 30, "validate", "lib-0002"),
+    ]
+    assert rv.compute_timing(entries)["median_minutes"] == 20
+

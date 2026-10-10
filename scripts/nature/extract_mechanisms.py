@@ -25,7 +25,7 @@ from datetime import date
 from html.parser import HTMLParser
 from pathlib import Path
 from typing import Callable, Optional
-from urllib.parse import quote
+from urllib.parse import quote, urlparse
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -41,6 +41,7 @@ SELECT = "id,doi,title,publication_year,topics,open_access,primary_location,best
 CONCURRENCY = 2
 MAX_RETRIES = 4
 MAX_TEXT_CHARS = 20000
+MAX_DOWNLOAD_BYTES = 10 * 1024 * 1024
 # OpenAlex licence string -> stored licence. Everything else (by-sa, nc, nd, unknown) is not allowed.
 ALLOWED_LICENCES = {"cc-by": "CC-BY", "cc0": "CC0"}
 EXTRACTED_BY = "gemini extract_mechanisms v0"
@@ -122,29 +123,47 @@ def html_to_text(html: str) -> str:
     return re.sub(r"\s+", " ", " ".join(parser.parts)).strip()
 
 
-def fetch_oa_text(url: str) -> str:
-    """Fetch an OA page as plain text; PDFs only if pdfplumber is importable. '' on any failure."""
+def fetch_oa_text(url: str, transport=None) -> str:
+    """Fetch an OA page as plain text; PDFs only if pdfplumber is importable.
+
+    Only http/https URLs; the body is streamed and capped at MAX_DOWNLOAD_BYTES. Returns ''
+    on any failure and prints the reason.
+    """
     import httpx
 
-    try:
-        resp = httpx.get(url, timeout=30.0, follow_redirects=True)
-        resp.raise_for_status()
-    except Exception:
+    if urlparse(url).scheme.lower() not in ("http", "https"):
+        print(f"SKIP text fetch {url}: only http/https URLs are allowed", file=sys.stderr)
         return ""
-    if "pdf" in resp.headers.get("content-type", "").lower() or url.lower().endswith(".pdf"):
+    try:
+        body = bytearray()
+        with httpx.Client(timeout=30.0, follow_redirects=True, transport=transport) as client:
+            with client.stream("GET", url) as resp:
+                resp.raise_for_status()
+                content_type = resp.headers.get("content-type", "").lower()
+                for chunk in resp.iter_bytes():
+                    body.extend(chunk)
+                    if len(body) > MAX_DOWNLOAD_BYTES:
+                        print(f"SKIP text fetch {url}: over {MAX_DOWNLOAD_BYTES} bytes", file=sys.stderr)
+                        return ""
+    except Exception as exc:
+        print(f"SKIP text fetch {url}: {type(exc).__name__}: {exc}", file=sys.stderr)
+        return ""
+    if "pdf" in content_type or url.lower().endswith(".pdf"):
         try:
             import io
 
             import pdfplumber
         except ImportError:
+            print(f"SKIP text fetch {url}: PDF but pdfplumber is not installed", file=sys.stderr)
             return ""
         try:
-            with pdfplumber.open(io.BytesIO(resp.content)) as pdf:
+            with pdfplumber.open(io.BytesIO(bytes(body))) as pdf:
                 text = " ".join((p.extract_text() or "") for p in pdf.pages)
             return re.sub(r"\s+", " ", text).strip()
-        except Exception:
+        except Exception as exc:
+            print(f"SKIP text fetch {url}: {type(exc).__name__}: {exc}", file=sys.stderr)
             return ""
-    return html_to_text(resp.text)
+    return html_to_text(bytes(body).decode("utf-8", errors="replace"))
 
 
 def build_prompt(work: dict, text: str, taxonomy: dict) -> str:
@@ -178,6 +197,15 @@ def build_record(
         unknown = [v for v in rec.get(key) or [] if v not in known]
         if unknown:
             raise ValueError(f"unknown {key}: {unknown}")
+    # Model-owned fields we do not trust: identifiers are filled by verify_sources, the rest is human-set.
+    if isinstance(rec.get("organism"), dict):
+        rec["organism"] = {**rec["organism"], "gbif_usage_key": None, "gbif_match_type": None}
+    if isinstance(rec.get("performance"), list):
+        rec["performance"] = [
+            {**p, "measured_in": "literature"} if isinstance(p, dict) else p for p in rec["performance"]
+        ]
+    for key in ("see_also", "contributors", "source_region"):
+        rec.pop(key, None)
     title = work.get("title") or ""
     year = work.get("publication_year")
     rec.update(
