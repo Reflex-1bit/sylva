@@ -448,3 +448,20 @@ def test_timing_even_count_median():
     ]
     assert rv.compute_timing(entries)["median_minutes"] == 20
 
+
+def test_same_doi_different_mechanism_is_promoted_not_deduped(data_dir):
+    lib_rec = _lib_record("lib-0001")
+    stg = json.loads(json.dumps(lib_rec))
+    stg["id"] = "stg-0001"
+    stg["title"] = "A different mechanism from the same paper"
+    stg["mechanism"] = "a different mechanism described in the same paper"
+    stg["provenance"]["status"] = "ai_extracted"
+    _write_library(data_dir, [lib_rec])
+    (data_dir / "library_staging.json").write_text(json.dumps([stg]), encoding="utf-8")
+    assert rv.main(["--data-dir", str(data_dir), "promote", "stg-0001", "--by", "Ana"]) == 0
+    lib = json.loads((data_dir / "library.json").read_text(encoding="utf-8"))
+    assert [r["id"] for r in lib] == ["lib-0001", "lib-0002"]
+    assert lib[1]["title"] == stg["title"]
+    assert _staged(data_dir) == []
+    assert _log(data_dir)[-1]["action"] == "promote"
+

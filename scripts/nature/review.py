@@ -109,15 +109,20 @@ def next_lib_id(library: list[dict]) -> str:
     return f"lib-{max(nums, default=0) + 1:04d}"
 
 
-def _duplicate_in_library(staged_rec: dict, library: list[dict]) -> str | None:
-    """Id of the library record with the same DOI (or the same title when the staged one has no DOI)."""
-    dois = {e["doi"].lower() for e in staged_rec.get("evidence", []) if e.get("doi")}
-    title = (staged_rec.get("title") or "").strip().lower()
+def _replay_of(model: LibraryRecord, library: list[dict]) -> str | None:
+    """Id of a library record content-identical to `model` (ignoring id): a crash-replay of a promote.
+
+    A shared DOI is not enough: one paper can yield several distinct records.
+    """
+    want = model.model_dump(mode="json")
+    want.pop("id")
     for r in library:
-        if dois:
-            if dois & {e["doi"].lower() for e in r.get("evidence", []) if e.get("doi")}:
-                return r["id"]
-        elif title and (r.get("title") or "").strip().lower() == title:
+        try:
+            have = LibraryRecord.model_validate(r).model_dump(mode="json")
+        except Exception:
+            continue
+        have.pop("id")
+        if have == want:
             return r["id"]
     return None
 
@@ -128,14 +133,6 @@ def cmd_promote(data_dir: Path, stg_id: str, by: str) -> int:
     if idx is None:
         raise ReviewError(f"unknown staged id {stg_id}")
     library = read_json_list(data_dir / LIBRARY_NAME)
-
-    dup = _duplicate_in_library(staged[idx], library)
-    if dup:  # a previous promote wrote the library but crashed before cleaning staging
-        del staged[idx]
-        write_json_atomic(data_dir / STAGING_NAME, staged)
-        log_action(data_dir, "promote_dedup", stg_id, by, library_id=dup)
-        print(f"{stg_id} is already in the library as {dup}; removed from staging")
-        return 0
 
     rec = dict(staged[idx])
     rec["provenance"] = {
@@ -154,6 +151,14 @@ def cmd_promote(data_dir: Path, stg_id: str, by: str) -> int:
     except Exception as exc:
         raise ReviewError(f"{stg_id} fails validation, not promoted: {exc}") from exc
     _check_taxonomy(model, _load_taxonomy_ids(data_dir))
+
+    dup = _replay_of(model, library)
+    if dup:  # a previous promote wrote the library but crashed before cleaning staging
+        del staged[idx]
+        write_json_atomic(data_dir / STAGING_NAME, staged)
+        log_action(data_dir, "promote_dedup", stg_id, by, library_id=dup)
+        print(f"{stg_id} is already in the library as {dup}; removed from staging")
+        return 0
 
     library.append(model.model_dump(mode="json"))
     write_json_atomic(data_dir / LIBRARY_NAME, library)
