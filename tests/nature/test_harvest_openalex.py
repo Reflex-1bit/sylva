@@ -40,9 +40,24 @@ def test_classify_functions_areas_link():
 
 
 def test_classify_spanish_accent_folded():
-    cls = ho.classify("Recubrimiento autolimpiante y reciclaje", TAX)
-    assert "self-clean" in cls["problem_functions"]
+    cls = ho.classify("Recubrimiento superhidrofóbico para el reciclaje", TAX)
+    assert "shed-water" in cls["problem_functions"]  # accented title vs folded keyword
     assert cls["nature_link"] == "circular"
+
+
+def test_spanish_keywords_ignored_for_english_title():
+    assert ho.classify("Autolimpiante coating ; Misc", TAX)["problem_functions"] == []
+    assert "self-clean" in ho.classify("Superficie autolimpiante de la fachada ; Misc", TAX)["problem_functions"]
+
+
+def test_weak_keyword_alone_assigns_nothing():
+    for title in ("Bio-based packaging film", "Wastewater from a plant", "Fatty amines in detergents", "Joint design"):
+        assert ho.classify(title, TAX)["problem_functions"] == [], title
+
+
+def test_link_rules_are_whole_word():
+    assert ho.classify("Wastewater sludge", TAX)["nature_link"] == "other"
+    assert ho.classify("Waste valorisation", TAX)["nature_link"] == "circular"
 
 
 def test_classify_nothing():
@@ -123,3 +138,23 @@ def test_cached_fetch_hits_disk_once(tmp_path):
     f = ho.cached_fetch(lambda u, p=None: n.append(1) or {"x": 1}, tmp_path)
     assert f("u", {"a": 1, "api_key": "k"}) == f("u", {"a": 1, "api_key": "other"}) == {"x": 1}
     assert len(n) == 1
+
+
+def test_harvest_sector_follows_cursor_pages_and_caps():
+    pages = {
+        "*": {"results": [{"id": "A"}, {"id": "B"}], "meta": {"next_cursor": "c2"}},
+        "c2": {"results": [{"id": "C"}, {"id": "D"}], "meta": {"next_cursor": "c3"}},
+        "c3": {"results": [{"id": "E"}], "meta": {"next_cursor": None}},
+    }
+    seen = []
+
+    def fake(url, params=None):
+        seen.append(params["cursor"])
+        return pages[params["cursor"]]
+
+    budget = {"calls": 0, "max": 10}
+    works = ho.harvest_sector("energy", fake, 3, budget, None)
+    assert [w["id"] for w in works] == ["A", "B", "C"]
+    assert seen == ["*", "c2"] and budget["calls"] == 2
+    budget = {"calls": 0, "max": 1}
+    assert len(ho.harvest_sector("energy", fake, 10, budget, "key")) == 2 and budget["calls"] == 1

@@ -46,6 +46,7 @@ from app.services.nature.store import DEFAULT_DIR  # noqa: E402
 OPENALEX_URL = "https://api.openalex.org/works"
 SELECT = "id,doi,title,publication_year,authorships,topics,type,cited_by_count"
 COUNTRIES = {"ES", "PT"}
+TOPICS_USED = 1  # only the best-scoring OpenAlex topic: lower-ranked topics were mostly noise
 EXTRACTED_BY = "rules:harvest_openalex v0"
 CACHE_DIR = Path(__file__).resolve().parent / ".cache"
 
@@ -82,20 +83,36 @@ GROUP_AREA = {
 }
 LINK_AREA = {"bio_based": "materials", "circular": "circularity", "nature_based_solution": "place"}
 
-# Checked in order; the first group with a hit wins.
+# Checked in order; the first group with a whole-word/phrase hit wins.
 LINK_RULES = [
     ("biomimetic", ["biomimetic", "bioinspired", "bio-inspired", "biomimicry", "nature-inspired",
                     "biomimetico", "bioinspirado", "biomimetica"]),
     ("bio_based", ["bio-based", "biobased", "biopolymer", "natural fibre", "natural fiber",
                    "biomaterial", "bioplastic", "biocomposite", "biomasa", "biomass"]),
-    ("circular", ["recycl", "circular", "waste", "reciclaj", "residuo"]),
+    ("circular", ["recycling", "recycled", "recycle", "recyclable", "circular", "waste",
+                  "reciclaje", "reciclado", "residuo"]),
     ("nature_based_solution", ["nature-based", "green infrastructure", "wetland", "green roof",
                                "humedal", "infraestructura verde"]),
 ]
 
+# Generic keywords that must never assign a function on their own (they were the main
+# source of false labels in the v0 sample). A function therefore needs a non-weak
+# keyword hit; weak keywords are ignored. Matched after accent folding.
+WEAK_KEYWORDS = {
+    "packaging", "package", "container", "embalaje", "envase", "wastewater", "aguas residuales",
+    "network", "red", "joint", "joining", "union", "detergent", "detergente", "strength",
+    "membrane", "membrana", "plantilla", "templating", "rigid", "rigidity", "sliding", "bearing",
+    "lift", "wing", "ala", "motor", "cuenca", "seto", "mixing", "modular", "dirt", "residue",
+    "wood", "cork", "mold", "mould", "oxidation", "cellular", "flight", "crack", "deposit", "scaling", "erosion", "lifetime", "monitoring", "reserve", "in water",
+}
+# Spanish/Portuguese keywords apply only when the title looks Spanish or Portuguese.
+_ES_PT_WORDS = {"de", "la", "el", "los", "las", "del", "para", "con", "em", "uma", "dos", "das",
+                "por", "una", "con", "sobre", "mediante"}
+_ES_PT_CHARS = set("áéíóúñãõçàêô")
+
 ORGANISM_WORDS = ["lotus", "gecko", "shark", "mussel", "spider", "termite", "cork", "bamboo", "nacre",
                   "bone", "leaf", "butterfly", "beetle", "silk", "shell", "mycelium",
-                  "cactus", "bird", "fish", "whale", "sponge", "ant", "bee", "honeycomb", "wood",
+                  "cactus", "bird", "fish", "whale", "sponge", "ant", "bee",
                   "seaweed", "algae", "coral", "pine cone", "dragonfly", "moth", "fungus", "fungi"]
 _BINOMIAL = re.compile(r"\b([A-Z][a-z]{3,})\s([a-z]{4,})\b")
 _EPITHET_END = ("us", "um", "is", "ii", "ae", "ata", "ensis", "ica", "ana", "alis", "osa", "iae", "orum")
@@ -126,8 +143,6 @@ def _keywords(item: dict, *fields: str) -> list[str]:
     out = []
     for field in fields:
         for kw in item.get(field, []):
-            if "�" in kw:  # damaged duplicate of an accent-free keyword
-                continue
             out.append(normalise(kw))
     return sorted(set(k for k in out if k))
 
@@ -137,16 +152,24 @@ def sector_hits(text: str, sector: dict) -> int:
     return sum(1 for kw in _keywords(sector, "keywords_en", "keywords_es") if _hit(norm, kw))
 
 
+def looks_spanish_pt(title: str) -> bool:
+    """True when the title has Spanish/Portuguese accents or function words."""
+    if any(c in _ES_PT_CHARS for c in title.lower()):
+        return True
+    return any(w in _ES_PT_WORDS for w in re.findall(r"[a-z]+", normalise(title)))
+
+
 def classify(text: str, taxonomy: dict) -> dict:
     """Deterministic rules over title + topic names -> problem_functions, areas, nature_link."""
     norm = normalise(text)
+    fields = ("keywords_en", "keywords_es") if looks_spanish_pt(text.split(" ; ")[0]) else ("keywords_en",)
     functions = []
     for fn in taxonomy["functions"]:
-        if any(_hit(norm, kw) for kw in _keywords(fn, "keywords_en", "keywords_es")):
+        if any(_hit(norm, kw) for kw in _keywords(fn, *fields) if kw not in WEAK_KEYWORDS):
             functions.append(fn)
     nature_link = "other"
     for link, words in LINK_RULES:
-        if any(w in norm for w in words):
+        if any(_hit(norm, w) for w in words):
             nature_link = link
             break
     areas = {GROUP_AREA[fn["group"]] for fn in functions if fn["group"] in GROUP_AREA}
@@ -208,7 +231,7 @@ def _organisation(inst: dict) -> dict:
 
 
 def _text(work: dict) -> str:
-    topics = " ; ".join(t.get("display_name", "") for t in work.get("topics") or [])
+    topics = " ; ".join(t.get("display_name", "") for t in (work.get("topics") or [])[:TOPICS_USED])
     return f"{work.get('title') or ''} ; {topics}"
 
 
