@@ -29,7 +29,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from _files import write_json_atomic  # noqa: E402
 from _http import fetch_json  # noqa: E402
-from app.models.nature import LibraryRecord  # noqa: E402
+from app.models.nature import LibraryRecord, is_open_licence  # noqa: E402
 from app.services.nature.store import DEFAULT_DIR  # noqa: E402
 
 CROSSREF_URL = "https://api.crossref.org/works/"
@@ -63,22 +63,23 @@ _CC_RE = re.compile(r"creativecommons\.org/(licenses|publicdomain)/([a-z\-]+)/(\
 
 
 def licence_from_crossref(licenses: list[dict] | None) -> str | None:
-    """Open licence id from Crossref license[] (CC BY, BY-SA, CC0).
+    """Creative Commons licence id from Crossref license[], e.g. CC-BY-4.0, CC-BY-NC-ND-4.0, CC0-1.0.
 
-    NC/ND variants and anything else are not open for our purposes -> None.
+    SA, NC and ND variants keep their real id; is_open_licence() rejects them, so
+    they never allow a supporting sentence. A plain CC BY or CC0 entry wins over
+    a restricted one. Non-CC licences -> None.
     """
+    found: list[str] = []
     for item in licenses or []:
         m = _CC_RE.search(item.get("URL", "") or "")
         if not m:
             continue
         kind, variant, version = m.group(1).lower(), m.group(2).lower(), m.group(3)
         if kind == "publicdomain" and variant == "zero":
-            return "CC0-1.0"
-        if kind == "licenses" and variant == "by":
-            return f"CC-BY-{version}"
-        if kind == "licenses" and variant == "by-sa":
-            return f"CC-BY-SA-{version}"
-    return None
+            found.append("CC0-1.0")
+        elif kind == "licenses" and re.fullmatch(r"by(-(nc|nd|sa))*", variant):
+            found.append(f"CC-{variant.upper()}-{version}")
+    return next((lic for lic in found if is_open_licence(lic)), found[0] if found else None)
 
 
 def accept_gbif(match: dict | None) -> bool:
@@ -134,7 +135,7 @@ def verify_evidence(
     if licenses:  # no licence info from Crossref: keep what the record already says
         licence = licence_from_crossref(licenses)
         out["licence"] = licence
-        out["open_access"] = licence is not None
+        out["open_access"] = is_open_licence(licence)
     return out, None, None
 
 

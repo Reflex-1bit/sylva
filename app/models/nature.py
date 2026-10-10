@@ -5,6 +5,7 @@ Ids for areas, functions and sectors are plain strings here; the NatureStore
 checks them against data/nature/taxonomy.json.
 """
 
+import re
 from datetime import date
 from typing import Literal, Optional
 
@@ -27,7 +28,12 @@ NatureLink = Literal["biomimetic", "bio_based", "nature_based_solution", "circul
 OrgKind = Literal["company", "university", "research_centre", "public_body", "other"]
 EvidenceGrade = Literal["strong", "moderate", "weak", "contested"]
 
-_OPEN_LICENCE_PREFIXES = ("CC-BY", "CC0")
+_OPEN_LICENCE_RE = re.compile(r"CC-BY(-\d\.\d)?|CC0(-1\.0)?")
+
+
+def is_open_licence(licence: Optional[str]) -> bool:
+    """True only for plain CC BY (any version) or CC0. SA, NC and ND variants are not open."""
+    return bool(licence) and _OPEN_LICENCE_RE.fullmatch(licence) is not None
 
 
 class _Strict(BaseModel):
@@ -66,9 +72,10 @@ class Evidence(_Strict):
     @model_validator(mode="after")
     def _sentence_needs_open_licence(self) -> "Evidence":
         if self.supporting_sentence is not None:
-            if not (self.licence or "").startswith(_OPEN_LICENCE_PREFIXES):
+            if not is_open_licence(self.licence):
                 raise ValueError(
-                    "supporting_sentence is allowed only when licence starts with 'CC-BY' or 'CC0'"
+                    "supporting_sentence is allowed only under a CC BY or CC0 licence "
+                    "(not SA, NC or ND)"
                 )
         return self
 

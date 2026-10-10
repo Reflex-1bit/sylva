@@ -262,8 +262,22 @@ async def generate_farm_plan(
         )
 
 
+_KEY_RE = re.compile(r"AIza[0-9A-Za-z_-]{20,}")
+
+
+def _scrub(text: str, api_key: str) -> str:
+    """Remove the API key (and anything shaped like a Google key) from error text."""
+    if api_key:
+        text = text.replace(api_key, "***")
+    return _KEY_RE.sub("***", text)
+
+
 async def _call_gemini(api_key: str, prompt: str) -> tuple[dict, str]:
-    """Try Gemini models in order; return (parsed_json, model_name)."""
+    """Try Gemini models in order; return (parsed_json, model_name).
+
+    The key travels in the x-goog-api-key header, never in the URL, and is
+    scrubbed from every error message this raises.
+    """
     # de-dupe while preserving order
     models: list[str] = []
     for m in GEMINI_MODELS:
@@ -285,9 +299,9 @@ async def _call_gemini(api_key: str, prompt: str) -> tuple[dict, str]:
                 },
             }
             try:
-                resp = await client.post(url, params={"key": api_key}, json=payload)
+                resp = await client.post(url, headers={"x-goog-api-key": api_key}, json=payload)
                 if resp.status_code >= 400:
-                    errors.append(f"{model}: HTTP {resp.status_code} {resp.text[:200]}")
+                    errors.append(f"{model}: HTTP {resp.status_code} {_scrub(resp.text, api_key)[:200]}")
                     continue
                 data = resp.json()
                 text = (
@@ -302,7 +316,7 @@ async def _call_gemini(api_key: str, prompt: str) -> tuple[dict, str]:
                 plan = _parse_json(text)
                 return plan, model
             except Exception as e:
-                errors.append(f"{model}: {e}")
+                errors.append(f"{model}: {_scrub(str(e), api_key)}")
                 continue
 
     raise RuntimeError("; ".join(errors) or "all Gemini models failed")

@@ -46,10 +46,28 @@ def test_licence_mapping():
     assert lic("https://creativecommons.org/licenses/by/4.0/") == "CC-BY-4.0"
     assert lic("http://creativecommons.org/licenses/by-sa/3.0/") == "CC-BY-SA-3.0"
     assert lic("https://creativecommons.org/publicdomain/zero/1.0/") == "CC0-1.0"
-    assert lic("https://creativecommons.org/licenses/by-nc/4.0/") is None
-    assert lic("https://creativecommons.org/licenses/by-nc-nd/4.0/") is None
+    assert lic("https://creativecommons.org/licenses/by-nc/4.0/") == "CC-BY-NC-4.0"
+    assert lic("https://creativecommons.org/licenses/by-nc-nd/4.0/") == "CC-BY-NC-ND-4.0"
+    assert lic("https://creativecommons.org/licenses/by-nd/4.0/") == "CC-BY-ND-4.0"
     assert lic("https://www.springer.com/tdm") is None
     assert vs.licence_from_crossref(None) is None
+
+
+def test_only_cc_by_and_cc0_are_open():
+    lic = lambda u: vs.licence_from_crossref([{"URL": u}])  # noqa: E731
+    ev = {"citation": "Sun 2005 lotus", "doi": "10.1/x"}
+    for url, is_open in [
+        ("https://creativecommons.org/licenses/by/4.0/", True),
+        ("https://creativecommons.org/publicdomain/zero/1.0/", True),
+        ("https://creativecommons.org/licenses/by-sa/4.0/", False),
+        ("https://creativecommons.org/licenses/by-nc/4.0/", False),
+        ("https://creativecommons.org/licenses/by-nd/4.0/", False),
+    ]:
+        msg = {"message": {"title": ["Sun 2005 lotus"], "license": [{"URL": url}]}}
+        out, category, _ = vs.verify_evidence(ev, lambda u, p, m=msg: m, None)
+        assert category is None
+        assert out["licence"] == lic(url)
+        assert out["open_access"] is is_open, url
 
 
 def test_accept_gbif():

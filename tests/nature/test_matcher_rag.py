@@ -354,8 +354,68 @@ async def test_llm_error_falls_back(tmp_path, with_key, monkeypatch):
 
     monkeypatch.setattr(rag_service, "_call_gemini", boom)
     res = await run_ask(ask_store(tmp_path))
-    assert res.model == "fallback (LLM error: quota)"
+    assert res.model == "fallback (LLM error)"
     assert res.answer["options"][0]["record_id"] == "lib-0001"
+
+
+FAKE_KEY = "AIzaSyFAKEFAKEFAKEFAKEFAKEFAKEFAKE12345"
+
+
+@pytest.mark.asyncio
+async def test_llm_error_never_leaks_the_key(tmp_path, with_key, monkeypatch, caplog):
+    async def boom(api_key, prompt):
+        raise RuntimeError(f'gemini-2.5-flash: HTTP 403 {{"error": "API key {FAKE_KEY} suspended"}}')
+
+    monkeypatch.setattr(rag_service, "_call_gemini", boom)
+    with caplog.at_level("DEBUG"):
+        res = await run_ask(ask_store(tmp_path))
+    assert res.model == "fallback (LLM error)"
+    assert FAKE_KEY not in res.model_dump_json()
+    assert FAKE_KEY not in caplog.text
+    assert "RuntimeError" in caplog.text and "***" in caplog.text
+
+
+@pytest.mark.asyncio
+async def test_call_gemini_sends_key_in_header_not_query(monkeypatch):
+    import httpx
+
+    seen = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen["header"] = request.headers.get("x-goog-api-key")
+        seen["params"] = dict(request.url.params)
+        seen["url"] = str(request.url)
+        text = json.dumps({"summary": "ok"})
+        return httpx.Response(200, json={"candidates": [{"content": {"parts": [{"text": text}]}}]})
+
+    real_client = httpx.AsyncClient
+    monkeypatch.setattr(
+        rag_service.httpx, "AsyncClient",
+        lambda **kw: real_client(transport=httpx.MockTransport(handler), **kw),
+    )
+    plan, model = await rag_service._call_gemini(FAKE_KEY, "prompt")
+    assert plan == {"summary": "ok"}
+    assert seen["header"] == FAKE_KEY
+    assert "key" not in seen["params"]
+    assert FAKE_KEY not in seen["url"]
+
+
+@pytest.mark.asyncio
+async def test_call_gemini_error_text_is_scrubbed(monkeypatch):
+    import httpx
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(403, text=f"API key {FAKE_KEY} has been suspended")
+
+    real_client = httpx.AsyncClient
+    monkeypatch.setattr(
+        rag_service.httpx, "AsyncClient",
+        lambda **kw: real_client(transport=httpx.MockTransport(handler), **kw),
+    )
+    with pytest.raises(RuntimeError) as info:
+        await rag_service._call_gemini(FAKE_KEY, "prompt")
+    assert FAKE_KEY not in str(info.value)
+    assert "HTTP 403" in str(info.value)
 
 
 @pytest.mark.asyncio

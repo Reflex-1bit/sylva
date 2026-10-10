@@ -26,6 +26,12 @@ FALLBACK_OPTIONS = 5
 
 _ID_RE = re.compile(r"\b(?:lib|map)-[0-9A-Za-z]+\b")
 _BRACKET_RE = re.compile(r"\[([^\[\]]*)\]")
+_KEY_RE = re.compile(r"AIza[0-9A-Za-z_-]{20,}")
+
+
+def _redact(msg: str) -> str:
+    """Error text safe to log: Google API keys masked, at most 200 chars."""
+    return _KEY_RE.sub("***", msg)[:200]
 
 PROMPT = """You are Sylva's biomimicry assistant. Answer a design challenge using ONLY the records below.
 
@@ -245,8 +251,12 @@ async def ask(req: AskRequest, store: NatureStore, search: NatureSearch) -> AskR
             answer = citation_guard(raw, allowed)
             model = model_used
         except Exception as exc:
-            log.warning("LLM generation failed (%s) - using fallback", exc)
-            model = f"fallback (LLM error: {exc})"
+            log.warning(
+                "LLM generation failed (%s: %s) - using fallback",
+                type(exc).__name__,
+                _redact(str(exc)),
+            )
+            model = "fallback (LLM error)"
     if answer is None:
         answer = _fallback_answer(verdict, hits, functions)
         answer["_guard"] = {"dropped_ids": []}

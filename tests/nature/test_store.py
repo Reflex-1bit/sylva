@@ -93,6 +93,20 @@ def test_supporting_sentence_needs_open_licence():
     assert Evidence(citation="c", supporting_sentence="s", licence="CC0-1.0")
 
 
+@pytest.mark.parametrize(
+    "licence", ["CC-BY-NC-4.0", "CC-BY-SA-4.0", "CC-BY-ND-4.0", "CC-BY-NC-ND-4.0", "CC-BYX", "CC0-2.0"]
+)
+def test_supporting_sentence_rejected_under_restricted_cc_licences(licence):
+    with pytest.raises(ValidationError, match="supporting_sentence"):
+        Evidence(citation="c", supporting_sentence="s", licence=licence)
+    assert Evidence(citation="c", licence=licence).licence == licence  # the id itself is kept
+
+
+@pytest.mark.parametrize("licence", ["CC-BY-4.0", "CC-BY", "CC0-1.0", "CC0"])
+def test_supporting_sentence_accepted_under_cc_by_and_cc0(licence):
+    assert Evidence(citation="c", supporting_sentence="s", licence=licence).supporting_sentence == "s"
+
+
 def test_expert_validated_needs_validator():
     prov = {"status": "expert_validated", "extracted_by": "t", "extracted_on": "2026-01-01"}
     with pytest.raises(ValidationError, match="validated_by"):
