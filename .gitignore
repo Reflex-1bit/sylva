@@ -60,3 +60,6 @@ logs/
 frontend/node_modules/
 frontend/dist/
 
+
+# Nature harvest raw-response cache
+scripts/nature/.cache/
