@@ -16,7 +16,7 @@ Three services, from cheapest to deepest, plus two assets that grow with every p
 
 **The two assets.**
 
-1. **The database** (chapter 2), with a second layer added in 6.4: a map of where industry demand for nature-inspired solutions is concentrated.
+1. **Two open databases:** the nature library (chapter 2) and a map of where industry R&D for nature-inspired solutions is concentrated, by sector (6.4). Both are completely open (decided 2026-10-10; chapter 7.3).
 2. **The reserve network:** protected areas and private estates near clients, under written agreements, where observation and field experiments happen and a fixed share of fees goes back.
 
 The nature check is the door. It is cheap enough to say yes to, it shows the firm's honesty (a firm that sometimes says "no, use conventional engineering" is believed when it says yes), and a good share of checks should turn into one of the deeper projects [Guessing; measure the conversion rate from the first ten].
@@ -110,7 +110,7 @@ The 2026 LIFE and CBE calls closed on 22 September 2026, so the 2027 rounds are 
 |---|---|---|
 | 1 | Ten nature checks, two to three paid projects, one reserve agreement, one university partner, first public market map | Proof that companies pay; validation cost per database record known |
 | 2 | Ecodesign and bio-based work in two sectors; a grant-funded consortium project; second reserve | 8 to 15 projects; first repeat clients |
-| 3 | Database as a paid product for repeat clients; Portugal or France | 15 to 40 clients; reserve payments published |
+| 3 | Open databases as public infrastructure with outside contributors; paid services on top (custom analysis, validation, fieldwork); Portugal or France | 15 to 40 clients; reserve payments published |
 
 ## 6.7 The ethics, and the firm's answer to each
 
@@ -128,7 +128,7 @@ Biomimicry has its own history of overclaiming. The Eastgate Centre's termite ve
 
 **The risk.** Early biomimicry was "mostly funded by the military and space agencies", in Janine Benyus's words; she and Dayna Baumeister wrote an ethics code because "biomimicry can mean mimicking the shape of a penguin to make a torpedo" [Benyus 2018, Likely]. The US defence research agency put about 84 million dollars into more than 25 biomimetics projects from 1998 to 2004 [Likely]. EU export rules control "technical assistance" for dual-use items [Dual-use 2021, Likely]. No biomimicry consultancy with a published client-exclusion policy was found; advertising agencies have done it at scale (more than 1,000 signed the Clean Creatives pledge refusing fossil-fuel clients) [Clean Creatives 2024, Likely].
 
-**The firm commits to:** a published exclusion policy before the first client (weapons, surveillance, fossil-fuel expansion), with a written test for dual-use cases; screening each engagement against the EU dual-use list; a contract clause forbidding reuse of field data or database content for weapons.
+**Decided 2026-10-10: no client is excluded,** including defence and surveillance. The firm judges claims and protects places, not clients. **The firm commits to:** screening each engagement against the EU dual-use list and Spanish defence-trade rules, because that is law, not policy; keeping defence projects out of civil-only funding such as Horizon Europe; telling every reserve, landowner, university and local contributor which sector a project serves before they agree, so their veto stays real; and stating the open-to-all policy publicly. Chapter 7.4 has the detail.
 
 ### 6.7.3 Fieldwork in protected areas
 
@@ -152,7 +152,7 @@ Biomimicry has its own history of overclaiming. The Eastgate Centre's termite ve
 
 **The risk.** A discovery of how nature works cannot be patented, but a technical application of it can [EPC Art. 52, Likely]; in Europe, plant and animal varieties are excluded, and so are plants and animals obtained only by essentially biological processes [G 3/19, Likely]. Without a contract, ownership falls to whoever invents [Guessing]. A database can be protected by the EU database right [Likely].
 
-**The firm commits to:** contracts stating that the client owns its specific invention, the firm keeps its methods and the database, and the reserve receives a royalty or milestone share if a product reaches market; an open core (descriptions of biological mechanisms published openly with attribution) and proprietary demand data and market map.
+**The firm commits to:** contracts stating that the client owns its specific invention, the firm keeps its methods and the database, and the reserve receives a royalty or milestone share if a product reaches market; both databases completely open (decided 2026-10-10), under a licence that requires credit such as CC BY 4.0, with client projects kept confidential unless the client agrees to publish (chapter 7.3).
 
 ### 6.7.7 An AI-built database
 
@@ -170,11 +170,11 @@ Biomimicry has its own history of overclaiming. The Eastgate Centre's termite ve
 
 1. No environmental claim without a life-cycle assessment.
 2. No generic "nature-positive" language; "inspired by" is not "better for".
-3. No weapons, surveillance or fossil-fuel expansion clients.
+3. Open to every client; every project screened against dual-use and defence-trade law; partners told the client's sector before they agree.
 4. Non-invasive fieldwork by default, always authorised, never in breeding season.
 5. A fixed share of every fee to a ring-fenced reserve fund, published yearly, with a reserve veto.
 6. Local knowledge credited, consented and shared.
-7. Clients own their inventions; the firm owns its methods; reserves share in products that reach market.
+7. Clients own their inventions; the firm owns its methods; both databases are open to all; reserves share in products that reach market.
 8. Every database record sourced, quoted and verified before it is called validated.
 9. "Biomimetic" only by the standard.
 10. Say no when nature is not the answer.
@@ -188,9 +188,9 @@ Biomimicry has its own history of overclaiming. The Eastgate Centre's termite ve
 | Is there room against competitors? | **Yes** | No commercial firm in Spain combines biomimicry, a market map and reserve payments; the nearest models are French and German, partly publicly funded (6.5) |
 | Does the reserve payment work? | **Only as a contract line** | Voluntary nature payments fail (Cali Fund); a fixed fee share in every contract does not depend on goodwill (6.7.4) |
 | Is the database worth building? | **Yes, as a second layer** | The sector map is a documented gap; the mechanism library becomes valuable only once validated (6.4; chapter 2) |
-| Is it ethically workable? | **Yes, with the code published first** | Every risk in 6.7 has a known answer; the dangerous ones (greenwashing, weapons, disturbance) are avoided by refusing, not by managing |
+| Is it ethically workable? | **Yes, with the code published first** | Every risk in 6.7 has a known answer. Greenwashing and disturbance are avoided by refusing the claim or the protocol; defence work is open but screened against the law and disclosed to partners (6.7.2) |
 | What limits it? | **People, not market** | Delivery capacity and validation time; the first hire signs reserve agreements and sells to R&D heads (chapter 5.3, risk 10) |
-| Could it make a lot of money? | **Not as pure consulting** | Consulting at this scale is a few hundred thousand to a few million euros a year. The upside is the database as a product and the link to Sylva's farms (bio-based materials) |
+| Could it make a lot of money? | **Not as pure consulting** | Consulting at this scale is a few hundred thousand to a few million euros a year. With the databases open, the upside is reach (the databases bring clients and grant partners), services on top, and the link to Sylva's farms (bio-based materials) |
 
 **Verdict.** Feasible as a small, honest consultancy that leads with fundable eco-design and decarbonisation work, uses biomimicry as its difference, pays reserves through contracts and builds the market map as it goes. Not feasible as a pure biomimicry business that waits for companies to pay for inspiration, and not a source of large revenue in the first three years. The pure-commercial model is unproven: the best-known European players are partly publicly funded or cooperative [Ceebios 2023, Likely], so plan for grants in years one and two.
 
@@ -200,10 +200,12 @@ Biomimicry has its own history of overclaiming. The Eastgate Centre's termite ve
 - Validation costs more than an hour per database record after the second project (chapter 5.4).
 - No reserve or land-stewardship body will sign an agreement with a fixed share and a veto within six months.
 
-## 6.9 Questions only you can answer
+## 6.9 Your answers (2026-10-10)
 
-1. **One company or two?** Is the firm "the second part of Sylva" in one company, or its own company that partners with Sylva? One company shares the reserve and dehesa relationships; two keeps the farmer brand separate from industrial clients.
-2. **How broad to start?** Biomimicry plus eco-design from day one, or biomimicry first and eco-design added later? The evidence in 6.3 says start broad.
-3. **Where is the line on clients?** The code excludes weapons, surveillance and fossil-fuel expansion. Do you also exclude, for example, fast fashion or single-use plastics, or work with them to change?
-4. **How open is the database?** The suggestion is open mechanism descriptions and a proprietary market map. Is that the balance you want?
-5. **Who is the first hire?** Someone who sells to R&D heads and signs reserve agreements, or a biologist who validates records?
+1. **One company or two?** One: the firm is an arm of Sylva.
+2. **How broad to start?** As broad as possible: biomimicry plus every nature-friendly change to materials, energy, design, process, systems and place (chapter 7.2).
+3. **Where is the line on clients?** No exclusions, including weapons and surveillance; the law is the only floor (6.7.2, chapter 7.4).
+4. **How open is the database?** Completely open, and there are two: the nature library and the industry R&D map by sector (chapter 7.3).
+5. **Who is the first hire?** Not decided; chosen at month 9 from the bottleneck the first projects reveal (chapter 7.5, step 9).
+
+Chapter 7 is the step-by-step plan for building the arm on these decisions.

@@ -23,7 +23,7 @@ If a feature, a client or a partner fails all three, it is not part of the plan.
 | Part | What it is | Who does more | What it proves | Status | Effort now |
 |---|---|---|---|---|---|
 | 1. Land | Sylva: farm dashboard paired with a field robot | Farmers | Regenerative farming and agroforestry keep soil healthier and earn more of the subsidies farmers are owed | Live, being built | Ongoing |
-| 2. Industry | A nature-in-industry firm: biomimicry plus nature-friendly processes, with a database and reserve partnerships | Engineers and R&D teams | Nature is the first place to look for a better design, material or process, and that looking can fund the places nature lives | Main focus | Most |
+| 2. Industry | The nature arm of Sylva: biomimicry plus every nature-friendly process, with two open databases and reserve partnerships | Engineers and R&D teams | Nature is the first place to look for a better design, material or process, and that looking can fund the places nature lives | Main focus | Most |
 | 3. City | Local commerce: the city's supplier for local retailers, run like quick commerce, owned in part by the shops | Shopkeepers and shoppers | Local shops can beat the big platforms on price, range and speed once someone carries the scale for them | Parallel, in its own repository (ReachOut) | Parallel team |
 | 4. Mind | The social algorithm: a feed built for doing, creativity and understanding your own biases | Everyone | People spend freed time doing rather than consuming when the feed points them at real things to do | Far future | Manifesto only (chapter 4) |
 
@@ -67,10 +67,10 @@ The honest wording: nature is not always better than engineering (no animal has 
 **Three pieces.**
 
 1. **The consulting firm** sells the answers. This is where revenue starts.
-2. **The database** maps where industry demand for nature-inspired solutions is concentrated (which sectors, which problems, which regions) alongside the biological mechanisms that could meet it. It shows clients and investors that the firm knows the market, and it makes every project faster than the last. Chapter 2 is its technical blueprint.
+2. **Two open databases.** The nature library holds what nature knows that industry could use (chapter 2 is its technical blueprint). The industry R&D map shows where nature-inspired R&D is concentrated, by sector, problem and region. Both are completely open to anyone. They show clients and investors that the arm knows the field, and they make every project faster than the last.
 3. **The reserve network** connects a company to a protected area near it, for observation and experiments in the field, with a fixed share of the fee going to the reserve under a written agreement.
 
-Chapter 6 covers the open questions: market size, how to enter the market, the ethics and a quick feasibility check.
+It is an arm of Sylva, not a separate company, open to every client, and as broad as possible in scope. Chapter 6 covers market size, how to enter the market, the ethics and a quick feasibility check. Chapter 7 is the step-by-step plan for building it.
 
 ## 0.5 Part 3, city: become the supplier for the city
 
@@ -131,11 +131,10 @@ One number per part, chosen because it can only go up if people are actually doi
 
 ## 0.9 What is decided and what is open
 
-**Decided:** the goal and the three-question test; parts 1 to 3 run in parallel; part 2 gets most of the effort; the city supplier is co-op owned and serves both last miles; the feed waits; nature is "the first place to look", not a rule that every invention must copy nature; brain-prediction models are a mirror and an audit tool, never the feed's ranking engine (chapter 4, article 4).
+**Decided:** the goal and the three-question test; parts 1 to 3 run in parallel; part 2 gets most of the effort; the city supplier is co-op owned and serves both last miles; the feed waits; nature is "the first place to look", not a rule that every invention must copy nature; brain-prediction models are a mirror and an audit tool, never the feed's ranking engine (chapter 4, article 4). Added 2026-10-10: part 2 is an arm of Sylva; its scope is as broad as possible; it builds two completely open databases (the nature library and the industry R&D map by sector); it excludes no client, with the law as the only floor (chapter 7.1).
 
 **Open:**
 
 1. The robot's design and what it measures (to come).
-2. The pilot region and the first reserve to sign (chapter 5, step 2).
-3. Whether the firm stays one company with Sylva or becomes its own.
-4. The ethics and market questions for part 2 (chapter 6).
+2. The pilot region and the first reserve to sign (chapter 5, step 2; chapter 7, step 6).
+3. The nature arm's name, its pilot sectors and its first hire (chapter 7.9).

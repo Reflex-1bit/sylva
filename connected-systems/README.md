@@ -23,6 +23,7 @@ Start with `00-the-plan.md` for the goal and the four parts, then `REPORT.md` fo
 | [`04-connection-algorithm.md`](04-connection-algorithm.md) | The grounding manifesto: a social algorithm for innovation, empathy, care and doing, not attention; the mind mirror; how it could work and how it could fail |
 | [`05-roadmap-and-risks.md`](05-roadmap-and-risks.md) | What to do first with what exists, and why this might fail |
 | [`06-nature-in-industry.md`](06-nature-in-industry.md) | The nature-in-industry firm (part 2, main focus): what it sells, market size, where demand comes from in 2026, competitors, how to enter the market, the ethics and the firm's code, a feasibility verdict |
+| [`07-building-the-nature-arm.md`](07-building-the-nature-arm.md) | The step-by-step plan for building the nature arm of Sylva: scope, two open databases, client policy, ten steps, timeline, checkpoints |
 | [`SOURCES.md`](SOURCES.md) | Every source used, with year and a confidence tag |
 
 ## How claims are tagged

@@ -2,6 +2,8 @@
 
 This chapter is the "separate repo" the brief asked for, written as a plan rather than code. It describes a biomimicry intelligence database and consulting service that reuses Sylva's pipeline, adopts ReachOut's honesty rules, and adds the one thing neither has: a loop that sends money back to the place the knowledge came from.
 
+Note added 2026-10-10: decisions since this chapter was written change two things. The firm is an arm of Sylva, not a separate repository or company, and the database is completely open, with a second open database mapping industry R&D by sector. Read "subscription database" below as "open database with paid services on top". Chapter 7 is the current build plan.
+
 Tags: [Certain] means read directly from the repos or a primary source during this session. [Likely] means consistent with several sources but not read at the primary source. [Guessing] means my own estimate; verify before relying on it.
 
 ## 2.1 What it is, in one paragraph
