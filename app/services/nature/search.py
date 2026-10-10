@@ -9,6 +9,7 @@ set, so the best hit is 1.0.
 The library is searched over servable records only; the map has no gate.
 """
 
+import asyncio
 import hashlib
 import json
 import logging
@@ -27,6 +28,7 @@ log = logging.getLogger(__name__)
 
 RRF_K = 60
 CANDIDATES = 100  # depth of each ranked list entering the fusion
+QUERY_EMBED_TIMEOUT_S = 8  # past this, the query runs on BM25 alone
 
 Record = Union[LibraryRecord, MapRecord]
 
@@ -125,10 +127,15 @@ class NatureSearch:
         vectors = self._vectors(db) if api_key else None
         if vectors is not None:
             try:
-                q = await embed_texts([query], kind="query", api_key=api_key)
+                q = await asyncio.wait_for(
+                    embed_texts([query], kind="query", api_key=api_key),
+                    timeout=QUERY_EMBED_TIMEOUT_S,
+                )
                 sims = np.where(allowed, vectors @ q[0], -np.inf)
                 vec_order = np.argsort(-sims, kind="stable")
                 rankings.append([int(i) for i in vec_order[:CANDIDATES] if allowed[i]])
+            except asyncio.TimeoutError:
+                log.warning("query embedding took over %ss, using BM25 only", QUERY_EMBED_TIMEOUT_S)
             except (httpx.HTTPError, ValueError, KeyError) as exc:
                 log.warning("query embedding failed, using BM25 only: %s", exc)
 

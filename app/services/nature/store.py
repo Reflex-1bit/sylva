@@ -6,6 +6,7 @@ data/species_db.json.
 """
 
 import json
+import threading
 from collections import Counter
 from functools import lru_cache
 from pathlib import Path
@@ -27,12 +28,17 @@ class NatureDataError(ValueError):
 
 
 def _read_json(path: Path) -> Any:
+    """Parse one data file. Messages name the file, never its full path."""
     try:
         return json.loads(path.read_text(encoding="utf-8"))
     except FileNotFoundError:
         raise
     except json.JSONDecodeError as exc:
         raise NatureDataError([f"{path.name}: invalid JSON ({exc})"]) from exc
+    except UnicodeDecodeError as exc:
+        raise NatureDataError([f"{path.name}: not valid UTF-8 ({exc.reason} at byte {exc.start})"]) from exc
+    except OSError as exc:
+        raise NatureDataError([f"{path.name}: unreadable ({exc.strerror or type(exc).__name__})"]) from exc
 
 
 def _dupes(ids: list[str]) -> list[str]:
@@ -49,27 +55,36 @@ class NatureStore:
         self._taxonomy: dict | None = None
         self._library: list[LibraryRecord] | None = None
         self._map: list[MapRecord] | None = None
+        self._lock = threading.Lock()
 
     # ── loading ───────────────────────────────────────────────────────────────
 
     def reload(self) -> None:
-        self._taxonomy = self._library = self._map = None
+        with self._lock:
+            self._taxonomy = None  # first: _load() keys on it
+            self._library = self._map = None
 
     def _load(self) -> None:
         if self._taxonomy is not None:
             return
-        taxonomy = _read_json(self.data_dir / "taxonomy.json")
-        raw_lib = _read_json(self.data_dir / "library.json")
-        raw_map = _read_json(self.data_dir / "industry_map.json")
+        with self._lock:  # one loader on a cold start; the others wait for it
+            if self._taxonomy is not None:
+                return
+            taxonomy = _read_json(self.data_dir / "taxonomy.json")
+            raw_lib = _read_json(self.data_dir / "library.json")
+            raw_map = _read_json(self.data_dir / "industry_map.json")
+            if not isinstance(taxonomy, dict):
+                raise NatureDataError(["taxonomy.json: top level must be an object"])
 
-        problems: list[str] = []
-        library = self._parse(raw_lib, LibraryRecord, "library.json", problems)
-        industry = self._parse(raw_map, MapRecord, "industry_map.json", problems)
-        self._check_references(taxonomy, library, industry, problems)
-        if problems:
-            raise NatureDataError(problems)
+            problems: list[str] = []
+            library = self._parse(raw_lib, LibraryRecord, "library.json", problems)
+            industry = self._parse(raw_map, MapRecord, "industry_map.json", problems)
+            self._check_references(taxonomy, library, industry, problems)
+            if problems:
+                raise NatureDataError(problems)
 
-        self._taxonomy, self._library, self._map = taxonomy, library, industry
+            self._library, self._map = library, industry
+            self._taxonomy = taxonomy  # last: a non-None taxonomy means fully loaded
 
     @staticmethod
     def _parse(raw: Any, model: type, fname: str, problems: list[str]) -> list:

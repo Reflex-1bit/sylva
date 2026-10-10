@@ -339,6 +339,30 @@ async def test_hybrid_uses_valid_index_and_survives_embedding_failure(tmp_path, 
     assert not called
 
 
+@pytest.mark.asyncio
+async def test_slow_query_embedding_times_out_to_bm25(monkeypatch):
+    import asyncio
+    import time
+
+    from app.services.nature import search as search_mod
+
+    assert search_mod.QUERY_EMBED_TIMEOUT_S == 8
+    bm25_only = await NatureSearch(REAL_STORE).search_library("fog water capture", k=5)
+
+    async def slow_embed(*a, **kw):
+        await asyncio.sleep(5)
+
+    monkeypatch.setattr(search_mod, "QUERY_EMBED_TIMEOUT_S", 0.05)
+    monkeypatch.setattr(search_mod, "embed_texts", slow_embed)
+    monkeypatch.setattr(
+        NatureSearch, "_vectors", lambda self, db: np.ones((len(db.records), 2), dtype=np.float32)
+    )
+    started = time.monotonic()
+    hits = await NatureSearch(REAL_STORE).search_library("fog water capture", k=5, api_key="K")
+    assert time.monotonic() - started < 2
+    assert [(r.id, s) for r, s in hits] == [(r.id, s) for r, s in bm25_only]
+
+
 # ── acceptance: 5 challenges against the real library.json ───────────────
 
 CHALLENGES = {

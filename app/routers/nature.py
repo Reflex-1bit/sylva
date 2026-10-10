@@ -13,6 +13,7 @@ import json
 import logging
 from contextlib import contextmanager
 from functools import lru_cache
+from pathlib import Path
 from typing import Any, Iterator, Optional, get_args
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
@@ -40,7 +41,8 @@ from app.services.nature.store import NatureDataError, NatureStore, get_store
 LOG = logging.getLogger("sylva.router.nature")
 router = APIRouter()
 
-ASK_TIMEOUT_S = 60
+ASK_TIMEOUT_S = 50
+DATA_UNAVAILABLE = "nature data unavailable"
 LICENCE_ID = "CC-BY-4.0"
 LICENCE_NAME = "CC BY 4.0"
 LICENCE_URL = "https://creativecommons.org/licenses/by/4.0/"
@@ -61,13 +63,22 @@ def _search_for(store: NatureStore) -> NatureSearch:
     return NatureSearch(store)
 
 
+def _unavailable(exc: Exception) -> HTTPException:
+    """Log why the data cannot be served (file names, never paths) and return a fixed 503."""
+    if isinstance(exc, FileNotFoundError):
+        LOG.error("nature data missing: %s", Path(exc.filename or "").name or "unknown file")
+    else:
+        LOG.error("nature data invalid: %s", exc)
+    return HTTPException(status_code=503, detail=DATA_UNAVAILABLE)
+
+
 @contextmanager
 def _serving() -> Iterator[None]:
     """Map missing or invalid data files to 503, as the other routers do."""
     try:
         yield
     except (FileNotFoundError, NatureDataError) as e:
-        raise HTTPException(status_code=503, detail=str(e))
+        raise _unavailable(e) from None
 
 
 def _check(value: Optional[str], allowed: set[str], name: str) -> None:
@@ -301,12 +312,18 @@ async def nature_ask(
     store: NatureStore = Depends(get_store),
     search: NatureSearch = Depends(get_search),
 ):
+    """Unknown sector or area values return 422, as on GET /nature/library."""
+    with _serving():
+        taxonomy = store.taxonomy()
+    _check(req.sector, _ids(taxonomy, "sectors"), "sector")
+    for area in req.areas:
+        _check(area, _ids(taxonomy, "areas"), "area")
     try:
         return await asyncio.wait_for(rag.ask(req, store, search), timeout=ASK_TIMEOUT_S)
     except asyncio.TimeoutError:
         raise HTTPException(status_code=504, detail=f"nature ask timed out after {ASK_TIMEOUT_S}s")
     except (FileNotFoundError, NatureDataError) as e:
-        raise HTTPException(status_code=503, detail=str(e))
+        raise _unavailable(e) from None
 
 
 # ── export ────────────────────────────────────────────────────────────────────

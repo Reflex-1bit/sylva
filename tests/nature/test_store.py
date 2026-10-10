@@ -178,6 +178,51 @@ def test_schema_error_reported_as_nature_data_error(tmp_path):
         store.library()
 
 
+def test_wrong_top_level_shapes_are_nature_data_errors(tmp_path):
+    with pytest.raises(NatureDataError, match="taxonomy.json: top level must be an object"):
+        make_store(tmp_path, taxonomy=["not", "a", "dict"]).taxonomy()
+    (tmp_path / "taxonomy.json").write_text(json.dumps(TAXONOMY), encoding="utf-8")
+    (tmp_path / "library.json").write_text("{}", encoding="utf-8")
+    (tmp_path / "industry_map.json").write_text('"x"', encoding="utf-8")
+    with pytest.raises(NatureDataError) as exc:
+        NatureStore(tmp_path).library()
+    assert "library.json: top level must be an array" in str(exc.value)
+    assert "industry_map.json: top level must be an array" in str(exc.value)
+
+
+def test_bad_utf8_and_unreadable_files_are_nature_data_errors(tmp_path):
+    store = make_store(tmp_path, [lib()])
+    (tmp_path / "library.json").write_bytes(b'[{"id": "\xff\xfe"}]')
+    with pytest.raises(NatureDataError, match="library.json: not valid UTF-8"):
+        store.library()
+    (tmp_path / "library.json").unlink()
+    (tmp_path / "library.json").mkdir()  # reading a directory is an OSError
+    with pytest.raises(NatureDataError, match="library.json: unreadable"):
+        NatureStore(tmp_path).library()
+
+
+def test_cold_start_is_safe_across_threads(tmp_path):
+    import threading
+
+    store = make_store(tmp_path, [lib()], [MAP])
+    start = threading.Barrier(8)
+    errors, sizes = [], []
+
+    def worker():
+        start.wait()
+        try:
+            sizes.append((len(store.library()), len(store.industry_map())))
+        except Exception as exc:  # pragma: no cover - only on a race
+            errors.append(exc)
+
+    threads = [threading.Thread(target=worker) for _ in range(8)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+    assert not errors and set(sizes) == {(1, 1)}
+
+
 def test_valid_map_links_load(tmp_path):
     store = make_store(tmp_path, [lib()], [MAP])
     assert store.get_map("map-0001").library_links == ["lib-0001"]

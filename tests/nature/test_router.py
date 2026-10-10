@@ -278,17 +278,116 @@ def test_export_bad_db_and_format(client):
     assert client.get(f"{API}/export/library", params={"format": "xml"}).status_code == 422
 
 
-def test_missing_data_is_503(tmp_path):
-    store = NatureStore(tmp_path / "missing")
-    app.dependency_overrides[get_store] = lambda: store
-    app.dependency_overrides[get_search] = lambda: NatureSearch(store)
-    try:
-        c = TestClient(app)
-        assert c.get(f"{API}/meta").status_code == 503
-        assert c.get(f"{API}/library").status_code == 503
-        assert c.post(f"{API}/ask", json={"challenge": "water repellent coating"}).status_code == 503
-    finally:
-        app.dependency_overrides.clear()
+ENDPOINTS = [
+    ("GET", "/meta"),
+    ("GET", "/stats"),
+    ("GET", "/library"),
+    ("GET", "/library?q=water"),
+    ("GET", "/library/lib-0001"),
+    ("GET", "/map"),
+    ("GET", "/map?q=water"),
+    ("GET", "/map/map-0001"),
+    ("GET", "/sectors"),
+    ("GET", "/sectors/packaging/gaps"),
+    ("POST", "/ask"),
+    ("GET", "/export/library"),
+    ("GET", "/export/industry_map?format=csv"),
+    ("GET", "/export/map"),
+]
+
+
+def _call(c, method, path):
+    if method == "POST":
+        return c.post(f"{API}{path}", json={"challenge": "water repellent coating"})
+    return c.get(f"{API}{path}")
+
+
+@pytest.fixture
+def broken_client(tmp_path, monkeypatch):
+    for var in ("GEMINI_API_KEY", "GOOGLE_API_KEY", "GOOGLE_GENAI_API_KEY"):
+        monkeypatch.delenv(var, raising=False)
+
+    def use(store):
+        app.dependency_overrides[get_store] = lambda: store
+        app.dependency_overrides[get_search] = lambda: NatureSearch(store)
+        return TestClient(app)
+
+    yield use
+    app.dependency_overrides.clear()
+
+
+@pytest.mark.parametrize("method, path", ENDPOINTS)
+def test_missing_data_is_503_on_every_endpoint(broken_client, tmp_path, method, path, caplog):
+    c = broken_client(NatureStore(tmp_path / "missing"))
+    with caplog.at_level("ERROR"):
+        resp = _call(c, method, path)
+    assert resp.status_code == 503
+    assert resp.json() == {"detail": "nature data unavailable"}
+    assert str(tmp_path) not in resp.text and str(tmp_path) not in caplog.text
+    assert "taxonomy.json" in caplog.text  # the real error is logged, without the path
+
+
+@pytest.mark.parametrize("method, path", ENDPOINTS)
+def test_list_taxonomy_is_503(broken_client, tmp_path, method, path):
+    store = build_store(tmp_path, [lib()], [mp()])
+    (tmp_path / "taxonomy.json").write_text("[]", encoding="utf-8")
+    resp = _call(broken_client(store), method, path)
+    assert resp.status_code == 503 and resp.json()["detail"] == "nature data unavailable"
+
+
+@pytest.mark.parametrize("method, path", ENDPOINTS)
+def test_bad_utf8_is_503(broken_client, tmp_path, method, path):
+    store = build_store(tmp_path, [lib()], [mp()])
+    (tmp_path / "library.json").write_bytes(b'[{"id": "\xff"}]')
+    resp = _call(broken_client(store), method, path)
+    assert resp.status_code == 503 and resp.json()["detail"] == "nature data unavailable"
+
+
+@pytest.mark.parametrize(
+    "body", [{"sector": "nope"}, {"areas": ["form", "nope"]}, {"areas": ["nope"]}]
+)
+def test_ask_unknown_sector_or_area_is_422(client, body):
+    resp = client.post(f"{API}/ask", json={"challenge": "We need a water repellent coating", **body})
+    assert resp.status_code == 422
+    assert "nope" in resp.json()["detail"]
+
+
+def test_ask_known_sector_and_area_ok(client):
+    body = {"challenge": "We need a water repellent coating", "sector": "packaging", "areas": ["form"]}
+    assert client.post(f"{API}/ask", json=body).status_code == 200
+
+
+def test_ask_timeout_value():
+    assert router_mod.ASK_TIMEOUT_S == 50
+
+
+def test_real_data_every_get_endpoint_hides_quarantined_ids(monkeypatch):
+    for var in ("GEMINI_API_KEY", "GOOGLE_API_KEY", "GOOGLE_GENAI_API_KEY"):
+        monkeypatch.delenv(var, raising=False)
+    get_store.cache_clear()
+    c = TestClient(app)
+    store = get_store()
+    quarantined = {r.id for r in store.library(servable_only=False)} - {r.id for r in store.library()}
+    assert quarantined
+    sectors = [s["id"] for s in store.taxonomy()["sectors"]]
+    paths = ["/meta", "/stats", "/library?limit=100", "/library?q=water&limit=100",
+             "/library?q=enzyme%20coating&limit=100", "/map?limit=100", "/map?q=water&limit=100",
+             "/sectors"]
+    paths += [f"/library/{r.id}" for r in store.library()]
+    paths += [f"/map/{r.id}" for r in store.industry_map()]
+    paths += [f"/sectors/{s}/gaps?limit=100" for s in sectors]
+    paths += [f"/export/{db}?format={fmt}" for db in ("library", "industry_map", "map")
+              for fmt in ("json", "csv")]
+    for path in paths:
+        resp = c.get(f"{API}{path}")
+        assert resp.status_code == 200, path
+        for rid in quarantined:
+            assert rid not in resp.text, (path, rid)
+    for sector in [None, *sectors]:
+        resp = c.post(f"{API}/ask", json={"challenge": "enzyme coating that sheds water", "sector": sector})
+        assert resp.status_code == 200
+        for rid in quarantined:
+            assert rid not in resp.text, (sector, rid)
 
 
 def test_real_data_serves_without_quarantined_records():
