@@ -15,7 +15,7 @@ from contextlib import contextmanager
 from functools import lru_cache
 from typing import Any, Iterator, Optional, get_args
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from fastapi.responses import Response
 
 from app.models.nature import (
@@ -44,12 +44,12 @@ ASK_TIMEOUT_S = 60
 LICENCE_ID = "CC-BY-4.0"
 LICENCE_NAME = "CC BY 4.0"
 LICENCE_URL = "https://creativecommons.org/licenses/by/4.0/"
-ATTRIBUTION = (
-    "Sylva Nature Library and Industry R&D Map, licensed CC BY 4.0. "
-    "Attribute to Sylva and link the licence. Record summaries are our own wording; "
-    "linked sources keep their own licences."
-)
+# Same wording as data/nature/LICENSE.txt. HTTP headers carry the ASCII form.
+ATTRIBUTION = "Sylva — nature library and industry R&D map, CC BY 4.0"
+ATTRIBUTION_ASCII = ATTRIBUTION.replace("—", "-")
 EXPORT_DBS = ("library", "industry_map")
+EXPORT_ALIASES = {"map": "industry_map"}
+_CSV_FORMULA_START = ("=", "+", "-", "@", "\t", "\r")
 
 
 def get_search(store: NatureStore = Depends(get_store)) -> NatureSearch:
@@ -321,6 +321,8 @@ def _csv_cell(value: Any) -> str:
         return json.dumps(value, ensure_ascii=False, sort_keys=True)
     if isinstance(value, list):
         return "; ".join(_csv_cell(v) for v in value)
+    if isinstance(value, str) and value.startswith(_CSV_FORMULA_START):
+        return "'" + value  # stop spreadsheets reading the cell as a formula
     return str(value)
 
 
@@ -337,8 +339,19 @@ def _to_csv(rows: list[dict], model: type) -> str:
 
 
 @router.get("/nature/export/{db}")
-def export_db(db: str, format: str = Query(default="json"), store: NatureStore = Depends(get_store)):
-    """Servable library records or all map records, as json or csv (CC BY 4.0)."""
+def export_db(
+    db: str,
+    request: Request,
+    format: str = Query(default="json"),
+    store: NatureStore = Depends(get_store),
+):
+    """Servable library records or all map records, as json or csv (CC BY 4.0).
+
+    `db` is `library` or `industry_map` (alias `map`). JSON wraps the records with
+    the licence and attribution; CSV stays a pure table and carries them in the
+    Link and X-Attribution headers.
+    """
+    db = EXPORT_ALIASES.get(db, db)
     if db not in EXPORT_DBS:
         raise HTTPException(status_code=404, detail=f"unknown database '{db}'")
     if format not in ("json", "csv"):
@@ -352,7 +365,15 @@ def export_db(db: str, format: str = Query(default="json"), store: NatureStore =
             servable = _servable_ids(store)
             rows = [_public_map(r, servable).model_dump(mode="json") for r in store.industry_map()]
     if format == "json":
-        body, media = json.dumps(rows, ensure_ascii=False, indent=1), "application/json"
+        wrapped = {
+            "licence": LICENCE_ID,
+            "licence_url": LICENCE_URL,
+            "attribution": ATTRIBUTION,
+            "version": request.app.version,  # APP_VERSION, set on the FastAPI app in main.py
+            "db": db,
+            "records": rows,
+        }
+        body, media = json.dumps(wrapped, ensure_ascii=False, indent=1), "application/json"
     else:
         body, media = _to_csv(rows, model), "text/csv"
     return Response(
@@ -360,6 +381,8 @@ def export_db(db: str, format: str = Query(default="json"), store: NatureStore =
         media_type=media,
         headers={
             "X-License": LICENCE_ID,
-            "Content-Disposition": f'attachment; filename="sylva-nature-{db}.{format}"',
+            "Link": f'<{LICENCE_URL}>; rel="license"',
+            "X-Attribution": ATTRIBUTION_ASCII,
+            "Content-Disposition": f'attachment; filename="sylva-nature-{db}-{LICENCE_ID}.{format}"',
         },
     )

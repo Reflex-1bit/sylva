@@ -3,6 +3,7 @@ import copy
 import csv
 import io
 import json
+from pathlib import Path
 
 import pytest
 from fastapi.testclient import TestClient
@@ -190,19 +191,41 @@ def test_ask_timeout_is_504(client, monkeypatch):
     assert resp.status_code == 504
 
 
+ATTRIBUTION = "Sylva — nature library and industry R&D map, CC BY 4.0"
+
+
+def test_meta_attribution_matches_licence_file(client):
+    assert client.get(f"{API}/meta").json()["licence"]["attribution"] == ATTRIBUTION
+    licence_txt = Path(__file__).resolve().parents[2] / "data" / "nature" / "LICENSE.txt"
+    assert ATTRIBUTION in licence_txt.read_text(encoding="utf-8")
+
+
 def test_export_json_excludes_quarantine_and_sets_headers(client):
     resp = client.get(f"{API}/export/library")
     assert resp.status_code == 200
     assert resp.headers["X-License"] == "CC-BY-4.0"
     assert resp.headers["Content-Disposition"].startswith("attachment")
-    assert [r["id"] for r in resp.json()] == ["lib-0001", "lib-0002"]
+    body = resp.json()
+    assert list(body) == ["licence", "licence_url", "attribution", "version", "db", "records"]
+    assert body["licence"] == "CC-BY-4.0"
+    assert body["licence_url"] == "https://creativecommons.org/licenses/by/4.0/"
+    assert body["attribution"] == ATTRIBUTION
+    assert body["version"] == "0.3.0"
+    assert body["db"] == "library"
+    assert [r["id"] for r in body["records"]] == ["lib-0001", "lib-0002"]
 
 
 def test_export_csv_header_and_flattening(client):
     resp = client.get(f"{API}/export/library", params={"format": "csv"})
     assert resp.headers["X-License"] == "CC-BY-4.0"
+    assert resp.headers["Link"] == '<https://creativecommons.org/licenses/by/4.0/>; rel="license"'
+    assert resp.headers["X-Attribution"] == "Sylva - nature library and industry R&D map, CC BY 4.0"
+    assert resp.headers["X-Attribution"].isascii()
     assert resp.headers["content-type"].startswith("text/csv")
-    assert resp.headers["Content-Disposition"].startswith("attachment")
+    assert resp.headers["Content-Disposition"] == (
+        'attachment; filename="sylva-nature-library-CC-BY-4.0.csv"'
+    )
+    assert not resp.text.startswith("#")  # a pure table, no comment rows
     rows = list(csv.reader(io.StringIO(resp.text)))
     header = rows[0]
     assert header[:3] == ["id", "kind", "title"]
@@ -218,6 +241,36 @@ def test_export_map_all_records_with_filtered_links(client):
     rows = list(csv.DictReader(io.StringIO(resp.text)))
     assert [r["id"] for r in rows] == ["map-0001", "map-0002"]
     assert rows[0]["library_links"] == "lib-0001"
+
+
+def test_export_map_alias(client):
+    resp = client.get(f"{API}/export/map")
+    assert resp.status_code == 200
+    assert resp.json()["db"] == "industry_map"
+    assert [r["id"] for r in resp.json()["records"]] == ["map-0001", "map-0002"]
+    csv_resp = client.get(f"{API}/export/map", params={"format": "csv"})
+    assert csv_resp.status_code == 200
+    assert "sylva-nature-industry_map-CC-BY-4.0.csv" in csv_resp.headers["Content-Disposition"]
+
+
+def test_csv_cells_neutralise_formulas():
+    cell = router_mod._csv_cell
+    for bad in ("=HYPERLINK(1)", "+1+1", "-2+3", "@SUM(A1)", "\tx", "\rx"):
+        assert cell(bad) == "'" + bad
+    assert cell(-2.5) == "-2.5" and cell(-3) == "-3"  # numbers untouched
+    assert cell("plain") == "plain"
+    assert cell(["=a", "b"]) == "'=a; b"
+
+
+def test_export_csv_formula_title_is_neutralised(tmp_path, monkeypatch):
+    store = build_store(tmp_path, [lib(title="=HYPERLINK(\"http://x\")")], [])
+    app.dependency_overrides[get_store] = lambda: store
+    try:
+        text = TestClient(app).get(f"{API}/export/library", params={"format": "csv"}).text
+    finally:
+        app.dependency_overrides.clear()
+    row = next(csv.DictReader(io.StringIO(text)))
+    assert row["title"].startswith("'=")
 
 
 def test_export_bad_db_and_format(client):
