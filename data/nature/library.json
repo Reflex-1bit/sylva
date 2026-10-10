@@ -166,12 +166,12 @@
       "water-utilities"
     ],
     "organism": {
-      "scientific_name": "Nepenthes bicalcarata",
+      "scientific_name": "Nepenthes",
       "common_names": [
-        "fanged pitcher plant"
+        "pitcher plant"
       ],
       "kingdom": "Plantae",
-      "gbif_usage_key": 3702248,
+      "gbif_usage_key": 3190711,
       "gbif_match_type": "EXACT"
     },
     "trait": "peristome (pitcher rim)",
@@ -931,8 +931,7 @@
       "capture-water"
     ],
     "sector_tags": [
-      "water-utilities",
-      "steel-aluminium"
+      "water-utilities"
     ],
     "organism": {
       "scientific_name": "Phrynosoma cornutum",
@@ -1274,12 +1273,12 @@
       "chemicals"
     ],
     "organism": {
-      "scientific_name": "Haliotis rufescens",
+      "scientific_name": "Pinctada",
       "common_names": [
-        "red abalone"
+        "pearl oyster"
       ],
       "kingdom": "Animalia",
-      "gbif_usage_key": 2293078,
+      "gbif_usage_key": 10938771,
       "gbif_match_type": "EXACT"
     },
     "trait": "shell inner layer",
@@ -1333,7 +1332,7 @@
     "id": "lib-0021",
     "kind": "mechanism",
     "title": "Trabecular bone: light lattices that follow the loads",
-    "summary": "The spongy bone inside our joints is a lattice of struts and plates that lines up with the loads it carries and is rebuilt when loads change. It is a model for lightweight lattice parts, for example 3D-printed metal brackets for cars and aircraft that put material only where stress needs it.",
+    "summary": "The spongy bone at the ends of long bones and in vertebrae is a lattice of struts and plates that lines up with the loads it carries and is rebuilt when loads change. It is a model for lightweight lattice parts, for example 3D-printed metal brackets for cars and aircraft that put material only where stress needs it.",
     "areas": [
       "form"
     ],
@@ -1514,7 +1513,7 @@
       "validated_on": null
     },
     "confidence": "medium",
-    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Bamboo as a building material varies widely between species and harvests; this record covers the grading principle. Organism given at genus level; GBIF has several genera with this name, so no backbone key is set.",
+    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Bamboo as a building material varies widely between species and harvests; this record covers the grading principle. Organism given at genus level.",
     "source_region": null,
     "contributors": [],
     "see_also": []
@@ -2335,7 +2334,7 @@
       "validated_on": null
     },
     "confidence": "medium",
-    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Synthetic scattering networks are lab-scale; cost and durability compared with titanium dioxide are unproven. Organism given at genus level; GBIF has several genera with this name, so no backbone key is set.",
+    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Synthetic scattering networks are lab-scale; cost and durability compared with titanium dioxide are unproven. Organism given at genus level.",
     "source_region": null,
     "contributors": [],
     "see_also": []
@@ -2419,7 +2418,7 @@
     "id": "lib-0038",
     "kind": "mechanism",
     "title": "Pine cones: open and close with humidity, no motor",
-    "summary": "Pine cone scales open when dry and close when wet, because two tissue layers swell differently with moisture. Architects copy the bilayer principle in facade panels and shading that adjust to weather without motors or electricity, cutting cooling energy in buildings.",
+    "summary": "Pine cone scales open when dry and close when wet, because two tissue layers swell differently with moisture. Architects copy the bilayer principle in facade panels and shading prototypes that adjust to weather without motors or electricity; such designs aim to cut cooling energy in buildings.",
     "areas": [
       "form",
       "energy"
@@ -2484,7 +2483,7 @@
       "validated_on": null
     },
     "confidence": "medium",
-    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Responds to humidity, not to temperature or sunlight directly; wood-based facade elements need protection from decay and fatigue. Organism given at genus level; GBIF has several genera named Pinus, so no backbone key is set.",
+    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Responds to humidity, not to temperature or sunlight directly; wood-based facade elements need protection from decay and fatigue. Organism given at genus level.",
     "source_region": null,
     "contributors": [],
     "see_also": []
@@ -2841,7 +2840,7 @@
     "id": "lib-0044",
     "kind": "material",
     "title": "Natural-fibre composites for lighter car interior parts",
-    "summary": "Flax, hemp, kenaf and jute fibres in a polymer matrix are used for car door panels, parcel shelves and trim. They are lighter than glass-fibre parts, need less energy to produce and break more safely, helping make lighter structural and semi-structural components for cars.",
+    "summary": "Flax, hemp, kenaf and jute fibres in a polymer matrix are used for car door panels, parcel shelves and trim. They are lighter than glass-fibre parts, need less energy to produce and break more safely, making lighter interior and semi-structural components for cars.",
     "areas": [
       "materials"
     ],
@@ -3030,7 +3029,7 @@
     "id": "lib-0047",
     "kind": "material",
     "title": "PHA bioplastics made by bacteria",
-    "summary": "Polyhydroxyalkanoates (PHA) are polyesters that many bacteria store as energy reserves. Grown by fermentation on sugars, oils or waste streams, they can be moulded like conventional plastics and biodegrade in soil and sea water, making them a candidate for packaging that biodegrades.",
+    "summary": "Polyhydroxyalkanoates (PHA) are polyesters that many bacteria store as energy reserves. Grown by fermentation on sugars, oils or waste streams, they can be moulded like conventional plastics and biodegrade in soil and sea water, making them a candidate for packaging that biodegrades. Because production relies on microbial biochemistry, the record waits for legal review before it can be served.",
     "areas": [
       "materials",
       "process"
@@ -3049,8 +3048,8 @@
     "trait": null,
     "structure": null,
     "mechanism": null,
-    "trait_type": "not_applicable",
-    "legal_review": "not_required",
+    "trait_type": "biochemical",
+    "legal_review": "pending",
     "knowledge_source": "peer_reviewed",
     "consent": "not_applicable",
     "performance": [],
@@ -3077,7 +3076,7 @@
       "validated_on": null
     },
     "confidence": "medium",
-    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. PHA costs more than fossil plastics and biodegradation rates depend strongly on the environment. Developing new production strains would be genetic work needing legal review; this record covers the commercial material only.",
+    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Quarantined: relies on microbial biochemistry, legal review pending. PHA costs more than fossil plastics and biodegradation rates depend strongly on the environment.",
     "source_region": null,
     "contributors": [],
     "see_also": []
@@ -3663,7 +3662,7 @@
         "citation": "Vymazal J (2011). Constructed wetlands for wastewater treatment: five decades of experience. Environmental Science & Technology 45: 61-69.",
         "doi": "10.1021/es101403q",
         "url": null,
-        "year": 2010,
+        "year": 2011,
         "open_access": false,
         "licence": null,
         "supporting_sentence": null,
@@ -3782,10 +3781,10 @@
         "verified": true
       },
       {
-        "citation": "Moreno G, Pulido FJ (2009). The functioning, management and persistence of dehesas. In: Rigueiro-Rodriguez A, McAdam J, Mosquera-Losada MR (eds) Agroforestry in Europe. Springer, 127-160.",
+        "citation": "Moreno G, Pulido FJ (2008). The functioning, management and persistence of dehesas. In: Rigueiro-Rodriguez A, McAdam J, Mosquera-Losada MR (eds) Agroforestry in Europe. Springer, 127-160.",
         "doi": "10.1007/978-1-4020-8272-6_7",
         "url": null,
-        "year": 2009,
+        "year": 2008,
         "open_access": false,
         "licence": null,
         "supporting_sentence": null,
@@ -3830,8 +3829,7 @@
       "energy",
       "chemicals",
       "construction-materials",
-      "water-utilities",
-      "steel-aluminium"
+      "water-utilities"
     ],
     "organism": null,
     "trait": null,
@@ -3876,7 +3874,7 @@
       "validated_on": null
     },
     "confidence": "high",
-    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Kalundborg grew from local, trust-based deals over decades; planned eco-industrial parks copying it have often failed. Steel and metal plants are not part of Kalundborg itself.",
+    "caveat": "Summarised from the cited literature; not reproduced in a lab; not design advice. Kalundborg grew from local, trust-based deals over decades; planned eco-industrial parks copying it have often failed.",
     "source_region": null,
     "contributors": [],
     "see_also": []
@@ -4207,7 +4205,7 @@
         "citation": "Fletcher TD, Shuster W, Hunt WF, et al. (2015). SUDS, LID, BMPs, WSUD and more - the evolution and application of terminology surrounding urban drainage. Urban Water Journal 12: 525-542.",
         "doi": "10.1080/1573062X.2014.916314",
         "url": null,
-        "year": 2014,
+        "year": 2015,
         "open_access": false,
         "licence": null,
         "supporting_sentence": null,
