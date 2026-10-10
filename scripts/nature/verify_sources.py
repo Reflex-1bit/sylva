@@ -73,7 +73,7 @@ def fetch_json(url: str, params: dict | None = None) -> dict | None:
 
 
 def _tokens(text: str) -> set[str]:
-    folded = unicodedata.normalize("NFKD", re.sub(r"<[^>]+>", " ", text or ""))
+    folded = unicodedata.normalize("NFKD", re.sub(r"<[^>]+>", "", text or ""))
     folded = "".join(c for c in folded if not unicodedata.combining(c)).lower()
     return set(re.findall(r"[a-z0-9]+", folded))
 
@@ -120,7 +120,7 @@ def accept_gbif(match: dict | None) -> bool:
 
 
 def _crossref_year(message: dict) -> int | None:
-    for key in ("issued", "published", "published-print", "published-online"):
+    for key in ("published-print", "issued", "published-online", "created"):
         parts = (message.get(key) or {}).get("date-parts") or []
         if parts and parts[0] and parts[0][0]:
             return int(parts[0][0])

@@ -202,3 +202,20 @@ def test_atomic_write_leaves_no_temp_file(tmp_path, monkeypatch):
     monkeypatch.setattr(vs, "verify_library", lambda r, **kw: orig(r, fetch=_fake_fetch, sleep=lambda s: None))
     vs.main(["--data-dir", str(tmp_path)])
     assert [p.name for p in tmp_path.iterdir()] == ["library.json"]
+
+
+def test_small_caps_markup_does_not_split_words():
+    assert vs.title_matches("I<scp>NDUSTRIAL</scp> Ecology", "Chertow M (2000) Industrial ecology")
+
+
+def test_year_prefers_print_over_online_first():
+    msg = {
+        "published-print": {"date-parts": [[2011]]},
+        "issued": {"date-parts": [[2010]]},
+        "created": {"date-parts": [[2009]]},
+    }
+    assert vs._crossref_year(msg) == 2011
+    del msg["published-print"]
+    assert vs._crossref_year(msg) == 2010
+    assert vs._crossref_year({"published-online": {"date-parts": [[2008]]}, "created": {"date-parts": [[2009]]}}) == 2008
+    assert vs._crossref_year({"created": {"date-parts": [[2009]]}}) == 2009
