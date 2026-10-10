@@ -162,7 +162,7 @@ payload schema, and why ESP32 is the field unit (Pi LLM is optional later).
 - [x] Suitability filter + recommendations API
 - [x] RAG plan with Gemini + offline fallback
 - [x] ESP32 soil-node sketch + ingest stub
-- [x] Nature arm v0: 66-record nature library, 507-record Iberian industry map, search + RAG, `/nature` page
+- [x] Nature arm v0: 109-record nature library (extended on 2026-10-11), 507-record Iberian industry map, search + RAG, `/nature` page
 - [ ] Nature arm: expert validation of library records, patents and grants in the map, embeddings live (needs `GEMINI_API_KEY`)
 - [ ] Weatherproof pilot BOM + solar
 - [ ] One-region subsidy checklist (human-in-the-loop)
