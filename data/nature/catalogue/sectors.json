@@ -14,23 +14,29 @@
         "steel",
         "aluminium",
         "aluminum",
-        "metal",
         "metallurgy",
         "foundry",
         "smelter",
-        "casting",
-        "rolling mill"
+        "rolling mill",
+        "metal casting"
+      ],
+      "keywords_weak_en": [
+        "metal",
+        "casting"
       ],
       "keywords_es": [
         "acero",
         "aluminio",
-        "metal",
         "metalurgia",
         "fundicion",
         "fundición",
         "fundidora",
-        "laminacion",
-        "siderurgia"
+        "siderurgia",
+        "fundicion de metales"
+      ],
+      "keywords_weak_es": [
+        "metal",
+        "laminacion"
       ],
       "cpc_prefixes": [
         "B21",
@@ -56,35 +62,37 @@
         "43"
       ],
       "keywords_en": [
-        "construction",
-        "building",
         "cement",
         "concrete",
         "brick",
-        "glass",
-        "ceramic",
         "mortar",
-        "facade",
-        "roof",
         "insulation panel",
         "civil engineering"
       ],
+      "keywords_weak_en": [
+        "construction",
+        "building",
+        "glass",
+        "ceramic",
+        "roof"
+      ],
       "keywords_es": [
-        "construccion",
-        "construcción",
-        "edificio",
-        "edificacion",
         "cemento",
         "hormigon",
         "hormigón",
         "ladrillo",
+        "mortero",
+        "obra civil"
+      ],
+      "keywords_weak_es": [
+        "construccion",
+        "construcción",
+        "edificio",
+        "edificacion",
         "vidrio",
         "ceramica",
         "cerámica",
-        "mortero",
-        "fachada",
-        "cubierta",
-        "obra civil"
+        "cubierta"
       ],
       "cpc_prefixes": [
         "C03C",
@@ -112,6 +120,9 @@
       ],
       "keywords_en": [
         "packaging",
+        "food packaging"
+      ],
+      "keywords_weak_en": [
         "package",
         "container",
         "paper",
@@ -127,6 +138,9 @@
         "envase",
         "embalaje",
         "empaque",
+        "envase alimentario"
+      ],
+      "keywords_weak_es": [
         "contenedor",
         "papel",
         "carton",
@@ -144,9 +158,7 @@
         "B65D",
         "D21H"
       ],
-      "openalex_subfields": [
-        "Polymers and Plastics"
-      ],
+      "openalex_subfields": [],
       "candidate": false,
       "min_records": 0
     },
@@ -165,10 +177,12 @@
         "personal care",
         "perfume",
         "fragrance",
+        "sunscreen"
+      ],
+      "keywords_weak_en": [
         "pigment",
         "dye",
-        "emulsion",
-        "sunscreen"
+        "emulsion"
       ],
       "keywords_es": [
         "cosmetica",
@@ -179,18 +193,18 @@
         "cuidado personal",
         "perfume",
         "fragancia",
+        "protector solar"
+      ],
+      "keywords_weak_es": [
         "pigmento",
         "tinte",
-        "emulsion",
-        "protector solar"
+        "emulsion"
       ],
       "cpc_prefixes": [
         "A61K8",
         "A61Q"
       ],
-      "openalex_subfields": [
-        "Dermatology"
-      ],
+      "openalex_subfields": [],
       "candidate": false,
       "min_records": 0
     },
@@ -206,31 +220,35 @@
       "keywords_en": [
         "textile",
         "textiles",
-        "fabric",
-        "fibre",
-        "fiber",
         "garment",
         "clothing",
         "apparel",
         "yarn",
-        "dyeing",
-        "leather",
         "footwear"
+      ],
+      "keywords_weak_en": [
+        "fabric",
+        "fibre",
+        "fiber",
+        "dyeing",
+        "leather"
       ],
       "keywords_es": [
         "textil",
         "textiles",
-        "tejido",
-        "tela",
-        "fibra",
         "prenda",
         "ropa",
         "confeccion",
         "confección",
+        "calzado"
+      ],
+      "keywords_weak_es": [
+        "tejido",
+        "tela",
+        "fibra",
         "hilo",
         "tintura",
-        "cuero",
-        "calzado"
+        "cuero"
       ],
       "cpc_prefixes": [
         "A41",
@@ -255,10 +273,6 @@
       ],
       "keywords_en": [
         "automotive",
-        "car",
-        "cars",
-        "vehicle",
-        "vehicles",
         "automobile",
         "truck",
         "electric vehicle",
@@ -266,15 +280,18 @@
         "bodywork",
         "tyre",
         "tire",
+        "motor vehicle"
+      ],
+      "keywords_weak_en": [
+        "car",
+        "cars",
+        "vehicle",
+        "vehicles",
         "engine"
       ],
       "keywords_es": [
         "automocion",
         "automoción",
-        "coche",
-        "coches",
-        "vehiculo",
-        "vehículo",
         "automovil",
         "automóvil",
         "camion",
@@ -284,6 +301,13 @@
         "carroceria",
         "carrocería",
         "neumatico",
+        "vehiculo a motor"
+      ],
+      "keywords_weak_es": [
+        "coche",
+        "coches",
+        "vehiculo",
+        "vehículo",
         "motor"
       ],
       "cpc_prefixes": [
@@ -306,23 +330,27 @@
         "35"
       ],
       "keywords_en": [
-        "energy",
-        "power",
         "electricity",
-        "solar",
-        "wind",
         "battery",
-        "grid",
         "heat pump",
         "renewable",
         "hydrogen",
+        "wind turbine",
+        "solar cell",
+        "photovoltaic",
+        "power grid",
+        "energy storage"
+      ],
+      "keywords_weak_en": [
+        "energy",
+        "power",
+        "solar",
+        "wind",
+        "grid",
         "utility"
       ],
       "keywords_es": [
-        "energia",
-        "energía",
         "electricidad",
-        "solar",
         "eolica",
         "eólica",
         "bateria",
@@ -332,7 +360,16 @@
         "bomba de calor",
         "renovable",
         "hidrogeno",
-        "hidrógeno"
+        "hidrógeno",
+        "aerogenerador",
+        "celula solar",
+        "célula solar",
+        "fotovoltaica"
+      ],
+      "keywords_weak_es": [
+        "energia",
+        "energía",
+        "solar"
       ],
       "cpc_prefixes": [
         "F03",
@@ -367,29 +404,27 @@
       "keywords_en": [
         "agriculture",
         "agrifood",
-        "farm",
         "farming",
-        "food",
         "food processing",
-        "crop",
         "livestock",
         "dairy",
         "beverage",
         "olive",
         "vineyard",
-        "cork oak",
+        "cork oak"
+      ],
+      "keywords_weak_en": [
+        "farm",
+        "food",
+        "crop",
         "dehesa"
       ],
       "keywords_es": [
         "agricultura",
         "agroalimentario",
-        "finca",
         "explotacion agraria",
         "explotación agraria",
-        "alimentacion",
-        "alimentación",
         "industria alimentaria",
-        "cultivo",
         "ganaderia",
         "ganadería",
         "lacteo",
@@ -398,24 +433,30 @@
         "olivar",
         "vinedo",
         "viñedo",
-        "alcornoque",
+        "alcornoque"
+      ],
+      "keywords_weak_es": [
+        "finca",
+        "alimentacion",
+        "alimentación",
+        "cultivo",
         "dehesa"
       ],
       "cpc_prefixes": [
         "A01",
         "A22",
         "A23",
-        "C12"
+        "C12C",
+        "C12F",
+        "C12G",
+        "C12H",
+        "C12J"
       ],
       "openalex_subfields": [
         "Agronomy and Crop Science",
         "Food Science",
         "Horticulture",
-        "Plant Science",
-        "Soil Science",
-        "General Agricultural and Biological Sciences",
-        "Animal Science and Zoology",
-        "Insect Science"
+        "Soil Science"
       ],
       "candidate": false,
       "min_records": 0
@@ -423,8 +464,8 @@
     {
       "id": "water-utilities",
       "label_en": "Water and waste utilities",
-      "label_es": "Agua y residuos",
-      "label_pt": "Água e resíduos (serviços públicos)",
+      "label_es": "Agua (servicios)",
+      "label_pt": "Água (serviços)",
       "nace_rev21_divisions": [
         "36",
         "37"
@@ -436,10 +477,10 @@
         "sewage",
         "treatment plant",
         "desalination plant",
-        "waste management",
         "water network",
         "sanitation"
       ],
+      "keywords_weak_en": [],
       "keywords_es": [
         "servicio de agua",
         "abastecimiento de agua",
@@ -447,20 +488,17 @@
         "alcantarillado",
         "depuradora",
         "planta desaladora",
-        "gestion de residuos",
-        "gestión de residuos",
         "red de agua",
         "saneamiento"
       ],
+      "keywords_weak_es": [],
       "cpc_prefixes": [
-        "B63J",
         "C02F",
         "E03"
       ],
       "openalex_subfields": [
         "Water Science and Technology",
-        "Environmental Engineering",
-        "Pollution"
+        "Environmental Engineering"
       ],
       "candidate": false,
       "min_records": 0
@@ -475,44 +513,61 @@
       ],
       "keywords_en": [
         "chemicals",
-        "chemical",
-        "chemistry",
-        "polymer",
-        "resin",
         "adhesive",
-        "coating",
-        "paint",
         "solvent",
         "surfactant",
         "catalyst",
         "fertiliser"
       ],
+      "keywords_weak_en": [
+        "chemical",
+        "chemistry",
+        "polymer",
+        "resin",
+        "coating",
+        "paint"
+      ],
       "keywords_es": [
-        "quimica",
-        "química",
         "quimicos",
         "químicos",
-        "polimero",
-        "polímero",
-        "resina",
         "adhesivo",
-        "recubrimiento",
-        "pintura",
         "disolvente",
         "tensioactivo",
         "catalizador",
         "fertilizante"
       ],
+      "keywords_weak_es": [
+        "quimica",
+        "química",
+        "polimero",
+        "polímero",
+        "resina",
+        "recubrimiento",
+        "pintura"
+      ],
       "cpc_prefixes": [
         "B01D",
         "B01J",
+        "B82Y",
         "C01",
         "C07",
         "C08",
         "C09",
-        "C11"
+        "C11",
+        "C12M",
+        "C12N",
+        "C12P",
+        "C12Q",
+        "C23"
       ],
       "openalex_subfields": [
+        "Polymers and Plastics",
+        "Biotechnology",
+        "Bioengineering",
+        "Applied Microbiology and Biotechnology",
+        "General Materials Science",
+        "Spectroscopy",
+        "Condensed Matter Physics",
         "Organic Chemistry",
         "Inorganic Chemistry",
         "Catalysis",
@@ -538,40 +593,53 @@
         "86"
       ],
       "keywords_en": [
-        "medical",
-        "medicine",
+        "medical device",
         "surgical",
         "implant",
         "prosthesis",
-        "wound",
-        "tissue",
+        "wound healing",
+        "wound dressing",
         "biomedical",
         "drug delivery",
-        "therapy",
-        "diagnostic",
-        "bone",
-        "dental",
         "orthopaedic",
         "orthopedic",
         "hospital",
         "catheter",
-        "suture"
+        "suture",
+        "tissue engineering",
+        "dental implant"
+      ],
+      "keywords_weak_en": [
+        "medicine",
+        "therapy",
+        "diagnostic",
+        "bone",
+        "dental",
+        "tissue",
+        "wound",
+        "medical"
       ],
       "keywords_es": [
-        "medico",
-        "médico",
-        "medicina",
+        "dispositivo medico",
+        "dispositivo médico",
         "quirurgico",
         "quirúrgico",
         "implante",
         "protesis",
         "prótesis",
-        "herida",
-        "tejido",
+        "cicatrizacion",
         "biomedico",
+        "biomédico",
+        "ingenieria de tejidos"
+      ],
+      "keywords_weak_es": [
+        "medicina",
+        "terapia",
         "diagnostico",
         "hueso",
-        "dental"
+        "dental",
+        "tejido",
+        "herida"
       ],
       "cpc_prefixes": [
         "A61B",
@@ -596,6 +664,7 @@
         "Radiology, Nuclear Medicine and Imaging",
         "Immunology",
         "Infectious Diseases",
+        "Dermatology",
         "Public Health, Environmental and Occupational Health",
         "Health Informatics",
         "Ophthalmology",
@@ -620,40 +689,55 @@
       ],
       "keywords_en": [
         "electronics",
-        "electronic",
-        "sensor",
         "semiconductor",
-        "optical",
         "photonic",
         "antenna",
+        "wireless sensor",
+        "integrated circuit",
+        "display panel",
+        "display screen",
+        "microchip",
+        "computing",
+        "communication network",
+        "optical fibre",
+        "optical fiber"
+      ],
+      "keywords_weak_en": [
+        "sensor",
+        "optical",
         "software",
         "algorithm",
         "neural network",
         "wireless",
         "circuit",
-        "display",
-        "chip",
-        "computing",
-        "swarm",
-        "communication network"
+        "electronic",
+        "chip"
       ],
       "keywords_es": [
         "electronica",
         "electrónica",
-        "sensor",
         "semiconductor",
+        "fotonico",
+        "fotónico",
+        "antena",
+        "circuito integrado",
+        "pantalla de visualizacion",
+        "computacion",
+        "computación",
+        "red de comunicaciones"
+      ],
+      "keywords_weak_es": [
+        "sensor",
         "optico",
         "óptico",
-        "fotonico",
-        "antena",
         "algoritmo",
         "red neuronal",
         "inalambrico",
-        "circuito",
-        "pantalla",
-        "computacion"
+        "inalámbrico",
+        "circuito"
       ],
       "cpc_prefixes": [
+        "G01",
         "G02B",
         "G06",
         "G11",
@@ -694,33 +778,46 @@
         "robotics",
         "gripper",
         "actuator",
-        "machine",
         "machinery",
+        "machine tool",
+        "machine element",
         "manipulator",
         "soft robot",
         "exoskeleton",
+        "gear box",
+        "gearbox",
+        "additive manufacturing",
+        "3d printing",
+        "cutting tool",
+        "tooling"
+      ],
+      "keywords_weak_en": [
         "pump",
         "valve",
         "gear",
         "bearing",
-        "additive manufacturing",
-        "3d printing",
-        "tool"
+        "machine"
       ],
       "keywords_es": [
         "robot",
         "robotica",
         "robótica",
-        "pinza",
+        "pinza robotica",
         "actuador",
-        "maquina",
-        "máquina",
         "maquinaria",
+        "herramienta de corte",
         "manipulador",
+        "exoesqueleto",
+        "impresion 3d",
+        "impresión 3d",
+        "fabricacion aditiva"
+      ],
+      "keywords_weak_es": [
         "bomba",
         "valvula",
         "válvula",
-        "impresion 3d"
+        "maquina",
+        "máquina"
       ],
       "cpc_prefixes": [
         "B23",
@@ -760,39 +857,48 @@
         "aircraft",
         "aerospace",
         "aviation",
-        "wing",
-        "drone",
-        "rotor",
+        "aircraft wing",
+        "unmanned aerial vehicle",
         "propeller",
         "spacecraft",
         "satellite",
-        "ship",
-        "vessel",
-        "hull",
-        "train",
+        "ship hull",
         "railway",
-        "rail",
+        "rail vehicle",
         "aerodynamic",
         "airfoil",
-        "turbine blade"
+        "turbine blade",
+        "helicopter"
+      ],
+      "keywords_weak_en": [
+        "drone",
+        "rotor",
+        "ship",
+        "vessel",
+        "train",
+        "wing",
+        "rail"
       ],
       "keywords_es": [
         "aeronave",
         "aeroespacial",
         "aviacion",
         "aviación",
-        "ala",
-        "dron",
+        "vehiculo aereo no tripulado",
         "helice",
         "hélice",
         "satelite",
         "satélite",
-        "barco",
-        "buque",
-        "casco",
-        "tren",
+        "casco del buque",
         "ferrocarril",
-        "aerodinamico"
+        "aerodinamico",
+        "aerodinámico",
+        "tren de aterrizaje"
+      ],
+      "keywords_weak_es": [
+        "dron",
+        "barco",
+        "buque"
       ],
       "cpc_prefixes": [
         "B61",
@@ -820,34 +926,43 @@
         "71.1"
       ],
       "keywords_en": [
-        "architecture",
-        "architectural",
         "building design",
         "green roof",
         "green wall",
         "living wall",
         "facade",
         "passive cooling",
-        "ventilation",
+        "natural ventilation",
         "urban design",
         "termite mound",
-        "shading",
         "thermal comfort",
         "bioclimatic",
-        "building envelope"
+        "building envelope",
+        "architectural design"
+      ],
+      "keywords_weak_en": [
+        "architecture",
+        "architectural",
+        "shading",
+        "ventilation"
       ],
       "keywords_es": [
-        "arquitectura",
         "diseño de edificios",
         "cubierta verde",
         "muro verde",
         "fachada",
         "enfriamiento pasivo",
-        "ventilacion",
-        "ventilación",
+        "ventilacion natural",
+        "ventilación natural",
         "bioclimatico",
         "bioclimático",
-        "envolvente"
+        "envolvente del edificio",
+        "diseño arquitectonico"
+      ],
+      "keywords_weak_es": [
+        "arquitectura",
+        "ventilacion",
+        "ventilación"
       ],
       "cpc_prefixes": [
         "E04B",
@@ -876,36 +991,43 @@
       ],
       "keywords_en": [
         "forestry",
-        "forest",
         "timber",
-        "wood",
         "silviculture",
         "afforestation",
         "reforestation",
         "fishery",
         "fisheries",
         "aquaculture",
-        "fish",
         "fishing",
-        "kelp",
-        "seaweed",
         "shellfish",
         "oyster",
-        "sawmill"
+        "sawmill",
+        "kelp farming"
+      ],
+      "keywords_weak_en": [
+        "forest",
+        "wood",
+        "fish",
+        "seaweed",
+        "kelp"
       ],
       "keywords_es": [
         "silvicultura",
-        "bosque",
         "forestal",
-        "madera",
         "reforestacion",
         "reforestación",
-        "pesca",
+        "pesqueria",
         "pesquería",
         "acuicultura",
+        "ostra",
+        "aserradero"
+      ],
+      "keywords_weak_es": [
+        "bosque",
+        "madera",
+        "pesca",
         "pez",
-        "algas",
-        "ostra"
+        "algas"
       ],
       "cpc_prefixes": [
         "A01G",
@@ -915,9 +1037,7 @@
         "B27"
       ],
       "openalex_subfields": [
-        "Forestry",
-        "Aquatic Science",
-        "Oceanography"
+        "Forestry"
       ],
       "candidate": true,
       "min_records": 300
@@ -931,34 +1051,43 @@
         "38"
       ],
       "keywords_en": [
-        "waste",
+        "waste management",
         "recycling",
-        "recycled",
+        "recycled material",
         "upcycling",
-        "compost",
         "composting",
-        "biodegradable",
         "circular economy",
         "landfill",
         "waste valorisation",
         "waste valorization",
-        "by-product",
-        "biogas",
-        "anaerobic digestion"
+        "anaerobic digestion",
+        "biogas"
+      ],
+      "keywords_weak_en": [
+        "waste",
+        "recycled",
+        "compost",
+        "biodegradable",
+        "by-product"
       ],
       "keywords_es": [
-        "residuo",
-        "residuos",
+        "gestion de residuos",
+        "gestión de residuos",
         "reciclaje",
         "reciclado",
-        "compost",
         "compostaje",
-        "biodegradable",
         "economia circular",
         "economía circular",
         "vertedero",
         "biogas",
-        "biogás"
+        "biogás",
+        "valorizacion de residuos"
+      ],
+      "keywords_weak_es": [
+        "residuo",
+        "residuos",
+        "compost",
+        "biodegradable"
       ],
       "cpc_prefixes": [
         "B03B",
@@ -969,7 +1098,8 @@
         "Y02W"
       ],
       "openalex_subfields": [
-        "Waste Management and Disposal"
+        "Waste Management and Disposal",
+        "Pollution"
       ],
       "candidate": true,
       "min_records": 300
@@ -981,7 +1111,9 @@
       "label_pt": "Outros",
       "nace_rev21_divisions": [],
       "keywords_en": [],
+      "keywords_weak_en": [],
       "keywords_es": [],
+      "keywords_weak_es": [],
       "cpc_prefixes": [],
       "openalex_subfields": [],
       "candidate": false,

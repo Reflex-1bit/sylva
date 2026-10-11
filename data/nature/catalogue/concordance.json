@@ -1,6 +1,6 @@
 {
   "version": "2026-10-11",
-  "notes": "Source-code to sector mappings. CPC: longest prefix wins. OpenAlex subfields and EuroSciVoc terms are broad; where a mapping is weak the note says so and the keyword rules decide. Built from sectors.json plus hand-written EuroSciVoc and Climate-ADAPT rows.",
+  "notes": "Source-code to sector mappings, built from sectors.json plus hand-written EuroSciVoc and Climate-ADAPT rows. (a) Keyword matching is whole-word, lower-cased, accent-folded tokens and phrases, never substrings. (b) CPC codes are compared in compact form (spaces and slashes removed, upper case), and the longest prefix wins. (c) An unmapped OpenAlex subfield, EuroSciVoc term or Climate-ADAPT term contributes no sector, so the record falls to keywords and then 'other'. (d) Keyword-only (no code) sorting is capped at confidence 0.6, and a weak keyword counts 0.25 of a strong hit. (e) Tie-break: the highest score wins; on equal scores the earlier sector in sectors.json wins and the record is flagged 'tie' in sort_reason. (f) OpenAlex subfield rows with strength 'medium' are broad and count as medium-confidence signals; the default is 'strong'.",
   "cpc": [
     {
       "prefix": "B21",
@@ -183,14 +183,29 @@
       "note": "CPC A23 -> agrifood; longest prefix wins"
     },
     {
-      "prefix": "C12",
+      "prefix": "C12C",
       "sector": "agrifood",
-      "note": "CPC C12 -> agrifood; longest prefix wins"
+      "note": "CPC C12C -> agrifood; longest prefix wins"
     },
     {
-      "prefix": "B63J",
-      "sector": "water-utilities",
-      "note": "CPC B63J -> water-utilities; longest prefix wins"
+      "prefix": "C12F",
+      "sector": "agrifood",
+      "note": "CPC C12F -> agrifood; longest prefix wins"
+    },
+    {
+      "prefix": "C12G",
+      "sector": "agrifood",
+      "note": "CPC C12G -> agrifood; longest prefix wins"
+    },
+    {
+      "prefix": "C12H",
+      "sector": "agrifood",
+      "note": "CPC C12H -> agrifood; longest prefix wins"
+    },
+    {
+      "prefix": "C12J",
+      "sector": "agrifood",
+      "note": "CPC C12J -> agrifood; longest prefix wins"
     },
     {
       "prefix": "C02F",
@@ -211,6 +226,11 @@
       "prefix": "B01J",
       "sector": "chemicals",
       "note": "CPC B01J -> chemicals; longest prefix wins"
+    },
+    {
+      "prefix": "B82Y",
+      "sector": "chemicals",
+      "note": "CPC B82Y -> chemicals; longest prefix wins"
     },
     {
       "prefix": "C01",
@@ -236,6 +256,31 @@
       "prefix": "C11",
       "sector": "chemicals",
       "note": "CPC C11 -> chemicals; longest prefix wins"
+    },
+    {
+      "prefix": "C12M",
+      "sector": "chemicals",
+      "note": "CPC C12M -> chemicals; longest prefix wins"
+    },
+    {
+      "prefix": "C12N",
+      "sector": "chemicals",
+      "note": "CPC C12N -> chemicals; longest prefix wins"
+    },
+    {
+      "prefix": "C12P",
+      "sector": "chemicals",
+      "note": "CPC C12P -> chemicals; longest prefix wins"
+    },
+    {
+      "prefix": "C12Q",
+      "sector": "chemicals",
+      "note": "CPC C12Q -> chemicals; longest prefix wins"
+    },
+    {
+      "prefix": "C23",
+      "sector": "chemicals",
+      "note": "CPC C23 -> chemicals; longest prefix wins"
     },
     {
       "prefix": "A61B",
@@ -276,6 +321,11 @@
       "prefix": "G16H",
       "sector": "health-medical",
       "note": "CPC G16H -> health-medical; longest prefix wins"
+    },
+    {
+      "prefix": "G01",
+      "sector": "electronics-ict",
+      "note": "CPC G01 -> electronics-ict; longest prefix wins"
     },
     {
       "prefix": "G02B",
@@ -467,417 +517,500 @@
     {
       "name": "Metals and Alloys",
       "sector": "steel-aluminium",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Metals and Alloys' -> steel-aluminium; subfields are broad, keyword rules refine"
     },
     {
       "name": "Ceramics and Composites",
       "sector": "construction-materials",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Ceramics and Composites' -> construction-materials; subfields are broad, keyword rules refine"
     },
     {
       "name": "Civil and Structural Engineering",
       "sector": "construction-materials",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Civil and Structural Engineering' -> construction-materials; subfields are broad, keyword rules refine"
-    },
-    {
-      "name": "Polymers and Plastics",
-      "sector": "packaging",
-      "note": "OpenAlex subfield 'Polymers and Plastics' -> packaging; subfields are broad, keyword rules refine"
-    },
-    {
-      "name": "Dermatology",
-      "sector": "cosmetics",
-      "note": "OpenAlex subfield 'Dermatology' -> cosmetics; subfields are broad, keyword rules refine"
     },
     {
       "name": "Automotive Engineering",
       "sector": "automotive",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Automotive Engineering' -> automotive; subfields are broad, keyword rules refine"
     },
     {
       "name": "Energy Engineering and Power Technology",
       "sector": "energy",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Energy Engineering and Power Technology' -> energy; subfields are broad, keyword rules refine"
     },
     {
       "name": "Renewable Energy, Sustainability and the Environment",
       "sector": "energy",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Renewable Energy, Sustainability and the Environment' -> energy; subfields are broad, keyword rules refine"
     },
     {
       "name": "Fuel Technology",
       "sector": "energy",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Fuel Technology' -> energy; subfields are broad, keyword rules refine"
     },
     {
       "name": "General Energy",
       "sector": "energy",
+      "strength": "medium",
       "note": "OpenAlex subfield 'General Energy' -> energy; subfields are broad, keyword rules refine"
     },
     {
       "name": "Nuclear Energy and Engineering",
       "sector": "energy",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Nuclear Energy and Engineering' -> energy; subfields are broad, keyword rules refine"
     },
     {
       "name": "Electrochemistry",
       "sector": "energy",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Electrochemistry' -> energy; subfields are broad, keyword rules refine"
     },
     {
       "name": "Agronomy and Crop Science",
       "sector": "agrifood",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Agronomy and Crop Science' -> agrifood; subfields are broad, keyword rules refine"
     },
     {
       "name": "Food Science",
       "sector": "agrifood",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Food Science' -> agrifood; subfields are broad, keyword rules refine"
     },
     {
       "name": "Horticulture",
       "sector": "agrifood",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Horticulture' -> agrifood; subfields are broad, keyword rules refine"
-    },
-    {
-      "name": "Plant Science",
-      "sector": "agrifood",
-      "note": "OpenAlex subfield 'Plant Science' -> agrifood; subfields are broad, keyword rules refine"
     },
     {
       "name": "Soil Science",
       "sector": "agrifood",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Soil Science' -> agrifood; subfields are broad, keyword rules refine"
-    },
-    {
-      "name": "General Agricultural and Biological Sciences",
-      "sector": "agrifood",
-      "note": "OpenAlex subfield 'General Agricultural and Biological Sciences' -> agrifood; subfields are broad, keyword rules refine"
-    },
-    {
-      "name": "Animal Science and Zoology",
-      "sector": "agrifood",
-      "note": "OpenAlex subfield 'Animal Science and Zoology' -> agrifood; subfields are broad, keyword rules refine"
-    },
-    {
-      "name": "Insect Science",
-      "sector": "agrifood",
-      "note": "OpenAlex subfield 'Insect Science' -> agrifood; subfields are broad, keyword rules refine"
     },
     {
       "name": "Water Science and Technology",
       "sector": "water-utilities",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Water Science and Technology' -> water-utilities; subfields are broad, keyword rules refine"
     },
     {
       "name": "Environmental Engineering",
       "sector": "water-utilities",
+      "strength": "medium",
       "note": "OpenAlex subfield 'Environmental Engineering' -> water-utilities; subfields are broad, keyword rules refine"
     },
     {
-      "name": "Pollution",
-      "sector": "water-utilities",
-      "note": "OpenAlex subfield 'Pollution' -> water-utilities; subfields are broad, keyword rules refine"
+      "name": "Polymers and Plastics",
+      "sector": "chemicals",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Polymers and Plastics' -> chemicals; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Biotechnology",
+      "sector": "chemicals",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Biotechnology' -> chemicals; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Bioengineering",
+      "sector": "chemicals",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Bioengineering' -> chemicals; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Applied Microbiology and Biotechnology",
+      "sector": "chemicals",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Applied Microbiology and Biotechnology' -> chemicals; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "General Materials Science",
+      "sector": "chemicals",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'General Materials Science' -> chemicals; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Spectroscopy",
+      "sector": "chemicals",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Spectroscopy' -> chemicals; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Condensed Matter Physics",
+      "sector": "chemicals",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Condensed Matter Physics' -> chemicals; subfields are broad, keyword rules refine"
     },
     {
       "name": "Organic Chemistry",
       "sector": "chemicals",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Organic Chemistry' -> chemicals; subfields are broad, keyword rules refine"
     },
     {
       "name": "Inorganic Chemistry",
       "sector": "chemicals",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Inorganic Chemistry' -> chemicals; subfields are broad, keyword rules refine"
     },
     {
       "name": "Catalysis",
       "sector": "chemicals",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Catalysis' -> chemicals; subfields are broad, keyword rules refine"
     },
     {
       "name": "Process Chemistry and Technology",
       "sector": "chemicals",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Process Chemistry and Technology' -> chemicals; subfields are broad, keyword rules refine"
     },
     {
       "name": "Surfaces, Coatings and Films",
       "sector": "chemicals",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Surfaces, Coatings and Films' -> chemicals; subfields are broad, keyword rules refine"
     },
     {
       "name": "Physical and Theoretical Chemistry",
       "sector": "chemicals",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Physical and Theoretical Chemistry' -> chemicals; subfields are broad, keyword rules refine"
     },
     {
       "name": "Analytical Chemistry",
       "sector": "chemicals",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Analytical Chemistry' -> chemicals; subfields are broad, keyword rules refine"
     },
     {
       "name": "Materials Chemistry",
       "sector": "chemicals",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Materials Chemistry' -> chemicals; subfields are broad, keyword rules refine"
     },
     {
       "name": "Filtration and Separation",
       "sector": "chemicals",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Filtration and Separation' -> chemicals; subfields are broad, keyword rules refine"
     },
     {
       "name": "Environmental Chemistry",
       "sector": "chemicals",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Environmental Chemistry' -> chemicals; subfields are broad, keyword rules refine"
     },
     {
       "name": "Biomedical Engineering",
       "sector": "health-medical",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Biomedical Engineering' -> health-medical; subfields are broad, keyword rules refine"
     },
     {
       "name": "Biomaterials",
       "sector": "health-medical",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Biomaterials' -> health-medical; subfields are broad, keyword rules refine"
     },
     {
       "name": "Surgery",
       "sector": "health-medical",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Surgery' -> health-medical; subfields are broad, keyword rules refine"
     },
     {
       "name": "Orthopedics and Sports Medicine",
       "sector": "health-medical",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Orthopedics and Sports Medicine' -> health-medical; subfields are broad, keyword rules refine"
     },
     {
       "name": "Pharmaceutical Science",
       "sector": "health-medical",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Pharmaceutical Science' -> health-medical; subfields are broad, keyword rules refine"
     },
     {
       "name": "Pharmacology",
       "sector": "health-medical",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Pharmacology' -> health-medical; subfields are broad, keyword rules refine"
     },
     {
       "name": "Oncology",
       "sector": "health-medical",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Oncology' -> health-medical; subfields are broad, keyword rules refine"
     },
     {
       "name": "Cardiology and Cardiovascular Medicine",
       "sector": "health-medical",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Cardiology and Cardiovascular Medicine' -> health-medical; subfields are broad, keyword rules refine"
     },
     {
       "name": "Drug Discovery",
       "sector": "health-medical",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Drug Discovery' -> health-medical; subfields are broad, keyword rules refine"
     },
     {
       "name": "Radiology, Nuclear Medicine and Imaging",
       "sector": "health-medical",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Radiology, Nuclear Medicine and Imaging' -> health-medical; subfields are broad, keyword rules refine"
     },
     {
       "name": "Immunology",
       "sector": "health-medical",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Immunology' -> health-medical; subfields are broad, keyword rules refine"
     },
     {
       "name": "Infectious Diseases",
       "sector": "health-medical",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Infectious Diseases' -> health-medical; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Dermatology",
+      "sector": "health-medical",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Dermatology' -> health-medical; subfields are broad, keyword rules refine"
     },
     {
       "name": "Public Health, Environmental and Occupational Health",
       "sector": "health-medical",
+      "strength": "medium",
       "note": "OpenAlex subfield 'Public Health, Environmental and Occupational Health' -> health-medical; subfields are broad, keyword rules refine"
     },
     {
       "name": "Health Informatics",
       "sector": "health-medical",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Health Informatics' -> health-medical; subfields are broad, keyword rules refine"
     },
     {
       "name": "Ophthalmology",
       "sector": "health-medical",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Ophthalmology' -> health-medical; subfields are broad, keyword rules refine"
     },
     {
       "name": "Oral Surgery",
       "sector": "health-medical",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Oral Surgery' -> health-medical; subfields are broad, keyword rules refine"
     },
     {
       "name": "Orthodontics",
       "sector": "health-medical",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Orthodontics' -> health-medical; subfields are broad, keyword rules refine"
     },
     {
       "name": "Neurology",
       "sector": "health-medical",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Neurology' -> health-medical; subfields are broad, keyword rules refine"
     },
     {
       "name": "Rehabilitation",
       "sector": "health-medical",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Rehabilitation' -> health-medical; subfields are broad, keyword rules refine"
     },
     {
       "name": "Electrical and Electronic Engineering",
       "sector": "electronics-ict",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Electrical and Electronic Engineering' -> electronics-ict; subfields are broad, keyword rules refine"
     },
     {
       "name": "Electronic, Optical and Magnetic Materials",
       "sector": "electronics-ict",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Electronic, Optical and Magnetic Materials' -> electronics-ict; subfields are broad, keyword rules refine"
     },
     {
       "name": "Computer Networks and Communications",
       "sector": "electronics-ict",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Computer Networks and Communications' -> electronics-ict; subfields are broad, keyword rules refine"
     },
     {
       "name": "Artificial Intelligence",
       "sector": "electronics-ict",
+      "strength": "medium",
       "note": "OpenAlex subfield 'Artificial Intelligence' -> electronics-ict; subfields are broad, keyword rules refine"
     },
     {
       "name": "Software",
       "sector": "electronics-ict",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Software' -> electronics-ict; subfields are broad, keyword rules refine"
     },
     {
       "name": "Signal Processing",
       "sector": "electronics-ict",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Signal Processing' -> electronics-ict; subfields are broad, keyword rules refine"
     },
     {
       "name": "Hardware and Architecture",
       "sector": "electronics-ict",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Hardware and Architecture' -> electronics-ict; subfields are broad, keyword rules refine"
     },
     {
       "name": "Computer Vision and Pattern Recognition",
       "sector": "electronics-ict",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Computer Vision and Pattern Recognition' -> electronics-ict; subfields are broad, keyword rules refine"
     },
     {
       "name": "Computer Science Applications",
       "sector": "electronics-ict",
+      "strength": "medium",
       "note": "OpenAlex subfield 'Computer Science Applications' -> electronics-ict; subfields are broad, keyword rules refine"
     },
     {
       "name": "Information Systems",
       "sector": "electronics-ict",
+      "strength": "medium",
       "note": "OpenAlex subfield 'Information Systems' -> electronics-ict; subfields are broad, keyword rules refine"
     },
     {
       "name": "Atomic and Molecular Physics, and Optics",
       "sector": "electronics-ict",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Atomic and Molecular Physics, and Optics' -> electronics-ict; subfields are broad, keyword rules refine"
     },
     {
       "name": "Instrumentation",
       "sector": "electronics-ict",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Instrumentation' -> electronics-ict; subfields are broad, keyword rules refine"
     },
     {
       "name": "Human-Computer Interaction",
       "sector": "electronics-ict",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Human-Computer Interaction' -> electronics-ict; subfields are broad, keyword rules refine"
     },
     {
       "name": "Mechanical Engineering",
       "sector": "machinery-robotics",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Mechanical Engineering' -> machinery-robotics; subfields are broad, keyword rules refine"
     },
     {
       "name": "Industrial and Manufacturing Engineering",
       "sector": "machinery-robotics",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Industrial and Manufacturing Engineering' -> machinery-robotics; subfields are broad, keyword rules refine"
     },
     {
       "name": "Control and Systems Engineering",
       "sector": "machinery-robotics",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Control and Systems Engineering' -> machinery-robotics; subfields are broad, keyword rules refine"
     },
     {
       "name": "Mechanics of Materials",
       "sector": "machinery-robotics",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Mechanics of Materials' -> machinery-robotics; subfields are broad, keyword rules refine"
     },
     {
       "name": "Fluid Flow and Transfer Processes",
       "sector": "machinery-robotics",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Fluid Flow and Transfer Processes' -> machinery-robotics; subfields are broad, keyword rules refine"
     },
     {
       "name": "General Engineering",
       "sector": "machinery-robotics",
+      "strength": "medium",
       "note": "OpenAlex subfield 'General Engineering' -> machinery-robotics; subfields are broad, keyword rules refine"
     },
     {
       "name": "Computational Mechanics",
       "sector": "machinery-robotics",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Computational Mechanics' -> machinery-robotics; subfields are broad, keyword rules refine"
     },
     {
       "name": "Aerospace Engineering",
       "sector": "aerospace-transport",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Aerospace Engineering' -> aerospace-transport; subfields are broad, keyword rules refine"
     },
     {
       "name": "Ocean Engineering",
       "sector": "aerospace-transport",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Ocean Engineering' -> aerospace-transport; subfields are broad, keyword rules refine"
     },
     {
       "name": "Transportation",
       "sector": "aerospace-transport",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Transportation' -> aerospace-transport; subfields are broad, keyword rules refine"
     },
     {
       "name": "Space and Planetary Science",
       "sector": "aerospace-transport",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Space and Planetary Science' -> aerospace-transport; subfields are broad, keyword rules refine"
     },
     {
       "name": "Architecture",
       "sector": "buildings-architecture",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Architecture' -> buildings-architecture; subfields are broad, keyword rules refine"
     },
     {
       "name": "Building and Construction",
       "sector": "buildings-architecture",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Building and Construction' -> buildings-architecture; subfields are broad, keyword rules refine"
     },
     {
       "name": "Urban Studies",
       "sector": "buildings-architecture",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Urban Studies' -> buildings-architecture; subfields are broad, keyword rules refine"
     },
     {
       "name": "Forestry",
       "sector": "forestry-fisheries",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Forestry' -> forestry-fisheries; subfields are broad, keyword rules refine"
-    },
-    {
-      "name": "Aquatic Science",
-      "sector": "forestry-fisheries",
-      "note": "OpenAlex subfield 'Aquatic Science' -> forestry-fisheries; subfields are broad, keyword rules refine"
-    },
-    {
-      "name": "Oceanography",
-      "sector": "forestry-fisheries",
-      "note": "OpenAlex subfield 'Oceanography' -> forestry-fisheries; subfields are broad, keyword rules refine"
     },
     {
       "name": "Waste Management and Disposal",
       "sector": "waste-recycling",
+      "strength": "strong",
       "note": "OpenAlex subfield 'Waste Management and Disposal' -> waste-recycling; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Pollution",
+      "sector": "waste-recycling",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Pollution' -> waste-recycling; subfields are broad, keyword rules refine"
     }
   ],
   "euroscivoc": [

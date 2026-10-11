@@ -148,13 +148,59 @@ def test_loaders_on_real_files():
     assert common.load_concordance().cpc
 
 
-def test_taxonomy_sector_keywords_copied():
+def test_taxonomy_sector_ids_match():
+    # Keyword lists may diverge from taxonomy.json (ruling F-A); only the ids must match.
     tax = json.loads((ROOT / "data" / "nature" / "taxonomy.json").read_text(encoding="utf-8"))
-    by_id = {s.id: s for s in common.load_sectors().sectors}
-    for s in tax["sectors"]:
-        assert by_id[s["id"]].keywords_en == s["keywords_en"]
-        assert by_id[s["id"]].keywords_es == s["keywords_es"]
+    ids = [s.id for s in common.load_sectors().sectors]
+    assert [s["id"] for s in tax["sectors"]] == ids[:10]
 
+
+def test_weak_keyword_lists_and_no_generic_strong_words():
+    sectors = {s.id: s for s in common.load_sectors().sectors}
+    assert all(hasattr(s, "keywords_weak_en") and hasattr(s, "keywords_weak_es") for s in sectors.values())
+    for sid, word in [("aerospace-transport", "wing"), ("aerospace-transport", "ship"), ("energy", "energy"),
+                      ("packaging", "paper"), ("forestry-fisheries", "forest"), ("health-medical", "tissue")]:
+        assert word not in sectors[sid].keywords_en and word in sectors[sid].keywords_weak_en
+    assert "facade" not in sectors["construction-materials"].keywords_en
+    assert "waste management" not in sectors["water-utilities"].keywords_en
+    habs = {h.id: h for h in common.load_habitats().habitats}
+    assert all(w in habs[h].keywords_weak_en for h, w in [("soil", "ant"), ("polar", "ice"), ("forest", "tree")])
+
+
+def test_concordance_decisions_and_notes():
+    conc = common.load_concordance()
+    cpc = {r.prefix: r.sector for r in conc.cpc}
+    assert cpc["C12N"] == "chemicals" and cpc["C12G"] == "agrifood" and "C12" not in cpc
+    assert "B63J" not in cpc and cpc["G01"] == "electronics-ict" and cpc["C23"] == "chemicals"
+    assert cpc["B82Y"] == "chemicals"
+    sub = {r.name: r for r in conc.openalex_subfield}
+    assert "Plant Science" not in sub and sub["Dermatology"].sector == "health-medical"
+    assert sub["Polymers and Plastics"].sector == "chemicals" and sub["Pollution"].sector == "waste-recycling"
+    assert sub["Information Systems"].strength == "medium" and sub["Food Science"].strength == "strong"
+    for phrase in ("whole-word", "longest prefix", "unmapped", "0.6", "0.25", "tie", "medium"):
+        assert phrase in conc.notes
+
+
+def test_subfield_snapshot_covers_sectors():
+    names = set((ROOT / "scripts" / "nature" / "catalogue" / "openalex_subfields.txt").read_text(encoding="utf-8").splitlines())
+    assert len(names) > 200
+    for s in common.load_sectors().sectors:
+        assert set(s.openalex_subfields) <= names
+
+
+def test_whitespace_title_year_range_and_dates():
+    for bad in (dict(title="   "), dict(source_id=" "), dict(year=-5), dict(year=99999),
+                dict(harvested_on="2026-10-11T00:00:00"), dict(harvested_on="11/10/2026")):
+        with pytest.raises(ValidationError):
+            RawRecord(**raw(**bad))
+    assert RawRecord(**raw(year=2024)).year == 2024
+
+
+def test_duplicate_functions_and_groups_rejected():
+    with pytest.raises(ValidationError):
+        CatalogueRecord(**cat(functions=["self-clean", "self-clean"]))
+    with pytest.raises(ValidationError):
+        CatalogueRecord(**cat(group_ids=["a", "a"]))
 
 def test_jsonl_round_trip(tmp_path):
     recs = [RawRecord(**raw(id=f"oa-W{i}", source_id=f"W{i}", title=f"Título {i}")) for i in range(3)]
@@ -179,6 +225,7 @@ def test_openalex_licence():
     assert common.openalex_licence("cc-by-sa") == "CC-BY-SA"
     assert common.openalex_licence(None) is None
     assert common.openalex_licence("") is None
+    assert common.openalex_licence("   ") is None
 
 
 def test_today_is_iso():
@@ -258,3 +305,46 @@ def test_validate_build_bad_record_and_duplicate(tmp_path):
     assert run_validate("--build", str(tmp_path)).returncode == 1
     (tmp_path / "catalogue.json").write_text(json.dumps(_wrapper([cat(provenance="x")])), encoding="utf-8")
     assert run_validate("--build", str(tmp_path)).returncode == 1
+
+
+def _copy_cat(tmp_path):
+    d = tmp_path / "cat"
+    shutil.copytree(CAT, d, ignore=shutil.ignore_patterns("raw", "build"))
+    return d
+
+
+def test_validate_fails_when_concordance_row_not_in_sector_list(tmp_path):
+    d = _copy_cat(tmp_path)
+    conc = json.loads((d / "concordance.json").read_text(encoding="utf-8"))
+    conc["cpc"][0]["sector"] = "energy"  # valid sector, but not that sector's own list
+    (d / "concordance.json").write_text(json.dumps(conc), encoding="utf-8")
+    r = run_validate("--data-dir", str(d))
+    assert r.returncode == 1 and "not in sector" in r.stderr
+
+
+def test_validate_fails_on_duplicate_concordance_key(tmp_path):
+    d = _copy_cat(tmp_path)
+    conc = json.loads((d / "concordance.json").read_text(encoding="utf-8"))
+    conc["openalex_subfield"].append(conc["openalex_subfield"][0])
+    (d / "concordance.json").write_text(json.dumps(conc), encoding="utf-8")
+    r = run_validate("--data-dir", str(d))
+    assert r.returncode == 1 and "duplicate key" in r.stderr
+
+
+def test_validate_fails_when_key_in_two_sectors(tmp_path):
+    d = _copy_cat(tmp_path)
+    s = json.loads((d / "sectors.json").read_text(encoding="utf-8"))
+    by_id = {x["id"]: x for x in s["sectors"]}
+    by_id["energy"]["cpc_prefixes"].append(by_id["packaging"]["cpc_prefixes"][0])
+    (d / "sectors.json").write_text(json.dumps(s), encoding="utf-8")
+    r = run_validate("--data-dir", str(d))
+    assert r.returncode == 1 and "several sectors" in r.stderr
+
+
+def test_validate_fails_on_unknown_openalex_subfield(tmp_path):
+    d = _copy_cat(tmp_path)
+    s = json.loads((d / "sectors.json").read_text(encoding="utf-8"))
+    s["sectors"][0]["openalex_subfields"].append("Metalz and Alloys")
+    (d / "sectors.json").write_text(json.dumps(s), encoding="utf-8")
+    r = run_validate("--data-dir", str(d))
+    assert r.returncode == 1 and "Metalz" in r.stderr

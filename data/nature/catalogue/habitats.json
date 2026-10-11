@@ -28,6 +28,7 @@
         "oyster",
         "marine"
       ],
+      "keywords_weak_en": [],
       "gbif_classes": []
     },
     {
@@ -48,6 +49,7 @@
         "lagoon",
         "tidal"
       ],
+      "keywords_weak_en": [],
       "gbif_classes": []
     },
     {
@@ -63,10 +65,12 @@
         "salmon",
         "freshwater",
         "riparian",
-        "pond",
         "carp",
         "otter",
         "beaver"
+      ],
+      "keywords_weak_en": [
+        "pond"
       ],
       "gbif_classes": []
     },
@@ -83,7 +87,9 @@
         "peatland",
         "swamp",
         "reed bed",
-        "floodplain",
+        "floodplain"
+      ],
+      "keywords_weak_en": [
         "reed",
         "frog"
       ],
@@ -98,13 +104,15 @@
       "label_pt": "Floresta",
       "keywords_en": [
         "forest",
-        "tree",
         "woodland",
         "canopy",
         "timber",
         "oak",
         "pine",
-        "beech",
+        "beech"
+      ],
+      "keywords_weak_en": [
+        "tree",
         "bark",
         "leaf",
         "wood"
@@ -128,6 +136,7 @@
         "iberian lynx",
         "pastureland"
       ],
+      "keywords_weak_en": [],
       "gbif_classes": []
     },
     {
@@ -141,9 +150,11 @@
         "prairie",
         "steppe",
         "pasture",
-        "grass",
-        "lawn",
         "rangeland"
+      ],
+      "keywords_weak_en": [
+        "grass",
+        "lawn"
       ],
       "gbif_classes": []
     },
@@ -158,10 +169,12 @@
         "highland",
         "montane",
         "glacier",
-        "cliff",
         "chamois",
         "ibex",
         "marmot"
+      ],
+      "keywords_weak_en": [
+        "cliff"
       ],
       "gbif_classes": []
     },
@@ -180,7 +193,9 @@
         "camel",
         "beetle fog",
         "semi-arid",
-        "oasis",
+        "oasis"
+      ],
+      "keywords_weak_en": [
         "scorpion",
         "lizard"
       ],
@@ -194,14 +209,16 @@
       "keywords_en": [
         "soil",
         "earthworm",
-        "fungi",
         "mycorrhiza",
         "mycelium",
         "humus",
         "termite",
+        "microbiome"
+      ],
+      "keywords_weak_en": [
+        "fungi",
         "ant",
         "compost",
-        "microbiome",
         "root"
       ],
       "gbif_classes": []
@@ -213,15 +230,17 @@
       "label_pt": "Urbano",
       "keywords_en": [
         "urban",
-        "city",
         "green roof",
         "green wall",
-        "park",
         "street tree",
-        "pigeon",
-        "swift",
-        "sparrow",
         "urban nature"
+      ],
+      "keywords_weak_en": [
+        "city",
+        "park",
+        "swift",
+        "pigeon",
+        "sparrow"
       ],
       "gbif_classes": []
     },
@@ -239,9 +258,11 @@
         "pollinat",
         "pollen",
         "honeybee",
-        "wasp",
-        "beetle",
         "nectar"
+      ],
+      "keywords_weak_en": [
+        "wasp",
+        "beetle"
       ],
       "gbif_classes": []
     },
@@ -257,12 +278,14 @@
         "kingfisher",
         "woodpecker",
         "hummingbird",
-        "feather",
         "penguin",
         "falcon",
         "gull",
         "swallow",
-        "vulture",
+        "vulture"
+      ],
+      "keywords_weak_en": [
+        "feather",
         "beak"
       ],
       "gbif_classes": [
@@ -278,13 +301,15 @@
         "polar",
         "arctic",
         "antarctic",
-        "penguin",
         "polar bear",
-        "ice",
         "tundra",
         "krill",
-        "seal",
         "permafrost"
+      ],
+      "keywords_weak_en": [
+        "penguin",
+        "ice",
+        "seal"
       ],
       "gbif_classes": []
     }

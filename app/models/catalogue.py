@@ -10,10 +10,10 @@ scripts/nature/catalogue/validate.py.
 """
 
 import re
-from datetime import date
+from datetime import date, datetime
 from typing import Annotated, Literal, Optional
 
-from pydantic import BaseModel, Field, StringConstraints, field_validator, model_validator
+from pydantic import BaseModel, BeforeValidator, Field, StringConstraints, field_validator, model_validator
 
 from app.models.nature import is_open_licence
 
@@ -31,7 +31,19 @@ RecordId = Annotated[str, StringConstraints(pattern=ID_PATTERN)]
 Iso2 = Annotated[str, StringConstraints(pattern=r"^[A-Z]{2}$")]
 HttpsUrl = Annotated[str, StringConstraints(pattern=r"^https://\S+$")]
 Doi = Annotated[str, StringConstraints(pattern=r"^10\.\S+$")]
-NonEmpty = Annotated[str, StringConstraints(min_length=1)]
+def _strict_iso_date(v):
+    """Accept a date or a plain 'YYYY-MM-DD' string; reject datetimes and other strings."""
+    if isinstance(v, datetime):
+        raise ValueError("date must be YYYY-MM-DD, not a datetime")
+    if isinstance(v, str) and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", v):
+        raise ValueError("date must be YYYY-MM-DD")
+    return v
+
+
+IsoDate = Annotated[date, BeforeValidator(_strict_iso_date)]
+
+
+NonEmpty = Annotated[str, StringConstraints(min_length=1, strip_whitespace=True)]
 
 
 class _Strict(BaseModel):
@@ -68,7 +80,7 @@ class _RecordCore(_Strict):
     source_licence: str
     url: HttpsUrl
     doi: Optional[Doi] = None
-    year: Optional[int] = None
+    year: Optional[int] = Field(default=None, ge=1500, le=2100)
     countries: list[Iso2] = []
     organisations: list[str] = []  # organisation names only, never personal names
 
@@ -90,7 +102,7 @@ class _RecordCore(_Strict):
 class RawRecord(_RecordCore):
     source_codes: SourceCodes = SourceCodes()
     keywords: list[str] = []
-    harvested_on: date
+    harvested_on: IsoDate
 
 
 # ── Published catalogue record ────────────────────────────────────────────────
@@ -115,8 +127,10 @@ class CatalogueRecord(_RecordCore):
     def _tags_exclude_primary(self) -> "CatalogueRecord":
         if self.primary_sector in self.sector_tags:
             raise ValueError("sector_tags must not include primary_sector")
-        if len(set(self.sector_tags)) != len(self.sector_tags):
-            raise ValueError("sector_tags must not repeat")
+        for name in ("sector_tags", "functions", "group_ids"):
+            vals = getattr(self, name)
+            if len(set(vals)) != len(vals):
+                raise ValueError(f"{name} must not repeat")
         return self
 
 
@@ -131,6 +145,8 @@ class Sector(_Strict):
     nace_rev21_divisions: list[str] = []
     keywords_en: list[str] = []
     keywords_es: list[str] = []
+    keywords_weak_en: list[str] = []
+    keywords_weak_es: list[str] = []
     cpc_prefixes: list[str] = []
     openalex_subfields: list[str] = []
     candidate: bool
@@ -149,6 +165,7 @@ class Habitat(_Strict):
     label_es: NonEmpty
     label_pt: NonEmpty
     keywords_en: list[str] = []
+    keywords_weak_en: list[str] = []
     gbif_classes: list[str] = []
 
 
@@ -166,7 +183,7 @@ class Group(_Strict):
     donate_url: HttpsUrl
     every_org_slug: Optional[str] = None
     source_url: HttpsUrl
-    checked_on: date
+    checked_on: IsoDate
 
 
 class GroupsFile(_Strict):
@@ -183,6 +200,7 @@ class CpcRow(_Strict):
 class SubfieldRow(_Strict):
     name: NonEmpty
     sector: NonEmpty
+    strength: Literal["strong", "medium"] = "strong"
     note: NonEmpty
 
 

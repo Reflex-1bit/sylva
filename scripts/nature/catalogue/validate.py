@@ -61,6 +61,45 @@ def check_reference(data_dir: Path) -> tuple[list[str], dict]:
                 label = getattr(row, "prefix", None) or getattr(row, "name", None) or row.term
                 problems.append(f"concordance.json {table} '{label}': unknown sector '{row.sector}'")
 
+    # Concordance rows must mirror the sectors' own lists, with unique keys, no key in two sectors.
+    by_id = {s.id: s for s in loaded["sectors"].sectors}
+    tables = (("cpc", "prefix", "cpc_prefixes"), ("openalex_subfield", "name", "openalex_subfields"))
+    for table, key, field in tables:
+        rows = getattr(conc, table)
+        keys = [getattr(r, key) for r in rows]
+        for k in sorted({k for k in keys if keys.count(k) > 1}):
+            problems.append(f"concordance.json {table}: duplicate key '{k}'")
+        owners: dict[str, list[str]] = {}
+        for s in loaded["sectors"].sectors:
+            for k in getattr(s, field):
+                owners.setdefault(k, []).append(s.id)
+        for k, ids in owners.items():
+            if len(ids) > 1:
+                problems.append(f"sectors.json {field}: '{k}' is in several sectors {ids}")
+        for r in rows:
+            sec = by_id.get(r.sector)
+            if sec is not None and getattr(r, key) not in getattr(sec, field):
+                problems.append(f"concordance.json {table} '{getattr(r, key)}': not in sector '{r.sector}' {field}")
+        listed = set(keys)
+        for k, ids in owners.items():
+            if k not in listed:
+                problems.append(f"concordance.json {table}: '{k}' of sector '{ids[0]}' has no row")
+    for table in ("euroscivoc", "climate_adapt_sector"):
+        terms = [r.term for r in getattr(conc, table)]
+        for k in sorted({k for k in terms if terms.count(k) > 1}):
+            problems.append(f"concordance.json {table}: duplicate term '{k}'")
+
+    # OpenAlex subfield names must exist in the checked-in snapshot of the live /subfields listing.
+    snapshot = Path(__file__).resolve().parent / "openalex_subfields.txt"
+    if snapshot.exists():
+        valid = set(snapshot.read_text(encoding="utf-8").splitlines())
+        for s in loaded["sectors"].sectors:
+            for n in s.openalex_subfields:
+                if n not in valid:
+                    problems.append(f"sectors.json '{s.id}': unknown OpenAlex subfield '{n}'")
+    else:
+        problems.append(f"missing {snapshot.name}")
+
     hab_ids = [h.id for h in loaded["habitats"].habitats]
     if len(set(hab_ids)) != len(hab_ids):
         problems.append("habitats.json: duplicate habitat id")
