@@ -1050,7 +1050,7 @@
       "note": "second-level"
     },
     {
-      "term": "veterinary science",
+      "term": "veterinary sciences",
       "sector": "health-medical",
       "note": "second-level; animal health"
     },
@@ -1135,7 +1135,7 @@
       "note": "second-level"
     },
     {
-      "term": "nano-technology",
+      "term": "nanotechnology",
       "sector": "chemicals",
       "note": "second-level; generic, low confidence"
     },
@@ -1147,6 +1147,41 @@
     {
       "term": "renewable energy",
       "sector": "energy",
+      "note": "third-level"
+    },
+    {
+      "term": "sustainable agriculture",
+      "sector": "agrifood",
+      "note": "third-level"
+    },
+    {
+      "term": "water engineering",
+      "sector": "water-utilities",
+      "note": "third-level"
+    },
+    {
+      "term": "waste management",
+      "sector": "waste-recycling",
+      "note": "third-level"
+    },
+    {
+      "term": "architectural design",
+      "sector": "buildings-architecture",
+      "note": "third-level"
+    },
+    {
+      "term": "architecture engineering",
+      "sector": "buildings-architecture",
+      "note": "third-level"
+    },
+    {
+      "term": "aerospace engineering",
+      "sector": "aerospace-transport",
+      "note": "third-level"
+    },
+    {
+      "term": "transportation engineering",
+      "sector": "aerospace-transport",
       "note": "third-level"
     },
     {

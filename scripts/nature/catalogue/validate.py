@@ -89,6 +89,16 @@ def check_reference(data_dir: Path) -> tuple[list[str], dict]:
         for k in sorted({k for k in terms if terms.count(k) > 1}):
             problems.append(f"concordance.json {table}: duplicate term '{k}'")
 
+    # EuroSciVoc terms must be real titles/path segments from the CORDIS data (committed list).
+    terms_file = Path(__file__).resolve().parent / "euroscivoc_terms.txt"
+    if terms_file.exists():
+        real = set(terms_file.read_text(encoding="utf-8").splitlines())
+        for r in conc.euroscivoc:
+            if r.term not in real:
+                problems.append(f"concordance.json euroscivoc '{r.term}': not a EuroSciVoc term in euroscivoc_terms.txt")
+    else:
+        problems.append(f"missing {terms_file.name}")
+
     # OpenAlex subfield names must exist in the checked-in snapshot of the live /subfields listing.
     snapshot = Path(__file__).resolve().parent / "openalex_subfields.txt"
     if snapshot.exists():
