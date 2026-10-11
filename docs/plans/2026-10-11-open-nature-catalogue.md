@@ -1,6 +1,6 @@
 # Open Nature Catalogue — implementation plan
 
-Status: DRAFT. The sorting decisions in section 2 are defaults until the user answers the open questions. The user asked for this plan on 2026-10-11: "Yes lets build towards this huge database, write the plan for creating this database and ask me questions on how exactly you are going to sort the data."
+Status: READY. The user confirmed sorting decisions S1–S6 and S8–S9 on 2026-10-11. S7 is assumed (not answered). The user asked for this plan on 2026-10-11: "Yes lets build towards this huge database, write the plan for creating this database and ask me questions on how exactly you are going to sort the data."
 
 ## 1. Goal
 
@@ -23,9 +23,9 @@ The two stay separate files. A catalogue record may link to a library record (`l
 
 Out of scope (the user said "leave the agroforestree database for now"): the Agroforestree licence and PDFs, and Sylva species data.
 
-## 2. Sorting decisions (defaults, to be confirmed)
+## 2. Sorting decisions (confirmed by the user 2026-10-11 unless marked)
 
-| # | Question | Default until answered |
+| # | Question | Decision |
 |---|---|---|
 | S1 | Which sectors? | The 10 existing taxonomy sectors plus new sectors only where harvested data demands them (see Phase 1), all mapped to NACE Rev.2.1. Anything that fits none goes in `other`, which is shown, not hidden. |
 | S2 | One sector per record or several? | One `primary_sector` (decides where the record appears on the page) plus up to 3 `sector_tags` (filters and secondary listing). |
@@ -33,7 +33,9 @@ Out of scope (the user said "leave the agroforestree database for now"): the Agr
 | S4 | What counts as "eco"? | Biomimicry / bio-inspired work, plus nature-based solutions. Green tech that is not inspired by nature is excluded, otherwise patents alone would run to hundreds of thousands. |
 | S5 | How is a record sorted? | Rules only: the source's own codes (patent CPC, OpenAlex topic/subfield, CORDIS EuroSciVoc, Climate-ADAPT sector) through a written concordance to NACE, then keyword rules from `taxonomy.json`. The classifier score is stored as `sort_confidence`. |
 | S6 | Donation group granularity | By habitat (about 14 habitats, for example marine, freshwater, wetland, forest, dehesa/savanna, grassland, mountain, arid, coastal, soil, urban, pollinators, birds) with a curated list of groups per habitat. Flagship organisms get a species-specific group where one exists. |
-| S7 | Donation purpose | (C) Plain outbound donation links now. Company pay-back pledges come later, with Sylva acting as a directory only, never taking money. The user did not answer this, so (C) is assumed. |
+| S7 | Donation purpose | ASSUMED (not answered): (C) Plain outbound donation links now. Company pay-back pledges come later, with Sylva acting as a directory only, never taking money. |
+| S8 | Quality check | A separate Claude review agent marks a 200-record stratified sample (sector right/wrong, relevant/irrelevant), and the user skims its calls. The published figure is labelled "agent-checked sample, owner-skimmed", never "human-verified". |
+| S9 | Entries whose source text is not openly licensed | Show title, organism, sector, year and a link to the original. A summary appears only where the source licence passes the gate. No generated summaries. |
 
 ## 3. Phase 0 — Documentation discovery (done 2026-10-11; consolidated)
 
@@ -201,15 +203,16 @@ Verify:
 
 Guards: no LLM. Rules live in JSON, not code, so they can be reviewed.
 
-### Phase 6 — Human spot-check
+### Phase 6 — Spot-check (S8)
 What:
-- `scripts/nature/catalogue/spotcheck.py` samples 200 records, stratified by sector, into a CSV.
-- The user, or someone they choose, marks sector correct/incorrect and relevant/irrelevant.
-- The script computes precision per sector and writes it to `manifest.json`.
+- `scripts/nature/catalogue/spotcheck.py sample` draws 200 records, stratified by sector with a fixed seed, into `spotcheck.csv` with columns `id, title, url, primary_sector, sort_reason, verdict_sector, verdict_relevant, note`.
+- A separate review subagent (sonnet; it did not write the rules) fills the verdict columns using only the title, the source page and `sectors.json` definitions.
+- The user skims the CSV and can overturn any row.
+- `spotcheck.py score` computes precision per sector and overall, and writes it to `manifest.json` with `checked_by: "agent, owner-skimmed"`.
 
-Verify: the manifest shows precision; any sector under 70% gets its rules fixed before publishing, or the page shows a warning on it.
+Verify: the manifest shows precision; any sector under 70% gets its rules fixed and is re-sampled before publishing, or the page shows a warning on it.
 
-Note: this is the one step that needs a person. Everything else is automatic.
+Note: the user's skim is the one step that needs a person.
 
 ### Phase 7 — Donation groups
 What:
