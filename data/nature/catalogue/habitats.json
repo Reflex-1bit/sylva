@@ -60,7 +60,6 @@
       "keywords_en": [
         "river",
         "lake",
-        "stream",
         "trout",
         "salmon",
         "freshwater",
@@ -70,7 +69,8 @@
         "beaver"
       ],
       "keywords_weak_en": [
-        "pond"
+        "pond",
+        "stream"
       ],
       "gbif_classes": []
     },
@@ -212,14 +212,14 @@
         "mycorrhiza",
         "mycelium",
         "humus",
-        "termite",
-        "microbiome"
+        "termite"
       ],
       "keywords_weak_en": [
         "fungi",
         "ant",
         "compost",
-        "root"
+        "root",
+        "microbiome"
       ],
       "gbif_classes": []
     },
@@ -255,7 +255,9 @@
         "butterfly",
         "moth",
         "hoverfly",
-        "pollinat",
+        "pollinator",
+        "pollinators",
+        "pollination",
         "pollen",
         "honeybee",
         "nectar"
@@ -281,12 +283,12 @@
         "penguin",
         "falcon",
         "gull",
-        "swallow",
         "vulture"
       ],
       "keywords_weak_en": [
         "feather",
-        "beak"
+        "beak",
+        "swallow"
       ],
       "gbif_classes": [
         "Aves"
@@ -298,7 +300,6 @@
       "label_es": "Polar",
       "label_pt": "Polar",
       "keywords_en": [
-        "polar",
         "arctic",
         "antarctic",
         "polar bear",
@@ -309,7 +310,8 @@
       "keywords_weak_en": [
         "penguin",
         "ice",
-        "seal"
+        "seal",
+        "polar"
       ],
       "gbif_classes": []
     }

@@ -99,6 +99,16 @@ def check_reference(data_dir: Path) -> tuple[list[str], dict]:
     else:
         problems.append(f"missing {terms_file.name}")
 
+    # Climate-ADAPT sector terms must be spelled as in the harvested records (committed distinct list).
+    ca_file = Path(__file__).resolve().parent / "climate_adapt_sectors.txt"
+    if ca_file.exists():
+        real = set(ca_file.read_text(encoding="utf-8").splitlines())
+        for r in conc.climate_adapt_sector:
+            if r.term not in real:
+                problems.append(f"concordance.json climate_adapt_sector '{r.term}': not a Climate-ADAPT sector in {ca_file.name}")
+    else:
+        problems.append(f"missing {ca_file.name}")
+
     # OpenAlex subfield names must exist in the checked-in snapshot of the live /subfields listing.
     snapshot = Path(__file__).resolve().parent / "openalex_subfields.txt"
     if snapshot.exists():

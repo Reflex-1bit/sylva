@@ -1,6 +1,6 @@
 {
   "version": "2026-10-11",
-  "notes": "Source-code to sector mappings, built from sectors.json plus hand-written EuroSciVoc and Climate-ADAPT rows. (a) Keyword matching is whole-word, lower-cased, accent-folded tokens and phrases, never substrings. (b) CPC codes are compared in compact form (spaces and slashes removed, upper case), and the longest prefix wins. (c) An unmapped OpenAlex subfield, EuroSciVoc term or Climate-ADAPT term contributes no sector, so the record falls to keywords and then 'other'. (d) Keyword-only (no code) sorting is capped at confidence 0.6, and a weak keyword counts 0.25 of a strong hit. (e) Tie-break: the highest score wins; on equal scores the earlier sector in sectors.json wins and the record is flagged 'tie' in sort_reason. (f) OpenAlex subfield rows with strength 'medium' are broad and count as medium-confidence signals; the default is 'strong'.",
+  "notes": "Source-code to sector mappings, built from sectors.json plus hand-written EuroSciVoc and Climate-ADAPT rows. (a) Keyword matching is whole-word, lower-cased, accent-folded tokens and phrases, never substrings. (b) CPC codes are compared in compact form (spaces and slashes removed, upper case), and the longest prefix wins. (c) An unmapped OpenAlex subfield, EuroSciVoc term or Climate-ADAPT term contributes no sector, so the record falls to keywords and then 'other'. (d) Keyword-only (no code) sorting is capped at confidence 0.6, and a weak keyword counts 0.25 of a strong hit. (e) Tie-break: the highest score wins; on equal scores the earlier sector in sectors.json wins and the record is flagged 'tie' in sort_reason. (f) OpenAlex subfield rows with strength 'medium' are broad and count as medium-confidence signals; the default is 'strong'. (g) Climate-ADAPT terms are spelled exactly as in the harvested records (checked against scripts/nature/catalogue/climate_adapt_sectors.txt); 'Tourism' and 'Non specific' are left unmapped on purpose, and rows whose sector is 'other' contribute no sector score.",
   "cpc": [
     {
       "prefix": "B21",
@@ -1222,7 +1222,7 @@
       "note": "Climate-ADAPT sector -> agrifood"
     },
     {
-      "term": "Biodiversity",
+      "term": "Biodiversity protection",
       "sector": "other",
       "note": "Climate-ADAPT sector -> other; no industry sector, keyword rules decide"
     },
@@ -1247,7 +1247,7 @@
       "note": "Climate-ADAPT sector -> other; no industry sector, keyword rules decide"
     },
     {
-      "term": "Disaster risk reduction",
+      "term": "Disaster Risk Reduction",
       "sector": "other",
       "note": "Climate-ADAPT sector -> other; no industry sector, keyword rules decide"
     },
@@ -1272,12 +1272,12 @@
       "note": "Climate-ADAPT sector -> health-medical"
     },
     {
-      "term": "ICT",
-      "sector": "electronics-ict",
-      "note": "Climate-ADAPT sector -> electronics-ict"
+      "term": "Land use planning",
+      "sector": "buildings-architecture",
+      "note": "Climate-ADAPT sector -> buildings-architecture (spatial and land-use planning); falls to 'other' if that candidate sector collapses"
     },
     {
-      "term": "Marine and fisheries",
+      "term": "Marine and Fisheries",
       "sector": "forestry-fisheries",
       "note": "Climate-ADAPT sector -> forestry-fisheries"
     },
