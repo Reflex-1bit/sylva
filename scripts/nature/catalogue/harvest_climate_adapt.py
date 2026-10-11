@@ -257,8 +257,12 @@ def scope_reasons(item: dict, matcher: ScopeMatcher, eco: ScopeMatcher) -> list[
     reasons: list[str] = []
     options = option_names(item)
     text_fields = [html_to_text(item.get(k)) for k in ("long_description", "solutions")]
-    for term in matcher.matches(" . ".join(options), *text_fields):
-        reasons.append(f"scope:{term}")
+    # Term-only keeps (fix round 1): a term in the title or keywords, or at least 2 occurrences.
+    strong = matcher.matches(item.get("title"), " . ".join(k for k in item.get("keywords") or [] if isinstance(k, str)))
+    counts = matcher.counts(" . ".join(options), *text_fields)
+    if strong or sum(counts.values()) >= 2:
+        for term in dict.fromkeys(strong + list(counts)):
+            reasons.append(f"scope:{term}")
     for el in item.get("elements") or []:
         if isinstance(el, dict) and el.get("token") in ECO_ELEMENT_TOKENS:
             reasons.append(f"scope:element:{el.get('title') or el.get('token')}")

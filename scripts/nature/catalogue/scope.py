@@ -37,28 +37,56 @@ class ScopeMatcher:
     def __init__(self, terms: list[str]):
         self.terms = terms
         pats = []
+        seen: set[str] = set()
+        cores = {fold(t) for t in terms}
         for t in terms:
-            core = re.escape(fold(t)).replace(r"\ ", " ")
-            pats.append((t, re.compile(r"(?<![a-z0-9])" + core + r"(?:s|es)?(?![a-z0-9])")))
+            core = fold(t)
+            if core in seen:  # "bio-inspired" / "bio inspired" fold alike: keep the first
+                continue
+            # a plural listed next to its singular is redundant (the pattern allows s/es)
+            if (core.endswith("s") and core[:-1] in cores) or (core.endswith("es") and core[:-2] in cores):
+                continue
+            seen.add(core)
+            rx = re.compile(r"(?<![a-z0-9])" + re.escape(core).replace(r"\ ", " ") + r"(?:s|es)?(?![a-z0-9])")
+            pats.append((t, rx))
         self._pats = pats
 
-    def matches(self, *texts: Optional[str]) -> list[str]:
+    def counts(self, *texts: Optional[str]) -> dict[str, int]:
+        """Occurrences of each matching term (a plural counts for its singular)."""
         folded = fold(" . ".join(t for t in texts if t))
-        return [t for t, rx in self._pats if rx.search(folded)]
+        out = {}
+        for t, rx in self._pats:
+            n = len(rx.findall(folded))
+            if n:
+                out[t] = n
+        return out
+
+    def matches(self, *texts: Optional[str]) -> list[str]:
+        return list(self.counts(*texts))
 
     def first(self, *texts: Optional[str]) -> Optional[str]:
         m = self.matches(*texts)
         return m[0] if m else None
 
 
+# A sentence end is . ! ? followed by a capital, digit, quote or bracket (or the end), and not
+# preceded by a common abbreviation or a lone capital letter (initials).
+_NOT_AFTER = (
+    r"(?<!\be\.g)(?<!\bi\.e)(?<!\betc)(?<!\bProf)(?<!\bDr)(?<!\bMr)(?<!\bMrs)(?<!\bMs)"
+    r"(?<!\bet al)(?<!\bcf)(?<!\bvs)(?<!\bFig)(?<!\bNo)(?<!\bapprox)(?<!\bincl)(?<!\bresp)"
+    r"(?<!\bca)(?<!\bSt)(?<!\b[A-Z])"
+)
+_SENTENCE_END = re.compile(_NOT_AFTER + r"[.!?](?=\s+[A-Z0-9\"'(\[]|\s*$)")
+
+
 def cut_summary(text: str, limit: int = 1500) -> str:
-    """Collapse whitespace; when too long, cut at the last sentence end within the limit
-    (or at a word boundary if there is no sentence end past the first third)."""
+    """Collapse whitespace; when too long, cut at the last safe sentence end within the limit,
+    else at the last word boundary with an ellipsis appended."""
     s = re.sub(r"\s+", " ", text or "").strip()
     if len(s) <= limit:
         return s
     window = s[:limit]
-    ends = [m.end() for m in re.finditer(r"[.!?](?=\s|$)", window)]
+    ends = [m.end() for m in _SENTENCE_END.finditer(window)]
     if ends and ends[-1] >= limit // 3:
         return window[: ends[-1]].strip()
-    return window.rsplit(" ", 1)[0].rstrip(" ,;:") + "..."
+    return window.rsplit(" ", 1)[0].rstrip(" ,;:") + "…"

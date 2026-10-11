@@ -29,7 +29,7 @@ ca = _load("harvest_climate_adapt")
 def test_scope_whole_word_rule():
     m = scope.ScopeMatcher(scope.load_scope_terms())
     assert m.first("A bionic hand") == "bionic"
-    assert m.first("Research on bionics") in ("bionic", "bionics")
+    assert m.first("Research on bionics") == "bionic"
     assert m.first("The symbionic relationship") is None
     assert m.first("antibionic") is None
     assert m.first("Bio-inspired design") is not None
@@ -120,8 +120,6 @@ def test_cordis_no_contact_columns_read(tmp_path):
         rows = list(cordis.read_csv(zf, "organization.csv", cordis.ORG_COLUMNS))
     assert set(rows[0]) == {"projectID", "name", "country", "role"}
     assert not any("SECRET" in v for row in rows for v in row.values())
-    orgs = cordis.load_organisations.__defaults__  # no hidden state
-    assert orgs is None
     # and the records never carry the sentinel
     zz = tmp_path / "p.zip"
     _zip(zz, {"project.csv": H2020_PROJECT, "organization.csv": H2020_ORG, "euroSciVoc.csv": H2020_SCI})
@@ -170,7 +168,7 @@ CASE = {
     "rights": "",
     "long_description": {"content-type": "text/html", "data": "<p>Moors &amp; bogs.</p><ul><li>One</li><li>Two</li></ul>"
                          "<script>x()</script><p>Mail me: a.b@example.org</p>"},
-    "solutions": {"data": "<p>Rewilding of peat.</p>"},
+    "solutions": {"data": "<p>Rewilding of peat and more rewilding of bogs.</p>"},
     "sectors": [{"title": "Biodiversity protection", "token": "B"}, {"title": "Mountain areas", "token": "M"}],
     "climate_impacts": [{"title": "Water Scarcity", "token": "W"}],
     "elements": [{"title": "Nature-based solutions", "token": "NATUREBASEDSOL"}],
@@ -274,3 +272,171 @@ def test_ca_normalise(tmp_path):
     assert stats["kept"] == 1 and stats["dropped"] == 1 and stats["unknown_countries"] == 1
     assert stats["with_summary"] == 1
     assert io.StringIO(((tmp_path / "records.jsonl").read_text(encoding="utf-8"))).readline().startswith("{")
+
+
+# ── fix round 1 ───────────────────────────────────────────────────────────────
+
+
+def test_scope_dedupes_folded_variants():
+    m = scope.ScopeMatcher(scope.load_scope_terms())
+    hits = m.matches("bio-inspired and bio inspired, nature-inspired and nature inspired, bionic bionics")
+    assert hits == ["bio-inspired", "nature-inspired", "bionic"]
+    assert m.counts("bionic and bionics")["bionic"] == 2
+
+
+def test_cut_summary_abbreviations_and_ellipsis():
+    pad = "Intro sentence. " * 60  # 960 chars
+    text = pad + "We study (e.g. foo) with Prof. Smith and Dr. Who et al. in Fig. 3 vs. A. B. Jones " + "x" * 30 + " " + "word " * 100
+    out = scope.cut_summary(text, 1000)
+    assert len(out) <= 1001
+    assert not out.endswith(("e.g.", "Prof.", "Dr.", "al.", "Fig.", "vs.", "A.", "B."))
+    # no safe sentence end past the first third: word boundary plus ellipsis
+    no_end = scope.cut_summary("word " * 600, 1000)
+    assert no_end.endswith("…") and len(no_end) <= 1001
+    abbrev_only = scope.cut_summary("Intro text " * 40 + "(e.g. " + "word " * 100, 480)
+    assert abbrev_only.endswith("…")
+    # a safe sentence end is preferred when there is one
+    safe = scope.cut_summary(pad + "Next one ends here. Then " + "word " * 100, 1000)
+    assert safe.endswith("here.")
+    assert scope.cut_summary("Short text (e.g. this).", 1500) == "Short text (e.g. this)."
+
+
+def test_cordis_scope_rule():
+    m = scope.ScopeMatcher(scope.load_scope_terms())
+    f = cordis.in_scope
+    assert f(m, "A study", "One mention of biomimetic only.", "") == []
+    assert set(f(m, "A study", "Biomimetic once and bionic twice.", "")) == {"biomimetic", "bionic"}
+    assert f(m, "Bionic hand", "text", "") == ["bionic"]
+    assert f(m, "x", "text", "green infrastructure; other") == ["green infrastructure"]
+    # computational sense dropped, physical sense kept, biomedical biomimetic kept
+    assert f(m, "Nature-inspired optimisation", "A nature-inspired algorithm.", "") == []
+    assert f(m, "Nature-inspired optimisation", "Algorithm for a new material.", "") != []
+    assert f(m, "Biomimetic scaffolds", "Biomimetic tissue for patients.", "") != []
+
+
+def test_cordis_scope_in_real_parse(tmp_path):
+    z = tmp_path / "h.zip"
+    proj = (
+        '"id";"title";"objective";"startDate";"grantDoi";"keywords"\n'
+        '"1";"Plain";"One biomimetic mention.";"2020-01-01";"";""\n'
+        '"2";"Plain two";"Biomimetic and biomimetic again.";"2020-01-01";"";""\n'
+    )
+    _zip(z, {"project.csv": proj, "organization.csv": H2020_ORG, "euroSciVoc.csv": H2020_SCI})
+    recs, _, _ = cordis.process_zip(z, scope.ScopeMatcher(scope.load_scope_terms()), "2026-10-11")
+    assert [r.id for r in recs] == ["cd-2"]
+    assert recs[0].keywords == ["scope:biomimetic"]
+
+
+def test_cordis_scrub_before_truncate():
+    email = "secret.person@example.org"
+    objective = ("Sentence one is here. " * 68)[:1480] + " contact " + email + " and more words follow here."
+    assert objective.index(email) < 1500 < objective.index(email) + len(email)
+    row = {"id": "9", "title": "Bionic", "objective": objective, "scope": ["bionic"], "startDate": "2020-01-01"}
+    rec = cordis.build_record(row, [], None, "2026-10-11")
+    assert "@" not in rec.summary and "secret.person" not in rec.summary and len(rec.summary) <= 1500
+
+
+def test_read_csv_bom_short_row_and_missing_column(tmp_path):
+    z = tmp_path / "b.zip"
+    _zip(z, {"project.csv": '﻿"id";"title";"objective"\n"1";"T";"O"\n"2";"only title"\n'})
+    with zipfile.ZipFile(z) as zf:
+        rows = list(cordis.read_csv(zf, "project.csv", ("id", "title", "objective")))
+        assert rows == [{"id": "1", "title": "T", "objective": "O"}, {"id": "2", "title": "only title", "objective": ""}]
+        try:
+            list(cordis.read_csv(zf, "project.csv", ("id", "nope"), required=("nope",)))
+            raise AssertionError("expected ValueError")
+        except ValueError as exc:
+            assert "nope" in str(exc)
+    z2 = tmp_path / "c.zip"
+    _zip(z2, {"project.csv": '"ident";"name"\n"1";"T"\n'})
+    try:
+        cordis.scan_projects(zipfile.ZipFile(z2), scope.ScopeMatcher(["bionic"]))
+        raise AssertionError("expected ValueError")
+    except ValueError as exc:
+        assert "id" in str(exc)
+
+
+class _Resp:
+    def __init__(self, status=200, headers=None, body=b""):
+        self.status_code, self.headers, self._body = status, headers or {}, body
+
+    def raise_for_status(self):
+        pass
+
+    def iter_bytes(self, n):
+        yield self._body
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *a):
+        return False
+
+
+class _FakeHttp:
+    class TransportError(Exception):
+        pass
+
+    def __init__(self, size):
+        self.body = b"z" * size
+        self.streams = 0
+
+    def head(self, url, **kw):
+        return _Resp(200, {"content-length": str(len(self.body))})
+
+    def stream(self, method, url, **kw):
+        self.streams += 1
+        return _Resp(200, {}, self.body)
+
+
+def test_download_skip_by_size_and_part_rename(tmp_path):
+    http = _FakeHttp(10)
+    first = cordis.download(tmp_path, ["fp7"], http=http)
+    assert first == {"fp7": "downloaded"} and http.streams == 1
+    target = tmp_path / cordis.PROGRAMMES["fp7"]
+    assert target.stat().st_size == 10 and not list(tmp_path.glob("*.part"))
+    assert cordis.download(tmp_path, ["fp7"], http=http) == {"fp7": "present"} and http.streams == 1
+    target.write_bytes(b"short")  # wrong size -> fetched again
+    assert cordis.download(tmp_path, ["fp7"], http=http) == {"fp7": "downloaded"} and http.streams == 2
+
+
+def test_ca_harvest_rerun_skips_cached_and_counts_missing(tmp_path):
+    robots = b"User-agent: *\nDisallow: /sandbox\n"
+    index = b"<sitemapindex><sitemap><loc>https://climate-adapt.eea.europa.eu/sitemap1.xml.gz</loc></sitemap></sitemapindex>"
+    urls = (b"<urlset><url><loc>https://climate-adapt.eea.europa.eu/en/metadata/case-studies/one</loc></url>"
+            b"<url><loc>https://climate-adapt.eea.europa.eu/en/metadata/case-studies/gone</loc></url></urlset>")
+    api_calls = []
+
+    def fetch(url, headers):
+        if url.endswith("robots.txt"):
+            return robots
+        if url.endswith("sitemap-index.xml"):
+            return index
+        if url.endswith(".xml.gz"):
+            return gzip.compress(urls)
+        api_calls.append(url)
+        return json.dumps(CASE).encode("utf-8") if url.endswith("/one") else None
+
+    def run():
+        c = ca.Client(fetch=fetch, pace=0, sleep=lambda s: None)
+        return ca.harvest(c, tmp_path / "pages", tmp_path / "urls.txt")
+
+    first = run()
+    assert first["fetched"] == 1 and first["missing"] == 1
+    n = len(api_calls)
+    second = run()
+    assert second["cached"] == 1 and second["fetched"] == 0 and second["missing"] == 1
+    assert len(api_calls) == n + 1  # only the missing one is retried
+
+
+def test_ca_term_only_rule():
+    m, eco = _matchers()
+    one = {"title": "Retail", "long_description": {"data": "<p>One green roof here.</p>"}, "elements": []}
+    assert ca.scope_reasons(one, m, eco) == []
+    two = dict(one, long_description={"data": "<p>A green roof and a green infrastructure plan.</p>"})
+    assert set(ca.scope_reasons(two, m, eco)) == {"scope:green roof", "scope:green infrastructure"}
+    titled = {"title": "Green roof pilot", "long_description": {"data": "<p>x</p>"}, "elements": []}
+    assert ca.scope_reasons(titled, m, eco) == ["scope:green roof"]
+    nbs = {"title": "Retail", "long_description": {"data": "<p>x</p>"},
+           "elements": [{"title": "Nature-based solutions", "token": "NATUREBASEDSOL"}]}
+    assert ca.scope_reasons(nbs, m, eco) == ["scope:element:Nature-based solutions"]

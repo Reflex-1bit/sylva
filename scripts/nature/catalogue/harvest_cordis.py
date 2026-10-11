@@ -15,6 +15,7 @@ address and URL columns are never read. Records are CC BY 4.0 (CORDIS open data)
 import argparse
 import csv
 import io
+import re
 import sys
 import zipfile
 from pathlib import Path
@@ -52,9 +53,14 @@ csv.field_size_limit(min(sys.maxsize, 2**31 - 1))
 # ── download ──────────────────────────────────────────────────────────────────
 
 
-def download(dest_dir: Path = CORDIS_DIR, programmes: Optional[list[str]] = None) -> dict[str, str]:
-    """Download missing zips; return {programme: 'downloaded'|'present'}."""
-    import httpx
+def download(dest_dir: Path = CORDIS_DIR, programmes: Optional[list[str]] = None, http=None) -> dict[str, str]:
+    """Download missing zips; return {programme: 'downloaded'|'present'}.
+
+    `http` is an httpx-like module (head, stream, TransportError); injected in tests.
+    """
+    if http is None:
+        import httpx as http
+    httpx = http
 
     dest_dir.mkdir(parents=True, exist_ok=True)
     out = {}
@@ -87,14 +93,15 @@ def download(dest_dir: Path = CORDIS_DIR, programmes: Optional[list[str]] = None
 # ── parsing ───────────────────────────────────────────────────────────────────
 
 
-def read_csv(zf: zipfile.ZipFile, member: str, wanted: Optional[Iterable[str]] = None) -> Iterator[dict]:
+def read_csv(zf: zipfile.ZipFile, member: str, wanted: Optional[Iterable[str]] = None,
+             required: Iterable[str] = ()) -> Iterator[dict]:
     """Stream a `;`-separated, `"`-quoted CSV member as dicts keyed by header name.
 
     If `wanted` is given only those columns are materialised; every other column is
-    skipped without being read into the row.
+    skipped without being read into the row. A missing `required` column raises ValueError.
     """
     with zf.open(member) as raw:
-        text = io.TextIOWrapper(raw, encoding="utf-8", errors="replace", newline="")
+        text = io.TextIOWrapper(raw, encoding="utf-8-sig", errors="replace", newline="")
         reader = csv.reader(text, delimiter=";", quotechar='"')
         header = next(reader, None)
         if header is None:
@@ -102,6 +109,9 @@ def read_csv(zf: zipfile.ZipFile, member: str, wanted: Optional[Iterable[str]] =
         header = [h.lstrip("﻿").strip() for h in header]
         names = list(wanted) if wanted is not None else header
         idx = {n: header.index(n) for n in names if n in header}
+        missing = [n for n in required if n not in idx]
+        if missing:
+            raise ValueError(f"{member}: missing required column(s) {missing}; header is {header}")
         for row in reader:
             if not row:
                 continue
@@ -136,23 +146,47 @@ def scan_projects(zf: zipfile.ZipFile, matcher: ScopeMatcher) -> tuple[dict[str,
     kept: dict[str, dict] = {}
     scanned = 0
     cols = ("id", "title", "startDate", "objective", "grantDoi", "keywords")
-    for row in read_csv(zf, "project.csv", cols):
+    for row in read_csv(zf, "project.csv", cols, required=("id", "title", "objective")):
         scanned += 1
         pid = (row.get("id") or "").strip()
         if not pid.isdigit() or not (row.get("title") or "").strip():
             continue
-        hits = matcher.matches(row.get("title"), row.get("objective"), row.get("keywords"))
+        hits = in_scope(matcher, row.get("title"), row.get("objective"), row.get("keywords"))
         if hits:
             row["scope"] = hits
             kept[pid] = row
     return kept, scanned
 
 
+COMPUTATIONAL_RE = re.compile(
+    r"\b(algorithms?|optimi[sz]ation|metaheuristics?|swarm intelligence|evolutionary computation|neural networks?)\b", re.I)
+PHYSICAL_RE = re.compile(
+    r"\b(material|surface|structure|coating|membrane|tissue|device|building|ecosystem|wetland|robot)", re.I)
+
+
+def in_scope(matcher: ScopeMatcher, title, objective, keywords) -> list[str]:
+    """Scope terms that justify keeping a project, or [] (rulings S4 and fix round 1).
+
+    Keep when a term is in the title or keywords, or the objective has at least 2 term
+    occurrences. Drop the computational sense (algorithm/optimisation words with none of the
+    physical words) even then.
+    """
+    strong = matcher.matches(title, keywords)
+    obj_counts = matcher.counts(objective)
+    if not strong and sum(obj_counts.values()) < 2:
+        return []
+    text = f"{title or ''} {objective or ''}"
+    if COMPUTATIONAL_RE.search(text) and not PHYSICAL_RE.search(text):
+        return []
+    return list(dict.fromkeys(strong + list(obj_counts)))
+
+
 def load_euroscivoc(zf: zipfile.ZipFile, kept: set[str]) -> tuple[dict[str, list[str]], set[str]]:
     """Return (kept project -> codes, every distinct title and path segment in the file)."""
     per_project: dict[str, list[str]] = {}
     distinct: set[str] = set()
-    for row in read_csv(zf, "euroSciVoc.csv", ("projectID", "euroSciVocPath", "euroSciVocTitle")):
+    for row in read_csv(zf, "euroSciVoc.csv", ("projectID", "euroSciVocPath", "euroSciVocTitle"),
+                       required=("projectID", "euroSciVocTitle")):
         title = (row.get("euroSciVocTitle") or "").strip()
         segments = [s.strip() for s in (row.get("euroSciVocPath") or "").split("/") if s.strip()]
         terms = ([title] if title else []) + segments
@@ -169,7 +203,7 @@ def load_euroscivoc(zf: zipfile.ZipFile, kept: set[str]) -> tuple[dict[str, list
 def load_organisations(zf: zipfile.ZipFile, kept: set[str]) -> dict[str, dict]:
     """Return {project: {'orgs': [names], 'countries': [ISO2]}} with the coordinator first."""
     rows: dict[str, list[tuple[int, str, Optional[str]]]] = {}
-    for n, row in enumerate(read_csv(zf, "organization.csv", ORG_COLUMNS)):
+    for n, row in enumerate(read_csv(zf, "organization.csv", ORG_COLUMNS, required=ORG_COLUMNS)):
         pid = (row.get("projectID") or "").strip()
         if pid not in kept:
             continue
