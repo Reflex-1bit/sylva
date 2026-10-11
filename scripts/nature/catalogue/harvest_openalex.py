@@ -30,12 +30,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from common import RAW_DIR, openalex_licence, today, write_jsonl  # noqa: E402
 
+from scrub import scrub_contacts  # noqa: E402
+
 from app.models.catalogue import RawRecord  # noqa: E402
 from app.models.nature import is_open_licence  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 SCOPE_TERMS_PATH = HERE / "scope_terms.json"
 TERMS_PATH = HERE / "openalex_terms.json"
+OVERRIDES_PATH = HERE / "term_overrides.json"
 OA_DIR = RAW_DIR / "openalex"
 PAGES_DIR = OA_DIR / "pages"
 DISCOVER_DIR = OA_DIR / "discover"
@@ -99,6 +102,13 @@ def http_fetch(url: str, params: Optional[dict] = None) -> tuple:
     return None, {}  # unreachable
 
 
+def atomic_write(path: Path, text: str) -> None:
+    """Write via a temp file and os.replace so a kill never leaves truncated JSON."""
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(text, encoding="utf-8")
+    os.replace(tmp, path)
+
+
 def cache_key(url: str, params: Optional[dict]) -> str:
     """Stable cache key; api_key is excluded so a keyed rerun hits the keyless cache."""
     key_params = {k: v for k, v in (params or {}).items() if k != "api_key"}
@@ -153,7 +163,7 @@ class Client:
             self.reset = int(h["x-ratelimit-reset"])
         if data is not None:
             self.cache_dir.mkdir(parents=True, exist_ok=True)
-            path.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+            atomic_write(path, json.dumps(data, ensure_ascii=False))
         return data, key, False
 
 
@@ -179,16 +189,36 @@ def _squash(text: str) -> str:
     return re.sub(r"[\s\-]+", "", text.lower())
 
 
-def decide_include(display_name: str, terms: list[str]) -> tuple[bool, str]:
-    """Include a keyword when its name contains a scope-term stem (hyphens/spaces ignored)."""
+def load_overrides(path: Path = OVERRIDES_PATH) -> dict:
+    """{"deny_stems": [...], "overrides": {keyword short id: {"include": bool, "reason": str}}}"""
+    if not path.exists():
+        return {"deny_stems": [], "overrides": {}}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def decide_include(
+    display_name: str, terms: list[str], kid: Optional[str] = None, rules: Optional[dict] = None
+) -> tuple[bool, str]:
+    """Decide whether a keyword is in scope.
+
+    Precedence: manual override by keyword id > deny stem (ruling S4-a: purely computational
+    metaheuristics are out of scope) > scope-term stem (hyphens/spaces ignored).
+    """
+    rules = rules or {}
+    if kid is not None and kid in rules.get("overrides", {}):
+        ov = rules["overrides"][kid]
+        return bool(ov["include"]), f"override: {ov['reason']}"
     name = _squash(display_name)
+    for deny in rules.get("deny_stems", []):
+        if _squash(deny) in name:
+            return False, f"deny stem '{deny}' (S4-a: computational, no physical design)"
     for term in list(terms) + EXTRA_STEMS:
         if _squash(term) in name:
             return True, f"name contains scope term '{term}'"
     return False, "no scope term in the name (generic or off-topic keyword)"
 
 
-def discover(client: Client, scope: dict, max_pages: int = 6) -> list[dict]:
+def discover(client: Client, scope: dict, max_pages: int = 6, rules: Optional[dict] = None) -> list[dict]:
     all_terms = scope["biomimicry"] + scope["nbs"]
     found: dict[str, dict] = {}
     for term in all_terms:
@@ -207,7 +237,7 @@ def discover(client: Client, scope: dict, max_pages: int = 6) -> list[dict]:
                 break
     out = []
     for kid, r in sorted(found.items(), key=lambda kv: kv[1].get("works_count", 0)):
-        include, reason = decide_include(r["display_name"], all_terms)
+        include, reason = decide_include(r["display_name"], all_terms, short_id(kid), rules)
         out.append(
             {
                 "id": kid,
@@ -235,7 +265,7 @@ def load_state(path: Path = STATE_PATH) -> dict:
 
 def save_state(state: dict, path: Path = STATE_PATH) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(state, indent=1, ensure_ascii=False), encoding="utf-8")
+    atomic_write(path, json.dumps(state, indent=1, ensure_ascii=False))
 
 
 def keyword_job(kw: dict) -> dict:
@@ -269,6 +299,10 @@ def harvest_job(client: Client, job: dict, state: dict, state_path: Path, per_pa
             "select": SELECT,
         }
         data, key, from_cache = client.get(f"{API}/works", params, cost=job["cost"])
+        if data is None:  # 404: keep the job pending so a rerun retries it
+            entry["error"] = "404"
+            save_state(state, state_path)
+            raise RuntimeError(f"404 for {job['id']}; job left pending")
         results = (data or {}).get("results", [])
         nxt = ((data or {}).get("meta") or {}).get("next_cursor")
         if not from_cache:
@@ -305,6 +339,9 @@ def run_harvest(
 ) -> int:
     """Returns 0 (done or paused on reserve/max-calls) or EXIT_BUDGET (HTTP 429)."""
     state = load_state(state_path)
+    rate = state.get("rate") or {}
+    if client.remaining is None and rate.get("seen_on") == today() and isinstance(rate.get("remaining"), int):
+        client.remaining = rate["remaining"]  # reserve check applies from the first call on resume
     bio_terms = bio_terms if bio_terms is not None else load_scope_terms()["biomimicry"]
     jobs = [keyword_job(k) for k in job_order(keywords, bio_terms)]
     jobs += [search_job(t) for t in (search_terms or [])]
@@ -380,6 +417,8 @@ def work_to_record(work: dict, harvested_on: str) -> Optional[RawRecord]:
     if is_open_licence(lic):
         summary = rebuild_abstract(work.get("abstract_inverted_index"))
         if summary:
+            summary = scrub_contacts(summary) or None
+        if summary:
             summary_licence = lic
 
     insts = [i for a in work.get("authorships") or [] for i in a.get("institutions") or []]
@@ -415,17 +454,31 @@ def work_to_record(work: dict, harvested_on: str) -> Optional[RawRecord]:
 
 
 def normalise(
-    pages_dir: Path = PAGES_DIR, state_path: Path = STATE_PATH, out_path: Path = RECORDS_PATH
+    pages_dir: Path = PAGES_DIR,
+    state_path: Path = STATE_PATH,
+    out_path: Path = RECORDS_PATH,
+    terms: Optional[list[dict]] = None,
 ) -> dict:
+    """Rebuild records offline. `terms` is the keyword list of openalex_terms.json: a work is
+    dropped when it carries an excluded keyword and no included one (so flipping a keyword to
+    include:false also removes the works that only entered through it)."""
     state = load_state(state_path)
+    if terms is None:
+        terms = load_terms_file()["keywords"] if TERMS_PATH.exists() else []
+    in_names = {k["display_name"] for k in terms if k["include"]}
+    out_names = {k["display_name"] for k in terms if not k["include"]} - in_names
     seen: dict[str, RawRecord] = {}
-    skipped = {"type": 0, "invalid": 0, "duplicate": 0}
+    skipped = {"type": 0, "invalid": 0, "duplicate": 0, "out_of_scope": 0}
     for page in sorted(pages_dir.glob("*.json")) if pages_dir.exists() else []:
         harvested_on = state["pages"].get(page.stem, today())
         data = json.loads(page.read_text(encoding="utf-8"))
         for work in data.get("results", []):
             if work.get("type") not in KEEP_TYPES:
                 skipped["type"] += 1
+                continue
+            names = {k.get("display_name") for k in work.get("keywords") or []}
+            if names & out_names and not names & in_names:
+                skipped["out_of_scope"] += 1
                 continue
             try:
                 rec = work_to_record(work, harvested_on)
@@ -498,7 +551,7 @@ def main(argv: Optional[list[str]] = None) -> int:
     if args.command == "discover":
         client = Client(DISCOVER_DIR, api_key=api_key, reserve=args.reserve, max_calls=args.max_calls)
         try:
-            kws = discover(client, load_scope_terms())
+            kws = discover(client, load_scope_terms(), rules=load_overrides())
         except RateLimited as exc:
             print(f"OpenAlex daily budget used; rerun after {exc.reset} s or set OPENALEX_API_KEY", file=sys.stderr)
             return EXIT_BUDGET

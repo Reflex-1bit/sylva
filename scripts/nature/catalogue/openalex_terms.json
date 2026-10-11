@@ -12,8 +12,8 @@
    "id": "https://openalex.org/keywords/biologically-inspired-neural-architecture",
    "display_name": "biologically inspired neural architecture",
    "works_count": 90,
-   "include": true,
-   "reason": "name contains scope term 'biologically inspired'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/agroforestry-innovation",
@@ -26,15 +26,15 @@
    "id": "https://openalex.org/keywords/nature-as-inspiration",
    "display_name": "nature as inspiration",
    "works_count": 96,
-   "include": false,
-   "reason": "no scope term in the name (generic or off-topic keyword)"
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
   },
   {
    "id": "https://openalex.org/keywords/urban-ecological-infrastructure",
    "display_name": "urban ecological infrastructure",
    "works_count": 96,
-   "include": false,
-   "reason": "no scope term in the name (generic or off-topic keyword)"
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
   },
   {
    "id": "https://openalex.org/keywords/cytochrome-p450-mimics",
@@ -47,8 +47,8 @@
    "id": "https://openalex.org/keywords/soil-and-water-bioengineering",
    "display_name": "soil and water bioengineering",
    "works_count": 97,
-   "include": false,
-   "reason": "no scope term in the name (generic or off-topic keyword)"
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
   },
   {
    "id": "https://openalex.org/keywords/homegarden-agroforestry",
@@ -75,8 +75,8 @@
    "id": "https://openalex.org/keywords/biomimetic-computing",
    "display_name": "biomimetic computing",
    "works_count": 99,
-   "include": true,
-   "reason": "name contains scope term 'biomimetic'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/biomimetic-surface-design",
@@ -103,15 +103,15 @@
    "id": "https://openalex.org/keywords/bio-inspired-modeling",
    "display_name": "bio-inspired modeling",
    "works_count": 100,
-   "include": true,
-   "reason": "name contains scope term 'bioinspired'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/nature-inspired-optimisation",
    "display_name": "nature-inspired optimisation",
    "works_count": 100,
-   "include": true,
-   "reason": "name contains scope term 'nature-inspired'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/bionic-prosthetics",
@@ -173,8 +173,8 @@
    "id": "https://openalex.org/keywords/biomimetic-optimization",
    "display_name": "biomimetic optimization",
    "works_count": 104,
-   "include": true,
-   "reason": "name contains scope term 'biomimetic'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/bio-inspired-imaging",
@@ -187,8 +187,8 @@
    "id": "https://openalex.org/keywords/natural-forms-in-design",
    "display_name": "natural forms in design",
    "works_count": 104,
-   "include": false,
-   "reason": "no scope term in the name (generic or off-topic keyword)"
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
   },
   {
    "id": "https://openalex.org/keywords/smallholder-agroforestry",
@@ -320,29 +320,29 @@
    "id": "https://openalex.org/keywords/jungle-rubber",
    "display_name": "jungle rubber",
    "works_count": 115,
-   "include": false,
-   "reason": "no scope term in the name (generic or off-topic keyword)"
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
   },
   {
    "id": "https://openalex.org/keywords/bamboo-inspired-design",
    "display_name": "bamboo-inspired design",
    "works_count": 116,
-   "include": false,
-   "reason": "no scope term in the name (generic or off-topic keyword)"
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
   },
   {
    "id": "https://openalex.org/keywords/bio-inspired-artificial-intelligence",
    "display_name": "bio-inspired artificial intelligence",
    "works_count": 116,
-   "include": true,
-   "reason": "name contains scope term 'bioinspired'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/natural-forms-in-architecture",
    "display_name": "natural forms in architecture",
    "works_count": 116,
-   "include": false,
-   "reason": "no scope term in the name (generic or off-topic keyword)"
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
   },
   {
    "id": "https://openalex.org/keywords/green-infrastructure-policy",
@@ -362,8 +362,8 @@
    "id": "https://openalex.org/keywords/biologically-inspired-features",
    "display_name": "biologically inspired features",
    "works_count": 117,
-   "include": true,
-   "reason": "name contains scope term 'biologically inspired'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/indigenous-agroforestry",
@@ -411,8 +411,8 @@
    "id": "https://openalex.org/keywords/biologically-inspired-cognitive-architectures",
    "display_name": "biologically inspired cognitive architectures",
    "works_count": 120,
-   "include": true,
-   "reason": "name contains scope term 'biologically inspired'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/biomimetic-apatite-formation",
@@ -460,15 +460,15 @@
    "id": "https://openalex.org/keywords/bio-inspired-clustering",
    "display_name": "bio-inspired clustering",
    "works_count": 123,
-   "include": true,
-   "reason": "name contains scope term 'bioinspired'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/advanced-bionics",
    "display_name": "Advanced Bionics",
    "works_count": 123,
-   "include": true,
-   "reason": "name contains scope term 'bionic'"
+   "include": false,
+   "reason": "override: noise: cochlear implant company name, not bio-inspired design"
   },
   {
    "id": "https://openalex.org/keywords/bionic-technology",
@@ -488,15 +488,15 @@
    "id": "https://openalex.org/keywords/wastewater-treatment-wetlands",
    "display_name": "wastewater treatment wetlands",
    "works_count": 124,
-   "include": false,
-   "reason": "no scope term in the name (generic or off-topic keyword)"
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
   },
   {
    "id": "https://openalex.org/keywords/plant-inspired-materials",
    "display_name": "plant-inspired materials",
    "works_count": 126,
-   "include": false,
-   "reason": "no scope term in the name (generic or off-topic keyword)"
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
   },
   {
    "id": "https://openalex.org/keywords/agroforestry-development",
@@ -579,8 +579,8 @@
    "id": "https://openalex.org/keywords/silvoarable-systems",
    "display_name": "silvoarable systems",
    "works_count": 135,
-   "include": false,
-   "reason": "no scope term in the name (generic or off-topic keyword)"
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
   },
   {
    "id": "https://openalex.org/keywords/bio-inspired-swimming",
@@ -614,8 +614,8 @@
    "id": "https://openalex.org/keywords/biomimetic-algorithms",
    "display_name": "biomimetic algorithms",
    "works_count": 139,
-   "include": true,
-   "reason": "name contains scope term 'biomimetic'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/agroforestry-waste",
@@ -656,8 +656,8 @@
    "id": "https://openalex.org/keywords/semi-bionic-extraction",
    "display_name": "semi-bionic extraction",
    "works_count": 142,
-   "include": true,
-   "reason": "name contains scope term 'bionic'"
+   "include": false,
+   "reason": "override: noise: herbal extraction method, not bio-inspired design"
   },
   {
    "id": "https://openalex.org/keywords/agroforestry-indicators",
@@ -684,8 +684,8 @@
    "id": "https://openalex.org/keywords/taungya-system",
    "display_name": "taungya system",
    "works_count": 145,
-   "include": false,
-   "reason": "no scope term in the name (generic or off-topic keyword)"
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
   },
   {
    "id": "https://openalex.org/keywords/bionic-sensors",
@@ -761,8 +761,8 @@
    "id": "https://openalex.org/keywords/cabruca",
    "display_name": "cabruca",
    "works_count": 153,
-   "include": false,
-   "reason": "no scope term in the name (generic or off-topic keyword)"
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
   },
   {
    "id": "https://openalex.org/keywords/sustainable-agroforestry",
@@ -782,8 +782,8 @@
    "id": "https://openalex.org/keywords/biologically-inspired-neural-models",
    "display_name": "biologically inspired neural models",
    "works_count": 155,
-   "include": true,
-   "reason": "name contains scope term 'biologically inspired'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/biomimetic-motion",
@@ -845,8 +845,8 @@
    "id": "https://openalex.org/keywords/bio-inspired-signal-processing",
    "display_name": "bio-inspired signal processing",
    "works_count": 163,
-   "include": true,
-   "reason": "name contains scope term 'bioinspired'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/bioinspired-chemistry",
@@ -894,8 +894,8 @@
    "id": "https://openalex.org/keywords/biomimetic-pattern-recognition",
    "display_name": "biomimetic pattern recognition",
    "works_count": 168,
-   "include": true,
-   "reason": "name contains scope term 'biomimetic'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/bionic-limbs",
@@ -922,8 +922,8 @@
    "id": "https://openalex.org/keywords/plant-inspired-design",
    "display_name": "plant-inspired design",
    "works_count": 171,
-   "include": false,
-   "reason": "no scope term in the name (generic or off-topic keyword)"
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
   },
   {
    "id": "https://openalex.org/keywords/biomimetic-reactions",
@@ -1055,15 +1055,15 @@
    "id": "https://openalex.org/keywords/bio-inspired-security",
    "display_name": "bio-inspired security",
    "works_count": 191,
-   "include": true,
-   "reason": "name contains scope term 'bioinspired'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/bio-inspired-learning",
    "display_name": "bio-inspired learning",
    "works_count": 191,
-   "include": true,
-   "reason": "name contains scope term 'bioinspired'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/biomimetic-total-synthesis",
@@ -1097,8 +1097,8 @@
    "id": "https://openalex.org/keywords/muscle-inspired-actuators",
    "display_name": "muscle-inspired actuators",
    "works_count": 194,
-   "include": false,
-   "reason": "no scope term in the name (generic or off-topic keyword)"
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
   },
   {
    "id": "https://openalex.org/keywords/biomimetic-deposition",
@@ -1111,8 +1111,8 @@
    "id": "https://openalex.org/keywords/artificial-lateral-line",
    "display_name": "artificial lateral line",
    "works_count": 197,
-   "include": false,
-   "reason": "no scope term in the name (generic or off-topic keyword)"
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
   },
   {
    "id": "https://openalex.org/keywords/artificial-cochlea",
@@ -1139,8 +1139,8 @@
    "id": "https://openalex.org/keywords/bio-inspired-optimization-algorithms",
    "display_name": "bio-inspired optimization algorithms",
    "works_count": 199,
-   "include": true,
-   "reason": "name contains scope term 'bioinspired'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/nature-inspired-architecture",
@@ -1216,8 +1216,8 @@
    "id": "https://openalex.org/keywords/ecological-floating-bed",
    "display_name": "ecological floating bed",
    "works_count": 221,
-   "include": false,
-   "reason": "no scope term in the name (generic or off-topic keyword)"
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
   },
   {
    "id": "https://openalex.org/keywords/biomimetic-underwater-vehicle",
@@ -1391,8 +1391,8 @@
    "id": "https://openalex.org/keywords/artificial-compound-eye",
    "display_name": "artificial compound eye",
    "works_count": 289,
-   "include": false,
-   "reason": "no scope term in the name (generic or off-topic keyword)"
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
   },
   {
    "id": "https://openalex.org/keywords/biomimetic-nanoplatform",
@@ -1433,8 +1433,8 @@
    "id": "https://openalex.org/keywords/bio-inspired-communication",
    "display_name": "bio-inspired communication",
    "works_count": 314,
-   "include": true,
-   "reason": "name contains scope term 'bioinspired'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/nature-inspired-technology",
@@ -1461,8 +1461,8 @@
    "id": "https://openalex.org/keywords/artificial-cilia",
    "display_name": "artificial cilia",
    "works_count": 337,
-   "include": false,
-   "reason": "no scope term in the name (generic or off-topic keyword)"
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
   },
   {
    "id": "https://openalex.org/keywords/biomimetic-microstructures",
@@ -1503,8 +1503,8 @@
    "id": "https://openalex.org/keywords/bio-inspired-models",
    "display_name": "bio-inspired models",
    "works_count": 360,
-   "include": true,
-   "reason": "name contains scope term 'bioinspired'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/biomimetic-peptides",
@@ -1636,15 +1636,15 @@
    "id": "https://openalex.org/keywords/nature-inspired-art",
    "display_name": "nature-inspired art",
    "works_count": 423,
-   "include": true,
-   "reason": "name contains scope term 'nature-inspired'"
+   "include": false,
+   "reason": "override: noise: art, not a physical design"
   },
   {
    "id": "https://openalex.org/keywords/bio-inspired-routing",
    "display_name": "bio-inspired routing",
    "works_count": 426,
-   "include": true,
-   "reason": "name contains scope term 'bioinspired'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/nacre-inspired-materials",
@@ -1699,8 +1699,8 @@
    "id": "https://openalex.org/keywords/nature-inspired-computing",
    "display_name": "nature-inspired computing",
    "works_count": 460,
-   "include": true,
-   "reason": "name contains scope term 'nature-inspired'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/bio-inspired-vision",
@@ -1713,8 +1713,8 @@
    "id": "https://openalex.org/keywords/bio-inspired-neural-networks",
    "display_name": "bio-inspired neural networks",
    "works_count": 470,
-   "include": true,
-   "reason": "name contains scope term 'bioinspired'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/bionic-hand",
@@ -1762,8 +1762,8 @@
    "id": "https://openalex.org/keywords/biologically-inspired-learning",
    "display_name": "biologically inspired learning",
    "works_count": 509,
-   "include": true,
-   "reason": "name contains scope term 'biologically inspired'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/bioinspired-coatings",
@@ -1881,8 +1881,8 @@
    "id": "https://openalex.org/keywords/bio-inspired-metaheuristics",
    "display_name": "bio-inspired metaheuristics",
    "works_count": 645,
-   "include": true,
-   "reason": "name contains scope term 'bioinspired'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/biomimetic-architecture",
@@ -1937,8 +1937,8 @@
    "id": "https://openalex.org/keywords/learning-from-nature",
    "display_name": "learning from nature",
    "works_count": 715,
-   "include": false,
-   "reason": "no scope term in the name (generic or off-topic keyword)"
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
   },
   {
    "id": "https://openalex.org/keywords/bio-inspired-systems",
@@ -2021,8 +2021,8 @@
    "id": "https://openalex.org/keywords/nature-inspired-metaheuristics",
    "display_name": "nature-inspired metaheuristics",
    "works_count": 843,
-   "include": true,
-   "reason": "name contains scope term 'nature-inspired'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/traditional-agroforestry-systems",
@@ -2098,8 +2098,8 @@
    "id": "https://openalex.org/keywords/biologically-inspired-models",
    "display_name": "biologically inspired models",
    "works_count": 1037,
-   "include": true,
-   "reason": "name contains scope term 'biologically inspired'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/biomimetic-actuators",
@@ -2119,8 +2119,8 @@
    "id": "https://openalex.org/keywords/natural-climate-solutions",
    "display_name": "natural climate solutions",
    "works_count": 1106,
-   "include": false,
-   "reason": "no scope term in the name (generic or off-topic keyword)"
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
   },
   {
    "id": "https://openalex.org/keywords/bioinspired-synthesis",
@@ -2217,8 +2217,8 @@
    "id": "https://openalex.org/keywords/robotic-fish",
    "display_name": "robotic fish",
    "works_count": 2273,
-   "include": false,
-   "reason": "no scope term in the name (generic or off-topic keyword)"
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
   },
   {
    "id": "https://openalex.org/keywords/bio-inspired-propulsion",
@@ -2280,8 +2280,8 @@
    "id": "https://openalex.org/keywords/bio-inspired-computing",
    "display_name": "bio-inspired computing",
    "works_count": 3567,
-   "include": true,
-   "reason": "name contains scope term 'bioinspired'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/blue-green-infrastructure",
@@ -2336,8 +2336,8 @@
    "id": "https://openalex.org/keywords/bio-inspired-optimization",
    "display_name": "bio-inspired optimization",
    "works_count": 5429,
-   "include": true,
-   "reason": "name contains scope term 'bioinspired'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/retinal-prostheses",
@@ -2371,8 +2371,8 @@
    "id": "https://openalex.org/keywords/nature-inspired-algorithms",
    "display_name": "bio-inspired algorithms",
    "works_count": 14459,
-   "include": true,
-   "reason": "name contains scope term 'bioinspired'"
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
   },
   {
    "id": "https://openalex.org/keywords/bioinspired-design",

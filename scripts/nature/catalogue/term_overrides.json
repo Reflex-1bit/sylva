@@ -1,0 +1,233 @@
+{
+ "_note": "Manual decisions that survive discover reruns. Precedence: overrides (OpenAlex keyword short id) > deny_stems (ruling S4-a) > scope-term stems.",
+ "deny_stems": [
+  "algorithm",
+  "optimi",
+  "metaheuristic",
+  "neural",
+  "computing",
+  "learning",
+  "routing",
+  "extraction",
+  "pattern recognition",
+  "cognitive",
+  "clustering",
+  "artificial intelligence",
+  "signal processing",
+  "advanced bionics"
+ ],
+ "overrides": {
+  "nature-inspired-algorithms": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "bio-inspired-optimization": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "bio-inspired-computing": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "nature-inspired-metaheuristics": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "bio-inspired-metaheuristics": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "nature-inspired-computing": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "bio-inspired-optimization-algorithms": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "biomimetic-algorithms": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "nature-inspired-optimisation": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "biomimetic-optimization": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "biomimetic-computing": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "bio-inspired-neural-networks": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "biologically-inspired-neural-models": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "biologically-inspired-neural-architecture": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "bio-inspired-artificial-intelligence": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "biologically-inspired-cognitive-architectures": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "biomimetic-pattern-recognition": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "bio-inspired-clustering": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "bio-inspired-learning": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "biologically-inspired-learning": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "bio-inspired-routing": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "bio-inspired-security": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "bio-inspired-communication": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "bio-inspired-signal-processing": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "bio-inspired-models": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "bio-inspired-modeling": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "biologically-inspired-models": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "biologically-inspired-features": {
+   "include": false,
+   "reason": "S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  "nature-inspired-art": {
+   "include": false,
+   "reason": "noise: art, not a physical design"
+  },
+  "semi-bionic-extraction": {
+   "include": false,
+   "reason": "noise: herbal extraction method, not bio-inspired design"
+  },
+  "advanced-bionics": {
+   "include": false,
+   "reason": "noise: cochlear implant company name, not bio-inspired design"
+  },
+  "plant-inspired-design": {
+   "include": true,
+   "reason": "in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  "plant-inspired-materials": {
+   "include": true,
+   "reason": "in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  "bamboo-inspired-design": {
+   "include": true,
+   "reason": "in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  "muscle-inspired-actuators": {
+   "include": true,
+   "reason": "in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  "natural-forms-in-architecture": {
+   "include": true,
+   "reason": "in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  "natural-forms-in-design": {
+   "include": true,
+   "reason": "in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  "learning-from-nature": {
+   "include": true,
+   "reason": "in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  "nature-as-inspiration": {
+   "include": true,
+   "reason": "in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  "robotic-fish": {
+   "include": true,
+   "reason": "in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  "artificial-compound-eye": {
+   "include": true,
+   "reason": "in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  "artificial-cilia": {
+   "include": true,
+   "reason": "in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  "artificial-lateral-line": {
+   "include": true,
+   "reason": "in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  "soil-and-water-bioengineering": {
+   "include": true,
+   "reason": "in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  "natural-climate-solutions": {
+   "include": true,
+   "reason": "in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  "silvopasture": {
+   "include": true,
+   "reason": "in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  "silvoarable-systems": {
+   "include": true,
+   "reason": "in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  "taungya-system": {
+   "include": true,
+   "reason": "in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  "jungle-rubber": {
+   "include": true,
+   "reason": "in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  "cabruca": {
+   "include": true,
+   "reason": "in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  "ecological-floating-bed": {
+   "include": true,
+   "reason": "in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  "wastewater-treatment-wetlands": {
+   "include": true,
+   "reason": "in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  "urban-ecological-infrastructure": {
+   "include": true,
+   "reason": "in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  }
+ }
+}

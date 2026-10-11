@@ -50,6 +50,21 @@ class _Strict(BaseModel):
     model_config = {"extra": "forbid"}
 
 
+# Personal-data hygiene: no contact addresses in stored text. scripts/nature/catalogue/scrub.py
+# removes them; the record validator rejects any that remain. The final label must be alphabetic
+# so ratios such as "mAP@0.5" are not mistaken for addresses.
+EMAIL_RE = re.compile(r"[\w.+%-]+@(?:[\w-]+\.)+[A-Za-z]{2,}")
+OBFUSCATED_EMAIL_RE = re.compile(
+    r"[\w.+%-]+\s*[\[({]\s*at\s*[\])}]\s*(?:[\w-]+\s*(?:\.|[\[({]\s*dot\s*[\])}])\s*)+[A-Za-z]{2,}",
+    re.I,
+)
+MAILTO_RE = re.compile(r"mailto:\S*", re.I)
+
+
+def contains_contact(text: str) -> bool:
+    return bool(EMAIL_RE.search(text) or OBFUSCATED_EMAIL_RE.search(text) or MAILTO_RE.search(text))
+
+
 # ── Shared pieces ─────────────────────────────────────────────────────────────
 
 
@@ -89,6 +104,8 @@ class _RecordCore(_Strict):
         # R3: a summary is stored only when its licence passes the open-licence gate.
         if self.summary is not None and not is_open_licence(self.summary_licence):
             raise ValueError("summary is allowed only under a CC BY or CC0 summary_licence")
+        if self.summary is not None and contains_contact(self.summary):
+            raise ValueError("summary must not contain an email address or mailto link")
         # The id prefix must agree with the source.
         prefix = self.id.split("-", 1)[0]
         if _ID_PREFIX_SOURCE[prefix] != self.source:
