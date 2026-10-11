@@ -1,0 +1,60 @@
+{
+  "version": "2026-10-11",
+  "notes": "Area rules for build.py step 2. A record's area is the function_group_to_area of its top taxonomy function; when no function hits, the area with the most distinct whole-word keyword hits wins (ties go to the earlier area in taxonomy.json); no hit gives null. function_group_to_area is the same mapping as scripts/nature/harvest_openalex.py GROUP_AREA. Keywords are strong, whole-word or phrase terms only.",
+  "function_group_to_area": {
+    "manage-water": "process",
+    "manage-heat": "energy",
+    "manage-air-and-gases": "process",
+    "resist-and-support-loads": "form",
+    "protect-surfaces": "materials",
+    "attach-and-join": "form",
+    "make-and-assemble": "materials",
+    "break-down-and-recycle": "circularity",
+    "sense-and-respond": "systems",
+    "move-efficiently": "form",
+    "sustain-ecosystems": "place",
+    "optimise-systems": "systems"
+  },
+  "keywords": {
+    "form": [
+      "shape optimisation", "shape optimization", "topology optimisation", "topology optimization",
+      "morphology", "geometry", "geometric design", "lattice structure", "origami", "kirigami",
+      "fractal", "tessellation", "locomotion", "biomechanics", "structural design", "hierarchical structure",
+      "morfologia", "geometria", "locomocion"
+    ],
+    "process": [
+      "biomineralisation", "biomineralization", "biocatalysis", "biosynthesis", "fermentation",
+      "green synthesis", "aqueous synthesis", "enzymatic", "photosynthesis", "artificial photosynthesis",
+      "bioprocess", "biomanufacturing", "sintesis verde", "fermentacion"
+    ],
+    "materials": [
+      "material", "materials", "composite", "composites", "coating", "coatings", "fibre", "fiber",
+      "polymer", "polymers", "hydrogel", "hydrogels", "biomaterial", "biomaterials", "biopolymer",
+      "bioplastic", "biocomposite", "nanocomposite", "scaffold", "scaffolds", "adhesive", "ceramic",
+      "cellulose", "chitosan", "material compuesto", "materiales", "recubrimiento", "polimero", "fibra"
+    ],
+    "energy": [
+      "energy harvesting", "solar", "solar cell", "photovoltaic", "thermal", "battery", "batteries",
+      "supercapacitor", "fuel cell", "hydrogen", "energy storage", "energy efficiency", "heat transfer",
+      "wind turbine", "energy saving", "triboelectric", "piezoelectric",
+      "energia", "eficiencia energetica", "fotovoltaica", "bateria", "almacenamiento de energia"
+    ],
+    "circularity": [
+      "recycling", "recycled", "recyclable", "biodegradable", "biodegradation", "waste", "reuse",
+      "circular economy", "upcycling", "compostable", "valorisation", "valorization", "life cycle assessment",
+      "end of life", "by product", "reciclaje", "reciclado", "residuos", "economia circular"
+    ],
+    "systems": [
+      "swarm", "swarm intelligence", "optimisation algorithm", "optimization algorithm", "metaheuristic",
+      "neural network", "neuromorphic", "multi agent", "network", "networks", "supply chain", "industrial symbiosis",
+      "ecosystem services", "control system", "decision support", "algoritmo", "red neuronal", "cadena de suministro"
+    ],
+    "place": [
+      "urban", "landscape", "restoration", "wetland", "wetlands", "catchment", "watershed", "river",
+      "floodplain", "green infrastructure", "nature based solution", "nature based solutions", "green roof",
+      "green roofs", "rewilding", "reforestation", "afforestation", "habitat", "biodiversity", "coastal",
+      "ecosystem restoration", "land use", "urbano", "paisaje", "restauracion", "humedal", "cuenca",
+      "infraestructura verde", "soluciones basadas en la naturaleza", "biodiversidad"
+    ]
+  }
+}
