@@ -67,3 +67,9 @@ scripts/nature/.cache/
 # Nature review workflow files (local, not served). data/nature/index/ stays committable.
 data/nature/library_staging.json
 data/nature/review_log.jsonl
+
+# Open Nature Catalogue: raw harvests, generated build, harvest cache
+data/nature/catalogue/raw/
+data/nature/catalogue/build/*
+!data/nature/catalogue/build/manifest.json
+scripts/nature/catalogue/.cache/

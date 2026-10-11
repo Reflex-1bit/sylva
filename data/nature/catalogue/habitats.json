@@ -1,0 +1,292 @@
+{
+  "version": "2026-10-11",
+  "habitats": [
+    {
+      "id": "marine",
+      "label_en": "Marine",
+      "label_es": "Marino",
+      "label_pt": "Marinho",
+      "keywords_en": [
+        "shark",
+        "mussel",
+        "coral",
+        "sponge",
+        "nacre",
+        "octopus",
+        "seaweed",
+        "diatom",
+        "squid",
+        "whale",
+        "dolphin",
+        "jellyfish",
+        "barnacle",
+        "kelp",
+        "ocean",
+        "reef",
+        "starfish",
+        "sea urchin",
+        "oyster",
+        "marine"
+      ],
+      "gbif_classes": []
+    },
+    {
+      "id": "coastal",
+      "label_en": "Coastal",
+      "label_es": "Costero",
+      "label_pt": "Costeiro",
+      "keywords_en": [
+        "mangrove",
+        "dune",
+        "estuary",
+        "saltmarsh",
+        "salt marsh",
+        "seagrass",
+        "shoreline",
+        "beach",
+        "coastal",
+        "lagoon",
+        "tidal"
+      ],
+      "gbif_classes": []
+    },
+    {
+      "id": "freshwater",
+      "label_en": "Freshwater",
+      "label_es": "Agua dulce",
+      "label_pt": "Água doce",
+      "keywords_en": [
+        "river",
+        "lake",
+        "stream",
+        "trout",
+        "salmon",
+        "freshwater",
+        "riparian",
+        "pond",
+        "carp",
+        "otter",
+        "beaver"
+      ],
+      "gbif_classes": []
+    },
+    {
+      "id": "wetland",
+      "label_en": "Wetland",
+      "label_es": "Humedal",
+      "label_pt": "Zona húmida",
+      "keywords_en": [
+        "wetland",
+        "marsh",
+        "bog",
+        "fen",
+        "peatland",
+        "swamp",
+        "reed bed",
+        "floodplain",
+        "reed",
+        "frog"
+      ],
+      "gbif_classes": [
+        "Amphibia"
+      ]
+    },
+    {
+      "id": "forest",
+      "label_en": "Forest",
+      "label_es": "Bosque",
+      "label_pt": "Floresta",
+      "keywords_en": [
+        "forest",
+        "tree",
+        "woodland",
+        "canopy",
+        "timber",
+        "oak",
+        "pine",
+        "beech",
+        "bark",
+        "leaf",
+        "wood"
+      ],
+      "gbif_classes": []
+    },
+    {
+      "id": "dehesa-savanna",
+      "label_en": "Dehesa and savanna",
+      "label_es": "Dehesa y sabana",
+      "label_pt": "Montado e savana",
+      "keywords_en": [
+        "dehesa",
+        "montado",
+        "savanna",
+        "savannah",
+        "agroforestry",
+        "cork oak",
+        "holm oak",
+        "silvopastoral",
+        "iberian lynx",
+        "pastureland"
+      ],
+      "gbif_classes": []
+    },
+    {
+      "id": "grassland",
+      "label_en": "Grassland",
+      "label_es": "Pradera",
+      "label_pt": "Pastagem",
+      "keywords_en": [
+        "grassland",
+        "meadow",
+        "prairie",
+        "steppe",
+        "pasture",
+        "grass",
+        "lawn",
+        "rangeland"
+      ],
+      "gbif_classes": []
+    },
+    {
+      "id": "mountain",
+      "label_en": "Mountain",
+      "label_es": "Montaña",
+      "label_pt": "Montanha",
+      "keywords_en": [
+        "mountain",
+        "alpine",
+        "highland",
+        "montane",
+        "glacier",
+        "cliff",
+        "chamois",
+        "ibex",
+        "marmot"
+      ],
+      "gbif_classes": []
+    },
+    {
+      "id": "arid",
+      "label_en": "Arid and desert",
+      "label_es": "Zona árida",
+      "label_pt": "Zona árida",
+      "keywords_en": [
+        "desert",
+        "arid",
+        "drought",
+        "dryland",
+        "cactus",
+        "succulent",
+        "camel",
+        "beetle fog",
+        "semi-arid",
+        "oasis",
+        "scorpion",
+        "lizard"
+      ],
+      "gbif_classes": []
+    },
+    {
+      "id": "soil",
+      "label_en": "Soil",
+      "label_es": "Suelo",
+      "label_pt": "Solo",
+      "keywords_en": [
+        "soil",
+        "earthworm",
+        "fungi",
+        "mycorrhiza",
+        "mycelium",
+        "humus",
+        "termite",
+        "ant",
+        "compost",
+        "microbiome",
+        "root"
+      ],
+      "gbif_classes": []
+    },
+    {
+      "id": "urban",
+      "label_en": "Urban",
+      "label_es": "Urbano",
+      "label_pt": "Urbano",
+      "keywords_en": [
+        "urban",
+        "city",
+        "green roof",
+        "green wall",
+        "park",
+        "street tree",
+        "pigeon",
+        "swift",
+        "sparrow",
+        "urban nature"
+      ],
+      "gbif_classes": []
+    },
+    {
+      "id": "pollinators",
+      "label_en": "Pollinators",
+      "label_es": "Polinizadores",
+      "label_pt": "Polinizadores",
+      "keywords_en": [
+        "bee",
+        "bumblebee",
+        "butterfly",
+        "moth",
+        "hoverfly",
+        "pollinat",
+        "pollen",
+        "honeybee",
+        "wasp",
+        "beetle",
+        "nectar"
+      ],
+      "gbif_classes": []
+    },
+    {
+      "id": "birds",
+      "label_en": "Birds",
+      "label_es": "Aves",
+      "label_pt": "Aves",
+      "keywords_en": [
+        "bird",
+        "owl",
+        "eagle",
+        "kingfisher",
+        "woodpecker",
+        "hummingbird",
+        "feather",
+        "penguin",
+        "falcon",
+        "gull",
+        "swallow",
+        "vulture",
+        "beak"
+      ],
+      "gbif_classes": [
+        "Aves"
+      ]
+    },
+    {
+      "id": "polar",
+      "label_en": "Polar",
+      "label_es": "Polar",
+      "label_pt": "Polar",
+      "keywords_en": [
+        "polar",
+        "arctic",
+        "antarctic",
+        "penguin",
+        "polar bear",
+        "ice",
+        "tundra",
+        "krill",
+        "seal",
+        "permafrost"
+      ],
+      "gbif_classes": []
+    }
+  ]
+}
