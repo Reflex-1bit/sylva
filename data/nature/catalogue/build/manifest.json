@@ -1,0 +1,1477 @@
+{
+ "version": "2026-10-11",
+ "generated_on": "2026-10-11",
+ "licence": "CC-BY-4.0",
+ "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+ "attribution": "Sylva - Open Nature Catalogue, CC BY 4.0. Sources: OpenAlex (CC0); CORDIS (© European Union, CC BY 4.0); Climate-ADAPT (© EEA, CC BY 4.0); GBIF Backbone Taxonomy (CC BY 4.0)",
+ "sources": [
+  {
+   "id": "openalex",
+   "name": "OpenAlex",
+   "count": 98604,
+   "licence": "CC0",
+   "attribution_line": "OpenAlex (CC0)",
+   "url": "https://openalex.org"
+  },
+  {
+   "id": "cordis",
+   "name": "CORDIS",
+   "count": 628,
+   "licence": "CC BY 4.0",
+   "attribution_line": "CORDIS (© European Union, CC BY 4.0)",
+   "url": "https://cordis.europa.eu"
+  },
+  {
+   "id": "climate_adapt",
+   "name": "Climate-ADAPT",
+   "count": 77,
+   "licence": "CC BY 4.0",
+   "attribution_line": "Climate-ADAPT (© EEA, CC BY 4.0)",
+   "url": "https://climate-adapt.eea.europa.eu"
+  },
+  {
+   "id": "gbif",
+   "name": "GBIF Backbone Taxonomy",
+   "count": 11336,
+   "licence": "CC BY 4.0",
+   "attribution_line": "GBIF Backbone Taxonomy (CC BY 4.0)",
+   "url": "https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c"
+  }
+ ],
+ "totals": {
+  "records": 99309,
+  "with_summary": 15319,
+  "with_organism": 11336,
+  "with_group": 14330
+ },
+ "sectors": [
+  {
+   "id": "steel-aluminium",
+   "label_en": "Steel and aluminium",
+   "label_es": "Acero y aluminio",
+   "description": "Applications in making and working steel, aluminium and other metals: alloys, casting, rolling, coatings and metal surfaces.",
+   "count": 13,
+   "chunks": [
+    {
+     "path": "steel-aluminium/chunk-0001.json.gz",
+     "count": 13,
+     "bytes": 4449,
+     "sha256": "8f7666815dbe77ddb64afc52fc211e73205ed544c7263ff4a7e0d6acd37a67b2"
+    }
+   ],
+   "precision": 0.0,
+   "lenient_precision": 0.0,
+   "relevance": 0.6,
+   "n": 5,
+   "precision_warning": true,
+   "low_sample": true
+  },
+  {
+   "id": "construction-materials",
+   "label_en": "Construction materials",
+   "label_es": "Materiales de construcción",
+   "description": "Applications in materials for building and civil works: cement, concrete, bricks, mortar, insulation and self-healing or low-carbon building materials.",
+   "count": 1817,
+   "chunks": [
+    {
+     "path": "construction-materials/chunk-0001.json.gz",
+     "count": 1817,
+     "bytes": 375209,
+     "sha256": "132f3013d3bddf5a1027c31c2924f217af8fcec65aea8ffe7a0ebde2fc7e8806"
+    }
+   ],
+   "precision": 0.2857,
+   "lenient_precision": 0.7143,
+   "relevance": 1.0,
+   "n": 7,
+   "precision_warning": true,
+   "low_sample": true
+  },
+  {
+   "id": "packaging",
+   "label_en": "Packaging",
+   "label_es": "Envases y embalajes",
+   "description": "Applications in packaging and containers for goods and food: films, barriers, biodegradable wraps and protective packs.",
+   "count": 63,
+   "chunks": [
+    {
+     "path": "packaging/chunk-0001.json.gz",
+     "count": 63,
+     "bytes": 12510,
+     "sha256": "da103ce177e8b1dbb8ed00c3b2385c481a7d76d19824c93655e91f0dcaa5172f"
+    }
+   ],
+   "precision": 0.8,
+   "lenient_precision": 1.0,
+   "relevance": 0.5,
+   "n": 5,
+   "precision_warning": false,
+   "low_sample": true
+  },
+  {
+   "id": "cosmetics",
+   "label_en": "Cosmetics",
+   "label_es": "Cosmética",
+   "description": "Applications in personal care and cosmetics: skin and hair products, pigments, fragrances and formulation ingredients.",
+   "count": 15,
+   "chunks": [
+    {
+     "path": "cosmetics/chunk-0001.json.gz",
+     "count": 15,
+     "bytes": 6356,
+     "sha256": "0d20481df581c44d985517d530efbf84e0d981ba0bc4a4a2dd3c9fdb5e10c249"
+    }
+   ],
+   "precision": 1.0,
+   "lenient_precision": 1.0,
+   "relevance": 0.8,
+   "n": 5,
+   "precision_warning": false,
+   "low_sample": true
+  },
+  {
+   "id": "textiles",
+   "label_en": "Textiles",
+   "label_es": "Textil",
+   "description": "Applications in fibres, fabrics, clothing and textile finishing: functional or smart textiles, dyes, fibre spinning and water-repellent cloth.",
+   "count": 261,
+   "chunks": [
+    {
+     "path": "textiles/chunk-0001.json.gz",
+     "count": 261,
+     "bytes": 56791,
+     "sha256": "261984cd552a170cc41b6222da92404fef89201bc3bec134851be48f9819096a"
+    }
+   ],
+   "precision": 0.8,
+   "lenient_precision": 0.8,
+   "relevance": 0.6,
+   "n": 5,
+   "precision_warning": false,
+   "low_sample": true
+  },
+  {
+   "id": "automotive",
+   "label_en": "Automotive",
+   "label_es": "Automoción",
+   "description": "Applications in road vehicles and their parts: cars, trucks, tyres, engines, vehicle structures and driver safety systems.",
+   "count": 395,
+   "chunks": [
+    {
+     "path": "automotive/chunk-0001.json.gz",
+     "count": 395,
+     "bytes": 85219,
+     "sha256": "29c99b3de7b34ccf2a5164712fcc42d0a5056d12f4292ee5f9e5a716e07896f0"
+    }
+   ],
+   "precision": 0.6667,
+   "lenient_precision": 1.0,
+   "relevance": 0.8,
+   "n": 6,
+   "precision_warning": true,
+   "low_sample": true
+  },
+  {
+   "id": "energy",
+   "label_en": "Energy",
+   "label_es": "Energía",
+   "description": "Applications in producing, storing or saving energy: solar, wind, batteries, fuel cells, biofuels, heat and power systems.",
+   "count": 2521,
+   "chunks": [
+    {
+     "path": "energy/chunk-0001.json.gz",
+     "count": 2000,
+     "bytes": 369245,
+     "sha256": "1b7471042263fbba878228ef4ae5c1521d402c697e1405b2afa50db1db33865b"
+    },
+    {
+     "path": "energy/chunk-0002.json.gz",
+     "count": 521,
+     "bytes": 96536,
+     "sha256": "3d81800463350bc13dff6e21dfcb62ee2a5eaae29c55332a2fe8394ba2ce476b"
+    }
+   ],
+   "precision": 0.625,
+   "lenient_precision": 0.75,
+   "relevance": 1.0,
+   "n": 8,
+   "precision_warning": true,
+   "low_sample": true
+  },
+  {
+   "id": "agrifood",
+   "label_en": "Agriculture and food",
+   "label_es": "Agroalimentario",
+   "description": "Applications in farming and food production: crops, livestock, soil, pest control, aquaculture and food processing.",
+   "count": 370,
+   "chunks": [
+    {
+     "path": "agrifood/chunk-0001.json.gz",
+     "count": 370,
+     "bytes": 115160,
+     "sha256": "fd0675202b8bec95dabceb75b0e8ac8f847245918fb867c38785b83b0fee4110"
+    }
+   ],
+   "precision": 0.4,
+   "lenient_precision": 0.6,
+   "relevance": 0.5,
+   "n": 5,
+   "precision_warning": true,
+   "low_sample": true
+  },
+  {
+   "id": "water-utilities",
+   "label_en": "Water and waste utilities",
+   "label_es": "Agua (servicios)",
+   "description": "Applications in water supply, treatment and drainage: purification, desalination, membranes, flood and stormwater management, wastewater.",
+   "count": 1280,
+   "chunks": [
+    {
+     "path": "water-utilities/chunk-0001.json.gz",
+     "count": 1280,
+     "bytes": 265651,
+     "sha256": "7ad7f2d83f9bec4a09a3ca28449abe1a6c6cb1b0027db0bd5e4078379cbd3365"
+    }
+   ],
+   "precision": 0.5714,
+   "lenient_precision": 0.5714,
+   "relevance": 0.8,
+   "n": 7,
+   "precision_warning": true,
+   "low_sample": true
+  },
+  {
+   "id": "chemicals",
+   "label_en": "Chemicals",
+   "label_es": "Química",
+   "description": "Applications in chemical and materials processing: polymers, adhesives, catalysts, coatings, separations and bio-based chemicals.",
+   "count": 21428,
+   "chunks": [
+    {
+     "path": "chemicals/chunk-0001.json.gz",
+     "count": 2000,
+     "bytes": 378302,
+     "sha256": "f919898d115fed78f6d6ec437aadf3b070258cbcccd5f4e9709ee48b708d4a1a"
+    },
+    {
+     "path": "chemicals/chunk-0002.json.gz",
+     "count": 2000,
+     "bytes": 457772,
+     "sha256": "18c14b7976dcfd96fa681ecea8576bb67e7de20a15f826b50a1f47601a3bfac8"
+    },
+    {
+     "path": "chemicals/chunk-0003.json.gz",
+     "count": 2000,
+     "bytes": 383715,
+     "sha256": "a8022af63d9480519f5572355dbe186a83a51e8ab57dcce63088c49355240fe8"
+    },
+    {
+     "path": "chemicals/chunk-0004.json.gz",
+     "count": 2000,
+     "bytes": 417745,
+     "sha256": "a740fa423f6d84089aae25f8f25b763154daf0e18e01fcc0d6dcfc7bb04ec925"
+    },
+    {
+     "path": "chemicals/chunk-0005.json.gz",
+     "count": 2000,
+     "bytes": 300027,
+     "sha256": "afa246c98c3ef8a93471cbc6dbe62cc350d4387bb4d27324009e069faa41ffc0"
+    },
+    {
+     "path": "chemicals/chunk-0006.json.gz",
+     "count": 2000,
+     "bytes": 244724,
+     "sha256": "6c8f6450be40ae167a1d3970f48d70d1aa666bab619f77edb6d7ada1a6524c54"
+    },
+    {
+     "path": "chemicals/chunk-0007.json.gz",
+     "count": 2000,
+     "bytes": 346922,
+     "sha256": "f07e9b34b262990a05bf955a4b6cdd42cbdc56f2c9997b8e9002e2ae6428bdb2"
+    },
+    {
+     "path": "chemicals/chunk-0008.json.gz",
+     "count": 2000,
+     "bytes": 369870,
+     "sha256": "74c2049cfa6dc13c1addd6b92aa9c4babf356be5a466076a8aefa7e8b32cc972"
+    },
+    {
+     "path": "chemicals/chunk-0009.json.gz",
+     "count": 2000,
+     "bytes": 256468,
+     "sha256": "982795a4742b31f8a91c07821351671483c9080e107fd16f2fbad7a683d5ef87"
+    },
+    {
+     "path": "chemicals/chunk-0010.json.gz",
+     "count": 2000,
+     "bytes": 210244,
+     "sha256": "a6c0d2a9c2c4ea711ae879a457f3aaaccdf8157dc1e5085278f117eb7c96f887"
+    },
+    {
+     "path": "chemicals/chunk-0011.json.gz",
+     "count": 1428,
+     "bytes": 124431,
+     "sha256": "b6c690436acdd8060674efada10d2e72d7a9fdec24a8800820bd4830befeb17e"
+    }
+   ],
+   "precision": 0.7097,
+   "lenient_precision": 0.8387,
+   "relevance": 0.8148,
+   "n": 31,
+   "precision_warning": false,
+   "low_sample": false
+  },
+  {
+   "id": "health-medical",
+   "label_en": "Health and medical",
+   "label_es": "Salud y medicina",
+   "description": "Applications in human or animal health care: implants, tissue engineering, drug delivery, diagnostics, surgical and dental devices.",
+   "count": 18721,
+   "chunks": [
+    {
+     "path": "health-medical/chunk-0001.json.gz",
+     "count": 2000,
+     "bytes": 650610,
+     "sha256": "ff3663790e0431779ab80b5dde69a8b11948bd0e3f24104965e13b704bd47964"
+    },
+    {
+     "path": "health-medical/chunk-0002.json.gz",
+     "count": 2000,
+     "bytes": 569064,
+     "sha256": "b775d3c6030b84637e1a33bb018302b3d7a57eec5af2ef3077af2a6cb533a649"
+    },
+    {
+     "path": "health-medical/chunk-0003.json.gz",
+     "count": 2000,
+     "bytes": 575656,
+     "sha256": "19e745e6dd5879d60816cd35bc01cbd07bcc9dfaa117a14a067bef22d3367ef1"
+    },
+    {
+     "path": "health-medical/chunk-0004.json.gz",
+     "count": 2000,
+     "bytes": 430680,
+     "sha256": "c60360010a6e8db3e417b079c87b131729d834f1bb55cf5f414e1205182e37f6"
+    },
+    {
+     "path": "health-medical/chunk-0005.json.gz",
+     "count": 2000,
+     "bytes": 320659,
+     "sha256": "f648804d41a995d4740c91e8bade819879efbcedd291421107cbc83e4b254eac"
+    },
+    {
+     "path": "health-medical/chunk-0006.json.gz",
+     "count": 2000,
+     "bytes": 468108,
+     "sha256": "9bb60055b5ad4c9482077881e63005df546be0c0b2eddde17f28d941c628c1e2"
+    },
+    {
+     "path": "health-medical/chunk-0007.json.gz",
+     "count": 2000,
+     "bytes": 610208,
+     "sha256": "8c1ec0727bd467734343e2f3e717f85ae104cecf7330ffcce8335dca7b7fdc72"
+    },
+    {
+     "path": "health-medical/chunk-0008.json.gz",
+     "count": 2000,
+     "bytes": 515679,
+     "sha256": "dd1fdd20edb7e1d9c4cc8005208f33c1fb44dd2bc5982c0109e4755b76fd2021"
+    },
+    {
+     "path": "health-medical/chunk-0009.json.gz",
+     "count": 2000,
+     "bytes": 367164,
+     "sha256": "fcfb8cfe64417f26a4865be41286c2bfab913aa561737702fb8acb1baf4f8d81"
+    },
+    {
+     "path": "health-medical/chunk-0010.json.gz",
+     "count": 721,
+     "bytes": 85462,
+     "sha256": "db27e49dd7ce080025560398c47c36dea0eda81d79692a91789ead8a6071f9f6"
+    }
+   ],
+   "precision": 0.8214,
+   "lenient_precision": 0.8929,
+   "relevance": 0.6316,
+   "n": 28,
+   "precision_warning": false,
+   "low_sample": false
+  },
+  {
+   "id": "electronics-ict",
+   "label_en": "Electronics and ICT",
+   "label_es": "Electrónica y TIC",
+   "description": "Applications in electronics, sensors, computing and communications: chips, displays, photonics, networks and data systems.",
+   "count": 8131,
+   "chunks": [
+    {
+     "path": "electronics-ict/chunk-0001.json.gz",
+     "count": 2000,
+     "bytes": 439504,
+     "sha256": "1a80b895d6a6b691dbc67dd29f7d78695ab099dcfb460333424e851b76862c7c"
+    },
+    {
+     "path": "electronics-ict/chunk-0002.json.gz",
+     "count": 2000,
+     "bytes": 411237,
+     "sha256": "8e68b0d7de29b65122d78292f6dfd5883c74892efcc23528c8548664a307e698"
+    },
+    {
+     "path": "electronics-ict/chunk-0003.json.gz",
+     "count": 2000,
+     "bytes": 397014,
+     "sha256": "abf775174ef64a183d9a4da1d6441a375e9117b8c0fe454213c0a86147ad7d44"
+    },
+    {
+     "path": "electronics-ict/chunk-0004.json.gz",
+     "count": 2000,
+     "bytes": 272808,
+     "sha256": "8055b8f060c160f9ad55ddfb73ab34f00cc7e837b71e72b68912b0e724629217"
+    },
+    {
+     "path": "electronics-ict/chunk-0005.json.gz",
+     "count": 131,
+     "bytes": 14892,
+     "sha256": "ead243da05c1c07d0bb89b97f01859ce770cc35c3d9b0ce1fa6ce4717d31c7ba"
+    }
+   ],
+   "precision": 0.6667,
+   "lenient_precision": 0.7333,
+   "relevance": 0.875,
+   "n": 15,
+   "precision_warning": true,
+   "low_sample": false
+  },
+  {
+   "id": "machinery-robotics",
+   "label_en": "Machinery and robotics",
+   "label_es": "Maquinaria y robótica",
+   "description": "Applications in machines, robots and mechanical systems: actuators, grippers, locomotion, manufacturing equipment and control.",
+   "count": 24044,
+   "chunks": [
+    {
+     "path": "machinery-robotics/chunk-0001.json.gz",
+     "count": 2000,
+     "bytes": 552875,
+     "sha256": "95ab6919dfc7c1277d2548b913f8362b0d8919a33af0103721b8159aab765005"
+    },
+    {
+     "path": "machinery-robotics/chunk-0002.json.gz",
+     "count": 2000,
+     "bytes": 528969,
+     "sha256": "c1f5872b66984078425af42a29b6f8bc3db7bbe966695a4a16f373ca24b9fe74"
+    },
+    {
+     "path": "machinery-robotics/chunk-0003.json.gz",
+     "count": 2000,
+     "bytes": 371839,
+     "sha256": "d4894f3023c8556d54352968aeec6edbf067ff7c8ceb721adb9cda0a6a1d2eca"
+    },
+    {
+     "path": "machinery-robotics/chunk-0004.json.gz",
+     "count": 2000,
+     "bytes": 261818,
+     "sha256": "c05799f80b82cb130786f04cee016981e56e3eae8a2ead536a6af5084a6d4190"
+    },
+    {
+     "path": "machinery-robotics/chunk-0005.json.gz",
+     "count": 2000,
+     "bytes": 484641,
+     "sha256": "94d49c146d5b141dfa06f58643b2aa8c0ddcdc8da44b26bd7c1a9305b585d528"
+    },
+    {
+     "path": "machinery-robotics/chunk-0006.json.gz",
+     "count": 2000,
+     "bytes": 331171,
+     "sha256": "6137cce0060c9d5a8a25a3105152e10ceef229e518a99cba72e998a0348ab7e6"
+    },
+    {
+     "path": "machinery-robotics/chunk-0007.json.gz",
+     "count": 2000,
+     "bytes": 316891,
+     "sha256": "7eb534f752a41721708ba0a30f2ee2058e1da9e76f9835cddc36b616d7b542a2"
+    },
+    {
+     "path": "machinery-robotics/chunk-0008.json.gz",
+     "count": 2000,
+     "bytes": 606618,
+     "sha256": "d500b81a9804d078814f78edf3ef192454307a957615c49383065c9da085a79e"
+    },
+    {
+     "path": "machinery-robotics/chunk-0009.json.gz",
+     "count": 2000,
+     "bytes": 353769,
+     "sha256": "5ffef0d44339575b2e04d8a7ced59ff1c59769c307c6f066d1f4e73ad69d55ab"
+    },
+    {
+     "path": "machinery-robotics/chunk-0010.json.gz",
+     "count": 2000,
+     "bytes": 387480,
+     "sha256": "3a0f6f749c442c0e4433eb5ff815d3c2a23ec9447054569d8895b885338a894e"
+    },
+    {
+     "path": "machinery-robotics/chunk-0011.json.gz",
+     "count": 2000,
+     "bytes": 267904,
+     "sha256": "b52485e2fb6a77ae78a20d154a1f7d13263dc7ce32b0f1fc9d9ec77c56343be5"
+    },
+    {
+     "path": "machinery-robotics/chunk-0012.json.gz",
+     "count": 2000,
+     "bytes": 194525,
+     "sha256": "e68dfadea9f62f2f158592cd7b7dd3fdc1dd5f1b18275737ecf12bc2eb51f5f7"
+    },
+    {
+     "path": "machinery-robotics/chunk-0013.json.gz",
+     "count": 44,
+     "bytes": 5152,
+     "sha256": "11757a2392e95c7dfdb93e52346691454c723660a6aee56feefe54adf40a17a5"
+    }
+   ],
+   "precision": 0.5,
+   "lenient_precision": 0.6471,
+   "relevance": 0.8966,
+   "n": 34,
+   "precision_warning": true,
+   "low_sample": false
+  },
+  {
+   "id": "aerospace-transport",
+   "label_en": "Aerospace and transport",
+   "label_es": "Aeroespacial y transporte",
+   "description": "Applications in aircraft, spacecraft, ships and rail: aerodynamics, flight, propulsion, hull and structural design for moving people or goods.",
+   "count": 6948,
+   "chunks": [
+    {
+     "path": "aerospace-transport/chunk-0001.json.gz",
+     "count": 2000,
+     "bytes": 427174,
+     "sha256": "129b513173d2b08887be61c624686dc724836898f9c166b76f6a1307bae03ac7"
+    },
+    {
+     "path": "aerospace-transport/chunk-0002.json.gz",
+     "count": 2000,
+     "bytes": 433160,
+     "sha256": "769c5a47062c0f4e67328e243e16e9615e8ac5ba8b372c913eb066538220426a"
+    },
+    {
+     "path": "aerospace-transport/chunk-0003.json.gz",
+     "count": 2000,
+     "bytes": 315265,
+     "sha256": "a0d498598f3d8c653ea6270177e1a84f0e2df4ab246ff2971e71fba302b244d9"
+    },
+    {
+     "path": "aerospace-transport/chunk-0004.json.gz",
+     "count": 948,
+     "bytes": 91599,
+     "sha256": "b8ce3acc07e9aa6bbed5efdc928aa4671e89aaaa10ede74fe61807b34391ddb2"
+    }
+   ],
+   "precision": 0.6154,
+   "lenient_precision": 0.9231,
+   "relevance": 1.0,
+   "n": 13,
+   "precision_warning": true,
+   "low_sample": false
+  },
+  {
+   "id": "buildings-architecture",
+   "label_en": "Buildings and architecture",
+   "label_es": "Edificios y arquitectura",
+   "description": "Applications in the design and operation of buildings and urban spaces: ventilation, cooling, facades, structures and nature-based urban design.",
+   "count": 5002,
+   "chunks": [
+    {
+     "path": "buildings-architecture/chunk-0001.json.gz",
+     "count": 2000,
+     "bytes": 445594,
+     "sha256": "ae76ea11029ddc504575e626b8c3230ff006b0fd33c18b2e7fb320fd5bbbf61b"
+    },
+    {
+     "path": "buildings-architecture/chunk-0002.json.gz",
+     "count": 2000,
+     "bytes": 390944,
+     "sha256": "99b0a071244f8c72b778468e87705c17a95ff4465f770d578bd9f69db33f8a2a"
+    },
+    {
+     "path": "buildings-architecture/chunk-0003.json.gz",
+     "count": 1002,
+     "bytes": 98774,
+     "sha256": "074e5074bfe4313bf833d83ab942fcbd4c6b66c9790da52214b82c180e34f08c"
+    }
+   ],
+   "precision": 0.6364,
+   "lenient_precision": 0.6364,
+   "relevance": 1.0,
+   "n": 11,
+   "precision_warning": true,
+   "low_sample": false
+  },
+  {
+   "id": "other",
+   "label_en": "Other",
+   "label_es": "Otros",
+   "description": "Bio-inspired or nature-based work whose application area fits none of the sectors above.",
+   "count": 8300,
+   "chunks": [
+    {
+     "path": "other/chunk-0001.json.gz",
+     "count": 2000,
+     "bytes": 417061,
+     "sha256": "fa5ae27c13b9c460ebfffc4235d0c13da2dcf7e4560ac3ee3ad4d0bbb90e8e7c"
+    },
+    {
+     "path": "other/chunk-0002.json.gz",
+     "count": 2000,
+     "bytes": 281421,
+     "sha256": "43558a3d8b76f8fbd7bd08249075b1c12369b3c3954e97af37533711c85f319f"
+    },
+    {
+     "path": "other/chunk-0003.json.gz",
+     "count": 2000,
+     "bytes": 451122,
+     "sha256": "22991eb82f95e2225822908ad8e995f153ed8edfd0ed2f3f63ec1078a1e9ac7e"
+    },
+    {
+     "path": "other/chunk-0004.json.gz",
+     "count": 2000,
+     "bytes": 237917,
+     "sha256": "4b6ed6b26481c3e072436d11c3247dfd70b8f5f903052360806721672baad982"
+    },
+    {
+     "path": "other/chunk-0005.json.gz",
+     "count": 300,
+     "bytes": 27575,
+     "sha256": "edf1355b5beeb95c9784ec7a94153c2a9f430ebcd2928d6147956e1837022a4e"
+    }
+   ],
+   "precision": 0.5714,
+   "lenient_precision": 0.5714,
+   "relevance": 0.4167,
+   "n": 14,
+   "precision_warning": true,
+   "low_sample": false
+  }
+ ],
+ "spotcheck": {
+  "checked_by": "agent, owner skim pending",
+  "sample_size": 200,
+  "overall": {
+   "n": 199,
+   "precision": 0.6281,
+   "lenient_precision": 0.7487,
+   "relevance": 0.7871,
+   "n_relevance": 155
+  },
+  "rounds": [
+   {
+    "round": 1,
+    "strict": 0.5879,
+    "lenient": 0.7638,
+    "relevance": 0.8344,
+    "note": "before tuning"
+   },
+   {
+    "round": 2,
+    "strict": 0.6281,
+    "lenient": 0.7487,
+    "relevance": 0.7871,
+    "note": "fresh sample after tuning; published figure"
+   }
+  ]
+ },
+ "areas": [
+  {
+   "id": "form",
+   "label": "Form"
+  },
+  {
+   "id": "process",
+   "label": "Process"
+  },
+  {
+   "id": "materials",
+   "label": "Materials"
+  },
+  {
+   "id": "energy",
+   "label": "Energy"
+  },
+  {
+   "id": "circularity",
+   "label": "Circularity"
+  },
+  {
+   "id": "systems",
+   "label": "Systems"
+  },
+  {
+   "id": "place",
+   "label": "Place"
+  }
+ ],
+ "habitats": [
+  {
+   "id": "marine",
+   "label": "Marine"
+  },
+  {
+   "id": "coastal",
+   "label": "Coastal"
+  },
+  {
+   "id": "freshwater",
+   "label": "Freshwater"
+  },
+  {
+   "id": "wetland",
+   "label": "Wetland"
+  },
+  {
+   "id": "forest",
+   "label": "Forest"
+  },
+  {
+   "id": "dehesa-savanna",
+   "label": "Dehesa and savanna"
+  },
+  {
+   "id": "grassland",
+   "label": "Grassland"
+  },
+  {
+   "id": "mountain",
+   "label": "Mountain"
+  },
+  {
+   "id": "arid",
+   "label": "Arid and desert"
+  },
+  {
+   "id": "soil",
+   "label": "Soil"
+  },
+  {
+   "id": "urban",
+   "label": "Urban"
+  },
+  {
+   "id": "pollinators",
+   "label": "Pollinators"
+  },
+  {
+   "id": "birds",
+   "label": "Birds"
+  },
+  {
+   "id": "polar",
+   "label": "Polar"
+  }
+ ],
+ "groups": [
+  {
+   "id": "seo-birdlife",
+   "name": "SEO/BirdLife (Sociedad Española de Ornitología)",
+   "country": "ES",
+   "donate_url": "https://seo.org/donaciones/",
+   "every_org_slug": null,
+   "habitats": [
+    "birds",
+    "wetland",
+    "grassland",
+    "coastal"
+   ],
+   "flagship_taxa": [
+    "birds",
+    "steppe birds"
+   ]
+  },
+  {
+   "id": "spea",
+   "name": "SPEA - Sociedade Portuguesa para o Estudo das Aves (BirdLife Portugal)",
+   "country": "PT",
+   "donate_url": "https://spea.pt/como-ajudar/donativos/",
+   "every_org_slug": null,
+   "habitats": [
+    "birds",
+    "coastal",
+    "wetland",
+    "dehesa-savanna"
+   ],
+   "flagship_taxa": [
+    "birds",
+    "seabirds"
+   ]
+  },
+  {
+   "id": "birdlife-international",
+   "name": "BirdLife International",
+   "country": "INT",
+   "donate_url": "https://www.birdlife.org/donate/",
+   "every_org_slug": null,
+   "habitats": [
+    "birds"
+   ],
+   "flagship_taxa": [
+    "birds"
+   ]
+  },
+  {
+   "id": "fcq-quebrantahuesos",
+   "name": "Fundación para la Conservación del Quebrantahuesos",
+   "country": "ES",
+   "donate_url": "https://quebrantahuesos.org/colabora-con-la-fcq-2/",
+   "every_org_slug": null,
+   "habitats": [
+    "mountain",
+    "birds"
+   ],
+   "flagship_taxa": [
+    "bearded vulture",
+    "quebrantahuesos",
+    "vultures"
+   ]
+  },
+  {
+   "id": "grefa",
+   "name": "GREFA (Grupo de Rehabilitación de la Fauna Autóctona y su Hábitat)",
+   "country": "ES",
+   "donate_url": "https://www.grefa.org/socios-y-padrinos/opciones-de-colaboracion.html",
+   "every_org_slug": null,
+   "habitats": [
+    "birds",
+    "forest",
+    "dehesa-savanna"
+   ],
+   "flagship_taxa": [
+    "birds of prey",
+    "raptors"
+   ]
+  },
+  {
+   "id": "wwf-espana",
+   "name": "WWF España",
+   "country": "ES",
+   "donate_url": "https://colabora.wwf.es/donacion/dona-ahora-y-ayudanos-proteger-los-bosques",
+   "every_org_slug": null,
+   "habitats": [
+    "forest",
+    "wetland",
+    "marine",
+    "freshwater",
+    "dehesa-savanna"
+   ],
+   "flagship_taxa": [
+    "iberian lynx",
+    "lynx"
+   ]
+  },
+  {
+   "id": "anp-wwf-portugal",
+   "name": "ANP|WWF Portugal",
+   "country": "PT",
+   "donate_url": "https://www.wwf.pt/faz-um-donativo/",
+   "every_org_slug": null,
+   "habitats": [
+    "marine",
+    "freshwater",
+    "forest",
+    "coastal"
+   ],
+   "flagship_taxa": [
+    "iberian lynx",
+    "lynx",
+    "iberian wolf",
+    "wolf",
+    "seahorse"
+   ]
+  },
+  {
+   "id": "grupo-lobo",
+   "name": "Grupo Lobo",
+   "country": "PT",
+   "donate_url": "https://grupolobo.pt/pt/como-ajudar",
+   "every_org_slug": null,
+   "habitats": [
+    "forest",
+    "mountain"
+   ],
+   "flagship_taxa": [
+    "iberian wolf",
+    "wolf"
+   ]
+  },
+  {
+   "id": "fundacion-oso-pardo",
+   "name": "Fundación Oso Pardo",
+   "country": "ES",
+   "donate_url": "https://fundacionosopardo.org/donaciones-legados/",
+   "every_org_slug": null,
+   "habitats": [
+    "forest",
+    "mountain"
+   ],
+   "flagship_taxa": [
+    "brown bear",
+    "cantabrian brown bear"
+   ]
+  },
+  {
+   "id": "lpn",
+   "name": "LPN - Liga para a Protecção da Natureza",
+   "country": "PT",
+   "donate_url": "https://www.lpn.pt/pt/como-apoiar/doe-hoje",
+   "every_org_slug": null,
+   "habitats": [
+    "birds",
+    "wetland",
+    "forest",
+    "grassland"
+   ],
+   "flagship_taxa": [
+    "birds"
+   ]
+  },
+  {
+   "id": "rewilding-portugal",
+   "name": "Rewilding Portugal",
+   "country": "PT",
+   "donate_url": "https://rewilding-portugal.com/contribute/",
+   "every_org_slug": null,
+   "habitats": [
+    "dehesa-savanna",
+    "forest",
+    "grassland",
+    "mountain"
+   ],
+   "flagship_taxa": [
+    "iberian wolf",
+    "vultures",
+    "wild horses"
+   ]
+  },
+  {
+   "id": "faia-brava-atn",
+   "name": "Reserva da Faia Brava (ATN - Associação Transumância e Natureza)",
+   "country": "PT",
+   "donate_url": "https://www.faiabrava.com/en/donativos",
+   "every_org_slug": null,
+   "habitats": [
+    "grassland",
+    "dehesa-savanna",
+    "birds"
+   ],
+   "flagship_taxa": [
+    "vultures",
+    "birds of prey"
+   ]
+  },
+  {
+   "id": "rewilding-europe",
+   "name": "Rewilding Europe",
+   "country": "INT",
+   "donate_url": "https://rewildingeurope.com/get-involved/donate/",
+   "every_org_slug": null,
+   "habitats": [
+    "grassland",
+    "wetland",
+    "forest",
+    "mountain",
+    "freshwater"
+   ],
+   "flagship_taxa": [
+    "european bison",
+    "bison"
+   ]
+  },
+  {
+   "id": "fundacion-global-nature",
+   "name": "Fundación Global Nature",
+   "country": "ES",
+   "donate_url": "https://www.colaboraconlanaturaleza.org/",
+   "every_org_slug": null,
+   "habitats": [
+    "dehesa-savanna",
+    "wetland",
+    "grassland",
+    "freshwater"
+   ],
+   "flagship_taxa": []
+  },
+  {
+   "id": "fnca",
+   "name": "Fundación Nueva Cultura del Agua",
+   "country": "ES",
+   "donate_url": "https://www.fnca.eu/la-fundacion/colabora-con-la-fnca",
+   "every_org_slug": null,
+   "habitats": [
+    "freshwater",
+    "wetland"
+   ],
+   "flagship_taxa": []
+  },
+  {
+   "id": "zero-associacao",
+   "name": "ZERO - Associação Sistema Terrestre Sustentável",
+   "country": "PT",
+   "donate_url": "https://zero.ong/como-agir/fazer-donativo/",
+   "every_org_slug": null,
+   "habitats": [
+    "urban",
+    "coastal",
+    "soil"
+   ],
+   "flagship_taxa": []
+  },
+  {
+   "id": "blue-marine-foundation",
+   "name": "Blue Marine Foundation",
+   "country": "INT",
+   "donate_url": "https://www.bluemarinefoundation.com/donate/",
+   "every_org_slug": null,
+   "habitats": [
+    "marine",
+    "coastal"
+   ],
+   "flagship_taxa": [
+    "sharks"
+   ]
+  },
+  {
+   "id": "shark-trust",
+   "name": "Shark Trust",
+   "country": "INT",
+   "donate_url": "https://www.sharktrust.org/support/donate",
+   "every_org_slug": null,
+   "habitats": [
+    "marine"
+   ],
+   "flagship_taxa": [
+    "sharks",
+    "rays",
+    "shark"
+   ]
+  },
+  {
+   "id": "sea-turtle-conservancy",
+   "name": "Sea Turtle Conservancy",
+   "country": "INT",
+   "donate_url": "https://conserveturtles.org/donate/",
+   "every_org_slug": null,
+   "habitats": [
+    "coastal",
+    "marine"
+   ],
+   "flagship_taxa": [
+    "sea turtles",
+    "sea turtle"
+   ]
+  },
+  {
+   "id": "archelon",
+   "name": "ARCHELON (Sea Turtle Protection Society of Greece)",
+   "country": "GR",
+   "donate_url": "https://archelon.gr/donate",
+   "every_org_slug": null,
+   "habitats": [
+    "marine",
+    "coastal"
+   ],
+   "flagship_taxa": [
+    "sea turtles",
+    "loggerhead turtle"
+   ]
+  },
+  {
+   "id": "mom-monk-seal",
+   "name": "MOm - Hellenic Society for the Study and Protection of the Monk Seal",
+   "country": "GR",
+   "donate_url": "https://el.mom.gr/how-can-i-help",
+   "every_org_slug": null,
+   "habitats": [
+    "marine",
+    "coastal"
+   ],
+   "flagship_taxa": [
+    "mediterranean monk seal",
+    "monk seal"
+   ]
+  },
+  {
+   "id": "surfrider-europe",
+   "name": "Surfrider Foundation Europe",
+   "country": "FR",
+   "donate_url": "https://donate.surfrider.eu/en/donation/",
+   "every_org_slug": null,
+   "habitats": [
+    "coastal",
+    "marine"
+   ],
+   "flagship_taxa": []
+  },
+  {
+   "id": "coral-restoration-foundation",
+   "name": "Coral Restoration Foundation",
+   "country": "US",
+   "donate_url": "https://coralrestoration.org/monthly-donation/",
+   "every_org_slug": null,
+   "habitats": [
+    "marine"
+   ],
+   "flagship_taxa": [
+    "corals",
+    "coral"
+   ]
+  },
+  {
+   "id": "mangrove-action-project",
+   "name": "Mangrove Action Project",
+   "country": "INT",
+   "donate_url": "https://mangroveactionproject.org/donate/",
+   "every_org_slug": null,
+   "habitats": [
+    "coastal",
+    "wetland"
+   ],
+   "flagship_taxa": [
+    "mangroves"
+   ]
+  },
+  {
+   "id": "wetlands-international",
+   "name": "Wetlands International",
+   "country": "INT",
+   "donate_url": "https://www.wetlands.org/donate-to-save-wetlands/",
+   "every_org_slug": null,
+   "habitats": [
+    "wetland",
+    "freshwater",
+    "coastal"
+   ],
+   "flagship_taxa": []
+  },
+  {
+   "id": "wwt",
+   "name": "WWT (Wildfowl & Wetlands Trust)",
+   "country": "GB",
+   "donate_url": "https://www.wwt.org.uk/join-and-support/donate",
+   "every_org_slug": null,
+   "habitats": [
+    "wetland",
+    "birds",
+    "freshwater"
+   ],
+   "flagship_taxa": [
+    "waterbirds"
+   ]
+  },
+  {
+   "id": "euronatur",
+   "name": "EuroNatur",
+   "country": "DE",
+   "donate_url": "https://www.euronatur.org/en/how-you-can-help/donate-for-europes-nature",
+   "every_org_slug": null,
+   "habitats": [
+    "freshwater",
+    "wetland",
+    "forest",
+    "birds"
+   ],
+   "flagship_taxa": [
+    "birds"
+   ]
+  },
+  {
+   "id": "rivers-trust",
+   "name": "The Rivers Trust",
+   "country": "GB",
+   "donate_url": "https://support.theriverstrust.org/donate/donate",
+   "every_org_slug": null,
+   "habitats": [
+    "freshwater"
+   ],
+   "flagship_taxa": []
+  },
+  {
+   "id": "freshwater-habitats-trust",
+   "name": "Freshwater Habitats Trust",
+   "country": "GB",
+   "donate_url": "https://freshwaterhabitats.org.uk/about-us/support-us/donate/",
+   "every_org_slug": null,
+   "habitats": [
+    "freshwater",
+    "wetland"
+   ],
+   "flagship_taxa": []
+  },
+  {
+   "id": "world-land-trust",
+   "name": "World Land Trust",
+   "country": "INT",
+   "donate_url": "https://www.worldlandtrust.org/appeals/",
+   "every_org_slug": null,
+   "habitats": [
+    "forest",
+    "grassland",
+    "wetland"
+   ],
+   "flagship_taxa": []
+  },
+  {
+   "id": "rainforest-trust",
+   "name": "Rainforest Trust",
+   "country": "US",
+   "donate_url": "https://www.rainforesttrust.org/",
+   "every_org_slug": null,
+   "habitats": [
+    "forest"
+   ],
+   "flagship_taxa": []
+  },
+  {
+   "id": "plantlife",
+   "name": "Plantlife",
+   "country": "GB",
+   "donate_url": "https://www.plantlife.org.uk/join-donate/donations/",
+   "every_org_slug": null,
+   "habitats": [
+    "grassland",
+    "forest"
+   ],
+   "flagship_taxa": [
+    "wild plants",
+    "fungi"
+   ]
+  },
+  {
+   "id": "american-prairie",
+   "name": "American Prairie",
+   "country": "US",
+   "donate_url": "https://americanprairie.org/donate/",
+   "every_org_slug": null,
+   "habitats": [
+    "grassland"
+   ],
+   "flagship_taxa": [
+    "bison"
+   ]
+  },
+  {
+   "id": "snow-leopard-trust",
+   "name": "Snow Leopard Trust",
+   "country": "US",
+   "donate_url": "https://donate.snowleopard.org/give/322970",
+   "every_org_slug": null,
+   "habitats": [
+    "mountain"
+   ],
+   "flagship_taxa": [
+    "snow leopard"
+   ]
+  },
+  {
+   "id": "sahara-conservation",
+   "name": "Sahara Conservation",
+   "country": "INT",
+   "donate_url": "https://saharaconservation.org/donate",
+   "every_org_slug": null,
+   "habitats": [
+    "arid"
+   ],
+   "flagship_taxa": [
+    "addax",
+    "scimitar-horned oryx"
+   ]
+  },
+  {
+   "id": "mojave-desert-land-trust",
+   "name": "Mojave Desert Land Trust",
+   "country": "US",
+   "donate_url": "https://www.mdlt.org/donate",
+   "every_org_slug": null,
+   "habitats": [
+    "arid"
+   ],
+   "flagship_taxa": [
+    "desert tortoise"
+   ]
+  },
+  {
+   "id": "savory-institute",
+   "name": "Savory Institute",
+   "country": "US",
+   "donate_url": "https://www.savory.global/donate",
+   "every_org_slug": null,
+   "habitats": [
+    "soil",
+    "grassland"
+   ],
+   "flagship_taxa": []
+  },
+  {
+   "id": "rodale-institute",
+   "name": "Rodale Institute",
+   "country": "US",
+   "donate_url": "https://rodaleinstitute.org/get-involved/donate/",
+   "every_org_slug": null,
+   "habitats": [
+    "soil"
+   ],
+   "flagship_taxa": []
+  },
+  {
+   "id": "butterfly-conservation",
+   "name": "Butterfly Conservation",
+   "country": "GB",
+   "donate_url": "https://butterfly-conservation.org/donate",
+   "every_org_slug": null,
+   "habitats": [
+    "pollinators",
+    "grassland"
+   ],
+   "flagship_taxa": [
+    "butterflies",
+    "moths"
+   ]
+  },
+  {
+   "id": "butterfly-conservation-europe",
+   "name": "Butterfly Conservation Europe",
+   "country": "INT",
+   "donate_url": "https://www.bc-europe.eu/webpage.php?name=support-us",
+   "every_org_slug": null,
+   "habitats": [
+    "pollinators",
+    "grassland"
+   ],
+   "flagship_taxa": [
+    "butterflies"
+   ]
+  },
+  {
+   "id": "bumblebee-conservation-trust",
+   "name": "Bumblebee Conservation Trust",
+   "country": "GB",
+   "donate_url": "https://www.bumblebeeconservation.org/join-and-donate/donate/",
+   "every_org_slug": null,
+   "habitats": [
+    "pollinators",
+    "grassland"
+   ],
+   "flagship_taxa": [
+    "bumblebees",
+    "bees",
+    "bee"
+   ]
+  },
+  {
+   "id": "pollinator-partnership",
+   "name": "Pollinator Partnership",
+   "country": "US",
+   "donate_url": "https://www.pollinator.org/donate",
+   "every_org_slug": null,
+   "habitats": [
+    "pollinators"
+   ],
+   "flagship_taxa": [
+    "bees",
+    "pollinators"
+   ]
+  },
+  {
+   "id": "bat-conservation-international",
+   "name": "Bat Conservation International",
+   "country": "US",
+   "donate_url": "https://donor.batcon.org/page/donate",
+   "every_org_slug": null,
+   "habitats": [
+    "forest",
+    "pollinators"
+   ],
+   "flagship_taxa": [
+    "bats",
+    "bat"
+   ]
+  },
+  {
+   "id": "groundwork-uk",
+   "name": "Groundwork",
+   "country": "GB",
+   "donate_url": "https://www.groundwork.org.uk/donate-now/",
+   "every_org_slug": null,
+   "habitats": [
+    "urban"
+   ],
+   "flagship_taxa": []
+  },
+  {
+   "id": "trees-for-cities",
+   "name": "Trees for Cities",
+   "country": "GB",
+   "donate_url": "https://www.treesforcities.org/get-involved/donate/",
+   "every_org_slug": null,
+   "habitats": [
+    "urban"
+   ],
+   "flagship_taxa": []
+  },
+  {
+   "id": "tcv",
+   "name": "The Conservation Volunteers (TCV)",
+   "country": "GB",
+   "donate_url": "https://www.tcv.org.uk/support/",
+   "every_org_slug": null,
+   "habitats": [
+    "urban",
+    "grassland"
+   ],
+   "flagship_taxa": []
+  },
+  {
+   "id": "polar-bears-international",
+   "name": "Polar Bears International",
+   "country": "INT",
+   "donate_url": "https://polarbearsinternational.org/donate/",
+   "every_org_slug": null,
+   "habitats": [
+    "polar"
+   ],
+   "flagship_taxa": [
+    "polar bear"
+   ]
+  },
+  {
+   "id": "asoc",
+   "name": "Antarctic and Southern Ocean Coalition",
+   "country": "INT",
+   "donate_url": "https://www.asoc.org/give-now/",
+   "every_org_slug": null,
+   "habitats": [
+    "polar",
+    "marine"
+   ],
+   "flagship_taxa": [
+    "penguins",
+    "krill"
+   ]
+  },
+  {
+   "id": "oceanites",
+   "name": "Oceanites",
+   "country": "US",
+   "donate_url": "https://www.oceanites.org/donate",
+   "every_org_slug": null,
+   "habitats": [
+    "polar"
+   ],
+   "flagship_taxa": [
+    "penguins",
+    "penguin"
+   ]
+  }
+ ],
+ "pending": [
+  "OpenAlex nature-based-solution keywords not yet fully harvested: 178 of 288 keyword jobs done, 110 pending (keyless daily budget)",
+  "PatentsView patents deferred (needs USPTO API key)"
+ ],
+ "download_note": "CSV files must keep the attribution line with them."
+}
