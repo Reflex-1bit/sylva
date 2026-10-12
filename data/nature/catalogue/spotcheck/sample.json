@@ -1,0 +1,24 @@
+{
+  "seed": 11,
+  "n": 200,
+  "source_file": "sorted.jsonl",
+  "source_sha256": "de0513d7a5f2440eef1d5efb5085bdc2f73a41853a0a4397e6c90fd0f998a043",
+  "counts": {
+    "aerospace-transport": 15,
+    "agrifood": 6,
+    "automotive": 6,
+    "buildings-architecture": 11,
+    "chemicals": 34,
+    "construction-materials": 7,
+    "cosmetics": 5,
+    "electronics-ict": 16,
+    "energy": 8,
+    "health-medical": 30,
+    "machinery-robotics": 31,
+    "other": 9,
+    "packaging": 5,
+    "steel-aluminium": 5,
+    "textiles": 5,
+    "water-utilities": 7
+  }
+}

@@ -7,6 +7,7 @@
       "label_en": "Steel and aluminium",
       "label_es": "Acero y aluminio",
       "label_pt": "Aço e alumínio",
+      "description": "Applications in making and working steel, aluminium and other metals: alloys, casting, rolling, coatings and metal surfaces.",
       "nace_rev21_divisions": [
         "24"
       ],
@@ -55,6 +56,7 @@
       "label_en": "Construction materials",
       "label_es": "Materiales de construcción",
       "label_pt": "Materiais de construção",
+      "description": "Applications in materials for building and civil works: cement, concrete, bricks, mortar, insulation and self-healing or low-carbon building materials.",
       "nace_rev21_divisions": [
         "23",
         "41",
@@ -114,6 +116,7 @@
       "label_en": "Packaging",
       "label_es": "Envases y embalajes",
       "label_pt": "Embalagens",
+      "description": "Applications in packaging and containers for goods and food: films, barriers, biodegradable wraps and protective packs.",
       "nace_rev21_divisions": [
         "17",
         "22"
@@ -167,6 +170,7 @@
       "label_en": "Cosmetics",
       "label_es": "Cosmética",
       "label_pt": "Cosmética",
+      "description": "Applications in personal care and cosmetics: skin and hair products, pigments, fragrances and formulation ingredients.",
       "nace_rev21_divisions": [
         "20"
       ],
@@ -213,6 +217,7 @@
       "label_en": "Textiles",
       "label_es": "Textil",
       "label_pt": "Têxteis",
+      "description": "Applications in fibres, fabrics, clothing and textile finishing: functional or smart textiles, dyes, fibre spinning and water-repellent cloth.",
       "nace_rev21_divisions": [
         "13",
         "14"
@@ -268,6 +273,7 @@
       "label_en": "Automotive",
       "label_es": "Automoción",
       "label_pt": "Automóvel",
+      "description": "Applications in road vehicles and their parts: cars, trucks, tyres, engines, vehicle structures and driver safety systems.",
       "nace_rev21_divisions": [
         "29"
       ],
@@ -326,6 +332,7 @@
       "label_en": "Energy",
       "label_es": "Energía",
       "label_pt": "Energia",
+      "description": "Applications in producing, storing or saving energy: solar, wind, batteries, fuel cells, biofuels, heat and power systems.",
       "nace_rev21_divisions": [
         "35"
       ],
@@ -396,6 +403,7 @@
       "label_en": "Agriculture and food",
       "label_es": "Agroalimentario",
       "label_pt": "Agricultura e alimentação",
+      "description": "Applications in farming and food production: crops, livestock, soil, pest control, aquaculture and food processing.",
       "nace_rev21_divisions": [
         "01",
         "10",
@@ -466,6 +474,7 @@
       "label_en": "Water and waste utilities",
       "label_es": "Agua (servicios)",
       "label_pt": "Água (serviços)",
+      "description": "Applications in water supply, treatment and drainage: purification, desalination, membranes, flood and stormwater management, wastewater.",
       "nace_rev21_divisions": [
         "36",
         "37"
@@ -508,6 +517,7 @@
       "label_en": "Chemicals",
       "label_es": "Química",
       "label_pt": "Química",
+      "description": "Applications in chemical and materials processing: polymers, adhesives, catalysts, coatings, separations and bio-based chemicals.",
       "nace_rev21_divisions": [
         "20"
       ],
@@ -587,6 +597,7 @@
       "label_en": "Health and medical",
       "label_es": "Salud y medicina",
       "label_pt": "Saúde e medicina",
+      "description": "Applications in human or animal health care: implants, tissue engineering, drug delivery, diagnostics, surgical and dental devices.",
       "nace_rev21_divisions": [
         "21",
         "32.5",
@@ -709,6 +720,7 @@
       "label_en": "Electronics and ICT",
       "label_es": "Electrónica y TIC",
       "label_pt": "Eletrónica e TIC",
+      "description": "Applications in electronics, sensors, computing and communications: chips, displays, photonics, networks and data systems.",
       "nace_rev21_divisions": [
         "26",
         "61",
@@ -798,6 +810,7 @@
       "label_en": "Machinery and robotics",
       "label_es": "Maquinaria y robótica",
       "label_pt": "Maquinaria e robótica",
+      "description": "Applications in machines, robots and mechanical systems: actuators, grippers, locomotion, manufacturing equipment and control.",
       "nace_rev21_divisions": [
         "28"
       ],
@@ -875,6 +888,7 @@
       "label_en": "Aerospace and transport",
       "label_es": "Aeroespacial y transporte",
       "label_pt": "Aeroespacial e transportes",
+      "description": "Applications in aircraft, spacecraft, ships and rail: aerodynamics, flight, propulsion, hull and structural design for moving people or goods.",
       "nace_rev21_divisions": [
         "30",
         "49",
@@ -947,6 +961,7 @@
       "label_en": "Buildings and architecture",
       "label_es": "Edificios y arquitectura",
       "label_pt": "Edifícios e arquitetura",
+      "description": "Applications in the design and operation of buildings and urban spaces: ventilation, cooling, facades, structures and nature-based urban design.",
       "nace_rev21_divisions": [
         "41",
         "42",
@@ -1013,6 +1028,7 @@
       "label_en": "Forestry and fisheries",
       "label_es": "Silvicultura y pesca",
       "label_pt": "Silvicultura e pescas",
+      "description": "Applications in managing forests, wild fisheries and marine or woodland resources: timber, restoration, stock management and ecosystem-based harvesting.",
       "nace_rev21_divisions": [
         "02",
         "03"
@@ -1075,6 +1091,7 @@
       "label_en": "Waste and recycling",
       "label_es": "Residuos y reciclaje",
       "label_pt": "Resíduos e reciclagem",
+      "description": "Applications in handling waste and recovering materials: recycling, composting, upcycling, circular reuse and cleaning up pollution.",
       "nace_rev21_divisions": [
         "38"
       ],
@@ -1137,6 +1154,7 @@
       "label_en": "Other",
       "label_es": "Otros",
       "label_pt": "Outros",
+      "description": "Bio-inspired or nature-based work whose application area fits none of the sectors above.",
       "nace_rev21_divisions": [],
       "keywords_en": [],
       "keywords_weak_en": [],

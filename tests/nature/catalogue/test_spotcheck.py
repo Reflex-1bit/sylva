@@ -106,6 +106,7 @@ def _hand_csv(tmp, spec):
     for k, (sec, vs, vr) in enumerate(spec):
         rows.append({"id": f"h-{k}", "title": "t", "primary_sector": sec, "verdict_sector": vs, "verdict_relevant": vr})
     sc.write_csv(tmp / "spot" / "spotcheck.csv", rows)
+    (tmp / "spot" / "sample.json").write_text(json.dumps({"seed": 42, "n": len(rows)}), encoding="utf-8")
 
 
 def test_score_math(env):
@@ -171,7 +172,7 @@ def test_packets_blind(env):
         cands = [l for l in block.splitlines() if l.startswith("- candidate sectors:")][0].split(": ", 1)[1].split(", ")
         assert rec["primary_sector"] in cands
         assert set(rec["sector_tags"]) <= set(cands)
-        assert len(cands) <= 1 + len(rec["sector_tags"]) + 2
+        assert len(cands) == sc.CANDIDATES == len(set(cands))
 
 
 def test_packets_no_summary(env):
@@ -216,3 +217,123 @@ def test_merge_unknown_id_errors(env):
     rev = tmp / "rev.csv"
     rev.write_text("id,chosen_sector,verdict_relevant,note\nnope,x,yes,\n", encoding="utf-8")
     assert run(tmp, "merge-verdicts", str(rev)) == 1
+
+
+def test_allocate_proportional_within_one():
+    n = 100
+    counts = sc.allocate(SIZES, n)
+    floors = {s: min(5, sz) for s, sz in SIZES.items()}
+    capped = {SECTOR_IDS[4]}  # size 3: floor takes everything
+    active = {s: sz for s, sz in SIZES.items() if s not in capped}
+    remainder = n - sum(floors.values())
+    for s in (SECTOR_IDS[0], SECTOR_IDS[1], SECTOR_IDS[2]):
+        ideal = floors[s] + remainder * SIZES[s] / sum(active.values())
+        assert abs(counts[s] - ideal) <= 1, (s, counts[s], ideal)
+
+
+def test_allocate_floors_exceed_n():
+    counts = sc.allocate({"a": 50, "b": 50, "c": 50}, 10)
+    assert counts == {"a": 5, "b": 5, "c": 5}
+
+
+def test_sample_json(env):
+    tmp, _ = env
+    run(tmp, "sample", "--n", "40", "--seed", "7")
+    meta = json.loads((tmp / "spot" / "sample.json").read_text(encoding="utf-8"))
+    assert meta["seed"] == 7 and meta["n"] == 40 and meta["source_file"] == "sorted.jsonl"
+    assert len(meta["source_sha256"]) == 64 and sum(meta["counts"].values()) == 40
+
+
+def test_score_reads_seed_from_sample_json(env):
+    tmp, _ = env
+    run(tmp, "sample", "--n", "40", "--seed", "7")
+    rows = rows_of(tmp)
+    rows[0]["verdict_sector"] = "ok"
+    sc.write_csv(tmp / "spot" / "spotcheck.csv", rows)
+    assert run(tmp, "score", "--seed", "99") == 0
+    assert json.loads((tmp / "spot" / "results.json").read_text(encoding="utf-8"))["seed"] == 7
+
+
+def test_score_nothing_scored_exits_1(env):
+    tmp, _ = env
+    run(tmp, "sample", "--n", "40")
+    assert run(tmp, "score") == 1
+    assert not (tmp / "spot" / "results.json").exists()
+
+
+def test_score_sector_with_zero_scored_rows(env):
+    tmp, _ = env
+    _hand_csv(tmp, [("a", "ok", "yes"), ("b", "unsure", "")])
+    assert run(tmp, "score") == 0
+    res = json.loads((tmp / "spot" / "results.json").read_text(encoding="utf-8"))
+    b = res["sectors"]["b"]
+    assert b["n"] == 0 and b["precision"] is None and b["lenient_precision"] is None and b["relevance"] is None
+
+
+def test_packet_candidates_shuffled(env):
+    tmp, recs = env
+    run(tmp, "sample", "--n", "100")
+    run(tmp, "packets", "--size", "100")
+    text = (tmp / "spot" / "packets" / "packet-1.md").read_text(encoding="utf-8")
+    by_id = {r["id"]: r for r in recs}
+    pos = set()
+    first = 0
+    for r in rows_of(tmp):
+        block = text.split(f"### {r['id']}\n", 1)[1].split("###", 1)[0]
+        cands = [l for l in block.splitlines() if l.startswith("- candidate sectors:")][0].split(": ", 1)[1].split(", ")
+        i = cands.index(by_id[r["id"]]["primary_sector"])
+        pos.add(i)
+        first += i == 0
+    assert len(pos) >= 4
+    assert first < 50
+
+
+def test_packet_definitions_use_description_not_keywords(env):
+    tmp, _ = env
+    run(tmp, "sample", "--n", "20")
+    run(tmp, "packets")
+    text = (tmp / "spot" / "packets" / "packet-1.md").read_text(encoding="utf-8")
+    assert "keywords:" not in text
+    assert "- `other` - Other: Bio-inspired or nature-based work whose application area fits none" in text
+    for s in sc.load_sectors().sectors:
+        assert s.description and f"`{s.id}`" in text
+
+
+def _reviewer(tmp, rows):
+    rev = tmp / "rev.csv"
+    with rev.open("w", encoding="utf-8", newline="") as fh:
+        w = csv.writer(fh)
+        w.writerow(["id", "chosen_sector", "verdict_relevant", "note"])
+        w.writerows(rows)
+    return str(rev)
+
+
+def test_merge_unknown_sector_exit_1_and_case_normalised(env):
+    tmp, _ = env
+    run(tmp, "sample", "--n", "20")
+    rows = rows_of(tmp)
+    rid = rows[0]["id"]
+    assert run(tmp, "merge-verdicts", _reviewer(tmp, [[rid, "chemical", "yes", ""]])) == 1
+    assert rows_of(tmp)[0]["verdict_sector"] == ""
+    up = rows[0]["primary_sector"].upper()
+    assert run(tmp, "merge-verdicts", _reviewer(tmp, [[rid, f" {up} ", "yes", ""]])) == 0
+    assert rows_of(tmp)[0]["verdict_sector"] == "ok"
+
+
+def test_merge_duplicate_ids_exit_1(env):
+    tmp, _ = env
+    run(tmp, "sample", "--n", "20")
+    rid = rows_of(tmp)[0]["id"]
+    assert run(tmp, "merge-verdicts", _reviewer(tmp, [[rid, "unsure", "", ""], [rid, "unsure", "", ""]])) == 1
+
+
+def test_merge_refuses_filled_without_force(env):
+    tmp, _ = env
+    run(tmp, "sample", "--n", "20")
+    rows = rows_of(tmp)
+    rid, prim = rows[0]["id"], rows[0]["primary_sector"]
+    assert run(tmp, "merge-verdicts", _reviewer(tmp, [[rid, prim, "yes", ""]])) == 0
+    assert run(tmp, "merge-verdicts", _reviewer(tmp, [[rid, "unsure", "no", ""]])) == 1
+    assert rows_of(tmp)[0]["verdict_relevant"] == "yes"
+    assert run(tmp, "merge-verdicts", "--force", _reviewer(tmp, [[rid, "unsure", "no", ""]])) == 0
+    assert rows_of(tmp)[0]["verdict_relevant"] == "no"

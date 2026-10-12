@@ -12,6 +12,7 @@ This file only builds the tooling. Verdicts are filled by a separate reviewer (n
 
 import argparse
 import csv
+import hashlib
 import json
 import random
 import sys
@@ -34,6 +35,8 @@ COLUMNS = [
 SECTOR_VERDICTS = {"ok", "tag", "wrong", "unsure"}
 RELEVANT_VERDICTS = {"yes", "no", "unsure"}
 CHECKED_BY_LABELS = ("agent, owner skim pending", "agent, owner-skimmed")
+
+CANDIDATES = 5
 
 SCOPE_RULE = (
     "In scope = a design, material, process or system that learns from or copies a living thing "
@@ -68,6 +71,21 @@ def stage_file(stage_dir: Path) -> Path:
         if p.exists():
             return p
     raise SpotError(f"no grouped.jsonl or sorted.jsonl in {stage_dir}")
+
+
+def file_sha256(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as fh:
+        for chunk in iter(lambda: fh.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def read_meta(directory: Path) -> dict:
+    p = directory / "sample.json"
+    if not p.exists():
+        raise SpotError(f"{p} not found; run sample first")
+    return json.loads(p.read_text(encoding="utf-8"))
 
 
 def read_stage(path: Path, want_ids: Optional[set] = None) -> list[dict]:
@@ -119,25 +137,47 @@ def _check_values(rows: list[dict]) -> None:
 
 
 def allocate(sizes: dict[str, int], n: int) -> dict[str, int]:
-    """Per-sector counts: max(5, round(n*share)) capped by size, then trimmed or topped up so the
-    total is exactly n, moving the sector furthest from its proportional ideal first (largest
-    remainder). Never goes below min(5, size) when trimming. Every record if fewer than n exist."""
+    """Per-sector sample counts that sum to exactly n (or every record when fewer than n exist).
+
+    1. Reserve a floor f_s = min(5, size_s) for every sector.
+    2. Split the remainder R = n - sum(f_s) over the sectors in proportion to their full size:
+       extra_s = R * size_s / sum(size), capped at size_s - f_s. A sector that hits its cap is fixed
+       there and R is re-split over the rest (water-filling).
+    3. Round the extras by Hamilton's method (floor, then one more to the largest fractional parts,
+       ties by sector id), so count_s = f_s + extra_s and the total is exactly n.
+    If the floors alone exceed n, the floors are returned (total > n).
+    """
     total = sum(sizes.values())
     if total <= n:
         return dict(sizes)
-    ideal = {s: n * sz / total for s, sz in sizes.items()}
-    counts = {s: min(sz, max(5, round(ideal[s]))) for s, sz in sizes.items()}
     floor = {s: min(5, sz) for s, sz in sizes.items()}
-    while sum(counts.values()) > n:
-        cands = [s for s in counts if counts[s] > floor[s]]
-        if not cands:
-            break  # the per-sector minimums alone exceed n
-        s = max(cands, key=lambda k: (counts[k] - ideal[k], k))
-        counts[s] -= 1
-    while sum(counts.values()) < n:
-        cands = [s for s in counts if counts[s] < sizes[s]]
-        s = max(cands, key=lambda k: (ideal[k] - counts[k], k))
-        counts[s] += 1
+    counts = dict(floor)
+    left = n - sum(floor.values())
+    cap = {s: sizes[s] - floor[s] for s in sizes}
+    active = {s for s in sizes if cap[s] > 0}
+    while left > 0 and active:
+        denom = sum(sizes[s] for s in active)
+        over = [s for s in active if left * sizes[s] / denom > cap[s]]
+        if not over:
+            break
+        for s in over:
+            counts[s] += cap[s]
+            left -= cap[s]
+            active.discard(s)
+    if left > 0 and active:
+        denom = sum(sizes[s] for s in active)
+        share = {s: left * sizes[s] / denom for s in active}
+        base = {s: int(share[s]) for s in active}
+        rem = left - sum(base.values())
+        order = sorted(active, key=lambda k: (-(share[k] - base[k]), k))
+        for s in order:
+            if rem <= 0:
+                break
+            if base[s] < cap[s]:
+                base[s] += 1
+                rem -= 1
+        for s in active:
+            counts[s] += base[s]
     return counts
 
 
@@ -182,6 +222,10 @@ def cmd_sample(args) -> int:
     write_csv(out, [to_row(r) for r in picked])
     sizes = Counter(r["primary_sector"] for r in records)
     got = Counter(r["primary_sector"] for r in picked)
+    meta = {"seed": args.seed, "n": args.n, "source_file": src.name, "source_sha256": file_sha256(src),
+            "counts": {s: got[s] for s in sorted(got)}}
+    (args.dir / "sample.json").write_text(
+        json.dumps(meta, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(f"read {len(records)} records from {src.name}; wrote {len(picked)} rows to {out}")
     for s in sorted(sizes):
         print(f"  {s:34s} {got[s]:4d} of {sizes[s]}")
@@ -195,7 +239,8 @@ def candidate_sectors(rec: dict, all_ids: list[str], seed: int) -> list[str]:
     own = [rec["primary_sector"]] + [t for t in (rec.get("sector_tags") or []) if t != rec["primary_sector"]]
     rng = random.Random(f"{seed}:{rec['id']}")
     others = [s for s in all_ids if s not in own]
-    cands = own + rng.sample(others, min(2, len(others)))
+    # Pad to a fixed CANDIDATES so the count does not reveal how many tags the record has.
+    cands = own + rng.sample(others, min(max(CANDIDATES - len(own), 0), len(others)))
     rng.shuffle(cands)
     return cands
 
@@ -203,7 +248,9 @@ def candidate_sectors(rec: dict, all_ids: list[str], seed: int) -> list[str]:
 def sector_definitions(sectors_dir: Optional[Path] = None) -> list[tuple[str, str, str]]:
     out = []
     for s in load_sectors(sectors_dir).sectors:
-        desc = getattr(s, "description", None) or ("keywords: " + ", ".join(s.keywords_en[:8]))
+        desc = (s.description or "").strip()
+        if not desc:
+            raise SpotError(f"sector {s.id} has no description in sectors.json")
         out.append((s.id, s.label_en, desc))
     return out
 
@@ -223,6 +270,8 @@ def cmd_packets(args) -> int:
     missing = [i for i in ids if i not in recs]
     if missing:
         raise SpotError(f"{len(missing)} sample ids are not in the stage file, e.g. {missing[0]}")
+    if args.seed is None:
+        args.seed = read_meta(args.dir)["seed"]
     defs = sector_definitions(args.sectors_dir)
     all_ids = [d[0] for d in defs]
     order = list(ids)
@@ -269,12 +318,12 @@ def cmd_packets(args) -> int:
 
 
 def map_choice(chosen: str, primary: str, tags: list[str]) -> str:
-    c = (chosen or "").strip()
-    if not c or c.lower() == "unsure":
+    """chosen must already be normalised to a sector id, "unsure" or ""."""
+    if not chosen or chosen == "unsure":
         return "unsure"
-    if c == primary:
+    if chosen == primary:
         return "ok"
-    if c in tags:
+    if chosen in tags:
         return "tag"
     return "wrong"
 
@@ -284,17 +333,39 @@ def cmd_merge(args) -> int:
     rows = read_csv(csv_path)
     by_id = {r["id"]: r for r in rows}
     rev = read_csv(Path(args.file))
+    seen, dups = set(), []
+    for r in rev:
+        if r.get("id") in seen:
+            dups.append(r.get("id"))
+        seen.add(r.get("id"))
+    if dups:
+        raise SpotError(f"duplicate ids in reviewer file: {', '.join(map(str, dups[:10]))}")
     unknown = [r.get("id") for r in rev if r.get("id") not in by_id]
     if unknown:
         raise SpotError(f"unknown ids in reviewer file: {', '.join(map(str, unknown[:10]))}")
+    valid = {s.id for s in load_sectors(args.sectors_dir).sectors}
+    norm: dict[str, str] = {}
+    bad = []
     for r in rev:
+        c = (r.get("chosen_sector") or "").strip().lower()
+        if c and c != "unsure" and c not in valid:
+            bad.append(r["id"])
+        norm[r["id"]] = c
         vr = (r.get("verdict_relevant") or "").strip()
         if vr and vr not in RELEVANT_VERDICTS:
             raise SpotError(f"id {r['id']}: invalid verdict_relevant {vr!r} (allowed: yes, no, unsure)")
+    if bad:
+        raise SpotError(f"unknown chosen_sector for ids: {', '.join(bad[:10])}")
+    if not args.force:
+        filled = [r["id"] for r in rev
+                  if (by_id[r["id"]].get("verdict_sector") or "").strip()
+                  or (by_id[r["id"]].get("verdict_relevant") or "").strip()]
+        if filled:
+            raise SpotError(f"verdicts already filled for ids: {', '.join(filled[:10])}; pass --force to overwrite")
     for r in rev:
         row = by_id[r["id"]]
         tags = [t for t in (row.get("sector_tags") or "").split("|") if t]
-        row["verdict_sector"] = map_choice(r.get("chosen_sector"), row["primary_sector"], tags)
+        row["verdict_sector"] = map_choice(norm[r["id"]], row["primary_sector"], tags)
         row["verdict_relevant"] = (r.get("verdict_relevant") or "").strip()
         row["note"] = _csv_cell(r.get("note") or "")
     write_csv(csv_path, rows)
@@ -352,10 +423,15 @@ def cmd_score(args) -> int:
         raise SpotError(f"--checked-by must be one of {CHECKED_BY_LABELS}")
     rows = read_csv(args.dir / "spotcheck.csv")
     res = compute_scores(rows)
+    if res["scored"] == 0:
+        raise SpotError("no rows are scored (verdict_sector is empty everywhere); nothing written")
+    meta = read_meta(args.dir)
+    if args.seed is not None:
+        print("warning: --seed is ignored; the seed comes from sample.json", file=sys.stderr)
     out = {
         "checked_by": args.checked_by,
         "sample_size": len(rows),
-        "seed": args.seed,
+        "seed": meta["seed"],
         "scored_on": date.today().isoformat(),
         "overall": res["overall"],
         "sectors": res["sectors"],
@@ -386,12 +462,13 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--force", action="store_true")
     p = sub.add_parser("packets")
     p.add_argument("--size", type=int, default=50)
-    p.add_argument("--seed", type=int, default=11)
+    p.add_argument("--seed", type=int, default=None, help="default: the seed recorded in sample.json")
     m = sub.add_parser("merge-verdicts")
     m.add_argument("file")
+    m.add_argument("--force", action="store_true", help="overwrite verdicts that are already filled")
     sc = sub.add_parser("score")
     sc.add_argument("--checked-by", default=CHECKED_BY_LABELS[0])
-    sc.add_argument("--seed", type=int, default=11)
+    sc.add_argument("--seed", type=int, default=None, help="ignored (seed is read from sample.json)")
     return ap
 
 

@@ -159,6 +159,7 @@ class Sector(_Strict):
     label_en: NonEmpty
     label_es: NonEmpty
     label_pt: NonEmpty
+    description: Optional[str] = Field(default=None, max_length=300)
     nace_rev21_divisions: list[str] = []
     keywords_en: list[str] = []
     keywords_es: list[str] = []

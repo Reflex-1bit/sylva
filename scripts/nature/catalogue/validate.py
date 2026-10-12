@@ -52,6 +52,8 @@ def check_reference(data_dir: Path) -> tuple[list[str], dict]:
     for s in loaded["sectors"].sectors:
         if s.candidate and s.min_records <= 0:
             problems.append(f"sectors.json: candidate '{s.id}' needs min_records > 0")
+        if not (s.description or "").strip():
+            problems.append(f"sectors.json: sector '{s.id}' needs a description")
 
     conc = loaded["concordance"]
     known = set(sector_ids)
