@@ -3,7 +3,7 @@
  "generated_on": "2026-10-11",
  "licence": "CC-BY-4.0",
  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
- "attribution": "Sylva - Open Nature Catalogue, CC BY 4.0. Sources: OpenAlex (CC0); CORDIS (© European Union, CC BY 4.0); Climate-ADAPT (© EEA, CC BY 4.0); GBIF Backbone Taxonomy (CC BY 4.0)",
+ "attribution": "Sylva - Open Nature Catalogue, CC BY 4.0. Sources: OpenAlex (CC0); CORDIS (© European Union, CC BY 4.0); Climate-ADAPT (© EEA, CC BY 4.0); GBIF Backbone Taxonomy (CC BY 4.0). Summaries are the authors' abstracts, retrieved via OpenAlex or the source named on the record, under each record's summary_licence; they may be shortened and have contact details removed. OpenAlex metadata itself is CC0.",
  "sources": [
   {
    "id": "openalex",
@@ -55,8 +55,8 @@
     {
      "path": "steel-aluminium/chunk-0001.json.gz",
      "count": 13,
-     "bytes": 4449,
-     "sha256": "8f7666815dbe77ddb64afc52fc211e73205ed544c7263ff4a7e0d6acd37a67b2"
+     "bytes": 4567,
+     "sha256": "889caed11bdf047962f99edabd18f9f7ca95ca77f0290b7a5ff5738b3283e364"
     }
    ],
    "precision": 0.0,
@@ -76,8 +76,8 @@
     {
      "path": "construction-materials/chunk-0001.json.gz",
      "count": 1817,
-     "bytes": 375209,
-     "sha256": "132f3013d3bddf5a1027c31c2924f217af8fcec65aea8ffe7a0ebde2fc7e8806"
+     "bytes": 375310,
+     "sha256": "c878217372cba92c0f6094648ecea294f9c37d9fdb9c1a7ed8ac66adb33af7e5"
     }
    ],
    "precision": 0.2857,
@@ -97,8 +97,8 @@
     {
      "path": "packaging/chunk-0001.json.gz",
      "count": 63,
-     "bytes": 12510,
-     "sha256": "da103ce177e8b1dbb8ed00c3b2385c481a7d76d19824c93655e91f0dcaa5172f"
+     "bytes": 12642,
+     "sha256": "a8b6e797b765355c3bb7afcbc81cfc7ff9fc93c219f8faa721d18f60190e887c"
     }
    ],
    "precision": 0.8,
@@ -118,8 +118,8 @@
     {
      "path": "cosmetics/chunk-0001.json.gz",
      "count": 15,
-     "bytes": 6356,
-     "sha256": "0d20481df581c44d985517d530efbf84e0d981ba0bc4a4a2dd3c9fdb5e10c249"
+     "bytes": 6467,
+     "sha256": "b4f048633b93b9801ca876b74bcdb1d13d402ec522864655fa268e231e868e52"
     }
    ],
    "precision": 1.0,
@@ -139,8 +139,8 @@
     {
      "path": "textiles/chunk-0001.json.gz",
      "count": 261,
-     "bytes": 56791,
-     "sha256": "261984cd552a170cc41b6222da92404fef89201bc3bec134851be48f9819096a"
+     "bytes": 56899,
+     "sha256": "c84aa387dd9b2fa8ce4708ff6e5a94b678ba6e169fa98805c2b2349eff25763b"
     }
    ],
    "precision": 0.8,
@@ -160,8 +160,8 @@
     {
      "path": "automotive/chunk-0001.json.gz",
      "count": 395,
-     "bytes": 85219,
-     "sha256": "29c99b3de7b34ccf2a5164712fcc42d0a5056d12f4292ee5f9e5a716e07896f0"
+     "bytes": 85339,
+     "sha256": "2d946bc852c4effdbdb6ba579cea96be6fc7e59bcd024e42e7357b09a5759d96"
     }
    ],
    "precision": 0.6667,
@@ -181,14 +181,14 @@
     {
      "path": "energy/chunk-0001.json.gz",
      "count": 2000,
-     "bytes": 369245,
-     "sha256": "1b7471042263fbba878228ef4ae5c1521d402c697e1405b2afa50db1db33865b"
+     "bytes": 369327,
+     "sha256": "183e156973476f018c7041d853342a70d9cc25d4be07e942bf4ea75af7926bf1"
     },
     {
      "path": "energy/chunk-0002.json.gz",
      "count": 521,
-     "bytes": 96536,
-     "sha256": "3d81800463350bc13dff6e21dfcb62ee2a5eaae29c55332a2fe8394ba2ce476b"
+     "bytes": 96651,
+     "sha256": "ed7c927b79680abae9e0bcbf5d4aa65044e6cb7496f73bfc091e3cc1c29304d8"
     }
    ],
    "precision": 0.625,
@@ -208,8 +208,8 @@
     {
      "path": "agrifood/chunk-0001.json.gz",
      "count": 370,
-     "bytes": 115160,
-     "sha256": "fd0675202b8bec95dabceb75b0e8ac8f847245918fb867c38785b83b0fee4110"
+     "bytes": 115286,
+     "sha256": "b238d66c0306c4a309763fb2ee5ce3f49a0d6e0213c8b030b0a8f36a446c97d3"
     }
    ],
    "precision": 0.4,
@@ -229,8 +229,8 @@
     {
      "path": "water-utilities/chunk-0001.json.gz",
      "count": 1280,
-     "bytes": 265651,
-     "sha256": "7ad7f2d83f9bec4a09a3ca28449abe1a6c6cb1b0027db0bd5e4078379cbd3365"
+     "bytes": 265776,
+     "sha256": "2f6a4bc38cc99593029974c7a633f42e5aa2411879c32554c0d94bc9de999755"
     }
    ],
    "precision": 0.5714,
@@ -250,68 +250,68 @@
     {
      "path": "chemicals/chunk-0001.json.gz",
      "count": 2000,
-     "bytes": 378302,
-     "sha256": "f919898d115fed78f6d6ec437aadf3b070258cbcccd5f4e9709ee48b708d4a1a"
+     "bytes": 378360,
+     "sha256": "e2e1689d5401a36eababdc3ebbac2cae26d6f824a411f12fd5390f91df102402"
     },
     {
      "path": "chemicals/chunk-0002.json.gz",
      "count": 2000,
-     "bytes": 457772,
-     "sha256": "18c14b7976dcfd96fa681ecea8576bb67e7de20a15f826b50a1f47601a3bfac8"
+     "bytes": 457798,
+     "sha256": "5e2d33265fa00d3fe3eddb251d98b33f8dca3f4009897e41e5a7f2eb5b6b6f3c"
     },
     {
      "path": "chemicals/chunk-0003.json.gz",
      "count": 2000,
-     "bytes": 383715,
-     "sha256": "a8022af63d9480519f5572355dbe186a83a51e8ab57dcce63088c49355240fe8"
+     "bytes": 383822,
+     "sha256": "a0cd723eef9f8da3388ed95eda67eefc65b5ae6d49328b880ad8274c4e8796b2"
     },
     {
      "path": "chemicals/chunk-0004.json.gz",
      "count": 2000,
-     "bytes": 417745,
-     "sha256": "a740fa423f6d84089aae25f8f25b763154daf0e18e01fcc0d6dcfc7bb04ec925"
+     "bytes": 417815,
+     "sha256": "60975d72be26795c037ffdc313c31c050f593b5b02b97421a4c8d6e5eb65e7bb"
     },
     {
      "path": "chemicals/chunk-0005.json.gz",
      "count": 2000,
-     "bytes": 300027,
-     "sha256": "afa246c98c3ef8a93471cbc6dbe62cc350d4387bb4d27324009e069faa41ffc0"
+     "bytes": 300100,
+     "sha256": "84dced6a90874528abedf5847ce8fe71866bf42c644f5b492af349d549034c95"
     },
     {
      "path": "chemicals/chunk-0006.json.gz",
      "count": 2000,
-     "bytes": 244724,
-     "sha256": "6c8f6450be40ae167a1d3970f48d70d1aa666bab619f77edb6d7ada1a6524c54"
+     "bytes": 244836,
+     "sha256": "121c34d9ff692c5de84873c19dea7cd7cc1f713a9ccd8337c2537d7cb58fc624"
     },
     {
      "path": "chemicals/chunk-0007.json.gz",
      "count": 2000,
-     "bytes": 346922,
-     "sha256": "f07e9b34b262990a05bf955a4b6cdd42cbdc56f2c9997b8e9002e2ae6428bdb2"
+     "bytes": 347004,
+     "sha256": "1fec95dca2875dc8513e3affb3faf1f6681b89ccd641baceec95679c57ee2a6b"
     },
     {
      "path": "chemicals/chunk-0008.json.gz",
      "count": 2000,
-     "bytes": 369870,
-     "sha256": "74c2049cfa6dc13c1addd6b92aa9c4babf356be5a466076a8aefa7e8b32cc972"
+     "bytes": 369930,
+     "sha256": "3f11686a58b058971d40c48942a69935e9bb29145e29c9134cc4e476ed35bdf3"
     },
     {
      "path": "chemicals/chunk-0009.json.gz",
      "count": 2000,
-     "bytes": 256468,
-     "sha256": "982795a4742b31f8a91c07821351671483c9080e107fd16f2fbad7a683d5ef87"
+     "bytes": 256582,
+     "sha256": "58221fd4efc4edfc7afda25e943881b5c40391dea9e73783ae3fda84e1696190"
     },
     {
      "path": "chemicals/chunk-0010.json.gz",
      "count": 2000,
-     "bytes": 210244,
-     "sha256": "a6c0d2a9c2c4ea711ae879a457f3aaaccdf8157dc1e5085278f117eb7c96f887"
+     "bytes": 210347,
+     "sha256": "24fc35a0fd88402da1d2d017e7762153641f3d267d5ddaf6ee6b3420344b538d"
     },
     {
      "path": "chemicals/chunk-0011.json.gz",
      "count": 1428,
-     "bytes": 124431,
-     "sha256": "b6c690436acdd8060674efada10d2e72d7a9fdec24a8800820bd4830befeb17e"
+     "bytes": 124561,
+     "sha256": "87e1c0f166554b590dd471c552404e9d7f0e9747295a1d812fc2bce9b1fdca5b"
     }
    ],
    "precision": 0.7097,
@@ -331,62 +331,62 @@
     {
      "path": "health-medical/chunk-0001.json.gz",
      "count": 2000,
-     "bytes": 650610,
-     "sha256": "ff3663790e0431779ab80b5dde69a8b11948bd0e3f24104965e13b704bd47964"
+     "bytes": 650632,
+     "sha256": "b66ef28141dff06ab3e4f852dbc45c500a35e849e7b281ce219af80b7056952a"
     },
     {
      "path": "health-medical/chunk-0002.json.gz",
      "count": 2000,
-     "bytes": 569064,
-     "sha256": "b775d3c6030b84637e1a33bb018302b3d7a57eec5af2ef3077af2a6cb533a649"
+     "bytes": 569083,
+     "sha256": "e31167ff476871e7c0de89464990aa19d31154bbd5ce9ee97288ae2cc7f794c7"
     },
     {
      "path": "health-medical/chunk-0003.json.gz",
      "count": 2000,
-     "bytes": 575656,
-     "sha256": "19e745e6dd5879d60816cd35bc01cbd07bcc9dfaa117a14a067bef22d3367ef1"
+     "bytes": 575678,
+     "sha256": "3dd4ee45b16f16ee2a2a8b616a3ed8774b44d04c3761a717ba5c065830c47519"
     },
     {
      "path": "health-medical/chunk-0004.json.gz",
      "count": 2000,
-     "bytes": 430680,
-     "sha256": "c60360010a6e8db3e417b079c87b131729d834f1bb55cf5f414e1205182e37f6"
+     "bytes": 430752,
+     "sha256": "b5b6245827e24cbb3ee14618cc2101e079052a868538f22f46f0bea2eb05febd"
     },
     {
      "path": "health-medical/chunk-0005.json.gz",
      "count": 2000,
-     "bytes": 320659,
-     "sha256": "f648804d41a995d4740c91e8bade819879efbcedd291421107cbc83e4b254eac"
+     "bytes": 320755,
+     "sha256": "bc7ecc9b4906dc989c7ea627edc6e1c99a6cb75195eb829186372c7c0ff227de"
     },
     {
      "path": "health-medical/chunk-0006.json.gz",
      "count": 2000,
-     "bytes": 468108,
-     "sha256": "9bb60055b5ad4c9482077881e63005df546be0c0b2eddde17f28d941c628c1e2"
+     "bytes": 468171,
+     "sha256": "3cc729852ef95060e0181e892dd77bb3b247e32073b52d9c7e667f7a7c49c047"
     },
     {
      "path": "health-medical/chunk-0007.json.gz",
      "count": 2000,
-     "bytes": 610208,
-     "sha256": "8c1ec0727bd467734343e2f3e717f85ae104cecf7330ffcce8335dca7b7fdc72"
+     "bytes": 610217,
+     "sha256": "ab8bf1d587d873d0b1e6a8b08653423584dadf63561331b34f49036cc9bf3d15"
     },
     {
      "path": "health-medical/chunk-0008.json.gz",
      "count": 2000,
-     "bytes": 515679,
-     "sha256": "dd1fdd20edb7e1d9c4cc8005208f33c1fb44dd2bc5982c0109e4755b76fd2021"
+     "bytes": 515728,
+     "sha256": "8e88e5ffaa953cf862b4509dee2a013a7704586c55965bad1199215300c40cbd"
     },
     {
      "path": "health-medical/chunk-0009.json.gz",
      "count": 2000,
-     "bytes": 367164,
-     "sha256": "fcfb8cfe64417f26a4865be41286c2bfab913aa561737702fb8acb1baf4f8d81"
+     "bytes": 367251,
+     "sha256": "62e2e8e4caaba3fb0c1f5b2b20d6e116180c9e9135b346258cc5a66aab603f6e"
     },
     {
      "path": "health-medical/chunk-0010.json.gz",
      "count": 721,
-     "bytes": 85462,
-     "sha256": "db27e49dd7ce080025560398c47c36dea0eda81d79692a91789ead8a6071f9f6"
+     "bytes": 85564,
+     "sha256": "5b9e81ab577c0d0cddec2f7170ed884a00254b1cab6ebe1a9c98d05fcab246f4"
     }
    ],
    "precision": 0.8214,
@@ -406,32 +406,32 @@
     {
      "path": "electronics-ict/chunk-0001.json.gz",
      "count": 2000,
-     "bytes": 439504,
-     "sha256": "1a80b895d6a6b691dbc67dd29f7d78695ab099dcfb460333424e851b76862c7c"
+     "bytes": 439569,
+     "sha256": "c07d7112920b76a3ce138f127bc1a8e06e26feed2bf7d4528c395638aa975c05"
     },
     {
      "path": "electronics-ict/chunk-0002.json.gz",
      "count": 2000,
-     "bytes": 411237,
-     "sha256": "8e68b0d7de29b65122d78292f6dfd5883c74892efcc23528c8548664a307e698"
+     "bytes": 411347,
+     "sha256": "a386fe6a5fcd3cef45e8dffe5a2ac797e19d4fde1d4aba120865c6b2e1b896ae"
     },
     {
      "path": "electronics-ict/chunk-0003.json.gz",
      "count": 2000,
-     "bytes": 397014,
-     "sha256": "abf775174ef64a183d9a4da1d6441a375e9117b8c0fe454213c0a86147ad7d44"
+     "bytes": 397066,
+     "sha256": "62986463cdc3d4a7c44244eb0ade4684e1fc4cb96f0703deea941176c429ed7e"
     },
     {
      "path": "electronics-ict/chunk-0004.json.gz",
      "count": 2000,
-     "bytes": 272808,
-     "sha256": "8055b8f060c160f9ad55ddfb73ab34f00cc7e837b71e72b68912b0e724629217"
+     "bytes": 272922,
+     "sha256": "e8cfbe5df71fac8f6a917352ff27106739826d6898e16a3f82089d228facb8ab"
     },
     {
      "path": "electronics-ict/chunk-0005.json.gz",
      "count": 131,
-     "bytes": 14892,
-     "sha256": "ead243da05c1c07d0bb89b97f01859ce770cc35c3d9b0ce1fa6ce4717d31c7ba"
+     "bytes": 15026,
+     "sha256": "f92fb3f4ef423c8ed221b8c2b06de41703ffe214d0e3dd7da5a008576f99ecd4"
     }
    ],
    "precision": 0.6667,
@@ -451,80 +451,80 @@
     {
      "path": "machinery-robotics/chunk-0001.json.gz",
      "count": 2000,
-     "bytes": 552875,
-     "sha256": "95ab6919dfc7c1277d2548b913f8362b0d8919a33af0103721b8159aab765005"
+     "bytes": 552869,
+     "sha256": "b7213b1e7e0942e11b7d2e7c598a44437999dfcad8a8229c982e68e680d48027"
     },
     {
      "path": "machinery-robotics/chunk-0002.json.gz",
      "count": 2000,
-     "bytes": 528969,
-     "sha256": "c1f5872b66984078425af42a29b6f8bc3db7bbe966695a4a16f373ca24b9fe74"
+     "bytes": 528934,
+     "sha256": "9d18629258dedea903db780a88c03a084dc5109135afa80ddedeffa7b32e13f6"
     },
     {
      "path": "machinery-robotics/chunk-0003.json.gz",
      "count": 2000,
-     "bytes": 371839,
-     "sha256": "d4894f3023c8556d54352968aeec6edbf067ff7c8ceb721adb9cda0a6a1d2eca"
+     "bytes": 371903,
+     "sha256": "76d55c3f445064ec7c44e0cd389a9f6b092494176ef51814fcdc161abbc9f300"
     },
     {
      "path": "machinery-robotics/chunk-0004.json.gz",
      "count": 2000,
-     "bytes": 261818,
-     "sha256": "c05799f80b82cb130786f04cee016981e56e3eae8a2ead536a6af5084a6d4190"
+     "bytes": 261936,
+     "sha256": "b8b0e3a75ef3a5b9407148620bb9b07b7e6ecb995bef07a2db40d2b2e4f01528"
     },
     {
      "path": "machinery-robotics/chunk-0005.json.gz",
      "count": 2000,
-     "bytes": 484641,
-     "sha256": "94d49c146d5b141dfa06f58643b2aa8c0ddcdc8da44b26bd7c1a9305b585d528"
+     "bytes": 484682,
+     "sha256": "b336e280bb44f6e40bbaae3f5dc5c17fc1eb1a4e318b0bd0f5cd60d9cba3f89d"
     },
     {
      "path": "machinery-robotics/chunk-0006.json.gz",
      "count": 2000,
-     "bytes": 331171,
-     "sha256": "6137cce0060c9d5a8a25a3105152e10ceef229e518a99cba72e998a0348ab7e6"
+     "bytes": 331260,
+     "sha256": "e8acbc41a392b70032cbde233d77e00c16220dc028bd1167590087be412e6994"
     },
     {
      "path": "machinery-robotics/chunk-0007.json.gz",
      "count": 2000,
-     "bytes": 316891,
-     "sha256": "7eb534f752a41721708ba0a30f2ee2058e1da9e76f9835cddc36b616d7b542a2"
+     "bytes": 316993,
+     "sha256": "fd5c915b5c8d71c3c31280e439d956e24f62dbff4b6ac5b02eda9794b909870b"
     },
     {
      "path": "machinery-robotics/chunk-0008.json.gz",
      "count": 2000,
-     "bytes": 606618,
-     "sha256": "d500b81a9804d078814f78edf3ef192454307a957615c49383065c9da085a79e"
+     "bytes": 606648,
+     "sha256": "40b29bd6d1626b776271609822f6eb477c4f872dfa2fa130458b62dd2bcb4d4c"
     },
     {
      "path": "machinery-robotics/chunk-0009.json.gz",
      "count": 2000,
-     "bytes": 353769,
-     "sha256": "5ffef0d44339575b2e04d8a7ced59ff1c59769c307c6f066d1f4e73ad69d55ab"
+     "bytes": 353843,
+     "sha256": "75af89a4d2b723667c8e73b8fd7161ea727e44fff2dd8893c07a5733356c39b8"
     },
     {
      "path": "machinery-robotics/chunk-0010.json.gz",
      "count": 2000,
-     "bytes": 387480,
-     "sha256": "3a0f6f749c442c0e4433eb5ff815d3c2a23ec9447054569d8895b885338a894e"
+     "bytes": 387568,
+     "sha256": "f5ced2b7ef18e46e2ea5d12e2d22a24a49dacd9655630d3bc7f217f0233f08e3"
     },
     {
      "path": "machinery-robotics/chunk-0011.json.gz",
      "count": 2000,
-     "bytes": 267904,
-     "sha256": "b52485e2fb6a77ae78a20d154a1f7d13263dc7ce32b0f1fc9d9ec77c56343be5"
+     "bytes": 268006,
+     "sha256": "27a5ea4481903ebc18a2b4ef1b3dfd1f4389dd3ebdb5dde57585450b9d95e598"
     },
     {
      "path": "machinery-robotics/chunk-0012.json.gz",
      "count": 2000,
-     "bytes": 194525,
-     "sha256": "e68dfadea9f62f2f158592cd7b7dd3fdc1dd5f1b18275737ecf12bc2eb51f5f7"
+     "bytes": 194646,
+     "sha256": "af4a7d4a4d5c2e2b46bfad72e66c96f21d9f6237eaa541357501d42912eabdab"
     },
     {
      "path": "machinery-robotics/chunk-0013.json.gz",
      "count": 44,
-     "bytes": 5152,
-     "sha256": "11757a2392e95c7dfdb93e52346691454c723660a6aee56feefe54adf40a17a5"
+     "bytes": 5277,
+     "sha256": "05579b4b388bd6f11f97f80fd81ad60e787bbb2f7079525d7ccbe528a4685ada"
     }
    ],
    "precision": 0.5,
@@ -544,26 +544,26 @@
     {
      "path": "aerospace-transport/chunk-0001.json.gz",
      "count": 2000,
-     "bytes": 427174,
-     "sha256": "129b513173d2b08887be61c624686dc724836898f9c166b76f6a1307bae03ac7"
+     "bytes": 427235,
+     "sha256": "29d946ad467c2726a369fe25ddc4a1c35c3e14d54ea8b86adc8c57bffdd288dc"
     },
     {
      "path": "aerospace-transport/chunk-0002.json.gz",
      "count": 2000,
-     "bytes": 433160,
-     "sha256": "769c5a47062c0f4e67328e243e16e9615e8ac5ba8b372c913eb066538220426a"
+     "bytes": 433249,
+     "sha256": "abbd20e74689da7f7bc3a90ae1d873c3379a8c946e20df794dfaa5c52f94505e"
     },
     {
      "path": "aerospace-transport/chunk-0003.json.gz",
      "count": 2000,
-     "bytes": 315265,
-     "sha256": "a0d498598f3d8c653ea6270177e1a84f0e2df4ab246ff2971e71fba302b244d9"
+     "bytes": 315361,
+     "sha256": "3ab1493ad94cd255d270522a35b0f7c653f90ff432e0a7d9284094b69986530a"
     },
     {
      "path": "aerospace-transport/chunk-0004.json.gz",
      "count": 948,
-     "bytes": 91599,
-     "sha256": "b8ce3acc07e9aa6bbed5efdc928aa4671e89aaaa10ede74fe61807b34391ddb2"
+     "bytes": 91721,
+     "sha256": "555aa0ad81fb81b86d50b528ca4c1c2f6f043869ca9f1b45b52d039939814d50"
     }
    ],
    "precision": 0.6154,
@@ -583,20 +583,20 @@
     {
      "path": "buildings-architecture/chunk-0001.json.gz",
      "count": 2000,
-     "bytes": 445594,
-     "sha256": "ae76ea11029ddc504575e626b8c3230ff006b0fd33c18b2e7fb320fd5bbbf61b"
+     "bytes": 445670,
+     "sha256": "b186e55224f83eb6cc738b27ed72619ebdefe15964bffe3bd16c5f6b5d2627e5"
     },
     {
      "path": "buildings-architecture/chunk-0002.json.gz",
      "count": 2000,
-     "bytes": 390944,
-     "sha256": "99b0a071244f8c72b778468e87705c17a95ff4465f770d578bd9f69db33f8a2a"
+     "bytes": 390992,
+     "sha256": "d63f5ba8951b32bbc73e8dab2d976a94abe4061c233111944cb1c778af58ab19"
     },
     {
      "path": "buildings-architecture/chunk-0003.json.gz",
      "count": 1002,
-     "bytes": 98774,
-     "sha256": "074e5074bfe4313bf833d83ab942fcbd4c6b66c9790da52214b82c180e34f08c"
+     "bytes": 98903,
+     "sha256": "977b8f7d34d7bf49d20c973d4fa1346634a2189ab496638ec95c31806cbd258d"
     }
    ],
    "precision": 0.6364,
@@ -616,32 +616,32 @@
     {
      "path": "other/chunk-0001.json.gz",
      "count": 2000,
-     "bytes": 417061,
-     "sha256": "fa5ae27c13b9c460ebfffc4235d0c13da2dcf7e4560ac3ee3ad4d0bbb90e8e7c"
+     "bytes": 417114,
+     "sha256": "21a5941e4247c92a5b455afb15ad7cde4ec68684a2bbab7398bc32f183777fd7"
     },
     {
      "path": "other/chunk-0002.json.gz",
      "count": 2000,
-     "bytes": 281421,
-     "sha256": "43558a3d8b76f8fbd7bd08249075b1c12369b3c3954e97af37533711c85f319f"
+     "bytes": 281445,
+     "sha256": "8c1a6ed6f6febf3427ce4b939cf294abd84defd3f6eb38a1907f55a511f9403b"
     },
     {
      "path": "other/chunk-0003.json.gz",
      "count": 2000,
-     "bytes": 451122,
-     "sha256": "22991eb82f95e2225822908ad8e995f153ed8edfd0ed2f3f63ec1078a1e9ac7e"
+     "bytes": 451224,
+     "sha256": "861c17f87fb6ce3d652cf0c83d8b504ace94aab44535f69c9de03e46d3dfde2d"
     },
     {
      "path": "other/chunk-0004.json.gz",
      "count": 2000,
-     "bytes": 237917,
-     "sha256": "4b6ed6b26481c3e072436d11c3247dfd70b8f5f903052360806721672baad982"
+     "bytes": 238022,
+     "sha256": "6e46d62251de000a832fad437a0ced397fd7020253906cc01804cc8b96ce334a"
     },
     {
      "path": "other/chunk-0005.json.gz",
      "count": 300,
-     "bytes": 27575,
-     "sha256": "edf1355b5beeb95c9784ec7a94153c2a9f430ebcd2928d6147956e1837022a4e"
+     "bytes": 27711,
+     "sha256": "336006cf9c3e555efd63f21d3c8a9192800fa46a01eb2c90e4d0fa521d5db59f"
     }
    ],
    "precision": 0.5714,
@@ -1470,7 +1470,7 @@
   }
  ],
  "pending": [
-  "OpenAlex nature-based-solution keywords not yet fully harvested: 178 of 288 keyword jobs done, 110 pending (keyless daily budget)",
+  "OpenAlex nature-based-solution keywords not yet fully harvested: 155 of 288 keyword jobs done, 133 pending (keyless daily budget)",
   "PatentsView patents deferred (needs USPTO API key)"
  ],
  "download_note": "CSV files must keep the attribution line with them."
