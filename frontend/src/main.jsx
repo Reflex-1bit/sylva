@@ -6,6 +6,7 @@ import './index.css'
 
 const Hardware = lazy(() => import('./Hardware.jsx'))
 const Nature = lazy(() => import('./Nature.jsx'))
+const Catalogue = lazy(() => import('./Catalogue.jsx'))
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -25,6 +26,14 @@ createRoot(document.getElementById('root')).render(
           element={
             <Suspense fallback={<div style={{ padding: '2rem', fontFamily: 'system-ui' }}>Loading nature library…</div>}>
               <Nature />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/catalogue"
+          element={
+            <Suspense fallback={<div style={{ padding: '2rem', fontFamily: 'system-ui' }}>Loading catalogue…</div>}>
+              <Catalogue />
             </Suspense>
           }
         />

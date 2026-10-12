@@ -1,0 +1,360 @@
+/* Catalogue page. Builds on the shared .nat-* styles from Nature.css. */
+
+.cat {
+  overflow-x: hidden;
+}
+
+.cat .nat-main {
+  min-width: 0;
+}
+
+.cat-h2 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  margin: 1.6rem 0 0.7rem;
+}
+
+.cat-h2:focus {
+  outline: none;
+}
+
+.cat-h2:focus-visible {
+  outline: 2px solid var(--leaf);
+  outline-offset: 2px;
+}
+
+.cat .nat-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.cat .nat-licence {
+  margin-top: 0.2rem;
+  overflow-wrap: anywhere;
+}
+
+.cat-machine {
+  background: rgba(201, 162, 39, 0.18);
+  color: #6b5611;
+}
+
+.cat-spot {
+  font-size: 0.92rem;
+}
+
+.cat-list {
+  padding-left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+}
+
+.cat-pending {
+  font-size: 0.85rem;
+}
+
+/* Sector cards */
+
+.cat-sectors {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr));
+  gap: 0.7rem;
+}
+
+.cat-sector {
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.85rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+}
+
+.cat-sector:hover {
+  border-color: var(--leaf);
+}
+
+.cat-sector.is-active {
+  border-color: var(--leaf);
+  background: rgba(47, 107, 79, 0.1);
+  box-shadow: inset 3px 0 0 var(--leaf);
+}
+
+.cat-sector__name {
+  display: flex;
+  flex-direction: column;
+}
+
+.cat-label-en {
+  font-weight: 600;
+}
+
+.cat-label-es {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.cat-h2 .cat-label-es {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.cat-sector__count {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--leaf-deep);
+}
+
+.cat-prec {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+
+.cat-flag {
+  font-size: 0.7rem;
+}
+
+.cat-flag--warn {
+  background: rgba(168, 75, 50, 0.12);
+  color: var(--danger);
+  border-color: rgba(168, 75, 50, 0.35);
+}
+
+/* Downloads */
+
+.cat-downloads .cat-h2 {
+  margin-top: 0;
+}
+
+.cat-dl-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.6rem;
+}
+
+.cat-dl-label {
+  font-weight: 500;
+  min-width: 6.5rem;
+}
+
+.cat .nat-chip {
+  cursor: pointer;
+}
+
+.cat .nat-chip:disabled {
+  opacity: 0.5;
+  cursor: progress;
+}
+
+.cat-attr {
+  border-top: 1px solid var(--line);
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  font-size: 0.85rem;
+}
+
+.cat-attr__text {
+  overflow-wrap: anywhere;
+}
+
+/* Sector view */
+
+.cat-view {
+  margin-top: 0.5rem;
+}
+
+.cat-view > .nat-row {
+  margin-bottom: 0.4rem;
+}
+
+.cat-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-top: 0.4rem;
+}
+
+.cat-filters .nat-field {
+  margin-bottom: 0;
+}
+
+.cat-group h3 {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.3rem;
+}
+
+.cat-records {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.cat-rec {
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.85rem 0.95rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.cat-rec__title {
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.cat-rec__meta {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+
+.cat-organism {
+  font-style: italic;
+}
+
+.cat-source {
+  background: #fff;
+}
+
+.cat-orgs {
+  font-size: 0.8rem;
+}
+
+.cat-details {
+  font-size: 0.85rem;
+}
+
+.cat-details > summary {
+  cursor: pointer;
+  color: var(--leaf-deep);
+  font-weight: 500;
+  padding: 0.15rem 0;
+}
+
+.cat-details > summary:focus-visible {
+  outline: 2px solid var(--leaf);
+  outline-offset: 2px;
+}
+
+.cat-details > p {
+  margin-top: 0.35rem;
+}
+
+.cat-reason {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  background: var(--paper-2);
+  padding: 0.1rem 0.35rem;
+  border-radius: var(--radius);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.cat-summary {
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.cat-accuracy p {
+  line-height: 1.5;
+}
+
+/* Donations */
+
+.cat-donate {
+  border-top: 1px dashed var(--line);
+  padding-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.cat-donate__head {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.cat-donate__list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.cat-donate__list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.cat a.cat-donate__btn {
+  display: inline-block;
+  font-size: 0.8rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: var(--leaf);
+  color: #fff;
+  text-decoration: none;
+  max-width: 100%;
+}
+
+.cat a.cat-donate__btn:hover {
+  background: var(--leaf-deep);
+}
+
+.cat a.cat-donate__alt {
+  font-size: 0.75rem;
+}
+
+.cat-more {
+  margin-top: 1rem;
+}
+
+/* More directories */
+
+.cat-more-dirs {
+  margin-top: 2rem;
+}
+
+.cat-more-dirs .cat-h2 {
+  margin-top: 0;
+}
+
+.cat-dirs {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-top: 0.6rem;
+  font-size: 0.88rem;
+}
+
+.cat button:focus-visible {
+  outline: 2px solid var(--leaf);
+  outline-offset: 2px;
+}

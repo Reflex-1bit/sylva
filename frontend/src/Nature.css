@@ -29,6 +29,12 @@
   color: var(--leaf);
 }
 
+.nat-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
 .nat-nav a {
   font-size: 0.88rem;
   color: var(--ink-soft);

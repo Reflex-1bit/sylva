@@ -581,6 +581,7 @@ export default function Nature() {
         </Link>
         <nav className="nat-nav">
           <Link to="/hardware">Hardware</Link>
+          <Link to="/catalogue">Catalogue</Link>
         </nav>
       </header>
 
