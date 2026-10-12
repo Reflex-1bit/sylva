@@ -733,7 +733,7 @@ export default function Catalogue() {
                 </p>
                 <p>
                   The checks were done by independent AI agents on blind samples (each checker saw the record and five
-                  shuffled sector options, with the machine&apos;s choice not marked). {!/owner/i.test(spot?.checked_by || '') && <>The owner&apos;s own skim of those samples is still pending. </>}Check label:{' '}
+                  shuffled sector options, with the machine&apos;s choice not marked). {!/owner[- ]?skimmed/i.test(spot?.checked_by || '') &&<>The owner&apos;s own skim of those samples is still pending. </>}Check label:{' '}
                   <q>{spot?.checked_by || 'not recorded'}</q>.
                 </p>
                 {asArray(spot?.rounds).length > 0 && (
