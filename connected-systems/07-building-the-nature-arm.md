@@ -186,3 +186,17 @@ Three moments to stop and decide, with the evidence that decides them (from chap
 3. The first reserve or landowner (step 6).
 4. The database licence: CC BY 4.0 (recommended) or CC0 (7.3).
 5. The first hire (step 9).
+
+## 7.10 The open catalogue, as built
+
+Written 2026-10-12. This is a finding about what was built, not a plan.
+
+The catalogue is a third open dataset beside the library and the R&D map: 99,309 records of papers, EU projects and adaptation case studies about learning from nature, sorted by industry sector and published at `/catalogue`. It was built to be big and free first, and checked second, which is the opposite order from the library (7.3).
+
+**Why it has no RAG.** The library answers questions, so it needs retrieval. The catalogue only has to be browsed and downloaded. A person picks a sector and reads or saves it. Leaving out embeddings and a model means the build is the same every time (publishing twice gives identical bytes), it needs no key and no running cost, and nobody has to trust a model's idea of what a record is about.
+
+**Rules-only sorting, and what the spot-check says.** Each record is scored against every sector using curated code tables (patent classes, OpenAlex subfields, EU science vocabularies) and keyword lists in English and Spanish, and it goes to the highest score. Records with no clear signal go to `other`, and a build fails if `other` grows past a quarter. Independent AI agents then checked blind samples of 200 records. After tuning, strict precision was 62.8%, lenient 74.9% and relevance 78.7%. A person has not yet checked it: the label on the page and in the manifest is "agent, owner skim pending", and it stays that until the owner skim is done. Several sectors fall below 70% strict precision and carry a warning on the page. Basic science with no application is the commonest error.
+
+**Donation links go to the groups' own pages.** About 14,000 records name an organism or habitat, and rules match them to 49 conservation groups. Each button opens the group's own donation page. Sylva does not handle money, takes no share and does not claim a partnership with any group. The arm may point at the people who protect a place, but it does not stand between a donor and them.
+
+**The honest gaps.** Not every nature-based-solution keyword has been harvested yet (110 of 288 jobs pending, because of a daily limit on the free tier). Patents are missing until a USPTO key exists. About 85% of records name no habitat or organism and so carry no donation link. Only 15,319 records carry a summary, because a summary is stored only when its source licence is CC BY or CC0; the rest show the title, the link and the sorted facts.
