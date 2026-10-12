@@ -571,3 +571,30 @@ def test_merge_then_sort_end_to_end_and_deterministic(raw_dir, tmp_path):
     offline = build.GbifResolver(tmp_path / "gbif.json", fetch=None, offline=True)
     build.merge(raw_dir, stage, resolver=offline, library_index={}, log=lambda *a: None)
     assert offline.stats["uncached_offline"] == 0 and offline.stats["cached"] == 2
+
+
+def test_failed_merge_leaves_no_merged_jsonl(raw_dir, tmp_path, monkeypatch):
+    """A merge that fails (GBIF errors, or an exception part-way) must not leave a merged.jsonl."""
+    def boom(url, params=None):
+        raise RuntimeError("down")
+    stage = tmp_path / "stage"
+    resolver = build.GbifResolver(tmp_path / "g.json", fetch=boom, sleep=lambda s: None)
+    build.merge(raw_dir, stage, resolver=resolver, library_index={}, log=lambda *a: None)
+    assert resolver.stats["errors"] and build.gbif_exit_code(resolver, log=lambda *a: None) == 1
+    assert not (stage / "merged.jsonl").exists() and not (stage / "merged.jsonl.tmp").exists()
+    assert not (stage / "merge_report.json").exists()
+
+    stage2 = tmp_path / "stage2"
+    ok = build.GbifResolver(tmp_path / "g2.json", fetch=lambda u, p=None: None, sleep=lambda s: None)
+    real = build.MergedRecord.model_validate
+    calls = []
+
+    def flaky(d):
+        calls.append(1)
+        if len(calls) == 2:
+            raise ValueError("bad record")
+        return real(d)
+    monkeypatch.setattr(build.MergedRecord, "model_validate", staticmethod(flaky))
+    with pytest.raises(ValueError):
+        build.merge(raw_dir, stage2, resolver=ok, library_index={}, log=lambda *a: None)
+    assert not (stage2 / "merged.jsonl").exists()

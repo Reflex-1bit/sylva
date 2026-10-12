@@ -1,4 +1,804 @@
 {
   "version": "2026-10-11",
-  "groups": []
+  "groups": [
+    {
+      "id": "seo-birdlife",
+      "name": "SEO/BirdLife (Sociedad Española de Ornitología)",
+      "country": "ES",
+      "habitats": [
+        "birds",
+        "wetland",
+        "grassland",
+        "coastal"
+      ],
+      "flagship_taxa": [
+        "birds",
+        "steppe birds"
+      ],
+      "donate_url": "https://seo.org/donaciones/",
+      "every_org_slug": null,
+      "source_url": "https://seo.org/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "spea",
+      "name": "SPEA - Sociedade Portuguesa para o Estudo das Aves (BirdLife Portugal)",
+      "country": "PT",
+      "habitats": [
+        "birds",
+        "coastal",
+        "wetland",
+        "dehesa-savanna"
+      ],
+      "flagship_taxa": [
+        "birds",
+        "seabirds"
+      ],
+      "donate_url": "https://spea.pt/como-ajudar/donativos/",
+      "every_org_slug": null,
+      "source_url": "https://spea.pt/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "birdlife-international",
+      "name": "BirdLife International",
+      "country": "INT",
+      "habitats": [
+        "birds"
+      ],
+      "flagship_taxa": [
+        "birds"
+      ],
+      "donate_url": "https://www.birdlife.org/donate/",
+      "every_org_slug": null,
+      "source_url": "https://www.birdlife.org/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "fcq-quebrantahuesos",
+      "name": "Fundación para la Conservación del Quebrantahuesos",
+      "country": "ES",
+      "habitats": [
+        "mountain",
+        "birds"
+      ],
+      "flagship_taxa": [
+        "bearded vulture",
+        "quebrantahuesos",
+        "vultures"
+      ],
+      "donate_url": "https://quebrantahuesos.org/colabora-con-la-fcq-2/",
+      "every_org_slug": null,
+      "source_url": "https://quebrantahuesos.org/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "grefa",
+      "name": "GREFA (Grupo de Rehabilitación de la Fauna Autóctona y su Hábitat)",
+      "country": "ES",
+      "habitats": [
+        "birds",
+        "forest",
+        "dehesa-savanna"
+      ],
+      "flagship_taxa": [
+        "birds of prey",
+        "raptors"
+      ],
+      "donate_url": "https://www.grefa.org/socios-y-padrinos/opciones-de-colaboracion.html",
+      "every_org_slug": null,
+      "source_url": "https://www.grefa.org/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "wwf-espana",
+      "name": "WWF España",
+      "country": "ES",
+      "habitats": [
+        "forest",
+        "wetland",
+        "marine",
+        "freshwater",
+        "dehesa-savanna"
+      ],
+      "flagship_taxa": [
+        "iberian lynx",
+        "lynx"
+      ],
+      "donate_url": "https://colabora.wwf.es/donacion/dona-ahora-y-ayudanos-proteger-los-bosques",
+      "every_org_slug": null,
+      "source_url": "https://www.wwf.es/colabora/hacer_una_donacion_/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "anp-wwf-portugal",
+      "name": "ANP|WWF Portugal",
+      "country": "PT",
+      "habitats": [
+        "marine",
+        "freshwater",
+        "forest",
+        "coastal"
+      ],
+      "flagship_taxa": [
+        "iberian lynx",
+        "lynx",
+        "iberian wolf",
+        "wolf",
+        "seahorse"
+      ],
+      "donate_url": "https://www.wwf.pt/faz-um-donativo/",
+      "every_org_slug": null,
+      "source_url": "https://www.wwf.pt/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "grupo-lobo",
+      "name": "Grupo Lobo",
+      "country": "PT",
+      "habitats": [
+        "forest",
+        "mountain"
+      ],
+      "flagship_taxa": [
+        "iberian wolf",
+        "wolf"
+      ],
+      "donate_url": "https://grupolobo.pt/pt/como-ajudar",
+      "every_org_slug": null,
+      "source_url": "https://grupolobo.pt/pt",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "fundacion-oso-pardo",
+      "name": "Fundación Oso Pardo",
+      "country": "ES",
+      "habitats": [
+        "forest",
+        "mountain"
+      ],
+      "flagship_taxa": [
+        "brown bear",
+        "cantabrian brown bear",
+        "bear"
+      ],
+      "donate_url": "https://fundacionosopardo.org/donaciones-legados/",
+      "every_org_slug": null,
+      "source_url": "https://fundacionosopardo.org/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "lpn",
+      "name": "LPN - Liga para a Protecção da Natureza",
+      "country": "PT",
+      "habitats": [
+        "birds",
+        "wetland",
+        "forest",
+        "grassland"
+      ],
+      "flagship_taxa": [
+        "birds"
+      ],
+      "donate_url": "https://www.lpn.pt/pt/como-apoiar/doe-hoje",
+      "every_org_slug": null,
+      "source_url": "https://www.lpn.pt/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "rewilding-portugal",
+      "name": "Rewilding Portugal",
+      "country": "PT",
+      "habitats": [
+        "dehesa-savanna",
+        "forest",
+        "grassland",
+        "mountain"
+      ],
+      "flagship_taxa": [
+        "iberian wolf",
+        "vultures",
+        "wild horses"
+      ],
+      "donate_url": "https://rewilding-portugal.com/contribute/",
+      "every_org_slug": null,
+      "source_url": "https://rewilding-portugal.com/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "faia-brava-atn",
+      "name": "Reserva da Faia Brava (ATN - Associação Transumância e Natureza)",
+      "country": "PT",
+      "habitats": [
+        "grassland",
+        "dehesa-savanna",
+        "birds"
+      ],
+      "flagship_taxa": [
+        "vultures",
+        "birds of prey"
+      ],
+      "donate_url": "https://www.faiabrava.com/en/donativos",
+      "every_org_slug": null,
+      "source_url": "https://www.faiabrava.pt/en",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "rewilding-europe",
+      "name": "Rewilding Europe",
+      "country": "INT",
+      "habitats": [
+        "grassland",
+        "wetland",
+        "forest",
+        "mountain",
+        "freshwater"
+      ],
+      "flagship_taxa": [
+        "european bison",
+        "bison"
+      ],
+      "donate_url": "https://rewildingeurope.com/get-involved/donate/",
+      "every_org_slug": null,
+      "source_url": "https://rewildingeurope.com/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "fundacion-global-nature",
+      "name": "Fundación Global Nature",
+      "country": "ES",
+      "habitats": [
+        "dehesa-savanna",
+        "wetland",
+        "grassland",
+        "freshwater"
+      ],
+      "flagship_taxa": [],
+      "donate_url": "https://www.colaboraconlanaturaleza.org/",
+      "every_org_slug": null,
+      "source_url": "https://fundacionglobalnature.org/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "fnca",
+      "name": "Fundación Nueva Cultura del Agua",
+      "country": "ES",
+      "habitats": [
+        "freshwater",
+        "wetland"
+      ],
+      "flagship_taxa": [],
+      "donate_url": "https://www.fnca.eu/la-fundacion/colabora-con-la-fnca",
+      "every_org_slug": null,
+      "source_url": "https://www.fnca.eu/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "zero-associacao",
+      "name": "ZERO - Associação Sistema Terrestre Sustentável",
+      "country": "PT",
+      "habitats": [
+        "urban",
+        "coastal",
+        "soil"
+      ],
+      "flagship_taxa": [],
+      "donate_url": "https://zero.ong/como-agir/fazer-donativo/",
+      "every_org_slug": null,
+      "source_url": "https://zero.ong/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "blue-marine-foundation",
+      "name": "Blue Marine Foundation",
+      "country": "INT",
+      "habitats": [
+        "marine",
+        "coastal"
+      ],
+      "flagship_taxa": [
+        "sharks"
+      ],
+      "donate_url": "https://www.bluemarinefoundation.com/donate/",
+      "every_org_slug": null,
+      "source_url": "https://www.bluemarinefoundation.com/donate/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "shark-trust",
+      "name": "Shark Trust",
+      "country": "INT",
+      "habitats": [
+        "marine"
+      ],
+      "flagship_taxa": [
+        "sharks",
+        "rays",
+        "shark"
+      ],
+      "donate_url": "https://www.sharktrust.org/support/donate",
+      "every_org_slug": null,
+      "source_url": "https://www.sharktrust.org/support",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "sea-turtle-conservancy",
+      "name": "Sea Turtle Conservancy",
+      "country": "INT",
+      "habitats": [
+        "coastal",
+        "marine"
+      ],
+      "flagship_taxa": [
+        "sea turtles",
+        "sea turtle"
+      ],
+      "donate_url": "https://conserveturtles.org/donate/",
+      "every_org_slug": null,
+      "source_url": "https://conserveturtles.org/donate/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "archelon",
+      "name": "ARCHELON (Sea Turtle Protection Society of Greece)",
+      "country": "GR",
+      "habitats": [
+        "marine",
+        "coastal"
+      ],
+      "flagship_taxa": [
+        "sea turtles",
+        "loggerhead turtle"
+      ],
+      "donate_url": "https://archelon.gr/donate",
+      "every_org_slug": null,
+      "source_url": "https://archelon.gr/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "mom-monk-seal",
+      "name": "MOm - Hellenic Society for the Study and Protection of the Monk Seal",
+      "country": "GR",
+      "habitats": [
+        "marine",
+        "coastal"
+      ],
+      "flagship_taxa": [
+        "mediterranean monk seal",
+        "monk seal"
+      ],
+      "donate_url": "https://el.mom.gr/how-can-i-help",
+      "every_org_slug": null,
+      "source_url": "https://el.mom.gr/how-can-i-help",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "surfrider-europe",
+      "name": "Surfrider Foundation Europe",
+      "country": "FR",
+      "habitats": [
+        "coastal",
+        "marine"
+      ],
+      "flagship_taxa": [],
+      "donate_url": "https://donate.surfrider.eu/en/donation/",
+      "every_org_slug": null,
+      "source_url": "https://surfrider.eu/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "coral-restoration-foundation",
+      "name": "Coral Restoration Foundation",
+      "country": "US",
+      "habitats": [
+        "marine"
+      ],
+      "flagship_taxa": [
+        "corals",
+        "coral"
+      ],
+      "donate_url": "https://coralrestoration.org/monthly-donation/",
+      "every_org_slug": null,
+      "source_url": "https://coralrestoration.org/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "mangrove-action-project",
+      "name": "Mangrove Action Project",
+      "country": "INT",
+      "habitats": [
+        "coastal",
+        "wetland"
+      ],
+      "flagship_taxa": [
+        "mangroves"
+      ],
+      "donate_url": "https://mangroveactionproject.org/donate/",
+      "every_org_slug": null,
+      "source_url": "https://mangroveactionproject.org/donate/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "wetlands-international",
+      "name": "Wetlands International",
+      "country": "INT",
+      "habitats": [
+        "wetland",
+        "freshwater",
+        "coastal"
+      ],
+      "flagship_taxa": [],
+      "donate_url": "https://www.wetlands.org/donate-to-save-wetlands/",
+      "every_org_slug": null,
+      "source_url": "https://www.wetlands.org/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "wwt",
+      "name": "WWT (Wildfowl & Wetlands Trust)",
+      "country": "GB",
+      "habitats": [
+        "wetland",
+        "birds",
+        "freshwater"
+      ],
+      "flagship_taxa": [
+        "waterbirds"
+      ],
+      "donate_url": "https://www.wwt.org.uk/join-and-support/donate",
+      "every_org_slug": null,
+      "source_url": "https://www.wwt.org.uk/join-and-support/donate",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "euronatur",
+      "name": "EuroNatur",
+      "country": "DE",
+      "habitats": [
+        "freshwater",
+        "wetland",
+        "forest",
+        "birds"
+      ],
+      "flagship_taxa": [
+        "birds"
+      ],
+      "donate_url": "https://www.euronatur.org/en/how-you-can-help/donate-for-europes-nature",
+      "every_org_slug": null,
+      "source_url": "https://www.euronatur.org/en/how-you-can-help/donate-for-europes-nature",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "rivers-trust",
+      "name": "The Rivers Trust",
+      "country": "GB",
+      "habitats": [
+        "freshwater"
+      ],
+      "flagship_taxa": [],
+      "donate_url": "https://support.theriverstrust.org/donate/donate",
+      "every_org_slug": null,
+      "source_url": "https://www.theriverstrust.org/donate",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "freshwater-habitats-trust",
+      "name": "Freshwater Habitats Trust",
+      "country": "GB",
+      "habitats": [
+        "freshwater",
+        "wetland"
+      ],
+      "flagship_taxa": [],
+      "donate_url": "https://freshwaterhabitats.org.uk/about-us/support-us/donate/",
+      "every_org_slug": null,
+      "source_url": "https://freshwaterhabitats.org.uk/donate/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "world-land-trust",
+      "name": "World Land Trust",
+      "country": "INT",
+      "habitats": [
+        "forest",
+        "grassland",
+        "wetland"
+      ],
+      "flagship_taxa": [],
+      "donate_url": "https://www.worldlandtrust.org/appeals/",
+      "every_org_slug": null,
+      "source_url": "https://www.worldlandtrust.org/donate/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "rainforest-trust",
+      "name": "Rainforest Trust",
+      "country": "US",
+      "habitats": [
+        "forest"
+      ],
+      "flagship_taxa": [],
+      "donate_url": "https://www.rainforesttrust.org/",
+      "every_org_slug": null,
+      "source_url": "https://www.rainforesttrust.org/donate/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "plantlife",
+      "name": "Plantlife",
+      "country": "GB",
+      "habitats": [
+        "grassland",
+        "forest"
+      ],
+      "flagship_taxa": [
+        "wild plants",
+        "fungi"
+      ],
+      "donate_url": "https://www.plantlife.org.uk/join-donate/donations/",
+      "every_org_slug": null,
+      "source_url": "https://www.plantlife.org.uk/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "american-prairie",
+      "name": "American Prairie",
+      "country": "US",
+      "habitats": [
+        "grassland"
+      ],
+      "flagship_taxa": [
+        "bison"
+      ],
+      "donate_url": "https://americanprairie.org/donate/",
+      "every_org_slug": null,
+      "source_url": "https://www.americanprairie.org/donate",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "snow-leopard-trust",
+      "name": "Snow Leopard Trust",
+      "country": "US",
+      "habitats": [
+        "mountain"
+      ],
+      "flagship_taxa": [
+        "snow leopard"
+      ],
+      "donate_url": "https://donate.snowleopard.org/give/322970",
+      "every_org_slug": null,
+      "source_url": "https://www.snowleopard.org/donate/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "sahara-conservation",
+      "name": "Sahara Conservation",
+      "country": "INT",
+      "habitats": [
+        "arid"
+      ],
+      "flagship_taxa": [
+        "addax",
+        "scimitar-horned oryx"
+      ],
+      "donate_url": "https://saharaconservation.org/donate",
+      "every_org_slug": null,
+      "source_url": "https://saharaconservation.org/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "mojave-desert-land-trust",
+      "name": "Mojave Desert Land Trust",
+      "country": "US",
+      "habitats": [
+        "arid"
+      ],
+      "flagship_taxa": [
+        "desert tortoise"
+      ],
+      "donate_url": "https://www.mdlt.org/donate",
+      "every_org_slug": null,
+      "source_url": "https://www.mdlt.org/donate",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "savory-institute",
+      "name": "Savory Institute",
+      "country": "US",
+      "habitats": [
+        "soil",
+        "grassland"
+      ],
+      "flagship_taxa": [],
+      "donate_url": "https://www.savory.global/donate",
+      "every_org_slug": null,
+      "source_url": "https://www.savory.global/donate",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "rodale-institute",
+      "name": "Rodale Institute",
+      "country": "US",
+      "habitats": [
+        "soil"
+      ],
+      "flagship_taxa": [],
+      "donate_url": "https://rodaleinstitute.org/get-involved/donate/",
+      "every_org_slug": null,
+      "source_url": "https://rodaleinstitute.org/donate/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "butterfly-conservation",
+      "name": "Butterfly Conservation",
+      "country": "GB",
+      "habitats": [
+        "pollinators",
+        "grassland"
+      ],
+      "flagship_taxa": [
+        "butterflies",
+        "moths"
+      ],
+      "donate_url": "https://butterfly-conservation.org/donate",
+      "every_org_slug": null,
+      "source_url": "https://butterfly-conservation.org/donate",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "butterfly-conservation-europe",
+      "name": "Butterfly Conservation Europe",
+      "country": "INT",
+      "habitats": [
+        "pollinators",
+        "grassland"
+      ],
+      "flagship_taxa": [
+        "butterflies"
+      ],
+      "donate_url": "https://www.bc-europe.eu/webpage.php?name=support-us",
+      "every_org_slug": null,
+      "source_url": "https://www.bc-europe.eu/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "bumblebee-conservation-trust",
+      "name": "Bumblebee Conservation Trust",
+      "country": "GB",
+      "habitats": [
+        "pollinators",
+        "grassland"
+      ],
+      "flagship_taxa": [
+        "bumblebees",
+        "bees",
+        "bee"
+      ],
+      "donate_url": "https://www.bumblebeeconservation.org/join-and-donate/donate/",
+      "every_org_slug": null,
+      "source_url": "https://www.bumblebeeconservation.org/join-and-donate/donate/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "pollinator-partnership",
+      "name": "Pollinator Partnership",
+      "country": "US",
+      "habitats": [
+        "pollinators"
+      ],
+      "flagship_taxa": [
+        "bees",
+        "pollinators"
+      ],
+      "donate_url": "https://www.pollinator.org/donate",
+      "every_org_slug": null,
+      "source_url": "https://www.pollinator.org/donate",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "bat-conservation-international",
+      "name": "Bat Conservation International",
+      "country": "US",
+      "habitats": [
+        "forest",
+        "pollinators"
+      ],
+      "flagship_taxa": [
+        "bats",
+        "bat"
+      ],
+      "donate_url": "https://donor.batcon.org/page/donate",
+      "every_org_slug": null,
+      "source_url": "https://www.batcon.org/donate/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "groundwork-uk",
+      "name": "Groundwork",
+      "country": "GB",
+      "habitats": [
+        "urban"
+      ],
+      "flagship_taxa": [],
+      "donate_url": "https://www.groundwork.org.uk/donate-now/",
+      "every_org_slug": null,
+      "source_url": "https://www.groundwork.org.uk/donate/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "trees-for-cities",
+      "name": "Trees for Cities",
+      "country": "GB",
+      "habitats": [
+        "urban"
+      ],
+      "flagship_taxa": [],
+      "donate_url": "https://www.treesforcities.org/get-involved/donate/",
+      "every_org_slug": null,
+      "source_url": "https://www.treesforcities.org/donate",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "tcv",
+      "name": "The Conservation Volunteers (TCV)",
+      "country": "GB",
+      "habitats": [
+        "urban",
+        "grassland"
+      ],
+      "flagship_taxa": [],
+      "donate_url": "https://www.tcv.org.uk/support/",
+      "every_org_slug": null,
+      "source_url": "https://www.tcv.org.uk/support/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "polar-bears-international",
+      "name": "Polar Bears International",
+      "country": "INT",
+      "habitats": [
+        "polar"
+      ],
+      "flagship_taxa": [
+        "polar bear"
+      ],
+      "donate_url": "https://polarbearsinternational.org/donate/",
+      "every_org_slug": null,
+      "source_url": "https://polarbearsinternational.org/donate/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "asoc",
+      "name": "Antarctic and Southern Ocean Coalition",
+      "country": "INT",
+      "habitats": [
+        "polar",
+        "marine"
+      ],
+      "flagship_taxa": [
+        "penguins",
+        "krill"
+      ],
+      "donate_url": "https://www.asoc.org/give-now/",
+      "every_org_slug": null,
+      "source_url": "https://www.asoc.org/",
+      "checked_on": "2026-10-11"
+    },
+    {
+      "id": "oceanites",
+      "name": "Oceanites",
+      "country": "US",
+      "habitats": [
+        "polar"
+      ],
+      "flagship_taxa": [
+        "penguins",
+        "penguin"
+      ],
+      "donate_url": "https://www.oceanites.org/donate",
+      "every_org_slug": null,
+      "source_url": "https://www.oceanites.org/",
+      "checked_on": "2026-10-11"
+    }
+  ]
 }

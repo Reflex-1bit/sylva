@@ -160,13 +160,13 @@
     "habitat_id": "birds"
   },
   "bird feather": {
-    "taxon": "Aves",
-    "rank": "CLASS",
+    "taxon": null,
+    "rank": null,
     "habitat_id": "birds"
   },
   "feather": {
-    "taxon": "Aves",
-    "rank": "CLASS",
+    "taxon": null,
+    "rank": null,
     "habitat_id": "birds"
   },
   "beak": {
@@ -631,13 +631,13 @@
     "habitat_id": "marine"
   },
   "nacre": {
-    "taxon": "Mollusca",
-    "rank": "PHYLUM",
+    "taxon": null,
+    "rank": null,
     "habitat_id": "marine"
   },
   "mother of pearl": {
-    "taxon": "Mollusca",
-    "rank": "PHYLUM",
+    "taxon": null,
+    "rank": null,
     "habitat_id": "marine"
   },
   "conch": {
@@ -801,23 +801,23 @@
     "habitat_id": "forest"
   },
   "spider silk": {
-    "taxon": "Araneae",
-    "rank": "ORDER",
+    "taxon": null,
+    "rank": null,
     "habitat_id": "forest"
   },
   "spider web": {
-    "taxon": "Araneae",
-    "rank": "ORDER",
+    "taxon": null,
+    "rank": null,
     "habitat_id": "forest"
   },
   "spiderweb": {
-    "taxon": "Araneae",
-    "rank": "ORDER",
+    "taxon": null,
+    "rank": null,
     "habitat_id": "forest"
   },
   "cobweb": {
-    "taxon": "Araneae",
-    "rank": "ORDER",
+    "taxon": null,
+    "rank": null,
     "habitat_id": "forest"
   },
   "silkworm": {
@@ -826,8 +826,8 @@
     "habitat_id": null
   },
   "silk": {
-    "taxon": "Bombyx mori",
-    "rank": "SPECIES",
+    "taxon": null,
+    "rank": null,
     "habitat_id": null
   },
   "termite": {
@@ -881,8 +881,8 @@
     "habitat_id": "pollinators"
   },
   "honeycomb": {
-    "taxon": "Apis mellifera",
-    "rank": "SPECIES",
+    "taxon": null,
+    "rank": null,
     "habitat_id": "pollinators"
   },
   "wasp": {
@@ -1226,8 +1226,8 @@
     "habitat_id": "forest"
   },
   "cork": {
-    "taxon": "Quercus suber",
-    "rank": "SPECIES",
+    "taxon": null,
+    "rank": null,
     "habitat_id": "dehesa-savanna"
   },
   "cork oak": {

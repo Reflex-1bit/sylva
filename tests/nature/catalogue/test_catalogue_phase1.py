@@ -144,7 +144,7 @@ def test_loaders_on_real_files():
     assert len(ids) == 18 and "other" in ids
     assert all(s.min_records == (300 if s.candidate else 0) for s in sectors.sectors)
     assert len(common.load_habitats().habitats) == 14
-    assert common.load_groups().groups == []
+    assert len(common.load_groups().groups) >= 28  # 2 per habitat at least
     assert common.load_concordance().cpc
 
 

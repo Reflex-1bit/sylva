@@ -5,12 +5,15 @@ Usage (from repo root):
 
 --data-dir  catalogue reference dir (default data/nature/catalogue)
 --build     directory holding catalogue.json (the export wrapper
-            {licence, licence_url, attribution, version, db, records})
+            {licence, licence_url, attribution, version, db, records}), or, when that is
+            absent, grouped.jsonl (one record per line, as build.py groups writes it).
+            Every record group_ids entry must exist in groups.json.
 """
 
 import argparse
 import json
 import sys
+from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -25,6 +28,9 @@ from common import (  # noqa: E402
 )
 
 from app.models.catalogue import CatalogueRecord  # noqa: E402
+
+
+MIN_GROUPS_PER_HABITAT = 2
 
 
 def check_reference(data_dir: Path) -> tuple[list[str], dict]:
@@ -133,6 +139,15 @@ def check_reference(data_dir: Path) -> tuple[list[str], dict]:
         for h in g.habitats:
             if h not in hab_ids:
                 problems.append(f"groups.json '{g.id}': unknown habitat '{h}'")
+        for field in ("donate_url", "source_url"):
+            if not getattr(g, field).startswith("https://"):
+                problems.append(f"groups.json '{g.id}': {field} must be https")
+        if not isinstance(g.checked_on, date):
+            problems.append(f"groups.json '{g.id}': checked_on must be a date")
+    for h in hab_ids:
+        n = sum(1 for g in loaded["groups"].groups if h in g.habitats)
+        if n < MIN_GROUPS_PER_HABITAT:
+            problems.append(f"groups.json: habitat '{h}' has {n} group(s), needs at least {MIN_GROUPS_PER_HABITAT}")
     return problems, loaded
 
 
@@ -140,8 +155,13 @@ def check_build(build_dir: Path, loaded: dict) -> list[str]:
     """Validate build_dir/catalogue.json records against the reference files and taxonomy."""
     path = build_dir / "catalogue.json"
     try:
-        wrapper = json.loads(path.read_text(encoding="utf-8"))
-        records = wrapper["records"]
+        if not path.exists() and (build_dir / "grouped.jsonl").exists():
+            path = build_dir / "grouped.jsonl"
+            with path.open(encoding="utf-8") as fh:
+                records = [json.loads(line) for line in fh if line.strip()]
+        else:
+            wrapper = json.loads(path.read_text(encoding="utf-8"))
+            records = wrapper["records"]
     except (OSError, ValueError, KeyError, TypeError) as exc:
         return [f"{path}: {exc}"]
     if not isinstance(records, list):

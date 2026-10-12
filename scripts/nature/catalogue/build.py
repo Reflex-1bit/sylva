@@ -1,4 +1,4 @@
-"""Build the Open Nature Catalogue: step 1 (merge) and step 2 (sort). Publishing is a later phase.
+"""Build the Open Nature Catalogue: step 1 (merge), step 2 (sort), step 3 (groups). Publishing is a later phase.
 
 Step 1, merge (writes build/stage/merged.jsonl and build/stage/merge_report.json):
   - load every present raw/<source>/records.jsonl and validate each line as a RawRecord;
@@ -22,8 +22,14 @@ Step 2, sort (writes build/stage/sorted.jsonl and build/stage/report.json): see 
 sectors with fewer primaries than min_records are dropped after a first pass and their records are
 re-sorted without them. Exits 1 when 'other' holds more than 25% of the records.
 
+Step 3, groups (writes build/stage/grouped.jsonl and adds a "groups" block to report.json): each record's
+group_ids from donation_groups.py (flagship groups first, then the groups of its habitat, at most 3).
+
+A stage file is written under a temporary name and renamed only on success, so a failed merge never
+leaves a merged.jsonl that sort would consume.
+
 Usage (from repo root):
-    python scripts/nature/catalogue/build.py merge|sort|all [--offline]
+    python scripts/nature/catalogue/build.py merge|sort|groups|all [--offline]
 No LLM and no embeddings; the output is deterministic for the same inputs and GBIF cache.
 """
 
@@ -47,10 +53,12 @@ from common import (  # noqa: E402
     RAW_DIR,
     REPO,
     load_concordance,
+    load_groups,
     load_habitats,
     load_sectors,
     load_taxonomy,
 )
+from donation_groups import GroupAssigner  # noqa: E402
 from scrub import scrub_contacts  # noqa: E402
 from sort import (  # noqa: E402
     OTHER,
@@ -86,6 +94,7 @@ OTHER_SHARE_MAX = 0.25
 HABITAT_MIN_SCORE = 1.0  # keyword fallback needs at least one strong habitat hit
 SAMPLES_PER_SECTOR = 10
 SAMPLE_SEED = 42
+MAX_GROUPS_PER_RECORD = 3
 GENETIC_TERMS = ("gene", "genes", "genetic", "genome", "dna", "rna", "peptide", "enzyme", "enzymes",
                  "protein sequence", "biosynthesis", "metabolite", "extract", "extracts", "recombinant")
 _SENTENCE_SPLIT = re.compile(r"(?<=[.!?])\s+")
@@ -562,7 +571,8 @@ def merge(raw_dir: Path = RAW_DIR, stage_dir: Path = STAGE_DIR, resolver: Option
     top_organisms = Counter()
     per_source_out = Counter()
     final = stage_dir / "merged.jsonl"
-    with tmp_path.open(encoding="utf-8") as fh, final.open("w", encoding="utf-8", newline="\n") as out:
+    final_tmp = stage_dir / "merged.jsonl.tmp"
+    with tmp_path.open(encoding="utf-8") as fh, final_tmp.open("w", encoding="utf-8", newline="\n") as out:
         for line in fh:
             d = json.loads(line)
             cand = candidates.get(d["id"])
@@ -585,6 +595,12 @@ def merge(raw_dir: Path = RAW_DIR, stage_dir: Path = STAGE_DIR, resolver: Option
             stats["genetic_hint"] += rec.genetic_resource_hint
             stats["library_linked"] += rec.library_id is not None
     tmp_path.unlink()
+    if resolver.stats["errors"]:
+        # gbif_exit_code() reports the failure; the output would silently miss organisms, so no merged.jsonl.
+        final_tmp.unlink()
+        log("merge: GBIF lookups failed; merged.jsonl was not written")
+    else:
+        os.replace(final_tmp, final)
 
     report = {
         "sources_present": [s for s, _ in sources],
@@ -605,8 +621,9 @@ def merge(raw_dir: Path = RAW_DIR, stage_dir: Path = STAGE_DIR, resolver: Option
         "with_genetic_hint": stats["genetic_hint"],
         "library_linked": stats["library_linked"],
     }
-    _write_json(stage_dir / "merge_report.json", report)
-    log(f"merge: wrote {final} ({report['records_after_dedupe']} records)")
+    if not resolver.stats["errors"]:
+        _write_json(stage_dir / "merge_report.json", report)
+        log(f"merge: wrote {final} ({report['records_after_dedupe']} records)")
     return report
 
 
@@ -663,7 +680,8 @@ def sort_step(stage_dir: Path = STAGE_DIR, rules: Optional[Rules] = None, log=pr
     other_terms = Counter()
     total = 0
     out_path = stage_dir / "sorted.jsonl"
-    with out_path.open("w", encoding="utf-8", newline="\n") as out:
+    out_tmp = stage_dir / "sorted.jsonl.tmp"
+    with out_tmp.open("w", encoding="utf-8", newline="\n") as out:
         for d in _iter_merged(merged):
             ft = keyword_text(d)
             decision = decide(score_record(d, ft, rules, active), rules)
@@ -687,6 +705,7 @@ def sort_step(stage_dir: Path = STAGE_DIR, rules: Optional[Rules] = None, log=pr
                 other_terms.update(f"esv:{t}" for t in codes.get("euroscivoc") or [])
                 other_terms.update(f"ca:{t}" for t in codes.get("climate_adapt_sectors") or [])
 
+    os.replace(out_tmp, out_path)
     other_share = per_sector[OTHER] / total if total else 0.0
     rng = random.Random(SAMPLE_SEED)
     sample_rows = {}
@@ -724,6 +743,58 @@ def sort_step(stage_dir: Path = STAGE_DIR, rules: Optional[Rules] = None, log=pr
     return 0, report
 
 
+# ── Step 3: groups ────────────────────────────────────────────────────────────
+
+
+def groups_step(stage_dir: Path = STAGE_DIR, groups=None, habitats=None, log=print) -> dict:
+    """sorted.jsonl -> grouped.jsonl with group_ids filled; adds a 'groups' block to report.json."""
+    sorted_path = stage_dir / "sorted.jsonl"
+    if not sorted_path.exists():
+        raise SystemExit(f"{sorted_path} is missing: run the sort step first")
+    groups = load_groups().groups if groups is None else groups
+    habitats = load_habitats().habitats if habitats is None else habitats
+    assigner = GroupAssigner(groups)
+
+    per_group = Counter()
+    by_count = Counter()
+    habitat_no_group = Counter()
+    total = 0
+    out_path = stage_dir / "grouped.jsonl"
+    out_tmp = stage_dir / "grouped.jsonl.tmp"
+    with sorted_path.open(encoding="utf-8") as fh, out_tmp.open("w", encoding="utf-8", newline="\n") as out:
+        for line in fh:
+            if not line.strip():
+                continue
+            rec = CatalogueRecord.model_validate_json(line)
+            ids = assigner.assign_record(rec)
+            rec = rec.model_copy(update={"group_ids": ids})
+            CatalogueRecord.model_validate(rec.model_dump())  # max 3, unique
+            out.write(rec.model_dump_json() + "\n")
+            total += 1
+            per_group.update(ids)
+            by_count[len(ids)] += 1
+            if rec.habitat_id and not ids:
+                habitat_no_group[rec.habitat_id] += 1
+    os.replace(out_tmp, out_path)
+
+    listed = {h for g in groups for h in g.habitats}
+    block = {
+        "records": total,
+        "records_with_group": total - by_count[0],
+        "records_by_group_count": {str(n): by_count.get(n, 0) for n in range(MAX_GROUPS_PER_RECORD + 1)},
+        "per_group": dict(sorted(per_group.items(), key=lambda kv: (-kv[1], kv[0]))),
+        "groups_unused": sorted(g.id for g in groups if g.id not in per_group),
+        "habitats_with_0_groups": sorted(h.id for h in habitats if h.id not in listed),
+        "records_with_habitat_but_no_group": dict(habitat_no_group),
+    }
+    report_path = stage_dir / "report.json"
+    report = json.loads(report_path.read_text(encoding="utf-8")) if report_path.exists() else {}
+    report["groups"] = block
+    _write_json(report_path, report)
+    log(f"groups: wrote {out_path} ({total} records, {block['records_with_group']} with a group)")
+    return block
+
+
 def gbif_exit_code(resolver: "GbifResolver", log=print) -> int:
     """1 when a GBIF lookup errored and the cache could not answer it (the output would silently miss
     organisms); with --offline a cache miss is 'no match' and only its count is printed."""
@@ -739,7 +810,7 @@ def gbif_exit_code(resolver: "GbifResolver", log=print) -> int:
 
 def main(argv: Optional[list[str]] = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("step", choices=("merge", "sort", "all"))
+    parser.add_argument("step", choices=("merge", "sort", "groups", "all"))
     parser.add_argument("--raw-dir", type=Path, default=RAW_DIR)
     parser.add_argument("--stage-dir", type=Path, default=STAGE_DIR)
     parser.add_argument("--offline", action="store_true", help="use the GBIF cache only, no network")
@@ -752,7 +823,10 @@ def main(argv: Optional[list[str]] = None) -> int:
             return code
     if args.step in ("sort", "all"):
         code, _ = sort_step(args.stage_dir)
-        return code
+        if code:
+            return code
+    if args.step in ("groups", "all"):
+        groups_step(args.stage_dir)
     return 0
 
 
