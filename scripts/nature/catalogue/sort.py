@@ -18,7 +18,7 @@ Concordance rows whose sector is 'other' contribute nothing (rule c; 'other' is 
 
 primary_sector is the argmax; on equal scores the earlier sector in sectors.json wins and the reason
 carries '; tie' (rule e), but only when the tied best score is at least WEAK_TIE_MAX (0.4): a tie
-below it gives 'other' with reason 'weak-tie' (TUNE-1). A best score under 0.2 gives 'other' with
+below it gives 'other' with reason 'weak-tie: <sector>=<score>, ...' naming every tied sector (TUNE-1). A best score under 0.2 gives 'other' with
 reason 'no-signal'.
 sort_confidence = min(1, best) * (1 - 0.5 * runner_up / best), capped at 0.6 when no code signal
 contributed to the winning sector (rule d), rounded to 2 places.
@@ -226,7 +226,8 @@ def decide(scores: dict[str, SectorScore], rules: Rules) -> Decision:
     runner = ranked[1][1].total if len(ranked) > 1 else 0.0
     tie = len(ranked) > 1 and abs(runner - b) < _EPS
     if tie and b < WEAK_TIE_MAX - _EPS:
-        return Decision(OTHER, [], 0.0, WEAK_TIE, best=b)
+        tied = ", ".join(f"{sid}={fmt(sc.total)}" for sid, sc in ranked if abs(sc.total - b) < _EPS)
+        return Decision(OTHER, [], 0.0, f"{WEAK_TIE}: {tied}", best=b)
     conf = min(1.0, b) * (1 - 0.5 * runner / b)
     keyword_only = not best.has_code
     if keyword_only:

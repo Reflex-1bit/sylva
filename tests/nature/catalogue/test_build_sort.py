@@ -453,11 +453,11 @@ TABLE = [
      "subfield:Biomedical Engineering[uncorroborated](+0.5)", []),
     # ── TUNE-1 rule 5: a tie below 0.4 goes to other / weak-tie ──
     # 22 one strong keyword each (0.2 = 0.2)
-    (rec(title="An implant with a catalyst"), "other", 0.0, "weak-tie", []),
+    (rec(title="An implant with a catalyst"), "other", 0.0, "weak-tie: med=0.2, chem=0.2", []),
     # 23 two secondary subfields, both uncorroborated: 0.5 x 0.5 = 0.25 each
-    (rec(subfields=["Unmapped Subfield", "Catalysis", "Mechanical Engineering"]), "other", 0.0, "weak-tie", []),
+    (rec(subfields=["Unmapped Subfield", "Catalysis", "Mechanical Engineering"]), "other", 0.0, "weak-tie: chem=0.25, robo=0.25", []),
     # 24 just below the bar: med 0.3 + 0.05 = 0.35, chem 0.25 + 0.05 + 0.05 = 0.35
-    (rec(title="bone polymer coating", subfields=["Dermatology", "Catalysis"]), "other", 0.0, "weak-tie", []),
+    (rec(title="bone polymer coating", subfields=["Dermatology", "Catalysis"]), "other", 0.0, "weak-tie: med=0.35, chem=0.35", []),
     # 25 a weak score that is NOT a tie still wins (rule 5 only touches ties)
     (rec(title="An implant with a solvent and a polymer"), "chem", 0.15, "kw:solvent,polymer(+0.25)", ["med"]),
 ]
@@ -706,3 +706,8 @@ def test_failed_merge_leaves_no_merged_jsonl(raw_dir, tmp_path, monkeypatch):
     with pytest.raises(ValueError):
         build.merge(raw_dir, stage2, resolver=ok, library_index={}, log=lambda *a: None)
     assert not (stage2 / "merged.jsonl").exists()
+
+
+def test_weak_tie_reason_names_tied_sectors_and_score():
+    d = decide(rec(title="An implant with a catalyst"))
+    assert d.primary == "other" and d.reason.startswith("weak-tie: ") and "med=0.2" in d.reason and "chem=0.2" in d.reason

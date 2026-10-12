@@ -1,4 +1,4 @@
-"""Build the Open Nature Catalogue: step 1 (merge), step 2 (sort), step 3 (groups). Publishing is a later phase.
+"""Build the Open Nature Catalogue: step 1 (merge), step 2 (sort), step 3 (groups), step 4 (publish).
 
 Step 1, merge (writes build/stage/merged.jsonl and build/stage/merge_report.json):
   - load every present raw/<source>/records.jsonl and validate each line as a RawRecord;
@@ -25,11 +25,15 @@ re-sorted without them. Exits 1 when 'other' holds more than 25% of the records.
 Step 3, groups (writes build/stage/grouped.jsonl and adds a "groups" block to report.json): each record's
 group_ids from donation_groups.py (flagship groups first, then the groups of its habitat, at most 3).
 
+Step 4, publish (publish.py): grouped.jsonl -> gzipped JSON chunks and manifest.json under
+frontend/public/catalogue/, a tracked copy of the manifest in build/, and the untracked local
+build/catalogue.json and catalogue.csv; fails over the 60 MB budget or when validate.py --build fails.
+
 A stage file is written under a temporary name and renamed only on success, so a failed merge never
 leaves a merged.jsonl that sort would consume.
 
 Usage (from repo root):
-    python scripts/nature/catalogue/build.py merge|sort|groups|all [--offline]
+    python scripts/nature/catalogue/build.py merge|sort|groups|publish|all [--offline]
 No LLM and no embeddings; the output is deterministic for the same inputs and GBIF cache.
 """
 
@@ -711,7 +715,7 @@ def sort_step(stage_dir: Path = STAGE_DIR, rules: Optional[Rules] = None, log=pr
             flags["tie"] += decision.tie
             flags["keyword_only"] += decision.keyword_only and decision.primary != OTHER
             flags["no_signal"] += decision.reason == NO_SIGNAL
-            flags["weak_tie"] += decision.reason == WEAK_TIE
+            flags["weak_tie"] += decision.reason.startswith(WEAK_TIE)
             flags["with_tags"] += bool(decision.tags)
             samples.setdefault(rec.primary_sector, []).append((rec.id, rec.title, rec.sort_reason))
             if rec.primary_sector == OTHER:
@@ -834,7 +838,7 @@ def gbif_exit_code(resolver: "GbifResolver", log=print) -> int:
 
 def main(argv: Optional[list[str]] = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("step", choices=("merge", "sort", "groups", "all"))
+    parser.add_argument("step", choices=("merge", "sort", "groups", "publish", "all"))
     parser.add_argument("--raw-dir", type=Path, default=RAW_DIR)
     parser.add_argument("--stage-dir", type=Path, default=STAGE_DIR)
     parser.add_argument("--offline", action="store_true", help="use the GBIF cache only, no network")
@@ -851,6 +855,12 @@ def main(argv: Optional[list[str]] = None) -> int:
             return code
     if args.step in ("groups", "all"):
         groups_step(args.stage_dir)
+    if args.step in ("publish", "all"):
+        from publish import publish_step
+
+        code, _ = publish_step(args.stage_dir)
+        if code:
+            return code
     return 0
 
 
