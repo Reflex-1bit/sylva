@@ -1,5 +1,5 @@
 {
-  "version": "2026-10-11",
+  "version": "2026-10-12",
   "nace_source": "https://ec.europa.eu/eurostat/web/nace",
   "sectors": [
     {
@@ -346,7 +346,13 @@
         "solar cell",
         "photovoltaic",
         "power grid",
-        "energy storage"
+        "energy storage",
+        "tidal turbine",
+        "energy harvesting",
+        "energy harvester",
+        "power extraction",
+        "supercapacitor",
+        "fuel cell"
       ],
       "keywords_weak_en": [
         "energy",
@@ -830,7 +836,15 @@
         "additive manufacturing",
         "3d printing",
         "cutting tool",
-        "tooling"
+        "tooling",
+        "robots",
+        "robotic",
+        "actuators",
+        "locomotion",
+        "legged",
+        "crawling robot",
+        "swimming robot",
+        "underwater robot"
       ],
       "keywords_weak_en": [
         "pump",
@@ -910,15 +924,25 @@
         "aerodynamic",
         "airfoil",
         "turbine blade",
-        "helicopter"
-      ],
-      "keywords_weak_en": [
+        "helicopter",
+        "wing",
+        "wings",
+        "aerofoil",
+        "UAV",
+        "MAV",
         "drone",
-        "rotor",
+        "drones",
+        "flight",
+        "flapping wing",
         "ship",
         "vessel",
+        "hull",
+        "aerodynamics",
+        "hydrodynamic drag"
+      ],
+      "keywords_weak_en": [
+        "rotor",
         "train",
-        "wing",
         "rail"
       ],
       "keywords_es": [

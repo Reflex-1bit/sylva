@@ -8,13 +8,17 @@ Per-sector score for one record:
     Climate-ADAPT  mapped sector term +0.8 (max per sector)
     keywords       each distinct strong hit +0.2, each weak hit +0.05 (rule d: 0.25 of a strong hit),
                    capped at +0.8 per sector
-Corroboration (fix round 1): when a sector's ONLY code signal is one of its CORROBORATE_SUBFIELDS (e.g.
-'Biomaterials' for health-medical) and the record has no strong keyword hit for that sector, the
-subfield signal counts x0.5 and its reason carries '[uncorroborated]'.
+Corroboration (fix round 1, generalised in tuning round TUNE-1): when a sector's ONLY code signal is
+an OpenAlex subfield (no CPC, EuroSciVoc or Climate-ADAPT signal for it) and the record has no strong
+keyword hit for that sector, the subfield signal counts x0.5 and its reason carries '[uncorroborated]'.
+This holds for every subfield of every sector; CPC, EuroSciVoc and Climate-ADAPT rows are curated and
+never halved.
 Concordance rows whose sector is 'other' contribute nothing (rule c; 'other' is never scored).
 
 primary_sector is the argmax; on equal scores the earlier sector in sectors.json wins and the reason
-carries '; tie' (rule e). A best score under 0.2 gives 'other' with reason 'no-signal'.
+carries '; tie' (rule e), but only when the tied best score is at least WEAK_TIE_MAX (0.4): a tie
+below it gives 'other' with reason 'weak-tie' (TUNE-1). A best score under 0.2 gives 'other' with
+reason 'no-signal'.
 sort_confidence = min(1, best) * (1 - 0.5 * runner_up / best), capped at 0.6 when no code signal
 contributed to the winning sector (rule d), rounded to 2 places.
 sector_tags are up to 3 other sectors with score >= 0.4 * best and >= 0.2, by score.
@@ -38,10 +42,13 @@ STRONG_KW = 0.2
 WEAK_KW = 0.05
 KW_CAP = 0.8
 MAX_FUNCTIONS = 5
-# Broad subfields that need a strong keyword hit (or another code signal) to count in full.
-CORROBORATE_SUBFIELDS = {"health-medical": frozenset({"Biomedical Engineering", "Biomaterials"})}
+# A subfield that is a sector's only code signal needs a strong keyword hit of that sector to count in full.
 UNCORROBORATED_FACTOR = 0.5
+# A tie whose best score is below this does not go to the earlier sector but to 'other' ('weak-tie').
+WEAK_TIE_MAX = 0.4
 OTHER = "other"
+WEAK_TIE = "weak-tie"
+NO_SIGNAL = "no-signal"
 SCOPE_PREFIX = "scope:"  # harvest bookkeeping keywords, not record content
 
 _EPS = 1e-9
@@ -65,7 +72,6 @@ class SectorScore:
     ca_sig: str = ""
     kw: float = 0.0
     kw_hits: list[str] = field(default_factory=list)
-    subfield_names: set[str] = field(default_factory=set)
 
     @property
     def total(self) -> float:
@@ -176,10 +182,8 @@ def score_record(rec: dict, ft: FoldedText, rules: Rules, active: Iterable[str])
         if i > 0:
             weight *= SECONDARY_SUBFIELD_FACTOR
         sc = scores.get(sector)
-        if sc is not None:
-            sc.subfield_names.add(name)
-            if weight > sc.subfield + _EPS:
-                sc.subfield, sc.subfield_sig = weight, name
+        if sc is not None and weight > sc.subfield + _EPS:
+            sc.subfield, sc.subfield_sig = weight, name
 
     for table, field_name, weight, attr in ((rules.esv, "euroscivoc", EUROSCIVOC_WEIGHT, "esv"),
                                             (rules.ca, "climate_adapt_sectors", CLIMATE_ADAPT_WEIGHT, "ca")):
@@ -198,23 +202,23 @@ def score_record(rec: dict, ft: FoldedText, rules: Rules, active: Iterable[str])
         if strong or weak:
             sc.kw = round(min(KW_CAP, STRONG_KW * len(strong) + WEAK_KW * len(weak)), 6)
             sc.kw_hits = strong + weak
-        needs = CORROBORATE_SUBFIELDS.get(sid)
-        if (needs and sc.subfield and sc.subfield_names <= needs and not strong
-                and sc.cpc == 0 and sc.esv == 0 and sc.ca == 0):
+        if sc.subfield and not strong and sc.cpc == 0 and sc.esv == 0 and sc.ca == 0:
             sc.subfield = round(sc.subfield * UNCORROBORATED_FACTOR, 6)
             sc.subfield_sig += "[uncorroborated]"
     return scores
 
 
 def decide(scores: dict[str, SectorScore], rules: Rules) -> Decision:
-    """primary, tags, confidence and reason from per-sector scores (rules d and e)."""
+    """primary, tags, confidence and reason from per-sector scores (rules d and e, weak-tie)."""
     ranked = sorted(scores.items(), key=lambda kv: (-kv[1].total, rules.position[kv[0]]))
     if not ranked or ranked[0][1].total < MIN_SCORE:
-        return Decision(OTHER, [], 0.0, "no-signal", best=ranked[0][1].total if ranked else 0.0)
+        return Decision(OTHER, [], 0.0, NO_SIGNAL, best=ranked[0][1].total if ranked else 0.0)
     best_id, best = ranked[0]
     b = best.total
     runner = ranked[1][1].total if len(ranked) > 1 else 0.0
     tie = len(ranked) > 1 and abs(runner - b) < _EPS
+    if tie and b < WEAK_TIE_MAX - _EPS:
+        return Decision(OTHER, [], 0.0, WEAK_TIE, best=b)
     conf = min(1.0, b) * (1 - 0.5 * runner / b)
     keyword_only = not best.has_code
     if keyword_only:

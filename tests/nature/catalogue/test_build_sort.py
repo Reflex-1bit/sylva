@@ -398,20 +398,22 @@ def decide(r, active=ALL):
 TABLE = [
     # 1 CPC-only patent: longest prefix C08L -> chem, +1.0
     (rec(title="A widget", cpc=["C08L 1/02"]), "chem", 1.0, "cpc:C08L 1/02(+1.0)", []),
-    # 2 strong primary subfield
-    (rec(subfields=["Biomedical Engineering"]), "med", 1.0, "subfield:Biomedical Engineering(+1.0)", []),
-    # 3 medium subfield
-    (rec(subfields=["Dermatology"]), "med", 0.6, "subfield:Dermatology(+0.6)", []),
+    # 2 strong primary subfield, corroborated by a strong keyword of its sector
+    (rec(title="A suture", subfields=["Biomedical Engineering"]), "med", 1.0,
+     "subfield:Biomedical Engineering(+1.0); kw:suture(+0.2)", []),
+    # 3 medium subfield, corroborated
+    (rec(title="An implant", subfields=["Dermatology"]), "med", 0.8, "subfield:Dermatology(+0.6); kw:implant(+0.2)", []),
     # 4 secondary subfield counts x0.5; the primary subfield (Catalysis) wins
-    (rec(subfields=["Catalysis", "Biomedical Engineering"]), "chem", 0.75,
-     "subfield:Catalysis(+1.0)", ["med"]),
+    (rec(title="A catalyst and a suture", subfields=["Catalysis", "Biomedical Engineering"]), "chem", 0.71,
+     "subfield:Catalysis(+1.0); kw:catalyst(+0.2)", ["med"]),  # chem 1.2, med 0.5 + 0.2
     # 5 keyword-only: 4 strong hits = 0.8, confidence capped at 0.6 (rule d)
     (rec(title="Implant scaffold prosthesis suture"), "med", 0.6, "kw:implant,scaffold,prosthesis,suture(+0.8)", []),
     # 6 keyword cap 0.8 per sector (5 strong + 1 weak)
     (rec(title="implant scaffold prosthesis suture catheter bone"), "med", 0.6,
      "kw:implant,scaffold,prosthesis,suture,catheter,bone(+0.8)", []),
-    # 7 tie: one strong keyword each -> earlier sector (med) wins, flagged
-    (rec(title="An implant with a catalyst"), "med", 0.1, "kw:implant(+0.2); tie", ["chem"]),
+    # 7 tie at 0.4 (two strong keywords each): rule (e) still applies -> earlier sector (med) wins, flagged
+    (rec(title="An implant scaffold with a catalyst in a solvent"), "med", 0.2, "kw:implant,scaffold(+0.4); tie",
+     ["chem"]),
     # 8 below threshold -> other / no-signal (one weak keyword = 0.05)
     (rec(title="A polymer"), "other", 0.0, "no-signal", []),
     # 9 EuroSciVoc term +0.8; the 'other' row adds nothing
@@ -427,6 +429,37 @@ TABLE = [
      "subfield:Mechanical Engineering(+1.0); kw:gripper,actuator(+0.4)", []),
     # 13 one distinct weak keyword (0.05), however often repeated, stays below the threshold
     (rec(title="ventilation", summary="ventilation"), "other", 0.0, "no-signal", []),
+    # ── TUNE-1 rule 1: a subfield that is its sector's only code signal needs a strong keyword ──
+    # 14 lone strong subfield, no keyword of its sector: x0.5
+    (rec(title="Beetle horn micromechanics", subfields=["Mechanical Engineering"]), "robo", 0.5,
+     "subfield:Mechanical Engineering[uncorroborated](+0.5)", []),
+    # 15 lone medium subfield: 0.6 x 0.5
+    (rec(subfields=["Dermatology"]), "med", 0.3, "subfield:Dermatology[uncorroborated](+0.3)", []),
+    # 16 a weak keyword does not corroborate (polymer is weak for chem)
+    (rec(title="A polymer", subfields=["Catalysis"]), "chem", 0.55,
+     "subfield:Catalysis[uncorroborated](+0.5); kw:polymer(+0.05)", []),
+    # 17 a CPC code of the same sector corroborates; CPC itself is never halved
+    (rec(cpc=["C08L 1/02"], subfields=["Catalysis"]), "chem", 1.0, "cpc:C08L 1/02(+1.0); subfield:Catalysis(+1.0)", []),
+    # 18 a EuroSciVoc term corroborates; EuroSciVoc itself is never halved
+    (rec(esv=["medical engineering"], subfields=["Dermatology"]), "med", 1.0,
+     "subfield:Dermatology(+0.6); esv:medical engineering(+0.8)", []),
+    # 19 a Climate-ADAPT term is never halved, even alone
+    (rec(ca=["Buildings"]), "build", 0.8, "ca:Buildings(+0.8)", []),
+    # 20 halving flips the winner: chem 1.0 -> 0.5 uncorroborated; robo secondary 0.5 + gripper 0.2 = 0.7
+    (rec(title="A gripper", subfields=["Catalysis", "Mechanical Engineering"]), "robo", 0.45,
+     "subfield:Mechanical Engineering(+0.5); kw:gripper(+0.2)", ["chem"]),
+    # 21 a second subfield of the same sector does not corroborate (subfields are one signal type)
+    (rec(subfields=["Biomedical Engineering", "Dermatology"]), "med", 0.5,
+     "subfield:Biomedical Engineering[uncorroborated](+0.5)", []),
+    # ── TUNE-1 rule 5: a tie below 0.4 goes to other / weak-tie ──
+    # 22 one strong keyword each (0.2 = 0.2)
+    (rec(title="An implant with a catalyst"), "other", 0.0, "weak-tie", []),
+    # 23 two secondary subfields, both uncorroborated: 0.5 x 0.5 = 0.25 each
+    (rec(subfields=["Unmapped Subfield", "Catalysis", "Mechanical Engineering"]), "other", 0.0, "weak-tie", []),
+    # 24 just below the bar: med 0.3 + 0.05 = 0.35, chem 0.25 + 0.05 + 0.05 = 0.35
+    (rec(title="bone polymer coating", subfields=["Dermatology", "Catalysis"]), "other", 0.0, "weak-tie", []),
+    # 25 a weak score that is NOT a tie still wins (rule 5 only touches ties)
+    (rec(title="An implant with a solvent and a polymer"), "chem", 0.15, "kw:solvent,polymer(+0.25)", ["med"]),
 ]
 
 
@@ -438,9 +471,10 @@ def test_score_table(r, primary, conf, reason, tags):
 
 
 def test_confidence_formula_with_runner_up():
-    # med 1.0 (cpc) vs chem 0.5 (subfield secondary) -> 1.0 * (1 - 0.5 * 0.5) = 0.75
-    d = decide(rec(cpc=["A61F 2/00"], subfields=["Unmapped Subfield", "Catalysis"]))
-    assert d.primary == "med" and d.confidence == 0.75 and d.tags == ["chem"]
+    # med 1.0 (cpc) vs chem 0.5 (subfield secondary, corroborated by 'catalyst') + 0.2 = 0.7
+    # -> 1.0 * (1 - 0.5 * 0.7) = 0.65
+    d = decide(rec(title="A catalyst", cpc=["A61F 2/00"], subfields=["Unmapped Subfield", "Catalysis"]))
+    assert d.primary == "med" and d.confidence == 0.65 and d.tags == ["chem"]
 
 
 def test_candidate_collapse_resorts_without_sector():
@@ -483,12 +517,62 @@ REAL_RULES = build.load_rules()
      0.15, "Biomedical Engineering[uncorroborated]"),
     # another health-medical code signal (CPC A61F) corroborates the subfield
     (rec(title="A device", subfields=["Biomaterials"], cpc=["A61F 2/00"]), 0.6, "Biomaterials"),
-    # another health-medical subfield (Surgery) corroborates too
-    (rec(title="A device", subfields=["Biomaterials", "Surgery"]), 0.6, "Biomaterials"),
+    # TUNE-1: a second health-medical subfield (Surgery) no longer corroborates; subfields are one
+    # signal type, so only a CPC/EuroSciVoc/Climate-ADAPT signal or a strong keyword does
+    (rec(title="A device", subfields=["Biomaterials", "Surgery"]), 0.3, "Biomaterials[uncorroborated]"),
+    # TUNE-1: every subfield is covered now, not only the two broad ones (Surgery is strong, 1.0)
+    (rec(title="A device", subfields=["Surgery"]), 0.5, "Surgery[uncorroborated]"),
 ])
 def test_health_medical_corroboration(r, weight, sig):
     sc = srt.score_record(r, srt.keyword_text(r), REAL_RULES, REAL_RULES.scored)["health-medical"]
     assert (sc.subfield, sc.subfield_sig) == (weight, sig)
+
+
+@pytest.mark.parametrize("r,sector,weight,sig", [
+    # the round-1 confusions with the real sectors.json / concordance.json
+    # basic biomechanics led by Mechanical Engineering, no machinery strong keyword
+    (rec(title="Beetle horn shell micromechanics", subfields=["Mechanical Engineering"]),
+     "machinery-robotics", 0.5, "Mechanical Engineering[uncorroborated]"),
+    # a robot fish led by Aerospace Engineering: no aerospace strong keyword -> halved
+    (rec(title="A robot fish with an undulating tail", subfields=["Aerospace Engineering"]),
+     "aerospace-transport", 0.5, "Aerospace Engineering[uncorroborated]"),
+    # ... while flight corroborates it
+    (rec(title="Flapping wing flight of a hoverfly", subfields=["Aerospace Engineering"]),
+     "aerospace-transport", 1.0, "Aerospace Engineering"),
+    # a weak Environmental Engineering secondary (0.6 x 0.5 = 0.3) with no water keyword -> 0.15
+    (rec(title="A lotus leaf coating", subfields=["Unmapped Subfield", "Environmental Engineering"]),
+     "water-utilities", 0.15, "Environmental Engineering[uncorroborated]"),
+])
+def test_corroboration_all_sectors_real_rules(r, sector, weight, sig):
+    sc = srt.score_record(r, srt.keyword_text(r), REAL_RULES, REAL_RULES.scored)[sector]
+    assert (sc.subfield, sc.subfield_sig) == (weight, sig)
+
+
+@pytest.mark.parametrize("title,sector", [
+    ("A soft robot that crawls", "machinery-robotics"),
+    ("Legged locomotion of a gecko-inspired climber", "machinery-robotics"),
+    ("Underwater robot inspired by the manta ray", "machinery-robotics"),
+    ("A swimming robot with fins", "machinery-robotics"),
+    ("Robotic arms and robots", "machinery-robotics"),
+    ("Insect-scale drones and MAV design", "aerospace-transport"),
+    ("A UAV wing with an aerofoil profile", "aerospace-transport"),
+    ("Hydrodynamic drag of a ship hull", "aerospace-transport"),
+    ("Aerodynamics of bird wings", "aerospace-transport"),
+    ("Tidal turbine blades inspired by whale flippers", "energy"),
+    ("An energy harvester for vibration energy harvesting", "energy"),
+    ("A supercapacitor and a fuel cell", "energy"),
+    ("Power extraction by a flapping foil", "energy"),
+])
+def test_tune1_strong_keywords(title, sector):
+    r = rec(title=title)
+    sc = srt.score_record(r, srt.keyword_text(r), REAL_RULES, REAL_RULES.scored)[sector]
+    assert sc.kw >= srt.STRONG_KW and set(sc.kw_hits) & set(REAL_RULES.strong[sector])
+
+
+def test_drone_only_in_aerospace():
+    for sid in REAL_RULES.scored:
+        terms = set(REAL_RULES.strong[sid]) | set(REAL_RULES.weak[sid])
+        assert bool({"drone", "drones"} & terms) == (sid == "aerospace-transport"), sid
 
 
 def test_scope_keywords_ignored():

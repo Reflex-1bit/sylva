@@ -61,7 +61,9 @@ from common import (  # noqa: E402
 from donation_groups import GroupAssigner  # noqa: E402
 from scrub import scrub_contacts  # noqa: E402
 from sort import (  # noqa: E402
+    NO_SIGNAL,
     OTHER,
+    WEAK_TIE,
     Rules,
     decide,
     dropped_candidates,
@@ -708,7 +710,8 @@ def sort_step(stage_dir: Path = STAGE_DIR, rules: Optional[Rules] = None, log=pr
             histogram[min(9, int(rec.sort_confidence * 10 + 1e-9))] += 1
             flags["tie"] += decision.tie
             flags["keyword_only"] += decision.keyword_only and decision.primary != OTHER
-            flags["no_signal"] += decision.reason == "no-signal"
+            flags["no_signal"] += decision.reason == NO_SIGNAL
+            flags["weak_tie"] += decision.reason == WEAK_TIE
             flags["with_tags"] += bool(decision.tags)
             samples.setdefault(rec.primary_sector, []).append((rec.id, rec.title, rec.sort_reason))
             if rec.primary_sector == OTHER:

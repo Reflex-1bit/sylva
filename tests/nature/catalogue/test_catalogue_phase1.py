@@ -158,9 +158,16 @@ def test_taxonomy_sector_ids_match():
 def test_weak_keyword_lists_and_no_generic_strong_words():
     sectors = {s.id: s for s in common.load_sectors().sectors}
     assert all(hasattr(s, "keywords_weak_en") and hasattr(s, "keywords_weak_es") for s in sectors.values())
-    for sid, word in [("aerospace-transport", "wing"), ("aerospace-transport", "ship"), ("energy", "energy"),
-                      ("packaging", "paper"), ("forestry-fisheries", "forest"), ("health-medical", "tissue")]:
+    for sid, word in [("energy", "energy"), ("packaging", "paper"), ("forestry-fisheries", "forest"),
+                      ("health-medical", "tissue"), ("aerospace-transport", "rotor"), ("aerospace-transport", "train")]:
         assert word not in sectors[sid].keywords_en and word in sectors[sid].keywords_weak_en
+    # Tuning round TUNE-1 moved wing and ship to aerospace-transport's strong list on purpose (with
+    # aircraft, UAV, flight, hull, ...), as corroboration for its subfields; they are no longer weak.
+    for word in ("wing", "ship", "drone", "vessel"):
+        assert word in sectors["aerospace-transport"].keywords_en
+        assert word not in sectors["aerospace-transport"].keywords_weak_en
+    # Generic flow words stay out of the strong lists.
+    assert not {"flow", "fluid"} & set(sectors["aerospace-transport"].keywords_en)
     assert "facade" not in sectors["construction-materials"].keywords_en
     assert "waste management" not in sectors["water-utilities"].keywords_en
     habs = {h.id: h for h in common.load_habitats().habitats}
