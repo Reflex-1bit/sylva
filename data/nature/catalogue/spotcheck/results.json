@@ -1,127 +1,127 @@
 {
   "checked_by": "agent, owner skim pending",
   "sample_size": 200,
-  "seed": 11,
+  "seed": 23,
   "scored_on": "2026-10-12",
   "overall": {
     "n": 199,
-    "precision": 0.5879,
-    "lenient_precision": 0.7638,
-    "relevance": 0.8344,
-    "n_relevance": 163
+    "precision": 0.6281,
+    "lenient_precision": 0.7487,
+    "relevance": 0.7871,
+    "n_relevance": 155
   },
   "sectors": {
     "aerospace-transport": {
-      "n": 15,
-      "precision": 0.2667,
-      "lenient_precision": 0.5333,
-      "relevance": 0.9167,
-      "n_relevance": 12
+      "n": 13,
+      "precision": 0.6154,
+      "lenient_precision": 0.9231,
+      "relevance": 1.0,
+      "n_relevance": 11
     },
     "agrifood": {
-      "n": 6,
-      "precision": 0.6667,
-      "lenient_precision": 0.6667,
-      "relevance": 0.75,
-      "n_relevance": 4
+      "n": 5,
+      "precision": 0.4,
+      "lenient_precision": 0.6,
+      "relevance": 0.5,
+      "n_relevance": 2
     },
     "automotive": {
       "n": 6,
-      "precision": 0.3333,
-      "lenient_precision": 0.8333,
-      "relevance": 0.8333,
-      "n_relevance": 6
+      "precision": 0.6667,
+      "lenient_precision": 1.0,
+      "relevance": 0.8,
+      "n_relevance": 5
     },
     "buildings-architecture": {
       "n": 11,
-      "precision": 0.4545,
-      "lenient_precision": 0.5455,
-      "relevance": 0.7273,
-      "n_relevance": 11
+      "precision": 0.6364,
+      "lenient_precision": 0.6364,
+      "relevance": 1.0,
+      "n_relevance": 7
     },
     "chemicals": {
-      "n": 34,
-      "precision": 0.5588,
-      "lenient_precision": 0.7941,
-      "relevance": 0.8889,
+      "n": 31,
+      "precision": 0.7097,
+      "lenient_precision": 0.8387,
+      "relevance": 0.8148,
       "n_relevance": 27
     },
     "construction-materials": {
       "n": 7,
       "precision": 0.2857,
-      "lenient_precision": 0.8571,
-      "relevance": 0.6667,
+      "lenient_precision": 0.7143,
+      "relevance": 1.0,
       "n_relevance": 6
     },
     "cosmetics": {
       "n": 5,
       "precision": 1.0,
       "lenient_precision": 1.0,
-      "relevance": 0.75,
-      "n_relevance": 4
+      "relevance": 0.8,
+      "n_relevance": 5
     },
     "electronics-ict": {
-      "n": 16,
-      "precision": 0.5625,
-      "lenient_precision": 0.8125,
-      "relevance": 0.8333,
-      "n_relevance": 12
+      "n": 15,
+      "precision": 0.6667,
+      "lenient_precision": 0.7333,
+      "relevance": 0.875,
+      "n_relevance": 8
     },
     "energy": {
       "n": 8,
       "precision": 0.625,
-      "lenient_precision": 1.0,
-      "relevance": 0.8571,
-      "n_relevance": 7
+      "lenient_precision": 0.75,
+      "relevance": 1.0,
+      "n_relevance": 5
     },
     "health-medical": {
-      "n": 30,
-      "precision": 0.9,
-      "lenient_precision": 0.9667,
-      "relevance": 0.88,
-      "n_relevance": 25
+      "n": 28,
+      "precision": 0.8214,
+      "lenient_precision": 0.8929,
+      "relevance": 0.6316,
+      "n_relevance": 19
     },
     "machinery-robotics": {
-      "n": 31,
-      "precision": 0.4839,
-      "lenient_precision": 0.5806,
-      "relevance": 0.9231,
-      "n_relevance": 26
+      "n": 34,
+      "precision": 0.5,
+      "lenient_precision": 0.6471,
+      "relevance": 0.8966,
+      "n_relevance": 29
     },
     "other": {
-      "n": 9,
-      "precision": 0.7778,
-      "lenient_precision": 0.7778,
-      "relevance": 0.6667,
-      "n_relevance": 6
+      "n": 14,
+      "precision": 0.5714,
+      "lenient_precision": 0.5714,
+      "relevance": 0.4167,
+      "n_relevance": 12
     },
     "packaging": {
       "n": 5,
-      "precision": 1.0,
+      "precision": 0.8,
       "lenient_precision": 1.0,
-      "relevance": 0.4,
-      "n_relevance": 5
+      "relevance": 0.5,
+      "n_relevance": 4
     },
     "steel-aluminium": {
-      "n": 4,
-      "precision": 0.75,
-      "lenient_precision": 0.75,
-      "relevance": 0.6667,
-      "n_relevance": 3
+      "n": 5,
+      "precision": 0.0,
+      "lenient_precision": 0.0,
+      "relevance": 0.6,
+      "n_relevance": 5
     },
     "textiles": {
       "n": 5,
       "precision": 0.8,
       "lenient_precision": 0.8,
-      "relevance": 0.6667,
-      "n_relevance": 3
+      "relevance": 0.6,
+      "n_relevance": 5
     },
     "water-utilities": {
       "n": 7,
-      "precision": 0.1429,
+      "precision": 0.5714,
       "lenient_precision": 0.5714,
-      "relevance": 1.0,
-      "n_relevance": 6
+      "relevance": 0.8,
+      "n_relevance": 5
     }
   },
   "below_70": [
@@ -129,11 +129,12 @@
     "agrifood",
     "automotive",
     "buildings-architecture",
-    "chemicals",
     "construction-materials",
     "electronics-ict",
     "energy",
     "machinery-robotics",
+    "other",
+    "steel-aluminium",
     "water-utilities"
   ]
 }
