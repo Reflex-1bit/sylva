@@ -12,7 +12,8 @@ Corroboration (fix round 1, generalised in tuning round TUNE-1): when a sector's
 an OpenAlex subfield (no CPC, EuroSciVoc or Climate-ADAPT signal for it) and the record has no strong
 keyword hit for that sector, the subfield signal counts x0.5 and its reason carries '[uncorroborated]'.
 This holds for every subfield of every sector; CPC, EuroSciVoc and Climate-ADAPT rows are curated and
-never halved.
+never halved. A second subfield of the same sector is not corroboration. The broad BROAD_SUBFIELDS
+(health-medical's 'Biomedical Engineering' and 'Biomaterials') take the old FX-1 x0.5 on top, i.e. x0.25.
 Concordance rows whose sector is 'other' contribute nothing (rule c; 'other' is never scored).
 
 primary_sector is the argmax; on equal scores the earlier sector in sectors.json wins and the reason
@@ -44,6 +45,10 @@ KW_CAP = 0.8
 MAX_FUNCTIONS = 5
 # A subfield that is a sector's only code signal needs a strong keyword hit of that sector to count in full.
 UNCORROBORATED_FACTOR = 0.5
+# FX-1, kept ON TOP of the general rule (TUNE-1 ruling, "variant A"): these broad subfields take a second
+# x0.5 when uncorroborated, so a primary-topic one counts 0.6 x 0.5 x 0.5 = 0.15. The test is on the
+# winning (largest) subfield signal of the sector, as measured for the ruling.
+BROAD_SUBFIELDS = {"health-medical": frozenset({"Biomedical Engineering", "Biomaterials"})}
 # A tie whose best score is below this does not go to the earlier sector but to 'other' ('weak-tie').
 WEAK_TIE_MAX = 0.4
 OTHER = "other"
@@ -203,7 +208,10 @@ def score_record(rec: dict, ft: FoldedText, rules: Rules, active: Iterable[str])
             sc.kw = round(min(KW_CAP, STRONG_KW * len(strong) + WEAK_KW * len(weak)), 6)
             sc.kw_hits = strong + weak
         if sc.subfield and not strong and sc.cpc == 0 and sc.esv == 0 and sc.ca == 0:
-            sc.subfield = round(sc.subfield * UNCORROBORATED_FACTOR, 6)
+            factor = UNCORROBORATED_FACTOR
+            if sc.subfield_sig in BROAD_SUBFIELDS.get(sid, ()):
+                factor *= UNCORROBORATED_FACTOR
+            sc.subfield = round(sc.subfield * factor, 6)
             sc.subfield_sig += "[uncorroborated]"
     return scores
 

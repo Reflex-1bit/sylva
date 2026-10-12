@@ -865,7 +865,9 @@
         "exoesqueleto",
         "impresion 3d",
         "impresión 3d",
-        "fabricacion aditiva"
+        "fabricacion aditiva",
+        "robotico",
+        "robótico"
       ],
       "keywords_weak_es": [
         "bomba",
@@ -935,15 +937,16 @@
         "flight",
         "flapping wing",
         "ship",
-        "vessel",
         "hull",
         "aerodynamics",
-        "hydrodynamic drag"
+        "hydrodynamic drag",
+        "marine vessel"
       ],
       "keywords_weak_en": [
         "rotor",
         "train",
-        "rail"
+        "rail",
+        "vessel"
       ],
       "keywords_es": [
         "aeronave",
@@ -959,13 +962,13 @@
         "ferrocarril",
         "aerodinamico",
         "aerodinámico",
-        "tren de aterrizaje"
-      ],
-      "keywords_weak_es": [
+        "tren de aterrizaje",
         "dron",
+        "drones",
         "barco",
         "buque"
       ],
+      "keywords_weak_es": [],
       "cpc_prefixes": [
         "B61",
         "B63",

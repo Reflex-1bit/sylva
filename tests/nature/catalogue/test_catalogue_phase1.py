@@ -163,9 +163,12 @@ def test_weak_keyword_lists_and_no_generic_strong_words():
         assert word not in sectors[sid].keywords_en and word in sectors[sid].keywords_weak_en
     # Tuning round TUNE-1 moved wing and ship to aerospace-transport's strong list on purpose (with
     # aircraft, UAV, flight, hull, ...), as corroboration for its subfields; they are no longer weak.
-    for word in ("wing", "ship", "drone", "vessel"):
+    for word in ("wing", "ship", "drone"):
         assert word in sectors["aerospace-transport"].keywords_en
         assert word not in sectors["aerospace-transport"].keywords_weak_en
+    # ... but 'vessel' stays weak (blood vessel); only the phrase 'marine vessel' is strong.
+    assert "vessel" in sectors["aerospace-transport"].keywords_weak_en
+    assert "vessel" not in sectors["aerospace-transport"].keywords_en
     # Generic flow words stay out of the strong lists.
     assert not {"flow", "fluid"} & set(sectors["aerospace-transport"].keywords_en)
     assert "facade" not in sectors["construction-materials"].keywords_en

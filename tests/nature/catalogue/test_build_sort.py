@@ -506,21 +506,24 @@ REAL_RULES = build.load_rules()
 
 
 @pytest.mark.parametrize("r,weight,sig", [
-    # Biomaterials is medium (0.6); alone and without a clinical strong keyword it counts x0.5
+    # Biomaterials is medium (0.6); alone and without a clinical strong keyword it counts x0.5 (rule 1)
+    # and x0.5 again (FX-1 kept on top, TUNE-1 variant A): 0.15
     (rec(title="Nacre-like ceramic composites with high toughness", subfields=["Biomaterials"]),
-     0.3, "Biomaterials[uncorroborated]"),
+     0.15, "Biomaterials[uncorroborated]"),
     (rec(title="Porous scaffold for bone regeneration", subfields=["Biomaterials"]), 0.6, "Biomaterials"),
     (rec(title="Antibacterial surfaces for patients", subfields=["Biomedical Engineering"]),
      0.6, "Biomedical Engineering"),
-    # secondary position: 0.6 x 0.5 = 0.3, then uncorroborated x0.5 = 0.15
+    # secondary position: 0.6 x 0.5 = 0.3, then uncorroborated x0.25 = 0.075
     (rec(title="A gripper", subfields=["Mechanical Engineering", "Biomedical Engineering"]),
-     0.15, "Biomedical Engineering[uncorroborated]"),
+     0.075, "Biomedical Engineering[uncorroborated]"),
     # another health-medical code signal (CPC A61F) corroborates the subfield
     (rec(title="A device", subfields=["Biomaterials"], cpc=["A61F 2/00"]), 0.6, "Biomaterials"),
     # TUNE-1: a second health-medical subfield (Surgery) no longer corroborates; subfields are one
     # signal type, so only a CPC/EuroSciVoc/Climate-ADAPT signal or a strong keyword does
-    (rec(title="A device", subfields=["Biomaterials", "Surgery"]), 0.3, "Biomaterials[uncorroborated]"),
-    # TUNE-1: every subfield is covered now, not only the two broad ones (Surgery is strong, 1.0)
+    # (the larger subfield signal, Biomaterials 0.6 > Surgery 0.5, is the one halved, here x0.25)
+    (rec(title="A device", subfields=["Biomaterials", "Surgery"]), 0.15, "Biomaterials[uncorroborated]"),
+    # TUNE-1: every subfield is covered now, not only the two broad ones (Surgery is strong, 1.0);
+    # a non-broad subfield is halved once only
     (rec(title="A device", subfields=["Surgery"]), 0.5, "Surgery[uncorroborated]"),
 ])
 def test_health_medical_corroboration(r, weight, sig):
@@ -567,6 +570,27 @@ def test_tune1_strong_keywords(title, sector):
     r = rec(title=title)
     sc = srt.score_record(r, srt.keyword_text(r), REAL_RULES, REAL_RULES.scored)[sector]
     assert sc.kw >= srt.STRONG_KW and set(sc.kw_hits) & set(REAL_RULES.strong[sector])
+
+
+def test_variant_a_broad_subfield_does_not_beat_a_halved_secondary():
+    # The round-1 regression: primary topic Biomaterials (0.6 -> x0.25 = 0.15) vs a secondary chemicals
+    # subfield (1.0 x 0.5 -> x0.5 = 0.25). With FX-1 kept on top, chemicals wins, as before TUNE-1.
+    r = rec(title="Collagen mineralization with a peptide", subfields=["Biomaterials", "Materials Chemistry"])
+    d = srt.sort_record(r, REAL_RULES, REAL_RULES.scored)
+    assert d.primary == "chemicals"
+    assert d.reason == "subfield:Materials Chemistry[uncorroborated](+0.25)"
+
+
+def test_tune1_followup_vessel_and_spanish():
+    aero_strong, aero_weak = REAL_RULES.strong["aerospace-transport"], REAL_RULES.weak["aerospace-transport"]
+    assert "vessel" in aero_weak and "vessel" not in aero_strong  # blood vessel
+    assert "marine vessel" in aero_strong
+    blood = rec(title="Blood vessel scaffolds")
+    sc = srt.score_record(blood, srt.keyword_text(blood), REAL_RULES, REAL_RULES.scored)["aerospace-transport"]
+    assert sc.kw == srt.WEAK_KW
+    assert {"dron", "drones", "barco", "buque"} <= set(aero_strong)
+    assert not {"dron", "barco", "buque"} & set(aero_weak)
+    assert {"robot", "robotico", "robotica"} <= set(REAL_RULES.strong["machinery-robotics"])  # folded forms
 
 
 def test_drone_only_in_aerospace():
