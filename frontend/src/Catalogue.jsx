@@ -95,15 +95,22 @@ function safeUrl(u) {
 function fold(s) {
   return String(s ?? '')
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
+    .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
+}
+
+// Text from data we do not control: strings stay, numbers become strings, null/objects are skipped.
+function safeText(v) {
+  if (typeof v === 'string') return v
+  if (typeof v === 'number' || typeof v === 'boolean') return String(v)
+  return ''
 }
 
 function textOf(v) {
   if (v == null) return ''
   if (typeof v === 'string') return v
-  if (typeof v === 'object') return v.name || v.scientific_name || v.label || ''
-  return String(v)
+  if (typeof v === 'object') return safeText(v.name || v.scientific_name || v.label)
+  return safeText(v)
 }
 
 const asArray = (v) => (Array.isArray(v) ? v : v == null ? [] : [v])
@@ -111,7 +118,7 @@ const asArray = (v) => (Array.isArray(v) ? v : v == null ? [] : [v])
 function organismName(r) {
   const o = r?.organism
   if (!o) return ''
-  return typeof o === 'string' ? o : o.name || o.scientific_name || ''
+  return safeText(typeof o === 'string' ? o : o.name || o.scientific_name)
 }
 
 function haystack(r) {
@@ -143,17 +150,20 @@ function recordsOf(data) {
 // Fetch one gzipped chunk and unpack it in the browser. If the server sent it with
 // Content-Encoding: gzip, the browser has already decoded it (vite preview does this).
 // If unpacking throws anyway, read it again as plain JSON.
-async function loadChunk(path) {
+const isAbort = (e) => e?.name === 'AbortError'
+
+async function loadChunk(path, signal) {
   const url = BASE + path
-  const res = await fetch(url)
+  const res = await fetch(url, { signal })
   if (!res.ok) throw new Error(`Could not load ${path} (HTTP ${res.status})`)
   if (/gzip/i.test(res.headers.get('Content-Encoding') || '')) return recordsOf(await res.json())
   try {
     if (typeof DecompressionStream === 'undefined' || !res.body) throw new Error('no DecompressionStream')
     const stream = res.body.pipeThrough(new DecompressionStream('gzip'))
     return recordsOf(await new Response(stream).json())
-  } catch {
-    const again = await fetch(url)
+  } catch (e) {
+    if (isAbort(e) || signal?.aborted) throw e
+    const again = await fetch(url, { signal })
     if (!again.ok) throw new Error(`Could not load ${path} (HTTP ${again.status})`)
     return recordsOf(await again.json())
   }
@@ -237,7 +247,7 @@ function saveBlob(blob, name) {
   document.body.appendChild(a)
   a.click()
   a.remove()
-  setTimeout(() => URL.revokeObjectURL(url), 1000)
+  setTimeout(() => URL.revokeObjectURL(url), 60000)
 }
 
 function fileName(manifest, scope, ext) {
@@ -328,7 +338,10 @@ function Donations({ ids, groupsById }) {
           </li>
         ))}
       </ul>
-      <p className="nat-muted">Links go to each group&apos;s own donation page. Sylva does not handle money.</p>
+      <p className="nat-muted">
+        Links go to each group&apos;s own donation page. Sylva does not handle money. Groups are matched by rules
+        (organism, country, habitat); no partnership with the project is implied.
+      </p>
     </div>
   )
 }
@@ -342,11 +355,12 @@ const Row = memo(function Row({ r, ctx }) {
   const orgs = asArray(r.organisations).map(textOf).filter(Boolean)
   const tags = asArray(r.sector_tags).map((t) => ctx.sectorLabels.get(t) || t)
   const confidence = typeof r.sort_confidence === 'number' ? r.sort_confidence.toFixed(2) : null
-  const title = r.title || '(untitled)'
+  const title = safeText(r.title) || '(untitled)'
+  const summary = safeText(r.summary)
 
   return (
     <li className="cat-rec">
-      <h4 className="cat-rec__title">{href ? <ExternalLink href={href}>{title}</ExternalLink> : title}</h4>
+      <h4 className="cat-rec__title" dir="auto">{href ? <ExternalLink href={href}>{title}</ExternalLink> : title}</h4>
       <div className="nat-row cat-rec__meta">
         {r.kind && <span className="nat-tag">{KIND_LABEL[r.kind] || r.kind}</span>}
         {r.year != null && <span>{r.year}</span>}
@@ -382,10 +396,10 @@ const Row = memo(function Row({ r, ctx }) {
           {tags.length ? ` · also tagged: ${tags.join(', ')}` : ''}
         </p>
       </details>
-      {r.summary && (
+      {summary && (
         <details className="cat-details">
           <summary>Summary</summary>
-          <p className="cat-summary">{r.summary}</p>
+          <p className="cat-summary" dir="auto">{summary}</p>
           <p className="nat-muted">Summary licence: {r.summary_licence || 'not stated'}</p>
         </details>
       )}
@@ -411,6 +425,7 @@ export default function Catalogue() {
   const [dl, setDl] = useState({ busy: false, message: '' })
   const [copied, setCopied] = useState('')
   const headingRef = useRef(null)
+  const dlAbort = useRef(null)
 
   useEffect(() => {
     let live = true
@@ -451,24 +466,26 @@ export default function Catalogue() {
   useEffect(() => {
     if (!sector || cache[sector.id]) return undefined
     let live = true
+    const ctrl = new AbortController()
     const chunks = asArray(sector.chunks).filter((c) => c && c.path)
     setLoad({ id: sector.id, done: 0, total: chunks.length, error: '' })
     ;(async () => {
       const all = []
       try {
         for (let i = 0; i < chunks.length; i++) {
-          const recs = await loadChunk(chunks[i].path)
+          const recs = await loadChunk(chunks[i].path, ctrl.signal)
           if (!live) return
           for (const r of recs) all.push(r)
           setLoad({ id: sector.id, done: i + 1, total: chunks.length, error: '' })
         }
         if (live) setCache((c) => ({ ...c, [sector.id]: all }))
       } catch (e) {
-        if (live) setLoad((l) => ({ ...l, id: sector.id, error: e.message || 'Could not load this sector' }))
+        if (live && !isAbort(e)) setLoad((l) => ({ ...l, id: sector.id, error: e.message || 'Could not load this sector' }))
       }
     })()
     return () => {
       live = false
+      ctrl.abort()
     }
   }, [sector, cache])
 
@@ -550,6 +567,8 @@ export default function Catalogue() {
     const b = format === 'csv' ? createCsvBuilder() : createJsonBuilder(wrapperMeta(manifest, null))
     let done = 0
     let count = 0
+    const ctrl = new AbortController()
+    dlAbort.current = ctrl
     setDl({ busy: true, message: `Loading 0/${totalChunks}` })
     try {
       for (const s of sectors) {
@@ -562,7 +581,7 @@ export default function Catalogue() {
           continue
         }
         for (const c of chunks) {
-          const recs = await loadChunk(c.path)
+          const recs = await loadChunk(c.path, ctrl.signal)
           b.add(recs)
           count += recs.length
           done += 1
@@ -573,9 +592,19 @@ export default function Catalogue() {
       saveBlob(b.toBlob(), fileName(manifest, 'all', format))
       setDl({ busy: false, message: `Saved ${fmt(count)} records.` })
     } catch (e) {
-      setDl({ busy: false, message: `Download failed: ${e.message || 'unknown error'}` })
+      if (isAbort(e)) setDl({ busy: false, message: 'Download cancelled.' })
+      else setDl({ busy: false, message: `Download failed: ${e.message || 'unknown error'}` })
+    } finally {
+      if (dlAbort.current === ctrl) dlAbort.current = null
     }
   }
+
+  function cancelDownload() {
+    dlAbort.current?.abort()
+  }
+
+  // Leaving the page cancels a running big download.
+  useEffect(() => () => dlAbort.current?.abort(), [])
 
   function copyAttribution() {
     const text = manifest?.attribution || ''
@@ -594,6 +623,17 @@ export default function Catalogue() {
   const loadingThis = sector && !records && load.id === sector.id && !load.error
   const loadError = sector && !records && load.id === sector.id ? load.error : ''
   const visibleCount = Math.min(limit, filtered.length)
+  const countText = records
+    ? `Showing ${fmt(visibleCount)} of ${fmt(filtered.length)}${
+        filtered.length !== records.length ? ` matching (${fmt(records.length)} in this sector)` : ''
+      }.`
+    : ''
+  const [announced, setAnnounced] = useState('')
+  useEffect(() => {
+    const t = setTimeout(() => setAnnounced(countText), 400)
+    return () => clearTimeout(t)
+  }, [countText])
+  const sectorMissing = Boolean(manifest && sectorId && !sector)
 
   return (
     <div className="nat cat">
@@ -690,8 +730,8 @@ export default function Catalogue() {
                   extra tags. <em>n</em> is how many records were checked.
                 </p>
                 <p>
-                  The checks were done by independent AI agents on blind samples (they did not see the sorter&apos;s
-                  answer first). The owner&apos;s own skim of those samples is still pending. Check label:{' '}
+                  The checks were done by independent AI agents on blind samples (each checker saw the record and five
+                  shuffled sector options, with the machine&apos;s choice not marked). The owner&apos;s own skim of those samples is still pending. Check label:{' '}
                   <q>{spot?.checked_by || 'not recorded'}</q>.
                 </p>
                 {asArray(spot?.rounds).length > 0 && (
@@ -775,8 +815,16 @@ export default function Catalogue() {
                 <button type="button" className="nat-chip" disabled={dl.busy} onClick={() => downloadAll('csv')}>
                   CSV
                 </button>
+                {dl.busy && (
+                  <button type="button" className="nat-chip" onClick={cancelDownload}>
+                    Cancel
+                  </button>
+                )}
                 <span className="nat-muted">{(totalBytes / 1e6).toFixed(1)} MB compressed</span>
               </div>
+              <p className="nat-muted">
+                Large download (~{(totalBytes / 1e6).toFixed(0)} MB compressed, more in memory) – desktop recommended.
+              </p>
               <p className="nat-muted" role="status" aria-live="polite">
                 {dl.message}
               </p>
@@ -795,6 +843,15 @@ export default function Catalogue() {
                 {manifest.download_note && <p className="nat-muted">{manifest.download_note}</p>}
               </div>
             </section>
+
+            {sectorMissing && (
+              <p className="nat-state" role="status">
+                Sector not found.{' '}
+                <Link to="/catalogue" onClick={() => setKinds([])}>
+                  Back to the sector list
+                </Link>
+              </p>
+            )}
 
             {sector && (
               <section className="cat-view" aria-labelledby="cat-view-h">
@@ -848,9 +905,9 @@ export default function Catalogue() {
                         ))}
                       </div>
                     </div>
-                    <p className="nat-muted" aria-live="polite">
-                      Showing {fmt(visibleCount)} of {fmt(filtered.length)}
-                      {filtered.length !== records.length ? ` matching (${fmt(records.length)} in this sector)` : ''}.
+                    <p className="nat-muted">{countText}</p>
+                    <p className="cat-sr-only" role="status" aria-live="polite">
+                      {announced}
                     </p>
                     {filtered.length === 0 && <p className="nat-state">No records match this filter.</p>}
                     {visibleGroups.map((g) => (
