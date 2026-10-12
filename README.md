@@ -134,11 +134,11 @@ reuse a CSV export you must keep the attribution with it.
 
 A free, sector-sorted catalogue of 99,309 records about learning from nature (bio-inspired design and nature-based solutions): scholarly papers, EU research projects and adaptation case studies. Each record is filed under one industry sector, with a design area and the nature functions it touches. Records that name an organism or habitat link to groups that protect it.
 
-- **Where to see it:** the website page at `/catalogue` lists the 16 sectors, loads each one on demand and offers downloads that carry the attribution. The data is static under `frontend/public/catalogue/` (gzipped JSON chunks of at most 2,000 records, plus `manifest.json`).
+- **Where to see it:** the website page at `/catalogue` lists the 16 sectors, loads each one on demand and offers downloads. JSON downloads include the licence and attribution; CSV files do not, so keep the attribution line (shown on the page with a Copy button) next to any CSV you reuse. The data is static under `frontend/public/catalogue/` (gzipped JSON chunks of at most 2,000 records, plus `manifest.json`).
 - **How it is sorted:** by rules only. No language model and no embeddings are used, so the same inputs give the same output. Precision was checked by independent AI agents on blind samples of 200 records: strict 62.8%, lenient 74.9%, relevance 78.7%. The owner skim is still pending. Sectors under 70% strict precision are flagged in the manifest.
 - **Donation links:** each link goes to the group's own donation page and is matched by rules. Sylva does not handle money, and no partnership is implied.
-- **Licence and attribution:** the compilation is CC BY 4.0 by Sylva. Every record keeps its own source licence, and a summary is stored only when its source is CC BY or CC0. Attribution line: `Sylva - Open Nature Catalogue, CC BY 4.0. Sources: OpenAlex (CC0); CORDIS (c) European Union, CC BY 4.0; Climate-ADAPT (c) EEA, CC BY 4.0; GBIF Backbone Taxonomy (CC BY 4.0)`. Keep it with any copy you make.
-- **Rebuild** (from the repository root; the raw harvests under `data/nature/catalogue/raw/` are not committed, and GBIF answers come from the cache):
+- **Licence and attribution:** the compilation is CC BY 4.0 by Sylva. Every record keeps its own source licence, and a summary is stored only when its source is CC BY or CC0. The summaries are the authors' abstracts, under each record's `summary_licence`; they may be shortened and have contact details removed, and OpenAlex's own metadata is CC0. Attribution line: `Sylva - Open Nature Catalogue, CC BY 4.0. Sources: OpenAlex (CC0); CORDIS (© European Union, CC BY 4.0); Climate-ADAPT (© EEA, CC BY 4.0); GBIF Backbone Taxonomy (CC BY 4.0). Summaries are the authors' abstracts, retrieved via OpenAlex or the source named on the record, under each record's summary_licence; they may be shortened and have contact details removed. OpenAlex metadata itself is CC0.`. Keep it with any copy you make.
+- **Rebuild** (from the repository root; the raw harvests under `data/nature/catalogue/raw/` are not committed, and GBIF answers come from a local cache, `scripts/nature/catalogue/.cache/gbif.json`, which is gitignored: rebuilding without it lowers organism coverage):
 
 ```bash
 python -m scripts.nature.catalogue.build merge --offline
@@ -149,7 +149,7 @@ python scripts/nature/catalogue/validate.py --build data/nature/catalogue/build
 ```
 
   Publishing again gives byte-identical files. Method, counts and limits are in [`data/nature/catalogue/README.md`](data/nature/catalogue/README.md).
-- **Known gaps:** the OpenAlex nature-based-solution keywords are not fully harvested (178 of 288 keyword jobs done, 110 pending); PatentsView patents are deferred until a USPTO API key is available, so the catalogue holds no patents yet.
+- **Known gaps:** the OpenAlex nature-based-solution keywords are not fully harvested (155 of 288 keyword jobs done, 133 pending); PatentsView patents are deferred until a USPTO API key is available, so the catalogue holds no patents yet.
 
 ## Project layout
 

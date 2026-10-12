@@ -229,7 +229,8 @@ def test_read_jsonl_reports_line(tmp_path):
 
 
 def test_openalex_licence():
-    assert common.openalex_licence("cc-by") == "CC-BY-4.0"
+    assert common.openalex_licence("cc-by") == "CC-BY"
+    assert common.openalex_licence("cc-by-4.0") == "CC-BY-4.0"
     assert common.openalex_licence("cc0") == "CC0-1.0"
     assert common.openalex_licence("cc-by-nc") == "CC-BY-NC"
     assert common.openalex_licence("cc-by-sa") == "CC-BY-SA"

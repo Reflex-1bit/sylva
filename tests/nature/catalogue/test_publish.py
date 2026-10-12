@@ -113,7 +113,7 @@ def test_manifest_matches_files(tmp_path):
             assert c["bytes"] == len(data) and c["sha256"] == hashlib.sha256(data).hexdigest()
     assert m["spotcheck"] is None and m["sectors"][0]["precision"] is None
     assert m["download_note"] == "CSV files must keep the attribution line with them."
-    assert len(m["groups"]) == 49 and {"id", "label"} <= set(m["areas"][0])
+    assert len(m["groups"]) == len(json.loads((CAT / "groups.json").read_text(encoding="utf-8"))["groups"]) and {"id", "label"} <= set(m["areas"][0])
 
 
 def test_stale_cleanup_deletes_only_chunks_and_manifest(tmp_path):
@@ -190,3 +190,23 @@ def test_spotcheck_rounds_low_sample_and_warning(tmp_path):
     assert m["spotcheck"]["rounds"][1]["note"] == "fresh sample after tuning; published figure"
     assert m["spotcheck"]["rounds"][0]["strict"] == 0.5
 
+
+
+def test_pending_gaps_counts_only_included_keywords(tmp_path):
+    terms = tmp_path / "terms.json"
+    terms.write_text(json.dumps({"keywords": [
+        {"id": "https://openalex.org/keywords/a", "include": True},
+        {"id": "https://openalex.org/keywords/b", "include": True},
+        {"id": "https://openalex.org/keywords/c", "include": False}]}), encoding="utf-8")
+    state = tmp_path / "state.json"
+    state.write_text(json.dumps({"jobs": {
+        "kw:a": {"status": "done"}, "kw:b": {"status": "running"}, "kw:c": {"status": "done"}}}), encoding="utf-8")
+    gaps = pub.pending_gaps(state, terms, ("patentsview",))
+    assert gaps == ["OpenAlex nature-based-solution keywords not yet fully harvested: 1 of 2 keyword jobs done, "
+                    "1 pending (keyless daily budget)"]
+
+
+def test_attribution_says_summaries_are_author_abstracts():
+    a = pub.attribution_for(["openalex"])
+    assert "authors' abstracts" in a and "summary_licence" in a and "contact details removed" in a
+    assert "OpenAlex metadata itself is CC0" in a

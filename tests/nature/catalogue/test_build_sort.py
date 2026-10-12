@@ -297,6 +297,17 @@ def test_gbif_errors_are_not_cached(tmp_path):
     assert build.gbif_exit_code(r, log=logs.append) == 1 and "FAIL" in logs[-1]
 
 
+def test_offline_with_missing_or_empty_cache_warns_and_exits_zero(tmp_path):
+    for cache in (tmp_path / "none.json", tmp_path / "empty.json"):
+        if cache.name == "empty.json":
+            cache.write_text("{}", encoding="utf-8")
+        off = build.GbifResolver(cache, offline=True)
+        off.resolve(["Apis mellifera"])
+        logs = []
+        assert build.gbif_exit_code(off, log=logs.append) == 0
+        assert logs[0].startswith("WARNING") and "organism matching will be reduced" in logs[0]
+
+
 def test_gbif_exit_code_cache_answers_and_offline(tmp_path):
     cache = tmp_path / "g.json"
     cache.write_text(json.dumps({"Gekkonidae": {"usageKey": 5666, "matchType": "EXACT"}}), encoding="utf-8")
@@ -640,6 +651,20 @@ def raw_dir(tmp_path):
         source_codes={"cpc": [], "openalex_subfields": [], "openalex_topics": [], "euroscivoc": [],
                       "climate_adapt_sectors": ["Buildings", "Land use planning"]}) + "\n", encoding="utf-8")
     return tmp_path / "raw"
+
+
+def test_titles_are_scrubbed_like_summaries(tmp_path):
+    oa = tmp_path / "raw" / "openalex"
+    oa.mkdir(parents=True)
+    title = "Silk Scientific: P.O. Box 533, Orem, Utah 84059. Telephone 801-377-6978. Fax: 801-378-5474"
+    (oa / "records.jsonl").write_text(_raw_line(id="oa-W9", title=title) + "\n", encoding="utf-8")
+    resolver = build.GbifResolver(tmp_path / "gbif.json", offline=True)
+    build.merge(tmp_path / "raw", tmp_path / "stage", resolver=resolver, library_index={}, log=lambda *a: None)
+    merged = json.loads((tmp_path / "stage" / "merged.jsonl").read_text(encoding="utf-8").splitlines()[0])
+    assert "801" not in merged["title"] and "Telephone" not in merged["title"] and "Fax" not in merged["title"]
+    assert merged["title"].startswith("Silk Scientific: P.O. Box 533")
+    assert build._clean_title("Titre : sous-titre") == "Titre : sous-titre"  # re-spacing alone is not a change
+    assert build._clean_title("Tel: +90 232 352 40 40") == "Tel: +90 232 352 40 40"  # emptied: original kept
 
 
 def test_merge_then_sort_end_to_end_and_deterministic(raw_dir, tmp_path):

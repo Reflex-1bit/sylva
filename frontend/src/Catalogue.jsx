@@ -109,7 +109,7 @@ function safeText(v) {
 function textOf(v) {
   if (v == null) return ''
   if (typeof v === 'string') return v
-  if (typeof v === 'object') return safeText(v.name || v.scientific_name || v.label)
+  if (typeof v === 'object') return safeText(v.name)
   return safeText(v)
 }
 
@@ -118,12 +118,12 @@ const asArray = (v) => (Array.isArray(v) ? v : v == null ? [] : [v])
 function organismName(r) {
   const o = r?.organism
   if (!o) return ''
-  return safeText(typeof o === 'string' ? o : o.name || o.scientific_name)
+  return safeText(typeof o === 'string' ? o : o.name)
 }
 
 function haystack(r) {
   return fold(
-    [r.title, organismName(r), ...asArray(r.organisations).map(textOf), ...asArray(r.keywords).map(textOf)].join(' \u0001 '),
+    [r.title, organismName(r), ...asArray(r.organisations).map(textOf)].join(' \u0001 '),
   )
 }
 
@@ -152,8 +152,10 @@ function recordsOf(data) {
 // If unpacking throws anyway, read it again as plain JSON.
 const isAbort = (e) => e?.name === 'AbortError'
 
-async function loadChunk(path, signal) {
-  const url = BASE + path
+async function loadChunk(chunk, signal) {
+  const path = chunk.path
+  // The manifest's sha256 versions the URL, so a republished chunk is never served from an hour-old cache.
+  const url = BASE + path + (chunk.sha256 ? `?v=${String(chunk.sha256).slice(0, 12)}` : '')
   const res = await fetch(url, { signal })
   if (!res.ok) throw new Error(`Could not load ${path} (HTTP ${res.status})`)
   if (/gzip/i.test(res.headers.get('Content-Encoding') || '')) return recordsOf(await res.json())
@@ -473,7 +475,7 @@ export default function Catalogue() {
       const all = []
       try {
         for (let i = 0; i < chunks.length; i++) {
-          const recs = await loadChunk(chunks[i].path, ctrl.signal)
+          const recs = await loadChunk(chunks[i], ctrl.signal)
           if (!live) return
           for (const r of recs) all.push(r)
           setLoad({ id: sector.id, done: i + 1, total: chunks.length, error: '' })
@@ -581,7 +583,7 @@ export default function Catalogue() {
           continue
         }
         for (const c of chunks) {
-          const recs = await loadChunk(c.path, ctrl.signal)
+          const recs = await loadChunk(c, ctrl.signal)
           b.add(recs)
           count += recs.length
           done += 1
@@ -731,7 +733,7 @@ export default function Catalogue() {
                 </p>
                 <p>
                   The checks were done by independent AI agents on blind samples (each checker saw the record and five
-                  shuffled sector options, with the machine&apos;s choice not marked). The owner&apos;s own skim of those samples is still pending. Check label:{' '}
+                  shuffled sector options, with the machine&apos;s choice not marked). {!/owner/i.test(spot?.checked_by || '') && <>The owner&apos;s own skim of those samples is still pending. </>}Check label:{' '}
                   <q>{spot?.checked_by || 'not recorded'}</q>.
                 </p>
                 {asArray(spot?.rounds).length > 0 && (
@@ -888,7 +890,7 @@ export default function Catalogue() {
                   <>
                     <div className="nat-panel cat-filters">
                       <div className="nat-field">
-                        <label htmlFor="cat-q">Filter by title, organism, organisation or keyword</label>
+                        <label htmlFor="cat-q">Filter by title, organism or organisation</label>
                         <input id="cat-q" type="search" value={query} onChange={(e) => setQuery(e.target.value)} />
                       </div>
                       <div className="nat-row" role="group" aria-label="Kind">

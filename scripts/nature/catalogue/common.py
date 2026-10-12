@@ -79,12 +79,12 @@ def read_jsonl(path: Path, model: Type[M]) -> list[M]:
 
 
 def openalex_licence(oa_license: Optional[str]) -> Optional[str]:
-    """OpenAlex 'license' id -> catalogue licence string (cc-by -> CC-BY-4.0, cc0 -> CC0-1.0)."""
+    """OpenAlex 'license' id -> catalogue licence string (cc-by -> CC-BY, no version invented; cc0 -> CC0-1.0)."""
     lic = (oa_license or "").strip().lower()
     if not lic:
         return None
     if lic == "cc-by":
-        return "CC-BY-4.0"
+        return "CC-BY"
     if lic == "cc0":
         return "CC0-1.0"
     return lic.upper()

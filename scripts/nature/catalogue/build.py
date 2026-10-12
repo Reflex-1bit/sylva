@@ -2,7 +2,7 @@
 
 Step 1, merge (writes build/stage/merged.jsonl and build/stage/merge_report.json):
   - load every present raw/<source>/records.jsonl and validate each line as a RawRecord;
-  - scrub contact clauses from every summary (scrub.scrub_contacts);
+  - scrub contact clauses from every title and summary (scrub.scrub_contacts);
   - dedupe: same id; then (1) same bare DOI (CORDIS grant DOIs 10.3030/... match only within the
     same kind); then (2) same fold(title) + year + kind (titles of 3+ words and 20+ characters only,
     so generic titles such as "Editorial" never merge). Keep the record that has a summary, then
@@ -191,6 +191,14 @@ def title_key(title: str, year: Optional[int], kind: str) -> Optional[tuple]:
     if len(t) < TITLE_MIN_CHARS or len(t.split()) < TITLE_MIN_WORDS:
         return None
     return (t, year, kind)
+
+
+def _clean_title(title: str) -> str:
+    """Titles get the same contact scrub as summaries. A title the scrub only re-spaces ("Title : subtitle",
+    French style) or empties keeps its original text; only a real contact removal changes it."""
+    cleaned = scrub_contacts(title)
+    respaced = re.sub(r"[ \t]{2,}", " ", re.sub(r"\s+([.,;:])", r"\1", title)).strip()
+    return title if (not cleaned or cleaned == respaced) else cleaned
 
 
 def _clean_summary(summary: Optional[str]) -> Optional[str]:
@@ -566,6 +574,7 @@ def _merge(raw_dir: Path = RAW_DIR, stage_dir: Path = STAGE_DIR, resolver: Optio
                 if k is None or d["id"] in written:
                     continue
                 written.add(d["id"])
+                d["title"] = _clean_title(d["title"])
                 d["summary"] = _clean_summary(d.get("summary"))
                 d["countries"] = k.countries
                 d["organisations"] = k.organisations
@@ -827,6 +836,9 @@ def gbif_exit_code(resolver: "GbifResolver", log=print) -> int:
     """1 when a GBIF lookup errored and the cache could not answer it (the output would silently miss
     organisms); with --offline a cache miss is 'no match' and only its count is printed."""
     if resolver.offline:
+        if not resolver.cache:
+            log("WARNING: --offline and the GBIF cache (scripts/nature/catalogue/.cache/gbif.json) is missing or "
+                "empty; organism matching will be reduced (names without a cached match are treated as no match)")
         log(f"merge: offline, {resolver.stats['uncached_offline']} GBIF names not in the cache "
             "(treated as no match)")
     if resolver.stats["errors"]:

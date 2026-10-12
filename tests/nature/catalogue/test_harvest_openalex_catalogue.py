@@ -60,7 +60,7 @@ def test_rebuild_abstract_orders_by_position():
 def test_summary_kept_for_cc_by_dropped_for_nc():
     keep = ho.work_to_record(_work(1), "2026-10-11")
     assert keep.summary == "Lotus leaves repel water"
-    assert keep.summary_licence == "CC-BY-4.0"
+    assert keep.summary_licence == "CC-BY"
     nc = ho.work_to_record(_work(2, best_oa_location={"license": "cc-by-nc"}), "2026-10-11")
     assert nc.summary is None and nc.summary_licence is None
     none = ho.work_to_record(_work(3, best_oa_location=None), "2026-10-11")

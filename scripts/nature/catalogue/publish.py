@@ -56,6 +56,9 @@ LICENCE = "CC-BY-4.0"
 LICENCE_URL = "https://creativecommons.org/licenses/by/4.0/"
 KIND_ORDER = {"project": 0, "case_study": 1, "patent": 2, "paper": 3}
 DOWNLOAD_NOTE = "CSV files must keep the attribution line with them."
+SUMMARY_NOTE = ("Summaries are the authors' abstracts, retrieved via OpenAlex or the source named on the record, "
+                "under each record's summary_licence; they may be shortened and have contact details removed. "
+                "OpenAlex metadata itself is CC0.")
 
 # Attribution lines per source (see docs/plans/research/sources.md); ASCII "-" for the dash.
 SOURCE_INFO = {
@@ -91,7 +94,7 @@ def _csv_cell(value) -> str:
 def attribution_for(source_ids: list[str]) -> str:
     """Sylva plus each source present in the build, in SOURCE_ORDER."""
     lines = [SOURCE_INFO[s][2] for s in SOURCE_ORDER if s in source_ids]
-    return "Sylva - Open Nature Catalogue, CC BY 4.0. Sources: " + "; ".join(lines)
+    return ("Sylva - Open Nature Catalogue, CC BY 4.0. Sources: " + "; ".join(lines) + ". " + SUMMARY_NOTE)
 
 
 def sort_key(area_order: dict[str, int], rec: CatalogueRecord) -> tuple:
@@ -176,7 +179,9 @@ def pending_gaps(state_path: Path = OPENALEX_STATE, terms_path: Path = OPENALEX_
     state = _load_json(state_path)
     if terms is not None and state is not None:
         included = [k for k in terms["keywords"] if k.get("include")]
-        done = sum(1 for j in state.get("jobs", {}).values() if j.get("status") == "done")
+        # Only jobs of keywords that are included now: a done job of a keyword since excluded does not count.
+        wanted = {f"kw:{k['id'].rstrip('/').rsplit('/', 1)[-1]}" for k in included}
+        done = sum(1 for jid, j in state.get("jobs", {}).items() if jid in wanted and j.get("status") == "done")
         left = max(len(included) - done, 0)
         if left:
             gaps.append(f"OpenAlex nature-based-solution keywords not yet fully harvested: {done} of "

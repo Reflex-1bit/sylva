@@ -20,16 +20,16 @@ stored only when its source licence is CC BY or CC0, so only 15,319 records carr
 | GBIF Backbone Taxonomy (organism names only) | 11,336 records linked | CC BY 4.0 | GBIF Backbone Taxonomy (CC BY 4.0) |
 
 Counts are after de-duplication (101,669 harvested; 40 merged by DOI, 2,320 by title, year and kind).
-Whole-catalogue attribution: `Sylva - Open Nature Catalogue, CC BY 4.0. Sources: OpenAlex (CC0); CORDIS
-(© European Union, CC BY 4.0); Climate-ADAPT (© EEA, CC BY 4.0); GBIF Backbone Taxonomy (CC BY 4.0)`.
-The manifest builds this line from the sources actually present. CSV files must keep the attribution line
-with them.
+Whole-catalogue attribution: `Sylva - Open Nature Catalogue, CC BY 4.0. Sources: OpenAlex (CC0); CORDIS (© European Union, CC BY 4.0); Climate-ADAPT (© EEA, CC BY 4.0); GBIF Backbone Taxonomy (CC BY 4.0). Summaries are the authors' abstracts, retrieved via OpenAlex or the source named on the record, under each record's summary_licence; they may be shortened and have contact details removed. OpenAlex metadata itself is CC0.`
+The manifest builds this line from the sources actually present. JSON downloads include the licence and
+attribution; CSV files do not, so CSV files must keep the attribution line with them. OpenAlex `cc-by` summary
+licences are stored as `CC-BY` (no version is invented); versioned values are kept as given.
 
 ## Method
 
 Rules only. No LLM and no embeddings are used anywhere; the same inputs and GBIF cache give the same output.
 
-1. **Merge.** Raw harvests are validated, contact clauses are scrubbed from summaries, and duplicates are
+1. **Merge.** Raw harvests are validated, contact clauses are scrubbed from titles and summaries, and duplicates are
    merged. Organisms come from a common-name lexicon or a Latin binomial confirmed on the GBIF species
    match API; habitats from the lexicon or habitat keywords.
 2. **Sort.** Each record scores every sector from curated concordance rows (CPC patent codes, OpenAlex
@@ -83,8 +83,8 @@ group's own donation page.
 
 The same list is in the manifest under `pending`.
 
-- OpenAlex nature-based-solution keywords are not yet fully harvested: 178 of 288 keyword jobs are done and
-  110 are pending (keyless daily budget).
+- OpenAlex nature-based-solution keywords are not yet fully harvested: 155 of 288 keyword jobs are done and
+  133 are pending (keyless daily budget).
 - PatentsView patents are deferred (needs a USPTO API key).
 
 A GitHub Release of the full files is a possible later step; none has been made.
@@ -94,7 +94,7 @@ A GitHub Release of the full files is a possible later step; none has been made.
 From the repository root, in order (the raw harvests under `raw/` come first and are not committed):
 
 ```
-python scripts/nature/catalogue/build.py merge --offline    # GBIF answers from the cache
+python scripts/nature/catalogue/build.py merge --offline    # GBIF answers from the local cache
 python scripts/nature/catalogue/build.py sort
 python scripts/nature/catalogue/build.py groups
 python scripts/nature/catalogue/build.py publish
@@ -103,6 +103,10 @@ python scripts/nature/catalogue/validate.py --build data/nature/catalogue/build
 
 `build.py all --offline` runs the four steps. Publishing fails if the chunks exceed 60 MB (warns above
 40 MB; this build is 18.4 MB) or if `validate.py --build` fails.
+
+The GBIF cache (`scripts/nature/catalogue/.cache/gbif.json`) is local and gitignored. With `--offline` and a
+missing or empty cache the build prints a WARNING and continues, but organism matching is reduced, so the
+organism coverage of a rebuild without the cache is lower than the published figure.
 
 ## File layout
 
