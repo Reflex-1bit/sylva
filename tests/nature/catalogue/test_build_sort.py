@@ -2,6 +2,7 @@
 
 import importlib.util
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -82,6 +83,29 @@ def test_scrub_correspondence_clauses():
     assert "Corresponding" not in s and "Univ X" not in s and "Methods." in s
     s = scrub.scrub_contacts("Contact [email protected] for data.")
     assert "email" not in s and "protected" not in s
+
+
+TEL_RE = re.compile(r"\b(tel|fax|phone)\b\.?\s*:?\s*\+?\d", re.I)
+STUB_RE = re.compile(r"e-?mail\s*:", re.I)
+
+
+@pytest.mark.parametrize("text,kept", [
+    ("Cigli - Izmir - Turkey - E-mail: - Tel: +902323524040. PURPOSE: This study aimed", "PURPOSE: This study aimed"),
+    ("Manchester M13 9PL, U.K. Fax: 0161-275 4939 Manuscript received 20 October 2000", "Manuscript received 20"),
+    ("Visakhapatnam-530 045, India E-mail: Fax: 91-891-2790032 Manuscript received online", "Manuscript received"),
+    ("Tamilnadu, India E-mail:, Sol-gel silica glass", "Sol-gel silica glass"),
+    ("Maharashtra, IndiaEmail:", "Maharashtra, India"),
+    ("Tel. (+34) 91 123 45 67; Telephone: 0034 91 1234567. Phone +1-555-0100. Results.", "Results."),
+])
+def test_scrub_phone_fax_and_email_stubs(text, kept):
+    s = scrub.scrub_contacts(text)
+    assert not TEL_RE.search(s) and not STUB_RE.search(s) and kept in s
+    assert not re.search(r"\d{6,}", s)
+
+
+def test_scrub_keeps_ordinary_words():
+    for text in ("We tested 5 telephone poles.", "The phone is 3 years old.", "Leave a voicemail: ok."):
+        assert scrub.scrub_contacts(text) == text
 
 
 # ── dedupe ────────────────────────────────────────────────────────────────────
@@ -172,17 +196,44 @@ def test_lexicon_title_before_summary_and_binomial_fallback():
     assert hit["name"] == "shark skin"
     hit = build.detect_organism("Surface wax of the bug Rhodnius prolixus", None, LEX)
     assert hit == {"name": "Rhodnius prolixus", "query": "Rhodnius prolixus", "rank": None,
-                   "habitat_id": None, "method": "binomial"}
+                   "habitat_id": None, "gbif_key": None, "method": "binomial"}
     hit = build.detect_organism("A new coating", "Tests used larvae. Wax from the bug Rhodnius prolixus was studied.", LEX)
     assert hit["name"] == "Rhodnius prolixus"
     assert build.detect_organism("Machine learning for robots", "Nothing alive here.", LEX) is None
 
 
-def test_lexicon_generic_tissue_word_has_no_taxon():
+def test_lexicon_taxon_null_word_feeds_habitat_only():
     hit = build.detect_organism("Wood-inspired lattices", None, LEX)
-    assert hit["query"] is None and hit["habitat_id"] == "forest"
-    org = build.build_organism(hit, {})
-    assert org.name == "wood" and org.gbif_key is None
+    assert hit["method"] == "habitat_only" and hit["query"] is None and hit["habitat_id"] == "forest"
+    assert build.build_organism(hit, {}) is None  # wood is not an organism
+    hit = build.detect_organism("Bone-like scaffolds for implants", None, LEX)
+    assert hit["method"] == "habitat_only" and build.build_organism(hit, {}) is None
+
+
+def test_lexicon_real_taxon_in_summary_beats_taxon_null_word_in_title():
+    hit = build.detect_organism("Leaf-like veins in a cooling plate", "The design copies the gecko toe.", LEX)
+    assert hit["name"] == "gecko" and hit["method"] == "lexicon"
+    hit = build.detect_organism("Bone-like composites", "Wax from the bug Rhodnius prolixus was studied.", LEX)
+    assert hit["name"] == "Rhodnius prolixus"
+
+
+def test_fish_is_a_class_with_a_pinned_gbif_key():
+    hit = build.detect_organism("Fish-inspired swimming robots", None, LEX)
+    assert hit["name"] == "fish" and hit["query"] == "Actinopterygii" and hit["rank"] == "CLASS"
+    org = build.build_organism(hit, {"Actinopterygii": None})  # /species/match gives NONE for the class
+    assert org.model_dump() == {"name": "fish", "gbif_key": 204, "rank": "CLASS"}
+
+
+def test_stoplisted_binomials_yield_no_organism():
+    stop = build.Stoplist.load()
+    assert "Staphylococcus aureus" in stop and "Escherichia coli" in stop and "Homo sapiens" in stop
+    assert "Staphylococcus epidermidis" in stop and "Sporosarcina epidermidis" in stop  # "S. epidermidis"
+    assert "Rhodnius prolixus" not in stop
+    text = "Coatings were tested against the bacterium Staphylococcus aureus in vitro."
+    assert build.detect_organism("A new coating", text, LEX, stop) is None
+    both = text + " The texture copies the bug Rhodnius prolixus closely."
+    assert build.detect_organism("A new coating", both, LEX, stop)["name"] == "Rhodnius prolixus"
+    assert build.detect_organism("A new coating", text, LEX)["name"] == "Staphylococcus aureus"  # no stoplist
 
 
 @pytest.mark.parametrize("match,ok", [
@@ -242,6 +293,47 @@ def test_gbif_errors_are_not_cached(tmp_path):
     r = build.GbifResolver(tmp_path / "g.json", fetch=boom, sleep=lambda s: None)
     assert r.resolve(["Gekkonidae"]) == {"Gekkonidae": None}
     assert r.stats["errors"] == 1 and not (tmp_path / "g.json").exists()
+    logs = []
+    assert build.gbif_exit_code(r, log=logs.append) == 1 and "FAIL" in logs[-1]
+
+
+def test_gbif_exit_code_cache_answers_and_offline(tmp_path):
+    cache = tmp_path / "g.json"
+    cache.write_text(json.dumps({"Gekkonidae": {"usageKey": 5666, "matchType": "EXACT"}}), encoding="utf-8")
+
+    def boom(url, params=None):
+        raise RuntimeError("down")
+    r = build.GbifResolver(cache, fetch=boom, sleep=lambda s: None)
+    r.resolve(["Gekkonidae"])  # answered from the cache: no error
+    assert build.gbif_exit_code(r, log=lambda *a: None) == 0
+
+    off = build.GbifResolver(cache, offline=True)
+    out = off.resolve(["Gekkonidae", "Apis mellifera", "Mytilus edulis"])
+    assert out["Apis mellifera"] is None and off.stats["uncached_offline"] == 2  # a miss is "no match"
+    logs = []
+    assert build.gbif_exit_code(off, log=logs.append) == 0
+    assert "2 GBIF names not in the cache" in logs[0]
+
+
+def test_build_main_exits_non_zero_on_gbif_errors(raw_dir, tmp_path, monkeypatch):
+    class Failing(build.GbifResolver):
+        def __init__(self, offline=False):
+            def boom(url, params=None):
+                raise RuntimeError("down")
+            super().__init__(tmp_path / "g.json", fetch=boom, sleep=lambda s: None, offline=offline)
+    monkeypatch.setattr(build, "GbifResolver", Failing)
+    monkeypatch.setattr(build, "library_doi_index", lambda: {})
+    stage = tmp_path / "stage"
+    assert build.main(["all", "--raw-dir", str(raw_dir), "--stage-dir", str(stage)]) == 1
+    assert not (stage / "sorted.jsonl").exists()  # sort does not run on a broken merge
+
+
+def test_habitat_fallback_title_summary_only_and_needs_a_strong_hit():
+    habitats = build.load_habitats()
+    rec_ = {"title": "Ice and leaf textures on a tree root", "summary": None, "keywords": ["marine", "ocean"]}
+    assert build.habitat_from_keywords(build.habitat_text(rec_), habitats) is None  # weak only; keywords ignored
+    rec_ = {"title": "Coral reef inspired breakwater", "summary": None, "keywords": []}
+    assert build.habitat_from_keywords(build.habitat_text(rec_), habitats) == "marine"
 
 
 # ── sorting rules (hand-made score table) ─────────────────────────────────────
@@ -374,6 +466,29 @@ def test_functions_then_area():
     functions, area = srt.functions_and_area(srt.keyword_text(rec(title="Urban wetland battery")), RULES)
     assert functions == [] and area == "place"  # area keywords: place 2 > energy 1
     assert srt.functions_and_area(srt.keyword_text(rec(title="nothing")), RULES) == ([], None)
+
+
+REAL_RULES = build.load_rules()
+
+
+@pytest.mark.parametrize("r,weight,sig", [
+    # Biomaterials is medium (0.6); alone and without a clinical strong keyword it counts x0.5
+    (rec(title="Nacre-like ceramic composites with high toughness", subfields=["Biomaterials"]),
+     0.3, "Biomaterials[uncorroborated]"),
+    (rec(title="Porous scaffold for bone regeneration", subfields=["Biomaterials"]), 0.6, "Biomaterials"),
+    (rec(title="Antibacterial surfaces for patients", subfields=["Biomedical Engineering"]),
+     0.6, "Biomedical Engineering"),
+    # secondary position: 0.6 x 0.5 = 0.3, then uncorroborated x0.5 = 0.15
+    (rec(title="A gripper", subfields=["Mechanical Engineering", "Biomedical Engineering"]),
+     0.15, "Biomedical Engineering[uncorroborated]"),
+    # another health-medical code signal (CPC A61F) corroborates the subfield
+    (rec(title="A device", subfields=["Biomaterials"], cpc=["A61F 2/00"]), 0.6, "Biomaterials"),
+    # another health-medical subfield (Surgery) corroborates too
+    (rec(title="A device", subfields=["Biomaterials", "Surgery"]), 0.6, "Biomaterials"),
+])
+def test_health_medical_corroboration(r, weight, sig):
+    sc = srt.score_record(r, srt.keyword_text(r), REAL_RULES, REAL_RULES.scored)["health-medical"]
+    assert (sc.subfield, sc.subfield_sig) == (weight, sig)
 
 
 def test_scope_keywords_ignored():

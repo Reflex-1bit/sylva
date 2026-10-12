@@ -1,6 +1,6 @@
 {
   "version": "2026-10-11",
-  "notes": "Source-code to sector mappings, built from sectors.json plus hand-written EuroSciVoc and Climate-ADAPT rows. (a) Keyword matching is whole-word, lower-cased, accent-folded tokens and phrases, never substrings. (b) CPC codes are compared in compact form (spaces and slashes removed, upper case), and the longest prefix wins. (c) An unmapped OpenAlex subfield, EuroSciVoc term or Climate-ADAPT term contributes no sector, so the record falls to keywords and then 'other'. (d) Keyword-only (no code) sorting is capped at confidence 0.6, and a weak keyword counts 0.25 of a strong hit. (e) Tie-break: the highest score wins; on equal scores the earlier sector in sectors.json wins and the record is flagged 'tie' in sort_reason. (f) OpenAlex subfield rows with strength 'medium' are broad and count as medium-confidence signals; the default is 'strong'. (g) Climate-ADAPT terms are spelled exactly as in the harvested records (checked against scripts/nature/catalogue/climate_adapt_sectors.txt); 'Tourism' and 'Non specific' are left unmapped on purpose, and rows whose sector is 'other' contribute no sector score.",
+  "notes": "Source-code to sector mappings, built from sectors.json plus hand-written EuroSciVoc and Climate-ADAPT rows. (a) Keyword matching is whole-word, lower-cased, accent-folded tokens and phrases, never substrings. (b) CPC codes are compared in compact form (spaces and slashes removed, upper case), and the longest prefix wins. (c) An unmapped OpenAlex subfield, EuroSciVoc term or Climate-ADAPT term contributes no sector, so the record falls to keywords and then 'other'. (d) Keyword-only (no code) sorting is capped at confidence 0.6, and a weak keyword counts 0.25 of a strong hit. (e) Tie-break: the highest score wins; on equal scores the earlier sector in sectors.json wins and the record is flagged 'tie' in sort_reason. (f) OpenAlex subfield rows with strength 'medium' are broad and count as medium-confidence signals; the default is 'strong'. (g) Climate-ADAPT terms are spelled exactly as in the harvested records (checked against scripts/nature/catalogue/climate_adapt_sectors.txt); 'Tourism' and 'Non specific' are left unmapped on purpose, and rows whose sector is 'other' contribute no sector score. (h) Corroboration: 'Biomedical Engineering' and 'Biomaterials' are medium, and when one of them is health-medical's only code signal and the record has no health-medical strong keyword, that signal counts x0.5.",
   "cpc": [
     {
       "prefix": "B21",
@@ -715,14 +715,14 @@
     {
       "name": "Biomedical Engineering",
       "sector": "health-medical",
-      "strength": "strong",
-      "note": "OpenAlex subfield 'Biomedical Engineering' -> health-medical; subfields are broad, keyword rules refine"
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Biomedical Engineering' -> health-medical, medium: the subfield also covers non-clinical materials work; it counts x0.5 more when it is health-medical's only code signal and no health-medical strong keyword is present (sort.py corroboration rule)"
     },
     {
       "name": "Biomaterials",
       "sector": "health-medical",
-      "strength": "strong",
-      "note": "OpenAlex subfield 'Biomaterials' -> health-medical; subfields are broad, keyword rules refine"
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Biomaterials' -> health-medical, medium: the subfield also covers non-clinical materials work; it counts x0.5 more when it is health-medical's only code signal and no health-medical strong keyword is present (sort.py corroboration rule)"
     },
     {
       "name": "Surgery",

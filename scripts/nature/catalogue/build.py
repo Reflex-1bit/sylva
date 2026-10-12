@@ -38,7 +38,7 @@ import time
 from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Callable, Iterator, Optional
+from typing import Callable, Iterable, Iterator, Optional
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
@@ -68,6 +68,7 @@ from app.models.catalogue import CatalogueRecord, Organism, RawRecord  # noqa: E
 HERE = Path(__file__).resolve().parent
 STAGE_DIR = BUILD_DIR / "stage"
 ORGANISMS_PATH = HERE / "organisms.json"
+STOPLIST_PATH = HERE / "organism_stoplist.txt"
 AREA_RULES_PATH = HERE / "area_rules.json"
 GBIF_CACHE_PATH = HERE / ".cache" / "gbif.json"
 GBIF_URL = "https://api.gbif.org/v1/species/match"  # pattern from scripts/nature/verify_sources.py
@@ -82,6 +83,7 @@ MAX_ORGANISATIONS = 10
 TITLE_MIN_WORDS = 3
 TITLE_MIN_CHARS = 20
 OTHER_SHARE_MAX = 0.25
+HABITAT_MIN_SCORE = 1.0  # keyword fallback needs at least one strong habitat hit
 SAMPLES_PER_SECTOR = 10
 SAMPLE_SEED = 42
 GENETIC_TERMS = ("gene", "genes", "genetic", "genome", "dna", "rna", "peptide", "enzyme", "enzymes",
@@ -261,7 +263,10 @@ def _plurals(name: str) -> list[str]:
 
 
 class Lexicon:
-    """organisms.json: common name -> {taxon, rank, habitat_id}; longest phrase wins."""
+    """organisms.json: common name -> {taxon, rank, habitat_id[, gbif_key]}; longest phrase wins.
+
+    Entries with taxon null (tissue and material words such as bone, leaf, wood, pollen) are not
+    organisms: they never become a record's Organism and only feed its habitat."""
 
     def __init__(self, entries: dict):
         self.entries = {fold(k): dict(v, name=k) for k, v in entries.items()}
@@ -277,38 +282,82 @@ class Lexicon:
             if form not in seen:
                 seen.add(form)
                 self.variants.append((form, key))
-        # Fast look-up tables: one-word forms by set intersection, phrases by a scan.
+        # Fast look-up tables per kind (True: real taxon, False: taxon null): one-word forms by set
+        # intersection, phrases by a scan.
         self._rank = {form: i for i, (form, _) in enumerate(self.variants)}
-        self._single = {form: key for form, key in self.variants if " " not in form}
-        self._phrases = [(i, form, key) for i, (form, key) in enumerate(self.variants) if " " in form]
+        self._single: dict[bool, dict[str, str]] = {True: {}, False: {}}
+        self._phrases: dict[bool, list[tuple[str, str]]] = {True: [], False: []}
+        for form, key in self.variants:
+            kind = self.entries[key]["taxon"] is not None
+            if " " in form:
+                self._phrases[kind].append((form, key))
+            else:
+                self._single[kind][form] = key
 
     @classmethod
     def load(cls, path: Path = ORGANISMS_PATH) -> "Lexicon":
         return cls(json.loads(path.read_text(encoding="utf-8")))
 
-    def longest(self, ft: FoldedText) -> Optional[dict]:
-        """The entry whose form is the longest hit (same result as scanning self.variants in order)."""
-        for i, form, key in self._phrases:  # phrases rank before every one-word form
+    def longest(self, ft: FoldedText, taxon: bool = True) -> Optional[dict]:
+        """The entry of that kind (taxon=True: a real taxon; False: a taxon-null word) whose form is
+        the longest hit (same result as scanning self.variants of that kind in order)."""
+        for form, key in self._phrases[taxon]:  # phrases rank before every one-word form
             if ft.has_folded(form):
                 return self.entries[key]
-        singles = ft.tokens & self._single.keys()
+        single = self._single[taxon]
+        singles = ft.tokens & single.keys()
         if not singles:
             return None
         best = min(singles, key=self._rank.__getitem__)
-        return self.entries[self._single[best]]
+        return self.entries[single[best]]
 
     def get(self, word: str) -> Optional[dict]:
         return self.entries.get(fold(word))
 
 
-def detect_organism(title: str, summary: Optional[str], lex: Lexicon) -> Optional[dict]:
-    """{'name', 'query', 'rank', 'habitat_id', 'method'} or None. Lexicon first, then a binomial."""
-    texts = [t for t in (title, summary) if t]
-    for text in texts:
-        hit = lex.longest(FoldedText(text))
+class Stoplist:
+    """organism_stoplist.txt: model and test organisms whose binomials yield no organism."""
+
+    def __init__(self, lines: Iterable[str]):
+        self.full: set[str] = set()
+        self.short: set[tuple[str, str]] = set()  # ("s", "epidermidis") from "S. epidermidis"
+        for raw in lines:
+            line = raw.split("#", 1)[0].strip()
+            if not line:
+                continue
+            genus, _, epithet = line.lower().partition(" ")
+            epithet = epithet.strip()
+            if genus.endswith(".") and len(genus) == 2:
+                self.short.add((genus[0], epithet))
+            else:
+                self.full.add(f"{genus} {epithet}")
+
+    @classmethod
+    def load(cls, path: Path = STOPLIST_PATH) -> "Stoplist":
+        return cls(path.read_text(encoding="utf-8").splitlines())
+
+    def __contains__(self, binomial: str) -> bool:
+        genus, _, epithet = binomial.lower().partition(" ")
+        return f"{genus} {epithet}" in self.full or (genus[:1], epithet) in self.short
+
+
+def _lexicon_cand(hit: dict) -> dict:
+    return {"name": hit["name"], "query": hit["taxon"], "rank": hit["rank"], "habitat_id": hit["habitat_id"],
+            "gbif_key": hit.get("gbif_key"), "method": "lexicon"}
+
+
+def detect_organism(title: str, summary: Optional[str], lex: Lexicon,
+                    stoplist: Optional[Stoplist] = None) -> Optional[dict]:
+    """{'name', 'query', 'rank', 'habitat_id', 'gbif_key', 'method'} or None.
+
+    Order: a real-taxon lexicon hit in the title, then in the summary, then a Latin binomial that is
+    not on the stoplist. Failing all three, a taxon-null lexicon word (bone, leaf, wood ...) gives a
+    habitat-only candidate (method 'habitat_only', no organism)."""
+    texts = [FoldedText(t) for t in (title, summary) if t]
+    for ft in texts:
+        hit = lex.longest(ft, taxon=True)
         if hit:
-            return {"name": hit["name"], "query": hit["taxon"], "rank": hit["rank"],
-                    "habitat_id": hit["habitat_id"], "method": "lexicon"}
+            return _lexicon_cand(hit)
     chunks = [title] + (_SENTENCE_SPLIT.split(summary) if summary else [])
     for chunk in chunks:
         if not _MAYBE_BINOMIAL.search(chunk):  # cheap pre-check; find_organism decides
@@ -317,11 +366,18 @@ def detect_organism(title: str, summary: Optional[str], lex: Lexicon) -> Optiona
         if not found:
             continue
         if " " in found and found[:1].isupper():
-            return {"name": found, "query": found, "rank": None, "habitat_id": None, "method": "binomial"}
+            if stoplist is not None and found in stoplist:
+                continue  # a lab test subject, not the inspiring organism
+            return {"name": found, "query": found, "rank": None, "habitat_id": None, "gbif_key": None,
+                    "method": "binomial"}
         hit = lex.get(found)
+        if hit and hit["taxon"] is not None:
+            return _lexicon_cand(hit)
+    for ft in texts:
+        hit = lex.longest(ft, taxon=False)
         if hit:
-            return {"name": hit["name"], "query": hit["taxon"], "rank": hit["rank"],
-                    "habitat_id": hit["habitat_id"], "method": "lexicon"}
+            return {"name": hit["name"], "query": None, "rank": None, "habitat_id": hit["habitat_id"],
+                    "gbif_key": None, "method": "habitat_only"}
     return None
 
 
@@ -391,8 +447,8 @@ class GbifResolver:
 
 
 def build_organism(cand: Optional[dict], resolved: dict[str, Optional[dict]]) -> Optional[Organism]:
-    if not cand:
-        return None
+    if not cand or cand["method"] == "habitat_only":
+        return None  # taxon-null words (bone, leaf, wood ...) are not organisms
     match = resolved.get(cand["query"]) if cand["query"] else None
     if cand["method"] == "binomial":
         if not match:
@@ -400,19 +456,27 @@ def build_organism(cand: Optional[dict], resolved: dict[str, Optional[dict]]) ->
         return Organism(name=cand["name"], gbif_key=match["usageKey"], rank=match.get("rank"))
     if match:
         return Organism(name=cand["name"], gbif_key=match["usageKey"], rank=match.get("rank") or cand["rank"])
-    return Organism(name=cand["name"], gbif_key=None, rank=cand["rank"])
+    # A lexicon entry may pin a GBIF backbone key checked by hand (e.g. fish -> Actinopterygii, key 204,
+    # which /species/match does not return for a bare class name).
+    return Organism(name=cand["name"], gbif_key=cand.get("gbif_key"), rank=cand["rank"])
 
 
 # ── Habitat, genetic hint, library ────────────────────────────────────────────
 
 
+def habitat_text(rec: dict) -> FoldedText:
+    """Title + summary only: harvest keywords are too generic for habitat matching."""
+    return FoldedText(" ".join([rec.get("title") or "", rec.get("summary") or ""]))
+
+
 def habitat_from_keywords(ft: FoldedText, habitats) -> Optional[str]:
+    """Best habitat by keyword score (strong 1.0, weak 0.25); None unless it reaches HABITAT_MIN_SCORE."""
     best, best_score = None, 0.0
     for h in habitats.habitats:
         score = sum(1.0 for k in h.keywords_en if ft.has(k)) + sum(0.25 for k in h.keywords_weak_en if ft.has(k))
         if score > best_score:
             best, best_score = h.id, score
-    return best
+    return best if best_score >= HABITAT_MIN_SCORE else None
 
 
 def genetic_hint(ft: FoldedText) -> bool:
@@ -435,11 +499,13 @@ def library_doi_index() -> dict[str, str]:
 
 
 def merge(raw_dir: Path = RAW_DIR, stage_dir: Path = STAGE_DIR, resolver: Optional[GbifResolver] = None,
-          lexicon: Optional[Lexicon] = None, library_index: Optional[dict] = None, log=print) -> dict:
+          lexicon: Optional[Lexicon] = None, library_index: Optional[dict] = None, log=print,
+          stoplist: Optional[Stoplist] = None) -> dict:
     sources = raw_paths(raw_dir)
     if not sources:
         raise SystemExit(f"no raw sources under {raw_dir}")
     lex = lexicon or Lexicon.load()
+    stop = stoplist if stoplist is not None else Stoplist.load()
     habitats = load_habitats()
     lib = library_doi_index() if library_index is None else library_index
     resolver = resolver or GbifResolver()
@@ -476,12 +542,12 @@ def merge(raw_dir: Path = RAW_DIR, stage_dir: Path = STAGE_DIR, resolver: Option
                 d["summary"] = _clean_summary(d.get("summary"))
                 d["countries"] = k.countries
                 d["organisations"] = k.organisations
-                cand = detect_organism(d["title"], d["summary"], lex)
+                cand = detect_organism(d["title"], d["summary"], lex, stop)
                 if cand:
                     candidates[d["id"]] = cand
-                ft = keyword_text(d)
-                d["habitat_id"] = (cand or {}).get("habitat_id") or habitat_from_keywords(ft, habitats)
-                d["genetic_resource_hint"] = genetic_hint(ft)
+                d["habitat_id"] = ((cand or {}).get("habitat_id")
+                                   or habitat_from_keywords(habitat_text(d), habitats))
+                d["genetic_resource_hint"] = genetic_hint(keyword_text(d))
                 d["library_id"] = lib.get(d["doi"].lower()) if d.get("doi") else None
                 out.write(json.dumps(d, ensure_ascii=False) + "\n")
 
@@ -504,6 +570,8 @@ def merge(raw_dir: Path = RAW_DIR, stage_dir: Path = STAGE_DIR, resolver: Option
             d["organism"] = org.model_dump() if org else None
             if cand and not org and cand["method"] == "binomial":
                 stats["binomial_rejected"] += 1
+            if cand and cand["method"] == "habitat_only":
+                stats["habitat_only"] += 1
             rec = MergedRecord.model_validate(d)
             out.write(rec.model_dump_json() + "\n")
             per_source_out[rec.source] += 1
@@ -530,6 +598,7 @@ def merge(raw_dir: Path = RAW_DIR, stage_dir: Path = STAGE_DIR, resolver: Option
         "with_gbif_key": stats["with_gbif_key"],
         "organism_by_method": {"lexicon": stats["organism_by_lexicon"], "binomial": stats["organism_by_binomial"]},
         "binomials_rejected_by_gbif": stats["binomial_rejected"],
+        "taxon_null_words_habitat_only": stats["habitat_only"],
         "gbif": {"unique_names": len(queries), **dict(sorted(resolver.stats.items()))},
         "top_organisms": dict(top_organisms.most_common(20)),
         "per_habitat": dict(sorted(by_habitat.items(), key=lambda kv: (-kv[1], kv[0]))),
@@ -655,6 +724,19 @@ def sort_step(stage_dir: Path = STAGE_DIR, rules: Optional[Rules] = None, log=pr
     return 0, report
 
 
+def gbif_exit_code(resolver: "GbifResolver", log=print) -> int:
+    """1 when a GBIF lookup errored and the cache could not answer it (the output would silently miss
+    organisms); with --offline a cache miss is 'no match' and only its count is printed."""
+    if resolver.offline:
+        log(f"merge: offline, {resolver.stats['uncached_offline']} GBIF names not in the cache "
+            "(treated as no match)")
+    if resolver.stats["errors"]:
+        log(f"FAIL: {resolver.stats['errors']} GBIF lookups failed and were not in the cache; "
+            "re-run when GBIF is reachable, or use --offline to build from the cache only")
+        return 1
+    return 0
+
+
 def main(argv: Optional[list[str]] = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("step", choices=("merge", "sort", "all"))
@@ -663,7 +745,11 @@ def main(argv: Optional[list[str]] = None) -> int:
     parser.add_argument("--offline", action="store_true", help="use the GBIF cache only, no network")
     args = parser.parse_args(argv)
     if args.step in ("merge", "all"):
-        merge(args.raw_dir, args.stage_dir, resolver=GbifResolver(offline=args.offline))
+        resolver = GbifResolver(offline=args.offline)
+        merge(args.raw_dir, args.stage_dir, resolver=resolver)
+        code = gbif_exit_code(resolver)
+        if code:
+            return code
     if args.step in ("sort", "all"):
         code, _ = sort_step(args.stage_dir)
         return code

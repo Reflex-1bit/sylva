@@ -10,7 +10,6 @@
         "shark",
         "mussel",
         "coral",
-        "sponge",
         "nacre",
         "octopus",
         "seaweed",
@@ -28,7 +27,9 @@
         "oyster",
         "marine"
       ],
-      "keywords_weak_en": [],
+      "keywords_weak_en": [
+        "sponge"
+      ],
       "gbif_classes": []
     },
     {
@@ -44,12 +45,13 @@
         "salt marsh",
         "seagrass",
         "shoreline",
-        "beach",
         "coastal",
-        "lagoon",
-        "tidal"
+        "lagoon"
       ],
-      "keywords_weak_en": [],
+      "keywords_weak_en": [
+        "tidal",
+        "beach"
+      ],
       "gbif_classes": []
     },
     {
@@ -105,8 +107,6 @@
       "keywords_en": [
         "forest",
         "woodland",
-        "canopy",
-        "timber",
         "oak",
         "pine",
         "beech"
@@ -115,7 +115,9 @@
         "tree",
         "bark",
         "leaf",
-        "wood"
+        "wood",
+        "timber",
+        "canopy"
       ],
       "gbif_classes": []
     },
@@ -186,10 +188,8 @@
       "keywords_en": [
         "desert",
         "arid",
-        "drought",
         "dryland",
         "cactus",
-        "succulent",
         "camel",
         "beetle fog",
         "semi-arid",
@@ -197,7 +197,9 @@
       ],
       "keywords_weak_en": [
         "scorpion",
-        "lizard"
+        "lizard",
+        "drought",
+        "succulent"
       ],
       "gbif_classes": []
     },

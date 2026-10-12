@@ -1,0 +1,43 @@
+# Model and test organisms: a Latin binomial on this list yields no catalogue organism, because in
+# biomimicry abstracts these names are almost always lab test subjects (antibacterial assays, cell or
+# animal models), not the organism that inspired the design. One name per line, "Genus epithet" or
+# the genus shorthand "G. epithet" (matches any genus with that initial). Lines starting with # are ignored.
+
+# Bacteria used in antibacterial and antifouling tests
+Staphylococcus aureus
+Staphylococcus epidermidis
+S. epidermidis
+Escherichia coli
+E. coli
+Pseudomonas aeruginosa
+Bacillus subtilis
+Bacillus cereus
+Mycobacterium tuberculosis
+Listeria monocytogenes
+Salmonella enterica
+Salmonella typhimurium
+Klebsiella pneumoniae
+Enterococcus faecalis
+Enterococcus faecium
+Streptococcus mutans
+Streptococcus pneumoniae
+Acinetobacter baumannii
+Proteus mirabilis
+Porphyromonas gingivalis
+Fusobacterium nucleatum
+
+# Fungi and protists used in antifungal and drug tests
+Candida albicans
+Saccharomyces cerevisiae
+Aspergillus niger
+Aspergillus flavus
+Fusarium oxysporum
+Plasmodium falciparum
+
+# Model animals
+Homo sapiens
+Mus musculus
+Rattus norvegicus
+Caenorhabditis elegans
+Drosophila melanogaster
+Danio rerio

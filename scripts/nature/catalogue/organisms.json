@@ -455,9 +455,10 @@
     "habitat_id": "marine"
   },
   "fish": {
-    "taxon": null,
-    "rank": null,
-    "habitat_id": "marine"
+    "taxon": "Actinopterygii",
+    "rank": "CLASS",
+    "habitat_id": "marine",
+    "gbif_key": 204
   },
   "fish scale": {
     "taxon": null,

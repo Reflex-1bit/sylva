@@ -1,4 +1,4 @@
-"""Remove contact details (email addresses, mailto links, corresponding-author clauses) from harvested free text."""
+"""Remove contact details (emails, mailto links, corresponding-author clauses, phone/fax numbers) from harvested free text."""
 
 import re
 import sys
@@ -19,12 +19,25 @@ CORRESPONDENCE_RE = re.compile(
 )
 # Placeholder left by e-mail obfuscation on harvested web pages.
 EMAIL_PLACEHOLDER_RE = re.compile(r"\[\s*email[ \t]+protected\s*\]", re.I)
+# "Tel: +90 232 352 40 40", "Tel. 0161-275", "Fax: 91-891-2790032", "Telephone (+34) 91 ..." : the label and
+# the whole number run (digits, spaces, + ( ) . - /), ending on a digit. The clause ends with the number, so
+# abstract text after a number that has no full stop ("Fax: 0161-275 4939 Manuscript received ...") is kept.
+PHONE_RE = re.compile(
+    r"\b(?:tel(?:ephone)?|phone|fax)\b\.?[ \t]*(?:no\.?|number)?[ \t]*:?[ \t]*\+?[ \t]*\(?\+?\d[\d \t().\-/]*\d",
+    re.I,
+)
+# An "E-mail:" / "Email:" label whose address was removed (or was never there): the label is a stub.
+# "IndiaEmail:" (glued to the previous word) counts; "voicemail:" does not.
+EMAIL_STUB_RE = re.compile(r"\*?(?:(?<=[a-z])E|(?<![A-Za-z])[Ee])-?mail[ \t]*:[ \t]*[,;]?")
 
 
 def scrub_contacts(text: str) -> str:
-    """Delete corresponding-author clauses, mailto links, plain and obfuscated emails and placeholders."""
-    for rx in (CORRESPONDENCE_RE, MAILTO_RE, EMAIL_RE, OBFUSCATED_EMAIL_RE, EMAIL_PLACEHOLDER_RE):
+    """Delete corresponding-author clauses, mailto links, emails, placeholders, phone/fax numbers and stubs."""
+    for rx in (CORRESPONDENCE_RE, MAILTO_RE, EMAIL_RE, OBFUSCATED_EMAIL_RE, EMAIL_PLACEHOLDER_RE, PHONE_RE,
+               EMAIL_STUB_RE):
         text = rx.sub("", text)
+    text = re.sub(r"(?:[ \t]+-){2,}(?=[ \t.]|$)", " -", text)  # "Turkey - - - ." left by the removal
+    text = re.sub(r"[ \t]+-[ \t]*(?=\.)|[ \t]*[,;]+[ \t]*(?=\.)", "", text)
     text = re.sub(r"\(\s*\)|\[\s*\]", "", text)  # brackets left empty by the removal
     text = re.sub(r"\s+([.,;:])", r"\1", text)
     text = re.sub(r"[ \t]{2,}", " ", text)
