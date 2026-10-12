@@ -94,6 +94,9 @@ A GitHub Release of the full files is a possible later step; none has been made.
 From the repository root, in order (the raw harvests under `raw/` come first and are not committed):
 
 ```
+python scripts/nature/catalogue/harvest_openalex.py normalise       # offline, from the cached pages
+python scripts/nature/catalogue/harvest_cordis.py normalise         # offline, from the downloaded zips
+python scripts/nature/catalogue/harvest_climate_adapt.py normalise  # offline, from the cached pages
 python scripts/nature/catalogue/build.py merge --offline    # GBIF answers from the local cache
 python scripts/nature/catalogue/build.py sort
 python scripts/nature/catalogue/build.py groups

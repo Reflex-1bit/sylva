@@ -141,6 +141,10 @@ A free, sector-sorted catalogue of 99,309 records about learning from nature (bi
 - **Rebuild** (from the repository root; the raw harvests under `data/nature/catalogue/raw/` are not committed, and GBIF answers come from a local cache, `scripts/nature/catalogue/.cache/gbif.json`, which is gitignored: rebuilding without it lowers organism coverage):
 
 ```bash
+# Re-derive the raw records from the cached harvests (offline; applies licence mapping and scrubbing)
+python -m scripts.nature.catalogue.harvest_openalex normalise
+python -m scripts.nature.catalogue.harvest_cordis normalise
+python -m scripts.nature.catalogue.harvest_climate_adapt normalise
 python -m scripts.nature.catalogue.build merge --offline
 python -m scripts.nature.catalogue.build sort
 python -m scripts.nature.catalogue.build groups
