@@ -1,0 +1,3 @@
+# Published catalogue files are byte-exact build outputs (hashes in the manifest); never convert line endings.
+frontend/public/catalogue/** -text
+data/nature/catalogue/build/manifest.json -text
