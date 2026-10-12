@@ -507,9 +507,21 @@ def library_doi_index() -> dict[str, str]:
 # ── Step 1: merge ─────────────────────────────────────────────────────────────
 
 
-def merge(raw_dir: Path = RAW_DIR, stage_dir: Path = STAGE_DIR, resolver: Optional[GbifResolver] = None,
-          lexicon: Optional[Lexicon] = None, library_index: Optional[dict] = None, log=print,
-          stoplist: Optional[Stoplist] = None) -> dict:
+def merge(raw_dir: Path = RAW_DIR, stage_dir: Path = STAGE_DIR, **kwargs) -> dict:
+    """Run the merge. A stale merged.jsonl is deleted first and the temp files are always cleaned up,
+    so only a fully successful merge leaves a merged.jsonl for sort to consume."""
+    for name in ("merged.jsonl", "merged.jsonl.tmp", "merged.pre.jsonl"):
+        (stage_dir / name).unlink(missing_ok=True)
+    try:
+        return _merge(raw_dir, stage_dir, **kwargs)
+    finally:
+        for name in ("merged.jsonl.tmp", "merged.pre.jsonl"):
+            (stage_dir / name).unlink(missing_ok=True)
+
+
+def _merge(raw_dir: Path = RAW_DIR, stage_dir: Path = STAGE_DIR, resolver: Optional[GbifResolver] = None,
+           lexicon: Optional[Lexicon] = None, library_index: Optional[dict] = None, log=print,
+           stoplist: Optional[Stoplist] = None) -> dict:
     sources = raw_paths(raw_dir)
     if not sources:
         raise SystemExit(f"no raw sources under {raw_dir}")
@@ -756,6 +768,8 @@ def groups_step(stage_dir: Path = STAGE_DIR, groups=None, habitats=None, log=pri
     assigner = GroupAssigner(groups)
 
     per_group = Counter()
+    flagship_hits = Counter()
+    flagship_examples: list[dict] = []
     by_count = Counter()
     habitat_no_group = Counter()
     total = 0
@@ -767,6 +781,11 @@ def groups_step(stage_dir: Path = STAGE_DIR, groups=None, habitats=None, log=pri
                 continue
             rec = CatalogueRecord.model_validate_json(line)
             ids = assigner.assign_record(rec)
+            for g in assigner.flagship_hits(rec.organism.name if rec.organism else None):
+                flagship_hits[g.id] += 1
+                if len(flagship_examples) < 10 and flagship_hits[g.id] == 1:
+                    flagship_examples.append({"id": rec.id, "organism": rec.organism.name, "group": g.id,
+                                              "title": rec.title})
             rec = rec.model_copy(update={"group_ids": ids})
             CatalogueRecord.model_validate(rec.model_dump())  # max 3, unique
             out.write(rec.model_dump_json() + "\n")
@@ -783,6 +802,8 @@ def groups_step(stage_dir: Path = STAGE_DIR, groups=None, habitats=None, log=pri
         "records_with_group": total - by_count[0],
         "records_by_group_count": {str(n): by_count.get(n, 0) for n in range(MAX_GROUPS_PER_RECORD + 1)},
         "per_group": dict(sorted(per_group.items(), key=lambda kv: (-kv[1], kv[0]))),
+        "flagship_hits_per_group": dict(sorted(flagship_hits.items(), key=lambda kv: (-kv[1], kv[0]))),
+        "flagship_examples": flagship_examples,
         "groups_unused": sorted(g.id for g in groups if g.id not in per_group),
         "habitats_with_0_groups": sorted(h.id for h in habitats if h.id not in listed),
         "records_with_habitat_but_no_group": dict(habitat_no_group),

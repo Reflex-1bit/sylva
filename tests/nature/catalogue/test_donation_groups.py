@@ -56,13 +56,17 @@ A = dg.GroupAssigner(GROUPS)
 # ── assignment ────────────────────────────────────────────────────────────────
 
 
-def test_tiers_country_then_es_pt_then_int_then_others():
-    # tier a (record country) first, then ES/PT by id, then INT, then others; max 3
-    assert A.assign("Reef study", None, "marine", ["GB"]) == ["a-gb", "k-pt", "m-es"]
-    four = dg.GroupAssigner([grp("x-int", "INT", ["marine"]), grp("y-gb", "GB", ["marine"]),
-                             grp("w-es", "ES", ["marine"]), grp("v-fr", "FR", ["marine"])])
-    assert four.assign("Reef", None, "marine", ["FR"]) == ["v-fr", "w-es", "x-int"]  # a, b, c
-    assert four.assign("Reef", None, "marine", []) == ["w-es", "x-int", "v-fr"]  # b, c, d (v-fr < y-gb)
+def tiers_of(ids, countries, groups=GROUPS):
+    by = {g.id: g for g in groups}
+    return [dg.tier(by[i], countries) for i in ids]
+
+
+def test_one_group_per_tier_in_tier_order():
+    for countries, expected in ((["GB"], [0, 1, 2]), (["FR"], [0, 1, 2]), ([], [1, 2, 3])):
+        ids = A.assign("rec-1", None, "marine", countries)
+        assert tiers_of(ids, countries) == expected, (countries, ids)
+    # the record's own country always leads
+    assert A.assign("rec-9", None, "marine", ["GB"])[0] == "a-gb"
 
 
 def test_tier_values():
@@ -73,52 +77,84 @@ def test_tier_values():
     assert dg.tier(g["b-fr"], ["GB"]) == 3
 
 
-def test_habitat_order_without_countries():
-    ids = A.assign("Reef study", None, "marine", [])
-    assert ids == ["k-pt", "m-es", "shark-trust"]  # ES/PT by id, then INT by id (shark-trust < z-intl)
+def test_remaining_slots_filled_from_tiers_in_order():
+    groups = [grp(f"es{i}", "ES", ["marine"]) for i in range(3)] + [grp("int1", "INT", ["marine"])]
+    asg = dg.GroupAssigner(groups)
+    ids = asg.assign("rec-1", None, "marine", [])
+    assert len(ids) == 3 and len(set(ids)) == 3
+    assert sorted(tiers_of(ids, [], groups)) == [1, 1, 2]
+    assert tiers_of(ids, [], groups)[:2] == [1, 2]  # one per tier first, then the fill
 
 
-def test_record_country_beats_es_pt():
-    assert A.assign("Reef study", None, "marine", ["FR"])[0] == "b-fr"
-    assert A.assign("Reef study", None, "marine", ["FR", "GB"])[:3] == ["a-gb", "b-fr", "k-pt"]
+def test_within_a_tier_the_rank_is_the_sha1_of_record_and_group():
+    groups = [grp(f"es{i}", "ES", ["marine"]) for i in range(4)]
+    asg = dg.GroupAssigner(groups)
+    for rid in ("oa-W1", "oa-W2", "cd-77"):
+        want = sorted((g.id for g in groups), key=lambda gid: dg.rank_hash(rid, gid))[:3]
+        assert asg.assign(rid, None, "marine", []) == want
+    assert dg.rank_hash("a", "b") == __import__("hashlib").sha1(b"a|b").hexdigest()
 
 
-def test_flagship_first_by_organism_plural_and_title():
-    assert A.assign("Reef study", "shark", "marine", [])[0] == "shark-trust"  # organism 'shark' (term 'shark')
-    assert A.assign("Reef study", "manta ray", "marine", [])[0] == "shark-trust"  # plural 'manta rays' hits 'rays'
-    assert A.assign("Sharks and rays", None, "marine", [])[0] == "shark-trust"  # folded title, whole word
-    ids = A.assign("Sharks and rays", None, "marine", [])
-    assert ids == ["shark-trust", "k-pt", "m-es"]  # no repeat of the flagship group in the habitat part
+def test_load_spreads_over_all_groups():
+    groups = [grp(f"es{i}", "ES", ["wetland"]) for i in range(3)] + [grp(f"int{i}", "INT", ["wetland"]) for i in range(3)]
+    asg = dg.GroupAssigner(groups)
+    n = 1000
+    counts = {g.id: 0 for g in groups}
+    for i in range(n):
+        for gid in asg.assign(f"oa-W{i}", None, "wetland", []):
+            counts[gid] += 1
+    assert all(c > 0 for c in counts.values())
+    assert max(counts.values()) / n < 0.8  # no group is a near-monopoly
+    assert min(counts.values()) / n > 0.2
 
 
-def test_flagship_is_whole_word_only():
-    assert A.assign("Sharkskin coating", None, None, []) == []  # 'shark' is not a substring hit
-    assert A.assign("Lynxes", None, None, []) == []
+def test_flagship_matches_organism_name_only_with_singular_plural():
+    assert A.assign("r", "shark", "marine", [])[0] == "shark-trust"
+    assert A.assign("r", "Sharks", "marine", [])[0] == "shark-trust"
+    bird = dg.GroupAssigner([grp("b1", "ES", ["birds"], ["birds"]), grp("b2", "PT", ["birds"])])
+    assert bird.assign("r", "bird", "birds", [])[0] == "b1"  # bird <-> birds
+    bf = dg.GroupAssigner([grp("bf", "INT", ["pollinators"], ["butterflies"])])
+    assert bf.flagship_hits("butterfly") and bf.flagship_hits("butterflies")
+    assert not A.flagship_hits("manta ray")  # term 'rays' is not the whole organism name
+    assert not A.flagship_hits(None) and not A.flagship_hits("")
+
+
+def test_flagship_phrase_must_equal_the_organism_name():
+    bears = dg.GroupAssigner([grp("oso", "ES", ["forest"], ["brown bear", "cantabrian brown bear"])])
+    assert bears.flagship_hits("brown bear") and not bears.flagship_hits("polar bear")
+    assert not bears.flagship_hits("bear")
+
+
+def test_title_never_matters():
+    # assign() has no title argument: a record whose title says "lynx" but has no organism gets no flagship
+    assert A.assign("r", None, None, ["ES"]) == []
+    assert A.assign("r", "gecko", None, ["ES"]) == []
 
 
 def test_flagship_without_habitat_still_assigns():
-    assert A.assign("The Iberian lynx recovers", None, None, ["ES"]) == ["lynx-es", "lynx-pt"]
+    assert A.assign("r", "lynx", None, ["ES"]) == ["lynx-es", "lynx-pt"]  # tier a, then b
 
 
 def test_flagship_capped_and_habitat_keeps_a_slot():
     groups = [grp(f"f{i}", "INT", ["forest"], ["wolf"]) for i in range(4)] + [grp("h", "INT", ["forest"])]
-    ids = dg.GroupAssigner(groups).assign("Wolf pack", None, "forest", [])
-    assert len(ids) == 3 and ids[:2] == ["f0", "f1"] and ids[2] == "f2"  # 2 flagship + first habitat group
-    only_flag = dg.GroupAssigner(groups).assign("Wolf pack", None, None, [])
-    assert only_flag == ["f0", "f1"]
+    asg = dg.GroupAssigner(groups)
+    ids = asg.assign("r", "wolf", "forest", [])
+    assert len(ids) == 3 and len(set(ids)) == 3
+    assert len([i for i in ids if i.startswith("f")]) == 3  # 2 flagship + 1 habitat group (also an f*)
+    assert len(asg.assign("r", "wolf", None, [])) == 2
 
 
 def test_max_three_unique_and_no_habitat_gives_empty():
-    ids = A.assign("Iberian lynx and birds", "lynx", "forest", ["ES"])
+    ids = A.assign("r", "lynx", "forest", ["ES"])
     assert len(ids) <= 3 and len(set(ids)) == len(ids)
-    assert A.assign("A coating for pipes", None, None, ["ES"]) == []
-    assert A.assign("A coating for pipes", "gecko", "desert-not-listed", ["ES"]) == []  # habitat with no group
+    assert A.assign("r", None, None, ["ES"]) == []
+    assert A.assign("r", "gecko", "desert-not-listed", ["ES"]) == []  # habitat with no group
 
 
 def test_deterministic_regardless_of_group_input_order():
     shuffled = dg.GroupAssigner(list(reversed(GROUPS)))
-    for args in (("Reef", None, "marine", ["GB"]), ("Sharks", "shark", "marine", []),
-                 ("Lynx", None, "forest", ["PT", "ES"])):
+    for args in (("r1", None, "marine", ["GB"]), ("r2", "shark", "marine", []),
+                 ("r3", "lynx", "forest", ["PT", "ES"])):
         assert A.assign(*args) == shuffled.assign(*args) == A.assign(*args)
 
 
@@ -150,9 +186,11 @@ def test_groups_step_writes_grouped_and_report(tmp_path):
     block = build.groups_step(stage, groups=GROUPS, habitats=habitats, log=lambda *a: None)
     out = [json.loads(l) for l in (stage / "grouped.jsonl").read_text(encoding="utf-8").splitlines()]
     assert [r["id"] for r in out] == ["oa-W1", "oa-W2", "oa-W3"]
-    assert out[0]["group_ids"] == ["shark-trust", "a-gb", "k-pt"]
+    assert out[0]["group_ids"][0] == "shark-trust" and len(out[0]["group_ids"]) == 3
+    assert out[0]["group_ids"][1] == "a-gb"  # then the record country tier
     assert out[1]["group_ids"] == [] and out[2]["group_ids"] == []
     assert block["records_with_group"] == 1 and block["per_group"]["shark-trust"] == 1
+    assert block["flagship_hits_per_group"] == {"shark-trust": 1} and block["flagship_examples"][0]["id"] == "oa-W1"
     assert block["habitats_with_0_groups"] == ["arid"]
     assert block["records_with_habitat_but_no_group"] == {"arid": 1}
     assert json.loads((stage / "report.json").read_text(encoding="utf-8"))["keep"] == 1
@@ -322,3 +360,16 @@ def test_wording_guard_no_banned_phrases():
     hits = [f"{f.relative_to(ROOT)}: {m.group(0)}" for f in files
             for m in BANNED.finditer(f.read_text(encoding="utf-8", errors="ignore"))]
     assert not hits, hits
+
+
+# ── merge hygiene (L1 follow-up) ──────────────────────────────────────────────
+
+
+def test_merge_deletes_stale_merged_and_cleans_tmp_on_exception(tmp_path):
+    stage = tmp_path / "stage"
+    stage.mkdir()
+    (stage / "merged.jsonl").write_text("stale\n", encoding="utf-8")
+    (stage / "merged.jsonl.tmp").write_text("junk\n", encoding="utf-8")
+    with pytest.raises(SystemExit):  # no raw sources: the merge fails right away
+        build.merge(tmp_path / "no-raw", stage, log=lambda *a: None)
+    assert not (stage / "merged.jsonl").exists() and not (stage / "merged.jsonl.tmp").exists()
