@@ -75,3 +75,7 @@ data/nature/catalogue/build/*
 !data/nature/catalogue/build/manifest.json
 scripts/nature/catalogue/.cache/
 data/nature/catalogue/spotcheck/packets/
+
+# Sylva-wild search index (built locally from the catalogue) and local model cache
+data/nature/wild/index/
+data/nature/wild/.model_cache/

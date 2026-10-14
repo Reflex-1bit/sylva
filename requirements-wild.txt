@@ -1,0 +1,6 @@
+# Sylva-wild search index (scripts/nature/wild, app/services/wild).
+# Kept out of requirements.txt until the hosting choice for /wild is made:
+# fastembed pulls in onnxruntime (~50 MB) and scipy is ~100 MB installed.
+-r requirements.txt
+scipy>=1.13
+fastembed>=0.9,<0.10
