@@ -1,19 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import {
-  askNature,
-  fetchNatureMeta,
-  fetchNatureStats,
-  fetchSectorGaps,
-  natureExportUrl,
-  searchLibrary,
-  searchMap,
-} from './api'
+import { fetchNatureMeta, fetchNatureStats, fetchSectorGaps, searchLibrary, searchMap } from './api'
 import Logo from './Logo'
 import './Nature.css'
 
 const TABS = [
-  { id: 'ask', label: 'Ask nature' },
   { id: 'library', label: 'Library' },
   { id: 'map', label: 'Industry map' },
 ]
@@ -34,13 +25,7 @@ const NATURE_LINK_LABEL = {
   other: 'Other',
 }
 const GRADE_LABEL = { strong: 'Strong evidence', moderate: 'Moderate evidence', weak: 'Weak evidence', contested: 'Contested' }
-const VERDICT_LABEL = {
-  promising: 'Promising options found',
-  weak: 'Only weak matches',
-  no_strong_option: 'No strong option',
-}
 
-const pct = (x) => `${Math.round((x || 0) * 100)}%`
 const LIBRARY_LIMIT = 100 // the API maximum; v0 serves fewer records than this
 
 function labelMap(list, key = 'label') {
@@ -61,6 +46,52 @@ function safeUrl(u) {
   return typeof u === 'string' && /^https?:\/\//i.test(u) ? u : null
 }
 
+const prefersReducedMotion = () =>
+  typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+
+// Counts from 0 up to `target` after `delay` ms, easing out; jumps straight there when motion is reduced.
+function useCountUp(target, { duration = 1400, delay = 0 } = {}) {
+  const [value, setValue] = useState(0)
+  useEffect(() => {
+    if (!target) return undefined
+    if (prefersReducedMotion()) {
+      setValue(target)
+      return undefined
+    }
+    let raf = 0
+    let start = 0
+    const tick = (now) => {
+      if (!start) start = now
+      const t = Math.min(1, (now - start) / duration)
+      setValue(Math.round(target * (1 - Math.pow(2, -10 * t))))
+      if (t < 1) raf = requestAnimationFrame(tick)
+      else setValue(target)
+    }
+    const timer = setTimeout(() => {
+      raf = requestAnimationFrame(tick)
+    }, delay)
+    return () => {
+      clearTimeout(timer)
+      cancelAnimationFrame(raf)
+    }
+  }, [target, duration, delay])
+  return value
+}
+
+function CountBubble({ value, label, delay, tone }) {
+  const shown = useCountUp(value, { delay: delay + 250 })
+  return (
+    <div className={`nat-count nat-count--${tone}`} style={{ animationDelay: `${delay}ms` }} aria-label={`${value} ${label}`}>
+      <span className="nat-count__num" aria-hidden="true">
+        {shown}
+      </span>
+      <span className="nat-count__label" aria-hidden="true">
+        {label}
+      </span>
+    </div>
+  )
+}
+
 function GradePill({ grade }) {
   if (!grade) return null
   return <span className={`nat-pill nat-pill--${grade}`}>{GRADE_LABEL[grade] || grade}</span>
@@ -73,6 +104,7 @@ function StatusBadge({ status }) {
 function Loading({ children = 'Loading…' }) {
   return (
     <p className="nat-state" role="status">
+      <span className="nat-spinner" aria-hidden="true" />
       {children}
     </p>
   )
@@ -84,14 +116,6 @@ function ErrorBox({ error }) {
     <p className="nat-state nat-state--error" role="alert">
       {error}
     </p>
-  )
-}
-
-function Chip({ active, onClick, children }) {
-  return (
-    <button type="button" className={`nat-chip ${active ? 'is-active' : ''}`} aria-pressed={active} onClick={onClick}>
-      {children}
-    </button>
   )
 }
 
@@ -130,41 +154,23 @@ function EvidenceLinks({ evidence }) {
   )
 }
 
-// A model-written caveat is shown apart from the record's own, and only when it adds something.
-function modelNoteFor(note, recordCaveat) {
-  const text = typeof note === 'string' ? note.trim() : ''
-  return text && text !== (recordCaveat || '').trim() ? text : ''
-}
-
-function ModelNote({ note }) {
-  if (!note) return null
-  return (
-    <p className="nat-caveat">
-      <strong>Model note: </strong>
-      {note}
-    </p>
-  )
-}
-
-function RecordCard({ record, grade, why, modelNote, labels }) {
+function RecordCard({ record, grade, labels }) {
   const organism = record.organism
   return (
-    <article className="nat-card">
+    <article className={`nat-card nat-card--${record.kind || 'other'}`}>
       <header className="nat-card__head">
-        <h4>{record.title}</h4>
         <div className="nat-row">
-          <span className="nat-tag">{KIND_LABEL[record.kind] || record.kind}</span>
+          <span className="nat-tag nat-tag--kind">{KIND_LABEL[record.kind] || record.kind}</span>
           <GradePill grade={grade} />
-          <StatusBadge status={record.provenance?.status} />
         </div>
+        <h4>{record.title}</h4>
+        {organism?.scientific_name && (
+          <p className="nat-organism">
+            <em>{organism.scientific_name}</em>
+            {organism.common_names?.length ? ` · ${organism.common_names.join(', ')}` : ''}
+          </p>
+        )}
       </header>
-      {organism?.scientific_name && (
-        <p className="nat-muted">
-          <em>{organism.scientific_name}</em>
-          {organism.common_names?.length ? ` · ${organism.common_names.join(', ')}` : ''}
-        </p>
-      )}
-      {why && <p className="nat-why">{why}</p>}
       <p>{record.summary}</p>
       <div className="nat-row">
         {(record.functions || []).map((f) => (
@@ -177,18 +183,20 @@ function RecordCard({ record, grade, why, modelNote, labels }) {
         <strong>Caveat: </strong>
         {record.caveat}
       </p>
-      <ModelNote note={modelNoteFor(modelNote, record.caveat)} />
       {record.popular_claim_note && <p className="nat-caveat">{record.popular_claim_note}</p>}
-      <EvidenceLinks evidence={record.evidence} />
-      {(record.see_also || []).filter(safeUrl).length > 0 && (
-        <ul className="nat-links">
-          {record.see_also.filter(safeUrl).map((u) => (
-            <li key={u}>
-              <ExternalLink href={u}>Further reading</ExternalLink>
-            </li>
-          ))}
-        </ul>
-      )}
+      <footer className="nat-card__foot">
+        <StatusBadge status={record.provenance?.status} />
+        <EvidenceLinks evidence={record.evidence} />
+        {(record.see_also || []).filter(safeUrl).length > 0 && (
+          <ul className="nat-links">
+            {record.see_also.filter(safeUrl).map((u) => (
+              <li key={u}>
+                <ExternalLink href={u}>Further reading</ExternalLink>
+              </li>
+            ))}
+          </ul>
+        )}
+      </footer>
     </article>
   )
 }
@@ -197,19 +205,19 @@ function MapCard({ record, labels }) {
   const ids = record.identifiers || {}
   const href = ids.doi ? `https://doi.org/${ids.doi}` : safeUrl(ids.url)
   return (
-    <article className="nat-card">
+    <article className="nat-card nat-card--map">
       <header className="nat-card__head">
-        <h4>{href ? <ExternalLink href={href}>{record.title}</ExternalLink> : record.title}</h4>
         <div className="nat-row">
-          <span className="nat-tag">{MAP_TYPE_LABEL[record.type] || record.type}</span>
-          <span className="nat-tag">{labels.sectors[record.sector] || record.sector}</span>
+          <span className="nat-tag nat-tag--kind">{MAP_TYPE_LABEL[record.type] || record.type}</span>
           <span className="nat-tag">{NATURE_LINK_LABEL[record.nature_link] || record.nature_link}</span>
-          <StatusBadge status={record.provenance?.status} />
         </div>
+        <h4>{href ? <ExternalLink href={href}>{record.title}</ExternalLink> : record.title}</h4>
       </header>
       {record.summary && <p>{record.summary}</p>}
       <p className="nat-muted">
-        {[record.country, record.year, record.trl ? `TRL ${record.trl}` : null].filter(Boolean).join(' · ')}
+        {[labels.sectors[record.sector] || record.sector, record.country, record.year, record.trl ? `TRL ${record.trl}` : null]
+          .filter(Boolean)
+          .join(' · ')}
         {record.organisations?.length ? ` · ${record.organisations.map((o) => o.name).join(', ')}` : ''}
       </p>
       <div className="nat-row">
@@ -219,6 +227,9 @@ function MapCard({ record, labels }) {
           </span>
         ))}
       </div>
+      <footer className="nat-card__foot">
+        <StatusBadge status={record.provenance?.status} />
+      </footer>
     </article>
   )
 }
@@ -226,7 +237,7 @@ function MapCard({ record, labels }) {
 function SectorGaps({ data, labels }) {
   if (!data) return null
   return (
-    <section className="nat-panel" aria-label="Sector gaps">
+    <section className="nat-panel nat-gaps-panel" aria-label="Sector gaps">
       <h3>Library mechanisms this sector has not used yet</h3>
       <p className="nat-note">
         Based on classified papers only: {data.classified_papers} classified, {data.unclassified_papers} unclassified
@@ -252,177 +263,6 @@ function SectorGaps({ data, labels }) {
         <p className="nat-muted">No gaps found from the classified papers.</p>
       )}
     </section>
-  )
-}
-
-/* ── Ask tab ─────────────────────────────────────────────────────────────── */
-
-function AskTab({ meta, labels }) {
-  const [challenge, setChallenge] = useState('')
-  const [sector, setSector] = useState('')
-  const [areas, setAreas] = useState([])
-  const [phase, setPhase] = useState('idle')
-  const [error, setError] = useState('')
-  const [result, setResult] = useState(null)
-
-  const tooShort = challenge.trim().length < 8
-  const toggleArea = (id) => setAreas((a) => (a.includes(id) ? a.filter((x) => x !== id) : [...a, id]))
-
-  async function submit(e) {
-    e.preventDefault()
-    if (tooShort || phase === 'loading') return
-    setPhase('loading')
-    setError('')
-    setResult(null)
-    try {
-      const res = await askNature({ challenge: challenge.trim(), sector: sector || null, areas })
-      setResult(res)
-      setPhase('done')
-    } catch (err) {
-      setError(err.message || 'Something went wrong')
-      setPhase('error')
-    }
-  }
-
-  const answer = result?.answer
-  // The cards follow Sylva's published ranking (library_hits); the model only adds "why" text.
-  const optionById = useMemo(() => {
-    const m = {}
-    for (const o of result?.answer?.options || []) if (!(o.record_id in m)) m[o.record_id] = o
-    return m
-  }, [result])
-  const mapOptions = useMemo(() => {
-    const mapById = {}
-    for (const h of result?.map_hits || []) mapById[h.record.id] = h.record
-    return Object.values(optionById)
-      .filter((o) => mapById[o.record_id])
-      .map((o) => ({ option: o, record: mapById[o.record_id] }))
-  }, [result, optionById])
-  const rankedHits = result?.library_hits || []
-  const isFallback = result?.model?.startsWith('fallback')
-
-  return (
-    <div>
-      <form className="nat-panel" onSubmit={submit}>
-        <div className="nat-field">
-          <label htmlFor="nat-challenge">Your design or engineering challenge</label>
-          <textarea
-            id="nat-challenge"
-            rows={3}
-            maxLength={2000}
-            value={challenge}
-            onChange={(e) => setChallenge(e.target.value)}
-            placeholder="For example: keep a greenhouse cool without electricity"
-          />
-        </div>
-        <Select
-          id="nat-ask-sector"
-          label="Sector (optional)"
-          value={sector}
-          onChange={setSector}
-          options={(meta.taxonomy.sectors || []).map((s) => [s.id, s.label_en])}
-        />
-        <fieldset className="nat-field">
-          <legend>Focus areas (optional)</legend>
-          <div className="nat-row">
-            {(meta.taxonomy.areas || []).map((a) => (
-              <Chip key={a.id} active={areas.includes(a.id)} onClick={() => toggleArea(a.id)}>
-                {a.label}
-              </Chip>
-            ))}
-          </div>
-        </fieldset>
-        <button type="submit" className="nat-btn" disabled={tooShort || phase === 'loading'}>
-          {phase === 'loading' ? 'Searching…' : 'Ask nature'}
-        </button>
-        {tooShort && challenge.length > 0 && <p className="nat-muted">Please write at least 8 characters.</p>}
-      </form>
-
-      {phase === 'loading' && <Loading>Searching the library. This can take up to a minute.</Loading>}
-      {phase === 'error' && <ErrorBox error={error} />}
-
-      {result && answer && (
-        <div className="nat-results">
-          <div className="nat-row">
-            <span className={`nat-verdict nat-verdict--${result.verdict}`}>
-              {VERDICT_LABEL[result.verdict] || result.verdict}
-            </span>
-            {result.parsed_functions?.map((f) => (
-              <span key={f} className="nat-tag nat-tag--fn">
-                {labels.functions[f] || f}
-              </span>
-            ))}
-          </div>
-          {isFallback && (
-            <p className="nat-note" data-testid="fallback-note">
-              Ranked by Sylva&apos;s published scoring; AI phrasing unavailable.
-            </p>
-          )}
-          {answer.summary && <p className="nat-summary">{answer.summary}</p>}
-
-          {(rankedHits.length > 0 || mapOptions.length > 0) && (
-            <section aria-label="Options">
-              <h3>Options</h3>
-              <p className="nat-note">In rank order, by Sylva&apos;s published scoring.</p>
-              <div className="nat-grid">
-                {rankedHits.map((h) => (
-                  <RecordCard
-                    key={h.record.id}
-                    record={h.record}
-                    grade={h.evidence_grade}
-                    why={optionById[h.record.id]?.why}
-                    modelNote={optionById[h.record.id]?.caveat}
-                    labels={labels}
-                  />
-                ))}
-                {mapOptions.map(({ option, record }) => (
-                  <div key={record.id}>
-                    {option.why && <p className="nat-why">{option.why}</p>}
-                    <MapCard record={record} labels={labels} />
-                    <ModelNote note={modelNoteFor(option.caveat, '')} />
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {answer.open_questions?.length > 0 && (
-            <section aria-label="Open questions">
-              <h3>Open questions</h3>
-              <ul>
-                {answer.open_questions.map((q, i) => (
-                  <li key={i}>{q}</li>
-                ))}
-              </ul>
-            </section>
-          )}
-          {answer.next_steps?.length > 0 && (
-            <section aria-label="Next steps">
-              <h3>Next steps</h3>
-              <ul>
-                {answer.next_steps.map((q, i) => (
-                  <li key={i}>{q}</li>
-                ))}
-              </ul>
-            </section>
-          )}
-
-          {result.map_hits?.length > 0 && (
-            <section aria-label="Industry evidence">
-              <h3>Industry R&amp;D evidence</h3>
-              <p className="nat-note">Work found in the map. Being inspired by nature is not the same as being better for nature.</p>
-              <div className="nat-grid">
-                {result.map_hits.map((h) => (
-                  <MapCard key={h.record.id} record={h.record} labels={labels} />
-                ))}
-              </div>
-            </section>
-          )}
-
-          {answer.sector_gaps && <SectorGaps data={answer.sector_gaps} labels={labels} />}
-        </div>
-      )}
-    </div>
   )
 }
 
@@ -455,9 +295,15 @@ function LibraryTab({ meta, labels }) {
   return (
     <div>
       <div className="nat-panel nat-filters">
-        <div className="nat-field">
+        <div className="nat-field nat-field--search">
           <label htmlFor="nat-lib-q">Search</label>
-          <input id="nat-lib-q" type="search" value={f.q} onChange={(e) => set('q')(e.target.value)} />
+          <input
+            id="nat-lib-q"
+            type="search"
+            placeholder="Try “drag”, “cooling” or “adhesion”"
+            value={f.q}
+            onChange={(e) => set('q')(e.target.value)}
+          />
         </div>
         <Select id="nat-lib-area" label="Area" value={f.area} onChange={set('area')} options={(tx.areas || []).map((a) => [a.id, a.label])} />
         <Select id="nat-lib-sector" label="Sector" value={f.sector} onChange={set('sector')} options={(tx.sectors || []).map((s) => [s.id, s.label_en])} />
@@ -467,6 +313,11 @@ function LibraryTab({ meta, labels }) {
       {phase === 'loading' && <Loading>{hits.length ? 'Updating results…' : 'Loading records…'}</Loading>}
       {phase === 'error' && <ErrorBox error={error} />}
       {phase === 'done' && hits.length === 0 && <p className="nat-state">No records match these filters.</p>}
+      {phase === 'done' && hits.length > 0 && (
+        <p className="nat-count-line">
+          {hits.length} record{hits.length === 1 ? '' : 's'}
+        </p>
+      )}
       {phase !== 'error' && hits.length > 0 && (
         <div className="nat-grid" aria-busy={phase === 'loading'} style={phase === 'loading' ? { opacity: 0.6 } : undefined}>
           {hits.map((h) => (
@@ -527,8 +378,8 @@ function MapTab({ meta, labels }) {
       {phase === 'error' && <ErrorBox error={error} />}
       {phase === 'done' && (
         <>
-          <p className="nat-summary">
-            {hits.length} record{hits.length === 1 ? '' : 's'} shown for {labels.sectors[sector] || sector}.
+          <p className="nat-count-line">
+            {hits.length} record{hits.length === 1 ? '' : 's'} shown for {labels.sectors[sector] || sector}
           </p>
           <div className="nat-grid">
             {hits.map((h) => (
@@ -545,7 +396,7 @@ function MapTab({ meta, labels }) {
 /* ── Page ────────────────────────────────────────────────────────────────── */
 
 export default function Nature() {
-  const [tab, setTab] = useState('ask')
+  const [tab, setTab] = useState('library')
   const [meta, setMeta] = useState(null)
   const [stats, setStats] = useState(null)
   const [error, setError] = useState('')
@@ -574,6 +425,12 @@ export default function Nature() {
 
   return (
     <div className="nat">
+      <div className="nat-bg" aria-hidden="true">
+        <span className="nat-blob nat-blob--a" />
+        <span className="nat-blob nat-blob--b" />
+        <span className="nat-blob nat-blob--c" />
+      </div>
+
       <header className="nat-topbar">
         <Link to="/" className="nat-brand">
           <Logo className="nat-brand__logo" />
@@ -581,38 +438,27 @@ export default function Nature() {
         </Link>
         <nav className="nat-nav">
           <Link to="/hardware">Hardware</Link>
-          <Link to="/catalogue">Catalogue</Link>
           <Link to="/wild">Wild</Link>
         </nav>
       </header>
 
       <main className="nat-main">
-        <h1>Nature library</h1>
-        <p className="nat-lede">
-          Mechanisms, materials and practices from nature, each with its evidence and review status, linked to
-          what industry is researching.
-        </p>
-
-        {stats && (
-          <section className="nat-stats" aria-label="Coverage">
-            <dl>
-              <div><dt>Library records</dt><dd>{stats.library_served}</dd></div>
-              <div><dt>Expert-validated</dt><dd>{pct(stats.validated_share)}</dd></div>
-              <div><dt>With measured values</dt><dd>{pct(stats.measured_share)}</dd></div>
-              <div><dt>Industry map records</dt><dd>{stats.map_total}</dd></div>
-            </dl>
-            <p className="nat-licence">
-              <ExternalLink href={meta?.licence?.url || 'https://creativecommons.org/licenses/by/4.0/'}>
-                <span className="nat-badge nat-badge--licence">{meta?.licence?.name || 'CC BY 4.0'}</span>
-              </ExternalLink>{' '}
-              Export library:{' '}
-              <a href={natureExportUrl('library', 'json')}>JSON</a>, <a href={natureExportUrl('library', 'csv')}>CSV</a>
-              {' · '}map: <a href={natureExportUrl('industry_map', 'json')}>JSON</a>,{' '}
-              <a href={natureExportUrl('industry_map', 'csv')}>CSV</a>
+        <section className="nat-hero">
+          <div className="nat-hero__text">
+            <span className="nat-eyebrow">Learning from nature</span>
+            <h1>Nature library</h1>
+            <p className="nat-lede">
+              Mechanisms, materials and practices from nature, each with its evidence and review status, linked to
+              what industry is researching.
             </p>
-            {meta?.licence?.attribution && <p className="nat-muted">{meta.licence.attribution}</p>}
-          </section>
-        )}
+          </div>
+          {stats && (
+            <div className="nat-counts" aria-label="Coverage">
+              <CountBubble value={stats.map_total} label="map records" delay={0} tone="map" />
+              <CountBubble value={stats.library_served} label="library records" delay={180} tone="lib" />
+            </div>
+          )}
+        </section>
 
         <ErrorBox error={error} />
         {!meta && !error && <Loading>Loading the library…</Loading>}
@@ -635,8 +481,7 @@ export default function Nature() {
                 </button>
               ))}
             </div>
-            <div role="tabpanel" id={`nat-panel-${tab}`} aria-labelledby={`nat-tab-${tab}`}>
-              {tab === 'ask' && <AskTab meta={meta} labels={labels} />}
+            <div role="tabpanel" id={`nat-panel-${tab}`} aria-labelledby={`nat-tab-${tab}`} className="nat-tabpanel" key={tab}>
               {tab === 'library' && <LibraryTab meta={meta} labels={labels} />}
               {tab === 'map' && <MapTab meta={meta} labels={labels} />}
             </div>

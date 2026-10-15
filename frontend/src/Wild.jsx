@@ -118,7 +118,6 @@ export default function Wild() {
         <nav className="topnav">
           <Link to="/">Sylva</Link>
           <Link to="/nature">Nature</Link>
-          <Link to="/catalogue">Catalogue</Link>
           {showResults && (
             <button type="button" className="ghost-btn" onClick={restart}>
               New question
