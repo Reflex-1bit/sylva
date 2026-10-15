@@ -262,7 +262,7 @@ async def generate_farm_plan(
         )
 
 
-_KEY_RE = re.compile(r"AIza[0-9A-Za-z_-]{20,}")
+_KEY_RE = re.compile(r"AIza[0-9A-Za-z_-]{20,}|AQ\.[0-9A-Za-z_.-]{20,}")
 
 
 def _scrub(text: str, api_key: str) -> str:

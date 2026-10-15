@@ -35,7 +35,7 @@ NOTICE = ("Don't include confidential details. Your text is sent to Google Gemin
 _REF_RE = re.compile(r"\bR(\d{1,2})\b")
 _BRACKET_RE = re.compile(r"\[([^\[\]]*)\]")
 _URL_RE = re.compile(r"(?i)\b(?:https?://|www\.)\S+")
-_KEY_RE = re.compile(r"AIza[0-9A-Za-z_-]{20,}")
+_KEY_RE = re.compile(r"AIza[0-9A-Za-z_-]{20,}|AQ\.[0-9A-Za-z_.-]{20,}")
 
 CallLLM = Callable[[str, str], Awaitable[tuple[dict, str]]]
 

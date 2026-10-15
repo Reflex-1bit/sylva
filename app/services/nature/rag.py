@@ -26,7 +26,7 @@ FALLBACK_OPTIONS = 5
 
 _ID_RE = re.compile(r"(?i)\b(?:lib|map)-\d{4,}\b")  # "map-based" is not an id
 _BRACKET_RE = re.compile(r"\[([^\[\]]*)\]")
-_KEY_RE = re.compile(r"AIza[0-9A-Za-z_-]{20,}")
+_KEY_RE = re.compile(r"AIza[0-9A-Za-z_-]{20,}|AQ\.[0-9A-Za-z_.-]{20,}")
 
 
 def _redact(msg: str) -> str:
