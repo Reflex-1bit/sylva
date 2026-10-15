@@ -7,6 +7,24 @@ Lead with the **plan** (species match + phased roadmap). Use hardware to make
 that plan defensible for subsidies and buyers. Do not pretend a solo project is
 a global 30-year financial + carbon engine.
 
+## What's new (2026-10-15)
+
+- **Sylva-wild at `/wild` (new).** A marine-blue copy of the Sylva page for companies. It takes three steps:
+  choose **fix a problem** or **build something new**, pick your industry, and describe the problem in a sentence
+  or two. Sylva then searches all 99,309 open catalogue records and returns nature-inspired solutions. Each
+  solution cites the actual studies and gives donation links to groups that protect the habitat behind them.
+  With a Gemini key, the question is rewritten into search phrases and the results are grouped into cited
+  solutions. Without a key, the page shows the closest studies. See [Sylva-wild](#sylva-wild).
+- **Nature page at `/nature`, redesigned.** It keeps only the **Library** (100 records) and the **Industry
+  map** (507 records). The Ask tab and the stats/export block are gone. Instead, two counters pop up and count
+  to the live totals. The page has new styling: drifting background light, a pill tab switch, and cards
+  that lift on hover. Motion is reduced for users who ask for it.
+- **The `/catalogue` page was removed.** The 99,309-record catalogue is still built and kept, now as the
+  search corpus behind Sylva-wild (see [Open nature catalogue](#open-nature-catalogue)).
+- **Safer on small hosts.** The API now starts without the Sylva-wild search libraries (numpy/scipy). Where the
+  index is not installed, `/wild` reports this instead of the whole API failing. Gemini keys of both forms
+  (`AIza…` and `AQ.…`) are redacted from logs.
+
 ## What works today
 
 | Layer | Status |
@@ -18,6 +36,8 @@ a global 30-year financial + carbon engine.
 | ESP32 soil node prototype | ✅ `hardware/esp32/` |
 | Sensor ingest stub | ✅ `/sensors/ingest` |
 | Nature arm: open nature library + industry R&D map, search and RAG | ✅ `/api/v1/nature/*`; `/nature` page shows the library and map (the ask endpoint is API-only) |
+| Open nature catalogue (99,309 records, sector-sorted) | ✅ `data/nature/catalogue/` (data only; the `/catalogue` page was removed) |
+| Sylva-wild: onboarding + cited nature solutions over the catalogue | ✅ `/wild`, `/api/v1/wild/*` (needs the local search index; see below) |
 
 ## Realistic scope (keep it narrow)
 
@@ -51,6 +71,12 @@ a global 30-year financial + carbon engine.
 
 On either host, set `GEMINI_API_KEY` / `OPENTOPO_API_KEY` as **server** env vars only.  
 Never use `VITE_` for secrets — those are embedded in the public JavaScript bundle.
+
+The live Vercel project builds from the GitHub repo it is connected to. Check that this is
+`ashm-023/sylva` (Vercel → project → Settings → Git) before expecting a merge into `main` to deploy.
+On Vercel, `/wild` loads but cannot answer questions: the search index (about 75 MB) and its
+libraries (`requirements-wild.txt`) do not fit the slim function, so `/wild/ask` returns 503.
+Serving Sylva-wild live needs a host with room for the index, such as Render with Docker.
 
 ## Quickstart (local)
 
@@ -180,25 +206,47 @@ follows the results (marked coming soon; no form yet).
 - **Privacy:** the page tells users not to include confidential details; the text is sent to
   Gemini when a key is set and is not stored by Sylva.
 
+Run it locally (the catalogue build in `data/nature/catalogue/build/catalogue.json` must exist; see
+[Open nature catalogue](#open-nature-catalogue)):
+
+```bash
+pip install -r requirements.txt -r requirements-wild.txt
+python -m scripts.nature.wild.build_index      # about 2 minutes, writes data/nature/wild/index/
+echo GEMINI_API_KEY=your-key >> .env           # optional: AI-written solutions
+cd frontend && npm install && npm run build && cd ..
+uvicorn app.main:app                           # then open http://localhost:8000/wild
+```
+
+The index loads in the background when the server starts (about 30 seconds on a laptop); until then
+`/wild/ask` answers 503 "loading".
+
 ## Project layout
 
 ```
 sylva/
 ├── app/
 │   ├── main.py
-│   ├── routers/          # farm, match, recommendations, sensors, nature
+│   ├── routers/          # farm, match, recommendations, sensors, nature, wild
 │   ├── services/         # soil, topo, ndvi, gbif, species_match, rag
 │   └── models/
 ├── frontend/             # React (Vite) UI
-│   ├── src/App.jsx
+│   ├── src/App.jsx       # farm plan (/)
+│   ├── src/Nature.jsx    # nature library + industry map (/nature)
+│   ├── src/Wild.jsx      # Sylva-wild onboarding + results (/wild)
+│   ├── src/Hardware.jsx  # ESP32 soil node walkthrough (/hardware)
 │   └── dist/             # production build (npm run build)
 ├── hardware/esp32/       # soil node firmware + BOM map
 ├── data/species_db.json
 ├── data/nature/          # open nature library + industry R&D map (CC BY 4.0)
 ├── app/services/nature/  # store, text, bm25, embeddings, search, matcher, links, rag
+├── app/services/wild/    # Sylva-wild: index (BM25 + int8 vectors), store, rag, limits
+├── data/nature/catalogue/ # open catalogue: sectors, groups, build manifest (CC BY 4.0)
 ├── scripts/nature/       # validate, verify sources, harvest, index, extract, review
+├── scripts/nature/catalogue/ # catalogue harvest, sort, groups, publish, spot-check
+├── scripts/nature/wild/  # build_index, query
 ├── scripts/ingest_aft_pdfs.py
-└── requirements.txt
+├── requirements.txt
+└── requirements-wild.txt # extra packages for the Sylva-wild index (scipy, fastembed)
 ```
 
 ## ESP32 prototype
@@ -214,6 +262,11 @@ payload schema, and why ESP32 is the field unit (Pi LLM is optional later).
 - [x] ESP32 soil-node sketch + ingest stub
 - [x] Nature arm v0: 109-record nature library (extended on 2026-10-11), 507-record Iberian industry map, search + RAG, `/nature` page
 - [ ] Nature arm: expert validation of library records, patents and grants in the map, embeddings live (needs `GEMINI_API_KEY`)
+- [x] Open nature catalogue: 99,309 sector-sorted records with habitat donation links (data kept; page removed 2026-10-15)
+- [x] Sylva-wild: `/wild` onboarding, local search over the whole catalogue, cited Gemini answers, free-key limits
+- [x] `/nature` redesign: library and map only, pop-up record counters
+- [ ] Sylva-wild relevance eval (32 test problems: hit@5, MRR, nDCG)
+- [ ] Sylva-wild hosting with the index (Render/Docker) and a lead form for custom reserve research
 - [ ] Weatherproof pilot BOM + solar
 - [ ] One-region subsidy checklist (human-in-the-loop)
 - [ ] Persist sensor time-series (Postgres/Timescale)
