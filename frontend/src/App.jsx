@@ -74,6 +74,8 @@ export default function App() {
         </button>
         <nav className="topnav">
           <Link to="/hardware">Hardware</Link>
+          <Link to="/nature">Nature</Link>
+          <Link to="/wild">Wild</Link>
           {showResults && (
             <button type="button" className="ghost-btn" onClick={reset}>
               New location

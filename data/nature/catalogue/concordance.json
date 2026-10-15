@@ -1,0 +1,1305 @@
+{
+  "version": "2026-10-12",
+  "notes": "Source-code to sector mappings, built from sectors.json plus hand-written EuroSciVoc and Climate-ADAPT rows. (a) Keyword matching is whole-word, lower-cased, accent-folded tokens and phrases, never substrings. (b) CPC codes are compared in compact form (spaces and slashes removed, upper case), and the longest prefix wins. (c) An unmapped OpenAlex subfield, EuroSciVoc term or Climate-ADAPT term contributes no sector, so the record falls to keywords and then 'other'. (d) Keyword-only (no code) sorting is capped at confidence 0.6, and a weak keyword counts 0.25 of a strong hit. (e) Tie-break: the highest score wins; on equal scores the earlier sector in sectors.json wins and the record is flagged 'tie' in sort_reason. (f) OpenAlex subfield rows with strength 'medium' are broad and count as medium-confidence signals; the default is 'strong'. (g) Climate-ADAPT terms are spelled exactly as in the harvested records (checked against scripts/nature/catalogue/climate_adapt_sectors.txt); 'Tourism' and 'Non specific' are left unmapped on purpose, and rows whose sector is 'other' contribute no sector score. (h) Corroboration: 'Biomedical Engineering' and 'Biomaterials' are medium. For every sector (generalised in tuning round TUNE-1), when OpenAlex subfields are the sector's only code signal (no CPC, EuroSciVoc or Climate-ADAPT signal for it) and the record has no strong keyword of that sector, the subfield signal counts x0.5; a second subfield of the same sector is not corroboration, and 'Biomedical Engineering' and 'Biomaterials' keep the original health-medical x0.5 on top (x0.25 in all). (i) Weak tie (TUNE-1, refines e): when the tied best score is below 0.4, no sector wins; the record goes to 'other' with sort_reason 'weak-tie'. At 0.4 and above, (e) applies.",
+  "cpc": [
+    {
+      "prefix": "B21",
+      "sector": "steel-aluminium",
+      "note": "CPC B21 -> steel-aluminium; longest prefix wins"
+    },
+    {
+      "prefix": "B22",
+      "sector": "steel-aluminium",
+      "note": "CPC B22 -> steel-aluminium; longest prefix wins"
+    },
+    {
+      "prefix": "C21",
+      "sector": "steel-aluminium",
+      "note": "CPC C21 -> steel-aluminium; longest prefix wins"
+    },
+    {
+      "prefix": "C22",
+      "sector": "steel-aluminium",
+      "note": "CPC C22 -> steel-aluminium; longest prefix wins"
+    },
+    {
+      "prefix": "C03C",
+      "sector": "construction-materials",
+      "note": "CPC C03C -> construction-materials; longest prefix wins"
+    },
+    {
+      "prefix": "C04B",
+      "sector": "construction-materials",
+      "note": "CPC C04B -> construction-materials; longest prefix wins"
+    },
+    {
+      "prefix": "E01",
+      "sector": "construction-materials",
+      "note": "CPC E01 -> construction-materials; longest prefix wins"
+    },
+    {
+      "prefix": "E02",
+      "sector": "construction-materials",
+      "note": "CPC E02 -> construction-materials; longest prefix wins"
+    },
+    {
+      "prefix": "E04C",
+      "sector": "construction-materials",
+      "note": "CPC E04C -> construction-materials; longest prefix wins"
+    },
+    {
+      "prefix": "E04D",
+      "sector": "construction-materials",
+      "note": "CPC E04D -> construction-materials; longest prefix wins"
+    },
+    {
+      "prefix": "B32B",
+      "sector": "packaging",
+      "note": "CPC B32B -> packaging; longest prefix wins"
+    },
+    {
+      "prefix": "B65B",
+      "sector": "packaging",
+      "note": "CPC B65B -> packaging; longest prefix wins"
+    },
+    {
+      "prefix": "B65D",
+      "sector": "packaging",
+      "note": "CPC B65D -> packaging; longest prefix wins"
+    },
+    {
+      "prefix": "D21H",
+      "sector": "packaging",
+      "note": "CPC D21H -> packaging; longest prefix wins"
+    },
+    {
+      "prefix": "A61K8",
+      "sector": "cosmetics",
+      "note": "CPC A61K8 -> cosmetics; longest prefix wins"
+    },
+    {
+      "prefix": "A61Q",
+      "sector": "cosmetics",
+      "note": "CPC A61Q -> cosmetics; longest prefix wins"
+    },
+    {
+      "prefix": "A41",
+      "sector": "textiles",
+      "note": "CPC A41 -> textiles; longest prefix wins"
+    },
+    {
+      "prefix": "A43",
+      "sector": "textiles",
+      "note": "CPC A43 -> textiles; longest prefix wins"
+    },
+    {
+      "prefix": "D01",
+      "sector": "textiles",
+      "note": "CPC D01 -> textiles; longest prefix wins"
+    },
+    {
+      "prefix": "D02",
+      "sector": "textiles",
+      "note": "CPC D02 -> textiles; longest prefix wins"
+    },
+    {
+      "prefix": "D03",
+      "sector": "textiles",
+      "note": "CPC D03 -> textiles; longest prefix wins"
+    },
+    {
+      "prefix": "D04",
+      "sector": "textiles",
+      "note": "CPC D04 -> textiles; longest prefix wins"
+    },
+    {
+      "prefix": "D06",
+      "sector": "textiles",
+      "note": "CPC D06 -> textiles; longest prefix wins"
+    },
+    {
+      "prefix": "B60",
+      "sector": "automotive",
+      "note": "CPC B60 -> automotive; longest prefix wins"
+    },
+    {
+      "prefix": "B62",
+      "sector": "automotive",
+      "note": "CPC B62 -> automotive; longest prefix wins"
+    },
+    {
+      "prefix": "F02",
+      "sector": "automotive",
+      "note": "CPC F02 -> automotive; longest prefix wins"
+    },
+    {
+      "prefix": "F03",
+      "sector": "energy",
+      "note": "CPC F03 -> energy; longest prefix wins"
+    },
+    {
+      "prefix": "F24S",
+      "sector": "energy",
+      "note": "CPC F24S -> energy; longest prefix wins"
+    },
+    {
+      "prefix": "F28",
+      "sector": "energy",
+      "note": "CPC F28 -> energy; longest prefix wins"
+    },
+    {
+      "prefix": "H01L31",
+      "sector": "energy",
+      "note": "CPC H01L31 -> energy; longest prefix wins"
+    },
+    {
+      "prefix": "H01M",
+      "sector": "energy",
+      "note": "CPC H01M -> energy; longest prefix wins"
+    },
+    {
+      "prefix": "H02",
+      "sector": "energy",
+      "note": "CPC H02 -> energy; longest prefix wins"
+    },
+    {
+      "prefix": "Y02E",
+      "sector": "energy",
+      "note": "CPC Y02E -> energy; longest prefix wins"
+    },
+    {
+      "prefix": "A01",
+      "sector": "agrifood",
+      "note": "CPC A01 -> agrifood; longest prefix wins"
+    },
+    {
+      "prefix": "A22",
+      "sector": "agrifood",
+      "note": "CPC A22 -> agrifood; longest prefix wins"
+    },
+    {
+      "prefix": "A23",
+      "sector": "agrifood",
+      "note": "CPC A23 -> agrifood; longest prefix wins"
+    },
+    {
+      "prefix": "C12C",
+      "sector": "agrifood",
+      "note": "CPC C12C -> agrifood; longest prefix wins"
+    },
+    {
+      "prefix": "C12F",
+      "sector": "agrifood",
+      "note": "CPC C12F -> agrifood; longest prefix wins"
+    },
+    {
+      "prefix": "C12G",
+      "sector": "agrifood",
+      "note": "CPC C12G -> agrifood; longest prefix wins"
+    },
+    {
+      "prefix": "C12H",
+      "sector": "agrifood",
+      "note": "CPC C12H -> agrifood; longest prefix wins"
+    },
+    {
+      "prefix": "C12J",
+      "sector": "agrifood",
+      "note": "CPC C12J -> agrifood; longest prefix wins"
+    },
+    {
+      "prefix": "C02F",
+      "sector": "water-utilities",
+      "note": "CPC C02F -> water-utilities; longest prefix wins"
+    },
+    {
+      "prefix": "E03",
+      "sector": "water-utilities",
+      "note": "CPC E03 -> water-utilities; longest prefix wins"
+    },
+    {
+      "prefix": "B01D",
+      "sector": "chemicals",
+      "note": "CPC B01D -> chemicals; longest prefix wins"
+    },
+    {
+      "prefix": "B01J",
+      "sector": "chemicals",
+      "note": "CPC B01J -> chemicals; longest prefix wins"
+    },
+    {
+      "prefix": "B82Y",
+      "sector": "chemicals",
+      "note": "CPC B82Y -> chemicals; longest prefix wins"
+    },
+    {
+      "prefix": "C01",
+      "sector": "chemicals",
+      "note": "CPC C01 -> chemicals; longest prefix wins"
+    },
+    {
+      "prefix": "C07",
+      "sector": "chemicals",
+      "note": "CPC C07 -> chemicals; longest prefix wins"
+    },
+    {
+      "prefix": "C08",
+      "sector": "chemicals",
+      "note": "CPC C08 -> chemicals; longest prefix wins"
+    },
+    {
+      "prefix": "C09",
+      "sector": "chemicals",
+      "note": "CPC C09 -> chemicals; longest prefix wins"
+    },
+    {
+      "prefix": "C11",
+      "sector": "chemicals",
+      "note": "CPC C11 -> chemicals; longest prefix wins"
+    },
+    {
+      "prefix": "C12M",
+      "sector": "chemicals",
+      "note": "CPC C12M -> chemicals; longest prefix wins"
+    },
+    {
+      "prefix": "C12N",
+      "sector": "chemicals",
+      "note": "CPC C12N -> chemicals; longest prefix wins"
+    },
+    {
+      "prefix": "C12P",
+      "sector": "chemicals",
+      "note": "CPC C12P -> chemicals; longest prefix wins"
+    },
+    {
+      "prefix": "C12Q",
+      "sector": "chemicals",
+      "note": "CPC C12Q -> chemicals; longest prefix wins"
+    },
+    {
+      "prefix": "C23",
+      "sector": "chemicals",
+      "note": "CPC C23 -> chemicals; longest prefix wins"
+    },
+    {
+      "prefix": "A61B",
+      "sector": "health-medical",
+      "note": "CPC A61B -> health-medical; longest prefix wins"
+    },
+    {
+      "prefix": "A61F",
+      "sector": "health-medical",
+      "note": "CPC A61F -> health-medical; longest prefix wins"
+    },
+    {
+      "prefix": "A61K",
+      "sector": "health-medical",
+      "note": "CPC A61K -> health-medical; longest prefix wins"
+    },
+    {
+      "prefix": "A61L",
+      "sector": "health-medical",
+      "note": "CPC A61L -> health-medical; longest prefix wins"
+    },
+    {
+      "prefix": "A61M",
+      "sector": "health-medical",
+      "note": "CPC A61M -> health-medical; longest prefix wins"
+    },
+    {
+      "prefix": "A61N",
+      "sector": "health-medical",
+      "note": "CPC A61N -> health-medical; longest prefix wins"
+    },
+    {
+      "prefix": "A61P",
+      "sector": "health-medical",
+      "note": "CPC A61P -> health-medical; longest prefix wins"
+    },
+    {
+      "prefix": "G16H",
+      "sector": "health-medical",
+      "note": "CPC G16H -> health-medical; longest prefix wins"
+    },
+    {
+      "prefix": "G01",
+      "sector": "electronics-ict",
+      "note": "CPC G01 -> electronics-ict; longest prefix wins"
+    },
+    {
+      "prefix": "G02B",
+      "sector": "electronics-ict",
+      "note": "CPC G02B -> electronics-ict; longest prefix wins"
+    },
+    {
+      "prefix": "G06",
+      "sector": "electronics-ict",
+      "note": "CPC G06 -> electronics-ict; longest prefix wins"
+    },
+    {
+      "prefix": "G11",
+      "sector": "electronics-ict",
+      "note": "CPC G11 -> electronics-ict; longest prefix wins"
+    },
+    {
+      "prefix": "H01L",
+      "sector": "electronics-ict",
+      "note": "CPC H01L -> electronics-ict; longest prefix wins"
+    },
+    {
+      "prefix": "H01Q",
+      "sector": "electronics-ict",
+      "note": "CPC H01Q -> electronics-ict; longest prefix wins"
+    },
+    {
+      "prefix": "H03",
+      "sector": "electronics-ict",
+      "note": "CPC H03 -> electronics-ict; longest prefix wins"
+    },
+    {
+      "prefix": "H04",
+      "sector": "electronics-ict",
+      "note": "CPC H04 -> electronics-ict; longest prefix wins"
+    },
+    {
+      "prefix": "H05K",
+      "sector": "electronics-ict",
+      "note": "CPC H05K -> electronics-ict; longest prefix wins"
+    },
+    {
+      "prefix": "B23",
+      "sector": "machinery-robotics",
+      "note": "CPC B23 -> machinery-robotics; longest prefix wins"
+    },
+    {
+      "prefix": "B24",
+      "sector": "machinery-robotics",
+      "note": "CPC B24 -> machinery-robotics; longest prefix wins"
+    },
+    {
+      "prefix": "B25J",
+      "sector": "machinery-robotics",
+      "note": "CPC B25J -> machinery-robotics; longest prefix wins"
+    },
+    {
+      "prefix": "B33Y",
+      "sector": "machinery-robotics",
+      "note": "CPC B33Y -> machinery-robotics; longest prefix wins"
+    },
+    {
+      "prefix": "B81",
+      "sector": "machinery-robotics",
+      "note": "CPC B81 -> machinery-robotics; longest prefix wins"
+    },
+    {
+      "prefix": "F04",
+      "sector": "machinery-robotics",
+      "note": "CPC F04 -> machinery-robotics; longest prefix wins"
+    },
+    {
+      "prefix": "F15",
+      "sector": "machinery-robotics",
+      "note": "CPC F15 -> machinery-robotics; longest prefix wins"
+    },
+    {
+      "prefix": "F16",
+      "sector": "machinery-robotics",
+      "note": "CPC F16 -> machinery-robotics; longest prefix wins"
+    },
+    {
+      "prefix": "G05B",
+      "sector": "machinery-robotics",
+      "note": "CPC G05B -> machinery-robotics; longest prefix wins"
+    },
+    {
+      "prefix": "B61",
+      "sector": "aerospace-transport",
+      "note": "CPC B61 -> aerospace-transport; longest prefix wins"
+    },
+    {
+      "prefix": "B63",
+      "sector": "aerospace-transport",
+      "note": "CPC B63 -> aerospace-transport; longest prefix wins"
+    },
+    {
+      "prefix": "B64",
+      "sector": "aerospace-transport",
+      "note": "CPC B64 -> aerospace-transport; longest prefix wins"
+    },
+    {
+      "prefix": "E04B",
+      "sector": "buildings-architecture",
+      "note": "CPC E04B -> buildings-architecture; longest prefix wins"
+    },
+    {
+      "prefix": "E04F",
+      "sector": "buildings-architecture",
+      "note": "CPC E04F -> buildings-architecture; longest prefix wins"
+    },
+    {
+      "prefix": "E04G",
+      "sector": "buildings-architecture",
+      "note": "CPC E04G -> buildings-architecture; longest prefix wins"
+    },
+    {
+      "prefix": "E04H",
+      "sector": "buildings-architecture",
+      "note": "CPC E04H -> buildings-architecture; longest prefix wins"
+    },
+    {
+      "prefix": "E06B",
+      "sector": "buildings-architecture",
+      "note": "CPC E06B -> buildings-architecture; longest prefix wins"
+    },
+    {
+      "prefix": "F24F",
+      "sector": "buildings-architecture",
+      "note": "CPC F24F -> buildings-architecture; longest prefix wins"
+    },
+    {
+      "prefix": "A01G",
+      "sector": "forestry-fisheries",
+      "note": "CPC A01G -> forestry-fisheries; longest prefix wins"
+    },
+    {
+      "prefix": "A01K61",
+      "sector": "forestry-fisheries",
+      "note": "CPC A01K61 -> forestry-fisheries; longest prefix wins"
+    },
+    {
+      "prefix": "A01K63",
+      "sector": "forestry-fisheries",
+      "note": "CPC A01K63 -> forestry-fisheries; longest prefix wins"
+    },
+    {
+      "prefix": "A01K79",
+      "sector": "forestry-fisheries",
+      "note": "CPC A01K79 -> forestry-fisheries; longest prefix wins"
+    },
+    {
+      "prefix": "B27",
+      "sector": "forestry-fisheries",
+      "note": "CPC B27 -> forestry-fisheries; longest prefix wins"
+    },
+    {
+      "prefix": "B03B",
+      "sector": "waste-recycling",
+      "note": "CPC B03B -> waste-recycling; longest prefix wins"
+    },
+    {
+      "prefix": "B09",
+      "sector": "waste-recycling",
+      "note": "CPC B09 -> waste-recycling; longest prefix wins"
+    },
+    {
+      "prefix": "B29B17",
+      "sector": "waste-recycling",
+      "note": "CPC B29B17 -> waste-recycling; longest prefix wins"
+    },
+    {
+      "prefix": "C05F",
+      "sector": "waste-recycling",
+      "note": "CPC C05F -> waste-recycling; longest prefix wins"
+    },
+    {
+      "prefix": "F23G",
+      "sector": "waste-recycling",
+      "note": "CPC F23G -> waste-recycling; longest prefix wins"
+    },
+    {
+      "prefix": "Y02W",
+      "sector": "waste-recycling",
+      "note": "CPC Y02W -> waste-recycling; longest prefix wins"
+    }
+  ],
+  "openalex_subfield": [
+    {
+      "name": "Metals and Alloys",
+      "sector": "steel-aluminium",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Metals and Alloys' -> steel-aluminium; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Ceramics and Composites",
+      "sector": "construction-materials",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Ceramics and Composites' -> construction-materials; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Civil and Structural Engineering",
+      "sector": "construction-materials",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Civil and Structural Engineering' -> construction-materials; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Automotive Engineering",
+      "sector": "automotive",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Automotive Engineering' -> automotive; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Energy Engineering and Power Technology",
+      "sector": "energy",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Energy Engineering and Power Technology' -> energy; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Renewable Energy, Sustainability and the Environment",
+      "sector": "energy",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Renewable Energy, Sustainability and the Environment' -> energy; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Fuel Technology",
+      "sector": "energy",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Fuel Technology' -> energy; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "General Energy",
+      "sector": "energy",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'General Energy' -> energy; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Nuclear Energy and Engineering",
+      "sector": "energy",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Nuclear Energy and Engineering' -> energy; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Electrochemistry",
+      "sector": "energy",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Electrochemistry' -> energy; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Agronomy and Crop Science",
+      "sector": "agrifood",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Agronomy and Crop Science' -> agrifood; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Food Science",
+      "sector": "agrifood",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Food Science' -> agrifood; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Horticulture",
+      "sector": "agrifood",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Horticulture' -> agrifood; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Soil Science",
+      "sector": "agrifood",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Soil Science' -> agrifood; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Water Science and Technology",
+      "sector": "water-utilities",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Water Science and Technology' -> water-utilities; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Environmental Engineering",
+      "sector": "water-utilities",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Environmental Engineering' -> water-utilities; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Polymers and Plastics",
+      "sector": "chemicals",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Polymers and Plastics' -> chemicals; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Biotechnology",
+      "sector": "chemicals",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Biotechnology' -> chemicals; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Bioengineering",
+      "sector": "chemicals",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Bioengineering' -> chemicals; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Applied Microbiology and Biotechnology",
+      "sector": "chemicals",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Applied Microbiology and Biotechnology' -> chemicals; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "General Materials Science",
+      "sector": "chemicals",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'General Materials Science' -> chemicals; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Spectroscopy",
+      "sector": "chemicals",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Spectroscopy' -> chemicals; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Condensed Matter Physics",
+      "sector": "chemicals",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Condensed Matter Physics' -> chemicals; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Organic Chemistry",
+      "sector": "chemicals",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Organic Chemistry' -> chemicals; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Inorganic Chemistry",
+      "sector": "chemicals",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Inorganic Chemistry' -> chemicals; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Catalysis",
+      "sector": "chemicals",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Catalysis' -> chemicals; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Process Chemistry and Technology",
+      "sector": "chemicals",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Process Chemistry and Technology' -> chemicals; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Surfaces, Coatings and Films",
+      "sector": "chemicals",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Surfaces, Coatings and Films' -> chemicals; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Physical and Theoretical Chemistry",
+      "sector": "chemicals",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Physical and Theoretical Chemistry' -> chemicals; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Analytical Chemistry",
+      "sector": "chemicals",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Analytical Chemistry' -> chemicals; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Materials Chemistry",
+      "sector": "chemicals",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Materials Chemistry' -> chemicals; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Filtration and Separation",
+      "sector": "chemicals",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Filtration and Separation' -> chemicals; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Environmental Chemistry",
+      "sector": "chemicals",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Environmental Chemistry' -> chemicals; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Biomedical Engineering",
+      "sector": "health-medical",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Biomedical Engineering' -> health-medical, medium: the subfield also covers non-clinical materials work; it counts x0.5 more when it is health-medical's only code signal and no health-medical strong keyword is present (sort.py corroboration rule)"
+    },
+    {
+      "name": "Biomaterials",
+      "sector": "health-medical",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Biomaterials' -> health-medical, medium: the subfield also covers non-clinical materials work; it counts x0.5 more when it is health-medical's only code signal and no health-medical strong keyword is present (sort.py corroboration rule)"
+    },
+    {
+      "name": "Surgery",
+      "sector": "health-medical",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Surgery' -> health-medical; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Orthopedics and Sports Medicine",
+      "sector": "health-medical",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Orthopedics and Sports Medicine' -> health-medical; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Pharmaceutical Science",
+      "sector": "health-medical",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Pharmaceutical Science' -> health-medical; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Pharmacology",
+      "sector": "health-medical",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Pharmacology' -> health-medical; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Oncology",
+      "sector": "health-medical",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Oncology' -> health-medical; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Cardiology and Cardiovascular Medicine",
+      "sector": "health-medical",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Cardiology and Cardiovascular Medicine' -> health-medical; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Drug Discovery",
+      "sector": "health-medical",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Drug Discovery' -> health-medical; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Radiology, Nuclear Medicine and Imaging",
+      "sector": "health-medical",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Radiology, Nuclear Medicine and Imaging' -> health-medical; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Immunology",
+      "sector": "health-medical",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Immunology' -> health-medical; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Infectious Diseases",
+      "sector": "health-medical",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Infectious Diseases' -> health-medical; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Dermatology",
+      "sector": "health-medical",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Dermatology' -> health-medical; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Public Health, Environmental and Occupational Health",
+      "sector": "health-medical",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Public Health, Environmental and Occupational Health' -> health-medical; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Health Informatics",
+      "sector": "health-medical",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Health Informatics' -> health-medical; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Ophthalmology",
+      "sector": "health-medical",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Ophthalmology' -> health-medical; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Oral Surgery",
+      "sector": "health-medical",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Oral Surgery' -> health-medical; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Orthodontics",
+      "sector": "health-medical",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Orthodontics' -> health-medical; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Neurology",
+      "sector": "health-medical",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Neurology' -> health-medical; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Rehabilitation",
+      "sector": "health-medical",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Rehabilitation' -> health-medical; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Electrical and Electronic Engineering",
+      "sector": "electronics-ict",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Electrical and Electronic Engineering' -> electronics-ict; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Electronic, Optical and Magnetic Materials",
+      "sector": "electronics-ict",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Electronic, Optical and Magnetic Materials' -> electronics-ict; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Computer Networks and Communications",
+      "sector": "electronics-ict",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Computer Networks and Communications' -> electronics-ict; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Artificial Intelligence",
+      "sector": "electronics-ict",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Artificial Intelligence' -> electronics-ict; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Software",
+      "sector": "electronics-ict",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Software' -> electronics-ict; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Signal Processing",
+      "sector": "electronics-ict",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Signal Processing' -> electronics-ict; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Hardware and Architecture",
+      "sector": "electronics-ict",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Hardware and Architecture' -> electronics-ict; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Computer Vision and Pattern Recognition",
+      "sector": "electronics-ict",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Computer Vision and Pattern Recognition' -> electronics-ict; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Computer Science Applications",
+      "sector": "electronics-ict",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Computer Science Applications' -> electronics-ict; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Information Systems",
+      "sector": "electronics-ict",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Information Systems' -> electronics-ict; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Atomic and Molecular Physics, and Optics",
+      "sector": "electronics-ict",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Atomic and Molecular Physics, and Optics' -> electronics-ict; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Instrumentation",
+      "sector": "electronics-ict",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Instrumentation' -> electronics-ict; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Human-Computer Interaction",
+      "sector": "electronics-ict",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Human-Computer Interaction' -> electronics-ict; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Mechanical Engineering",
+      "sector": "machinery-robotics",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Mechanical Engineering' -> machinery-robotics; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Industrial and Manufacturing Engineering",
+      "sector": "machinery-robotics",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Industrial and Manufacturing Engineering' -> machinery-robotics; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Control and Systems Engineering",
+      "sector": "machinery-robotics",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Control and Systems Engineering' -> machinery-robotics; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Mechanics of Materials",
+      "sector": "machinery-robotics",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Mechanics of Materials' -> machinery-robotics; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Fluid Flow and Transfer Processes",
+      "sector": "machinery-robotics",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Fluid Flow and Transfer Processes' -> machinery-robotics; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "General Engineering",
+      "sector": "machinery-robotics",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'General Engineering' -> machinery-robotics; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Computational Mechanics",
+      "sector": "machinery-robotics",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Computational Mechanics' -> machinery-robotics; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Aerospace Engineering",
+      "sector": "aerospace-transport",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Aerospace Engineering' -> aerospace-transport; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Ocean Engineering",
+      "sector": "aerospace-transport",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Ocean Engineering' -> aerospace-transport; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Transportation",
+      "sector": "aerospace-transport",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Transportation' -> aerospace-transport; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Space and Planetary Science",
+      "sector": "aerospace-transport",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Space and Planetary Science' -> aerospace-transport; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Architecture",
+      "sector": "buildings-architecture",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Architecture' -> buildings-architecture; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Building and Construction",
+      "sector": "buildings-architecture",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Building and Construction' -> buildings-architecture; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Urban Studies",
+      "sector": "buildings-architecture",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Urban Studies' -> buildings-architecture; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Forestry",
+      "sector": "forestry-fisheries",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Forestry' -> forestry-fisheries; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Waste Management and Disposal",
+      "sector": "waste-recycling",
+      "strength": "strong",
+      "note": "OpenAlex subfield 'Waste Management and Disposal' -> waste-recycling; subfields are broad, keyword rules refine"
+    },
+    {
+      "name": "Pollution",
+      "sector": "waste-recycling",
+      "strength": "medium",
+      "note": "OpenAlex subfield 'Pollution' -> waste-recycling; subfields are broad, keyword rules refine"
+    }
+  ],
+  "euroscivoc": [
+    {
+      "term": "agricultural sciences",
+      "sector": "agrifood",
+      "note": "top-level field; covers forestry and fisheries too, which keyword rules can split"
+    },
+    {
+      "term": "agriculture, forestry, and fisheries",
+      "sector": "agrifood",
+      "note": "second-level; forestry and fisheries terms handled by their own rows"
+    },
+    {
+      "term": "forestry",
+      "sector": "forestry-fisheries",
+      "note": "third-level"
+    },
+    {
+      "term": "fisheries",
+      "sector": "forestry-fisheries",
+      "note": "third-level"
+    },
+    {
+      "term": "animal and dairy science",
+      "sector": "agrifood",
+      "note": "second-level"
+    },
+    {
+      "term": "agricultural biotechnology",
+      "sector": "agrifood",
+      "note": "second-level"
+    },
+    {
+      "term": "other agricultural sciences",
+      "sector": "agrifood",
+      "note": "second-level"
+    },
+    {
+      "term": "veterinary sciences",
+      "sector": "health-medical",
+      "note": "second-level; animal health"
+    },
+    {
+      "term": "medical and health sciences",
+      "sector": "health-medical",
+      "note": "top-level field"
+    },
+    {
+      "term": "basic medicine",
+      "sector": "health-medical",
+      "note": "second-level"
+    },
+    {
+      "term": "clinical medicine",
+      "sector": "health-medical",
+      "note": "second-level"
+    },
+    {
+      "term": "health sciences",
+      "sector": "health-medical",
+      "note": "second-level"
+    },
+    {
+      "term": "medical biotechnology",
+      "sector": "health-medical",
+      "note": "second-level"
+    },
+    {
+      "term": "medical engineering",
+      "sector": "health-medical",
+      "note": "second-level"
+    },
+    {
+      "term": "electrical engineering, electronic engineering, information engineering",
+      "sector": "electronics-ict",
+      "note": "second-level"
+    },
+    {
+      "term": "computer and information sciences",
+      "sector": "electronics-ict",
+      "note": "second-level"
+    },
+    {
+      "term": "mechanical engineering",
+      "sector": "machinery-robotics",
+      "note": "second-level"
+    },
+    {
+      "term": "civil engineering",
+      "sector": "construction-materials",
+      "note": "second-level; buildings handled by keyword rules"
+    },
+    {
+      "term": "environmental engineering",
+      "sector": "water-utilities",
+      "note": "second-level"
+    },
+    {
+      "term": "environmental biotechnology",
+      "sector": "waste-recycling",
+      "note": "second-level; bioremediation and waste treatment"
+    },
+    {
+      "term": "chemical engineering",
+      "sector": "chemicals",
+      "note": "second-level"
+    },
+    {
+      "term": "chemical sciences",
+      "sector": "chemicals",
+      "note": "second-level"
+    },
+    {
+      "term": "materials engineering",
+      "sector": "chemicals",
+      "note": "second-level; generic, low confidence, keyword rules decide"
+    },
+    {
+      "term": "industrial biotechnology",
+      "sector": "chemicals",
+      "note": "second-level"
+    },
+    {
+      "term": "nanotechnology",
+      "sector": "chemicals",
+      "note": "second-level; generic, low confidence"
+    },
+    {
+      "term": "energy and fuels",
+      "sector": "energy",
+      "note": "third-level"
+    },
+    {
+      "term": "renewable energy",
+      "sector": "energy",
+      "note": "third-level"
+    },
+    {
+      "term": "sustainable agriculture",
+      "sector": "agrifood",
+      "note": "third-level"
+    },
+    {
+      "term": "water engineering",
+      "sector": "water-utilities",
+      "note": "third-level"
+    },
+    {
+      "term": "waste management",
+      "sector": "waste-recycling",
+      "note": "third-level"
+    },
+    {
+      "term": "architectural design",
+      "sector": "buildings-architecture",
+      "note": "third-level"
+    },
+    {
+      "term": "architecture engineering",
+      "sector": "buildings-architecture",
+      "note": "third-level"
+    },
+    {
+      "term": "aerospace engineering",
+      "sector": "aerospace-transport",
+      "note": "third-level"
+    },
+    {
+      "term": "transportation engineering",
+      "sector": "aerospace-transport",
+      "note": "third-level"
+    },
+    {
+      "term": "earth and related environmental sciences",
+      "sector": "other",
+      "note": "second-level; no industry sector"
+    },
+    {
+      "term": "biological sciences",
+      "sector": "other",
+      "note": "second-level; no industry sector"
+    },
+    {
+      "term": "natural sciences",
+      "sector": "other",
+      "note": "top-level; too broad"
+    },
+    {
+      "term": "engineering and technology",
+      "sector": "other",
+      "note": "top-level; too broad"
+    },
+    {
+      "term": "social sciences",
+      "sector": "other",
+      "note": "top-level; no industry sector"
+    },
+    {
+      "term": "humanities",
+      "sector": "other",
+      "note": "top-level; no industry sector"
+    }
+  ],
+  "climate_adapt_sector": [
+    {
+      "term": "Agriculture",
+      "sector": "agrifood",
+      "note": "Climate-ADAPT sector -> agrifood"
+    },
+    {
+      "term": "Biodiversity protection",
+      "sector": "other",
+      "note": "Climate-ADAPT sector -> other; no industry sector, keyword rules decide"
+    },
+    {
+      "term": "Buildings",
+      "sector": "buildings-architecture",
+      "note": "Climate-ADAPT sector -> buildings-architecture"
+    },
+    {
+      "term": "Business and industry",
+      "sector": "other",
+      "note": "Climate-ADAPT sector -> other; no industry sector, keyword rules decide"
+    },
+    {
+      "term": "Coastal areas",
+      "sector": "other",
+      "note": "Climate-ADAPT sector -> other; no industry sector, keyword rules decide"
+    },
+    {
+      "term": "Cultural heritage",
+      "sector": "other",
+      "note": "Climate-ADAPT sector -> other; no industry sector, keyword rules decide"
+    },
+    {
+      "term": "Disaster Risk Reduction",
+      "sector": "other",
+      "note": "Climate-ADAPT sector -> other; no industry sector, keyword rules decide"
+    },
+    {
+      "term": "Energy",
+      "sector": "energy",
+      "note": "Climate-ADAPT sector -> energy"
+    },
+    {
+      "term": "Financial",
+      "sector": "other",
+      "note": "Climate-ADAPT sector -> other; no industry sector, keyword rules decide"
+    },
+    {
+      "term": "Forestry",
+      "sector": "forestry-fisheries",
+      "note": "Climate-ADAPT sector -> forestry-fisheries"
+    },
+    {
+      "term": "Health",
+      "sector": "health-medical",
+      "note": "Climate-ADAPT sector -> health-medical"
+    },
+    {
+      "term": "Land use planning",
+      "sector": "buildings-architecture",
+      "note": "Climate-ADAPT sector -> buildings-architecture (spatial and land-use planning); falls to 'other' if that candidate sector collapses"
+    },
+    {
+      "term": "Marine and Fisheries",
+      "sector": "forestry-fisheries",
+      "note": "Climate-ADAPT sector -> forestry-fisheries"
+    },
+    {
+      "term": "Mountain areas",
+      "sector": "other",
+      "note": "Climate-ADAPT sector -> other; no industry sector, keyword rules decide"
+    },
+    {
+      "term": "Transport",
+      "sector": "aerospace-transport",
+      "note": "Climate-ADAPT sector -> aerospace-transport"
+    },
+    {
+      "term": "Urban",
+      "sector": "buildings-architecture",
+      "note": "Climate-ADAPT sector -> buildings-architecture"
+    },
+    {
+      "term": "Water management",
+      "sector": "water-utilities",
+      "note": "Climate-ADAPT sector -> water-utilities"
+    }
+  ]
+}

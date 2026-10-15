@@ -1,0 +1,411 @@
+import asyncio
+import copy
+import csv
+import io
+import json
+from pathlib import Path
+
+import pytest
+from fastapi.testclient import TestClient
+
+from app.main import app
+from app.routers import nature as router_mod
+from app.routers.nature import get_search
+from app.services.nature.search import NatureSearch
+from app.services.nature.store import NatureStore, get_store
+from tests.nature.test_matcher_rag import LIB, MAP, TAXONOMY, lib, mp
+
+API = "/api/v1/nature"
+
+QUARANTINED = lib(
+    id="lib-0003",
+    title="Quarantined enzyme coating",
+    trait_type="biochemical",
+    legal_review="pending",
+)
+
+
+def build_store(tmp_path, library, industry):
+    (tmp_path / "taxonomy.json").write_text(json.dumps(TAXONOMY), encoding="utf-8")
+    (tmp_path / "library.json").write_text(json.dumps(library), encoding="utf-8")
+    (tmp_path / "industry_map.json").write_text(json.dumps(industry), encoding="utf-8")
+    return NatureStore(tmp_path)
+
+
+@pytest.fixture
+def client(tmp_path, monkeypatch):
+    for var in ("GEMINI_API_KEY", "GOOGLE_API_KEY", "GOOGLE_GENAI_API_KEY"):
+        monkeypatch.delenv(var, raising=False)
+    library = [
+        lib(),
+        lib(
+            id="lib-0002",
+            kind="practice",
+            title="Termite mound ventilation",
+            summary="Passive cooling through mound chimneys.",
+            areas=["form"],
+            functions=["cool-passively"],
+            mechanism=None,
+            organism=None,
+            performance=[],
+            evidence=[{"citation": "A"}],
+            known_products=["Cooling tower"],
+        ),
+        QUARANTINED,
+    ]
+    industry = [
+        mp(library_links=["lib-0001", "lib-0003"]),
+        mp(id="map-0002", sector="textiles", title="Textile dirt shedding", year=2020,
+           problem_functions=["self-clean"], country="PT"),
+    ]
+    store = build_store(tmp_path, library, industry)
+    app.dependency_overrides[get_store] = lambda: store
+    app.dependency_overrides[get_search] = lambda: NatureSearch(store)
+    yield TestClient(app)
+    app.dependency_overrides.clear()
+
+
+def test_meta(client):
+    body = client.get(f"{API}/meta").json()
+    assert body["licence"]["name"] == "CC BY 4.0"
+    assert body["licence"]["url"].startswith("https://creativecommons.org/licenses/by/4.0")
+    assert body["licence"]["attribution"]
+    assert body["version"] == "0.1.0"
+    assert body["taxonomy"]["functions"]
+
+
+def test_stats_counts_quarantine_without_ids(client):
+    body = client.get(f"{API}/stats").json()
+    assert body["library_total"] == 3
+    assert body["library_served"] == 2
+    assert body["quarantined"] == 1
+    assert "lib-0003" not in json.dumps(body)
+
+
+def test_library_browse_sorted_by_id_with_fit_zero(client):
+    hits = client.get(f"{API}/library").json()
+    assert [h["record"]["id"] for h in hits] == ["lib-0001", "lib-0002"]
+    for h in hits:
+        assert h["breakdown"]["fit"] == 0.0
+        assert h["breakdown"]["retrieval_none"] == 1.0
+    assert hits[0]["evidence_grade"] == "strong"
+
+
+def test_library_filters(client):
+    ids = lambda p: [h["record"]["id"] for h in client.get(f"{API}/library", params=p).json()]
+    assert ids({"kind": "practice"}) == ["lib-0002"]
+    assert ids({"function": "self-clean"}) == ["lib-0001"]
+    assert ids({"area": "form", "limit": 1}) == ["lib-0001"]
+    assert ids({"status": "ai_extracted"}) == ["lib-0001", "lib-0002"]
+
+
+@pytest.mark.parametrize(
+    "param", [{"area": "x"}, {"function": "x"}, {"sector": "x"}, {"kind": "x"}, {"status": "x"}]
+)
+def test_library_unknown_filter_is_422(client, param):
+    assert client.get(f"{API}/library", params=param).status_code == 422
+
+
+def test_library_limit_bounds(client):
+    assert client.get(f"{API}/library", params={"limit": 0}).status_code == 422
+    assert client.get(f"{API}/library", params={"limit": 101}).status_code == 422
+
+
+def test_library_query_ranks_and_hides_quarantined(client):
+    hits = client.get(f"{API}/library", params={"q": "water repellent coating"}).json()
+    ids = [h["record"]["id"] for h in hits]
+    assert ids[0] == "lib-0001"
+    assert "lib-0003" not in ids
+    assert "retrieval_none" not in hits[0]["breakdown"]
+    assert hits[0]["breakdown"]["fit"] > 0
+
+
+def test_library_record_detail(client):
+    body = client.get(f"{API}/library/lib-0001").json()
+    assert body["record"]["id"] == "lib-0001"
+    assert body["evidence_grade"] == "strong"
+    assert body["sectors"]["using"] == ["packaging"]
+
+
+def test_quarantined_and_missing_library_ids_are_404(client):
+    assert client.get(f"{API}/library/lib-0003").status_code == 404
+    assert client.get(f"{API}/library/lib-9999").status_code == 404
+
+
+def test_map_browse_filters_and_hides_quarantined_links(client):
+    hits = client.get(f"{API}/map").json()
+    assert [h["record"]["id"] for h in hits] == ["map-0001", "map-0002"]
+    assert hits[0]["record"]["library_links"] == ["lib-0001"]
+    assert [h["record"]["id"] for h in client.get(f"{API}/map", params={"country": "pt"}).json()] == ["map-0002"]
+    assert [h["record"]["id"] for h in client.get(f"{API}/map", params={"year_from": 2019}).json()] == ["map-0002"]
+    assert [h["record"]["id"] for h in client.get(f"{API}/map", params={"sector": "packaging"}).json()] == ["map-0001"]
+    assert client.get(f"{API}/map", params={"sector": "nope"}).status_code == 422
+    assert client.get(f"{API}/map", params={"type": "nope"}).status_code == 422
+
+
+def test_map_query(client):
+    hits = client.get(f"{API}/map", params={"q": "carton water coatings"}).json()
+    assert hits[0]["record"]["id"] == "map-0001"
+    assert "lib-0003" not in json.dumps(hits)
+
+
+def test_map_record_detail(client):
+    body = client.get(f"{API}/map/map-0001").json()
+    assert body["library_links"] == ["lib-0001"]
+    assert client.get(f"{API}/map/map-9999").status_code == 404
+
+
+def test_sectors_with_counts(client):
+    sectors = {s["id"]: s for s in client.get(f"{API}/sectors").json()}
+    assert sectors["packaging"]["map_count"] == 1
+    assert sectors["textiles"]["map_count"] == 1
+
+
+def test_sector_gaps(client):
+    body = client.get(f"{API}/sectors/textiles/gaps").json()
+    assert body["sector_id"] == "textiles"
+    assert "lib-0003" not in json.dumps(body)
+    assert client.get(f"{API}/sectors/nope/gaps").status_code == 404
+
+
+def test_ask_falls_back_without_key(client):
+    resp = client.post(f"{API}/ask", json={"challenge": "We need a water repellent carton coating"})
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["model"].startswith("fallback")
+    assert body["library_hits"][0]["record"]["id"] == "lib-0001"
+    assert "lib-0003" not in json.dumps(body)
+
+
+def test_ask_validation_error(client):
+    assert client.post(f"{API}/ask", json={"challenge": "short"}).status_code == 422
+
+
+def test_ask_timeout_is_504(client, monkeypatch):
+    async def slow(*args, **kwargs):
+        await asyncio.sleep(5)
+
+    monkeypatch.setattr(router_mod.rag, "ask", slow)
+    monkeypatch.setattr(router_mod, "ASK_TIMEOUT_S", 0.05)
+    resp = client.post(f"{API}/ask", json={"challenge": "We need a water repellent coating"})
+    assert resp.status_code == 504
+
+
+ATTRIBUTION = "Sylva — nature library and industry R&D map, CC BY 4.0"
+
+
+def test_meta_attribution_matches_licence_file(client):
+    assert client.get(f"{API}/meta").json()["licence"]["attribution"] == ATTRIBUTION
+    licence_txt = Path(__file__).resolve().parents[2] / "data" / "nature" / "LICENSE.txt"
+    assert ATTRIBUTION in licence_txt.read_text(encoding="utf-8")
+
+
+def test_export_json_excludes_quarantine_and_sets_headers(client):
+    resp = client.get(f"{API}/export/library")
+    assert resp.status_code == 200
+    assert resp.headers["X-License"] == "CC-BY-4.0"
+    assert resp.headers["Content-Disposition"].startswith("attachment")
+    body = resp.json()
+    assert list(body) == ["licence", "licence_url", "attribution", "version", "db", "records"]
+    assert body["licence"] == "CC-BY-4.0"
+    assert body["licence_url"] == "https://creativecommons.org/licenses/by/4.0/"
+    assert body["attribution"] == ATTRIBUTION
+    assert body["version"] == "0.3.0"
+    assert body["db"] == "library"
+    assert [r["id"] for r in body["records"]] == ["lib-0001", "lib-0002"]
+
+
+def test_export_csv_header_and_flattening(client):
+    resp = client.get(f"{API}/export/library", params={"format": "csv"})
+    assert resp.headers["X-License"] == "CC-BY-4.0"
+    assert resp.headers["Link"] == '<https://creativecommons.org/licenses/by/4.0/>; rel="license"'
+    assert resp.headers["X-Attribution"] == "Sylva - nature library and industry R&D map, CC BY 4.0"
+    assert resp.headers["X-Attribution"].isascii()
+    assert resp.headers["content-type"].startswith("text/csv")
+    assert resp.headers["Content-Disposition"] == (
+        'attachment; filename="sylva-nature-library-CC-BY-4.0.csv"'
+    )
+    assert not resp.text.startswith("#")  # a pure table, no comment rows
+    rows = list(csv.reader(io.StringIO(resp.text)))
+    header = rows[0]
+    assert header[:3] == ["id", "kind", "title"]
+    assert len(rows) == 3
+    first = dict(zip(header, rows[1]))
+    assert first["functions"] == "shed-water; self-clean"
+    assert json.loads(first["organism"])["scientific_name"] == "Nelumbo nucifera"
+    assert "lib-0003" not in resp.text
+
+
+def test_export_map_all_records_with_filtered_links(client):
+    resp = client.get(f"{API}/export/industry_map", params={"format": "csv"})
+    rows = list(csv.DictReader(io.StringIO(resp.text)))
+    assert [r["id"] for r in rows] == ["map-0001", "map-0002"]
+    assert rows[0]["library_links"] == "lib-0001"
+
+
+def test_export_map_alias(client):
+    resp = client.get(f"{API}/export/map")
+    assert resp.status_code == 200
+    assert resp.json()["db"] == "industry_map"
+    assert [r["id"] for r in resp.json()["records"]] == ["map-0001", "map-0002"]
+    csv_resp = client.get(f"{API}/export/map", params={"format": "csv"})
+    assert csv_resp.status_code == 200
+    assert "sylva-nature-industry_map-CC-BY-4.0.csv" in csv_resp.headers["Content-Disposition"]
+
+
+def test_csv_cells_neutralise_formulas():
+    cell = router_mod._csv_cell
+    for bad in ("=HYPERLINK(1)", "+1+1", "-2+3", "@SUM(A1)", "\tx", "\rx"):
+        assert cell(bad) == "'" + bad
+    assert cell(-2.5) == "-2.5" and cell(-3) == "-3"  # numbers untouched
+    assert cell("plain") == "plain"
+    assert cell(["=a", "b"]) == "'=a; b"
+
+
+def test_export_csv_formula_title_is_neutralised(tmp_path, monkeypatch):
+    store = build_store(tmp_path, [lib(title="=HYPERLINK(\"http://x\")")], [])
+    app.dependency_overrides[get_store] = lambda: store
+    try:
+        text = TestClient(app).get(f"{API}/export/library", params={"format": "csv"}).text
+    finally:
+        app.dependency_overrides.clear()
+    row = next(csv.DictReader(io.StringIO(text)))
+    assert row["title"].startswith("'=")
+
+
+def test_export_bad_db_and_format(client):
+    assert client.get(f"{API}/export/nope").status_code == 404
+    assert client.get(f"{API}/export/library", params={"format": "xml"}).status_code == 422
+
+
+ENDPOINTS = [
+    ("GET", "/meta"),
+    ("GET", "/stats"),
+    ("GET", "/library"),
+    ("GET", "/library?q=water"),
+    ("GET", "/library/lib-0001"),
+    ("GET", "/map"),
+    ("GET", "/map?q=water"),
+    ("GET", "/map/map-0001"),
+    ("GET", "/sectors"),
+    ("GET", "/sectors/packaging/gaps"),
+    ("POST", "/ask"),
+    ("GET", "/export/library"),
+    ("GET", "/export/industry_map?format=csv"),
+    ("GET", "/export/map"),
+]
+
+
+def _call(c, method, path):
+    if method == "POST":
+        return c.post(f"{API}{path}", json={"challenge": "water repellent coating"})
+    return c.get(f"{API}{path}")
+
+
+@pytest.fixture
+def broken_client(tmp_path, monkeypatch):
+    for var in ("GEMINI_API_KEY", "GOOGLE_API_KEY", "GOOGLE_GENAI_API_KEY"):
+        monkeypatch.delenv(var, raising=False)
+
+    def use(store):
+        app.dependency_overrides[get_store] = lambda: store
+        app.dependency_overrides[get_search] = lambda: NatureSearch(store)
+        return TestClient(app)
+
+    yield use
+    app.dependency_overrides.clear()
+
+
+@pytest.mark.parametrize("method, path", ENDPOINTS)
+def test_missing_data_is_503_on_every_endpoint(broken_client, tmp_path, method, path, caplog):
+    c = broken_client(NatureStore(tmp_path / "missing"))
+    with caplog.at_level("ERROR"):
+        resp = _call(c, method, path)
+    assert resp.status_code == 503
+    assert resp.json() == {"detail": "nature data unavailable"}
+    assert str(tmp_path) not in resp.text and str(tmp_path) not in caplog.text
+    assert "taxonomy.json" in caplog.text  # the real error is logged, without the path
+
+
+@pytest.mark.parametrize("method, path", ENDPOINTS)
+def test_list_taxonomy_is_503(broken_client, tmp_path, method, path):
+    store = build_store(tmp_path, [lib()], [mp()])
+    (tmp_path / "taxonomy.json").write_text("[]", encoding="utf-8")
+    resp = _call(broken_client(store), method, path)
+    assert resp.status_code == 503 and resp.json()["detail"] == "nature data unavailable"
+
+
+@pytest.mark.parametrize("method, path", ENDPOINTS)
+def test_bad_utf8_is_503(broken_client, tmp_path, method, path):
+    store = build_store(tmp_path, [lib()], [mp()])
+    (tmp_path / "library.json").write_bytes(b'[{"id": "\xff"}]')
+    resp = _call(broken_client(store), method, path)
+    assert resp.status_code == 503 and resp.json()["detail"] == "nature data unavailable"
+
+
+@pytest.mark.parametrize(
+    "body", [{"sector": "nope"}, {"areas": ["form", "nope"]}, {"areas": ["nope"]}]
+)
+def test_ask_unknown_sector_or_area_is_422(client, body):
+    resp = client.post(f"{API}/ask", json={"challenge": "We need a water repellent coating", **body})
+    assert resp.status_code == 422
+    assert "nope" in resp.json()["detail"]
+
+
+def test_ask_known_sector_and_area_ok(client):
+    body = {"challenge": "We need a water repellent coating", "sector": "packaging", "areas": ["form"]}
+    assert client.post(f"{API}/ask", json=body).status_code == 200
+
+
+@pytest.mark.parametrize("body", [{"sector": ""}, {"sector": "  "}, {"areas": ["", " "]}])
+def test_ask_blank_sector_or_areas_mean_unset(client, body):
+    resp = client.post(f"{API}/ask", json={"challenge": "We need a water repellent coating", **body})
+    assert resp.status_code == 200
+    assert "sector_gaps" not in resp.json()["answer"]
+
+
+def test_ask_timeout_value():
+    assert router_mod.ASK_TIMEOUT_S == 50
+
+
+def test_real_data_every_get_endpoint_hides_quarantined_ids(monkeypatch):
+    for var in ("GEMINI_API_KEY", "GOOGLE_API_KEY", "GOOGLE_GENAI_API_KEY"):
+        monkeypatch.delenv(var, raising=False)
+    get_store.cache_clear()
+    c = TestClient(app)
+    store = get_store()
+    quarantined = {r.id for r in store.library(servable_only=False)} - {r.id for r in store.library()}
+    assert quarantined
+    sectors = [s["id"] for s in store.taxonomy()["sectors"]]
+    paths = ["/meta", "/stats", "/library?limit=100", "/library?q=water&limit=100",
+             "/library?q=enzyme%20coating&limit=100", "/map?limit=100", "/map?q=water&limit=100",
+             "/sectors"]
+    paths += [f"/library/{r.id}" for r in store.library()]
+    paths += [f"/map/{r.id}" for r in store.industry_map()]
+    paths += [f"/sectors/{s}/gaps?limit=100" for s in sectors]
+    paths += [f"/export/{db}?format={fmt}" for db in ("library", "industry_map", "map")
+              for fmt in ("json", "csv")]
+    for path in paths:
+        resp = c.get(f"{API}{path}")
+        assert resp.status_code == 200, path
+        for rid in quarantined:
+            assert rid not in resp.text, (path, rid)
+    for sector in [None, *sectors]:
+        resp = c.post(f"{API}/ask", json={"challenge": "enzyme coating that sheds water", "sector": sector})
+        assert resp.status_code == 200
+        for rid in quarantined:
+            assert rid not in resp.text, (sector, rid)
+
+
+def test_real_data_serves_without_quarantined_records():
+    get_store.cache_clear()
+    c = TestClient(app)
+    store = get_store()
+    quarantined = {r.id for r in store.library(servable_only=False)} - {r.id for r in store.library()}
+    assert quarantined
+    for rid in quarantined:
+        assert c.get(f"{API}/library/{rid}").status_code == 404
+    csv_text = c.get(f"{API}/export/library", params={"format": "csv"}).text
+    exported = {row["id"] for row in csv.DictReader(io.StringIO(csv_text))}
+    assert not exported & quarantined
+    assert c.get("/health").json()["version"] == "0.3.0"

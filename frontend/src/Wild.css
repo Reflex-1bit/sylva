@@ -1,0 +1,461 @@
+/* Sylva-wild: the Sylva home page (App.css) in marine blue.
+   Everything is scoped under .wild so the green Sylva page is untouched.
+   The token names stay (--leaf = accent) so App.css rules pick up the blue. */
+
+.wild {
+  --ink: #0f1f2e;
+  --ink-soft: #34495c;
+  --muted: #627587;
+  --line: rgba(15, 31, 46, 0.12);
+  --paper: #eef3f8;
+  --paper-2: #e1e9f1;
+  --leaf: #1d5a8c;      /* marine blue: accent, buttons, links */
+  --leaf-deep: #0f355a; /* navy: headings, hover */
+  --sun: #b07d1f;       /* sand-gold labels (darker than Sylva's for contrast on blue-white) */
+  --danger: #a84b32;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.wild ::selection {
+  background: rgba(29, 90, 140, 0.22);
+}
+
+/* ── Atmosphere: same shapes, sea colours; the hills read as waves ── */
+
+.wild .atmosphere {
+  background:
+    radial-gradient(900px 520px at 12% 8%, rgba(29, 90, 140, 0.16), transparent 60%),
+    radial-gradient(700px 480px at 88% 18%, rgba(217, 164, 65, 0.1), transparent 55%),
+    linear-gradient(180deg, #eaf1f7 0%, var(--paper) 42%, #dde7f0 100%);
+}
+
+.wild .atmosphere__hill {
+  background: linear-gradient(180deg, rgba(29, 90, 140, 0.12), rgba(15, 53, 90, 0.22));
+  border-radius: 46% 54% 0 0 / 60% 60% 0 0;
+}
+
+.wild .atmosphere__hill--a {
+  background: linear-gradient(180deg, rgba(29, 90, 140, 0.08), rgba(15, 53, 90, 0.16));
+  border-radius: 55% 45% 0 0 / 70% 70% 0 0;
+}
+
+.wild .atmosphere__canopy {
+  background:
+    radial-gradient(circle at 40% 45%, rgba(29, 90, 140, 0.2), transparent 62%),
+    radial-gradient(circle at 65% 55%, rgba(15, 53, 90, 0.14), transparent 55%);
+}
+
+/* ── Hard-coded greens in App.css, recoloured ── */
+
+.wild .brand__mark {
+  box-shadow: 0 0 0 4px rgba(29, 90, 140, 0.12);
+}
+
+.wild .ghost-btn:hover {
+  border-color: rgba(15, 31, 46, 0.22);
+}
+
+.wild .search:focus-within {
+  border-color: rgba(29, 90, 140, 0.45);
+  box-shadow: 0 0 0 3px rgba(29, 90, 140, 0.12);
+}
+
+.wild .search button {
+  color: #f3f7fb;
+}
+
+.wild .chip:hover,
+.wild .chip[aria-pressed='true'] {
+  background: #fff;
+  border-color: rgba(29, 90, 140, 0.4);
+  color: var(--leaf-deep);
+}
+
+.wild .panel--quiet {
+  background: rgba(225, 233, 241, 0.7);
+}
+
+.wild .vital__bar {
+  background: rgba(15, 31, 46, 0.08);
+}
+
+.wild :focus-visible {
+  outline: 2px solid var(--leaf);
+  outline-offset: 2px;
+}
+
+/* ── Hero and onboarding ── */
+
+.wild .hero__title {
+  font-size: clamp(3.2rem, 10vw, 5.6rem);
+}
+
+.wild-hero {
+  max-width: 44rem;
+}
+
+.wild-steps {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.1rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.wild-steps__item > span,
+.wild-steps__item > button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 0;
+  background: none;
+  color: inherit;
+  padding: 0.15rem 0;
+}
+
+.wild-steps__item > button {
+  color: var(--leaf);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.wild-steps__item.is-current {
+  color: var(--leaf-deep);
+  font-weight: 600;
+}
+
+.wild-steps__n {
+  display: inline-grid;
+  place-items: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  font-size: 0.72rem;
+  text-decoration: none;
+}
+
+.wild-steps__item.is-current .wild-steps__n,
+.wild-steps__item.is-done .wild-steps__n {
+  background: var(--leaf);
+  border-color: var(--leaf);
+  color: #f3f7fb;
+}
+
+.wild-step {
+  border: 0;
+  width: 100%;
+  min-width: 0;
+  animation: fadeUp 0.45s var(--ease) both;
+}
+
+.wild-step__q {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 3vw, 1.6rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--leaf-deep);
+  margin-bottom: 0.9rem;
+  padding: 0;
+  outline: none;
+}
+
+.wild-choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  max-width: 34rem;
+}
+
+.wild-choice {
+  display: grid;
+  gap: 0.35rem;
+  text-align: left;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.62);
+  border-radius: calc(var(--radius) + 2px);
+  padding: 1rem 1.1rem;
+  color: var(--ink);
+  backdrop-filter: blur(6px);
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+.wild-choice strong {
+  font-size: 1rem;
+  color: var(--leaf-deep);
+}
+
+.wild-choice span {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--ink-soft);
+}
+
+.wild-choice:hover,
+.wild-choice[aria-pressed='true'] {
+  background: #fff;
+  border-color: rgba(29, 90, 140, 0.45);
+  transform: translateY(-1px);
+}
+
+.wild-sectors {
+  margin-top: 0;
+  max-width: 40rem;
+}
+
+.wild-sectors .chip {
+  font-size: 0.85rem;
+  padding: 0.5rem 0.85rem;
+}
+
+.wild-back {
+  margin-top: 1rem;
+  border: 0;
+  background: none;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  padding: 0.3rem 0;
+}
+
+.wild-back:hover {
+  color: var(--leaf-deep);
+}
+
+.wild-ask {
+  align-items: flex-end;
+  max-width: 40rem;
+}
+
+.wild-ask textarea {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  padding: 0.75rem 0.9rem;
+  color: var(--ink);
+  outline: none;
+  resize: vertical;
+  font: inherit;
+  line-height: 1.5;
+  min-height: 5.5rem;
+}
+
+.wild-ask textarea::placeholder {
+  color: var(--muted);
+}
+
+.wild-notice {
+  margin-top: 0.6rem;
+  max-width: 40rem;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+/* ── Results ── */
+
+.wild-brief {
+  margin-top: 0.5rem;
+  max-width: 48ch;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+.wild-grid > .wild-solution {
+  grid-column: span 1;
+}
+
+.wild-solution h2 {
+  margin-bottom: 0.9rem;
+}
+
+.wild-solution__row {
+  font-size: 0.93rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin-bottom: 0.75rem;
+}
+
+.wild-solution__row span,
+.wild-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sun);
+  margin-bottom: 0.25rem;
+}
+
+.wild-solution__row--caveat {
+  color: var(--muted);
+}
+
+.wild-solution__studies {
+  margin-top: 0.4rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--line);
+}
+
+.wild-solution__studies ul {
+  list-style: none;
+  display: grid;
+  gap: 0.45rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.wild-ref {
+  display: inline-block;
+  min-width: 2.1rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--leaf);
+  text-decoration: none;
+}
+
+.wild-study {
+  color: var(--ink);
+  text-decoration-color: rgba(29, 90, 140, 0.4);
+  text-underline-offset: 3px;
+}
+
+.wild-study:hover {
+  color: var(--leaf-deep);
+  text-decoration-color: currentColor;
+}
+
+.wild-records {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem 1.5rem;
+}
+
+.wild-records li {
+  display: flex;
+  gap: 0.5rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.92rem;
+  line-height: 1.45;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.wild-records li:target {
+  background: rgba(29, 90, 140, 0.06);
+  border-radius: var(--radius);
+}
+
+.wild-record__meta {
+  margin-top: 0.2rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.wild-donate {
+  margin-top: 0.9rem;
+}
+
+.wild-donate--compact {
+  margin-top: 0.45rem;
+}
+
+.wild-donate__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.wild-donate__btn {
+  text-decoration: none;
+  font-size: 0.76rem;
+}
+
+.wild-donate--compact .wild-donate__btn {
+  font-size: 0.72rem;
+  padding: 0.25rem 0.6rem;
+}
+
+.wild-offer {
+  border-color: rgba(29, 90, 140, 0.25);
+}
+
+.wild-offer__tag {
+  display: inline-block;
+  margin-bottom: 0.6rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(176, 125, 31, 0.12);
+  color: var(--sun);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.wild-offer .lede {
+  max-width: 62ch;
+}
+
+.wild-offer__btn {
+  margin-top: 1rem;
+  border: 0;
+  background: var(--leaf);
+  color: #f3f7fb;
+  font-weight: 600;
+  padding: 0.7rem 1.1rem;
+  border-radius: var(--radius);
+}
+
+.wild-offer__btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.wild-attribution {
+  margin-top: 1.5rem;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+@media (max-width: 860px) {
+  .wild-records {
+    grid-template-columns: 1fr;
+  }
+
+  .wild-grid > .wild-solution {
+    grid-column: 1;
+  }
+}
+
+@media (max-width: 520px) {
+  .wild-choices {
+    grid-template-columns: 1fr;
+  }
+
+  .wild-ask {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .wild-ask button {
+    width: 100%;
+  }
+
+  .wild .topnav {
+    gap: 0.6rem;
+  }
+
+  .wild .topnav a {
+    font-size: 0.8rem;
+  }
+}

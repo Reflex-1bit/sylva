@@ -1,0 +1,1196 @@
+{
+  "version": "2026-10-12",
+  "nace_source": "https://ec.europa.eu/eurostat/web/nace",
+  "sectors": [
+    {
+      "id": "steel-aluminium",
+      "label_en": "Steel and aluminium",
+      "label_es": "Acero y aluminio",
+      "label_pt": "Aço e alumínio",
+      "description": "Applications in making and working steel, aluminium and other metals: alloys, casting, rolling, coatings and metal surfaces.",
+      "nace_rev21_divisions": [
+        "24"
+      ],
+      "keywords_en": [
+        "steel",
+        "aluminium",
+        "aluminum",
+        "metallurgy",
+        "foundry",
+        "smelter",
+        "rolling mill",
+        "metal casting"
+      ],
+      "keywords_weak_en": [
+        "metal",
+        "casting"
+      ],
+      "keywords_es": [
+        "acero",
+        "aluminio",
+        "metalurgia",
+        "fundicion",
+        "fundición",
+        "fundidora",
+        "siderurgia",
+        "fundicion de metales"
+      ],
+      "keywords_weak_es": [
+        "metal",
+        "laminacion"
+      ],
+      "cpc_prefixes": [
+        "B21",
+        "B22",
+        "C21",
+        "C22"
+      ],
+      "openalex_subfields": [
+        "Metals and Alloys"
+      ],
+      "candidate": false,
+      "min_records": 0
+    },
+    {
+      "id": "construction-materials",
+      "label_en": "Construction materials",
+      "label_es": "Materiales de construcción",
+      "label_pt": "Materiais de construção",
+      "description": "Applications in materials for building and civil works: cement, concrete, bricks, mortar, insulation and self-healing or low-carbon building materials.",
+      "nace_rev21_divisions": [
+        "23",
+        "41",
+        "42",
+        "43"
+      ],
+      "keywords_en": [
+        "cement",
+        "concrete",
+        "brick",
+        "mortar",
+        "insulation panel",
+        "civil engineering"
+      ],
+      "keywords_weak_en": [
+        "construction",
+        "building",
+        "glass",
+        "ceramic",
+        "roof"
+      ],
+      "keywords_es": [
+        "cemento",
+        "hormigon",
+        "hormigón",
+        "ladrillo",
+        "mortero",
+        "obra civil"
+      ],
+      "keywords_weak_es": [
+        "construccion",
+        "construcción",
+        "edificio",
+        "edificacion",
+        "vidrio",
+        "ceramica",
+        "cerámica",
+        "cubierta"
+      ],
+      "cpc_prefixes": [
+        "C03C",
+        "C04B",
+        "E01",
+        "E02",
+        "E04C",
+        "E04D"
+      ],
+      "openalex_subfields": [
+        "Ceramics and Composites",
+        "Civil and Structural Engineering"
+      ],
+      "candidate": false,
+      "min_records": 0
+    },
+    {
+      "id": "packaging",
+      "label_en": "Packaging",
+      "label_es": "Envases y embalajes",
+      "label_pt": "Embalagens",
+      "description": "Applications in packaging and containers for goods and food: films, barriers, biodegradable wraps and protective packs.",
+      "nace_rev21_divisions": [
+        "17",
+        "22"
+      ],
+      "keywords_en": [
+        "packaging",
+        "food packaging"
+      ],
+      "keywords_weak_en": [
+        "package",
+        "container",
+        "paper",
+        "cardboard",
+        "plastic",
+        "film",
+        "bottle",
+        "bag",
+        "wrapper",
+        "label"
+      ],
+      "keywords_es": [
+        "envase",
+        "embalaje",
+        "empaque",
+        "envase alimentario"
+      ],
+      "keywords_weak_es": [
+        "contenedor",
+        "papel",
+        "carton",
+        "cartón",
+        "plastico",
+        "plástico",
+        "film",
+        "botella",
+        "bolsa",
+        "etiqueta"
+      ],
+      "cpc_prefixes": [
+        "B32B",
+        "B65B",
+        "B65D",
+        "D21H"
+      ],
+      "openalex_subfields": [],
+      "candidate": false,
+      "min_records": 0
+    },
+    {
+      "id": "cosmetics",
+      "label_en": "Cosmetics",
+      "label_es": "Cosmética",
+      "label_pt": "Cosmética",
+      "description": "Applications in personal care and cosmetics: skin and hair products, pigments, fragrances and formulation ingredients.",
+      "nace_rev21_divisions": [
+        "20"
+      ],
+      "keywords_en": [
+        "cosmetics",
+        "cosmetic",
+        "skincare",
+        "personal care",
+        "perfume",
+        "fragrance",
+        "sunscreen"
+      ],
+      "keywords_weak_en": [
+        "pigment",
+        "dye",
+        "emulsion"
+      ],
+      "keywords_es": [
+        "cosmetica",
+        "cosmética",
+        "cosmeticos",
+        "cosméticos",
+        "cuidado de la piel",
+        "cuidado personal",
+        "perfume",
+        "fragancia",
+        "protector solar"
+      ],
+      "keywords_weak_es": [
+        "pigmento",
+        "tinte",
+        "emulsion"
+      ],
+      "cpc_prefixes": [
+        "A61K8",
+        "A61Q"
+      ],
+      "openalex_subfields": [],
+      "candidate": false,
+      "min_records": 0
+    },
+    {
+      "id": "textiles",
+      "label_en": "Textiles",
+      "label_es": "Textil",
+      "label_pt": "Têxteis",
+      "description": "Applications in fibres, fabrics, clothing and textile finishing: functional or smart textiles, dyes, fibre spinning and water-repellent cloth.",
+      "nace_rev21_divisions": [
+        "13",
+        "14"
+      ],
+      "keywords_en": [
+        "textile",
+        "textiles",
+        "garment",
+        "clothing",
+        "apparel",
+        "yarn",
+        "footwear"
+      ],
+      "keywords_weak_en": [
+        "fabric",
+        "fibre",
+        "fiber",
+        "dyeing",
+        "leather"
+      ],
+      "keywords_es": [
+        "textil",
+        "textiles",
+        "prenda",
+        "ropa",
+        "confeccion",
+        "confección",
+        "calzado"
+      ],
+      "keywords_weak_es": [
+        "tejido",
+        "tela",
+        "fibra",
+        "hilo",
+        "tintura",
+        "cuero"
+      ],
+      "cpc_prefixes": [
+        "A41",
+        "A43",
+        "D01",
+        "D02",
+        "D03",
+        "D04",
+        "D06"
+      ],
+      "openalex_subfields": [],
+      "candidate": false,
+      "min_records": 0
+    },
+    {
+      "id": "automotive",
+      "label_en": "Automotive",
+      "label_es": "Automoción",
+      "label_pt": "Automóvel",
+      "description": "Applications in road vehicles and their parts: cars, trucks, tyres, engines, vehicle structures and driver safety systems.",
+      "nace_rev21_divisions": [
+        "29"
+      ],
+      "keywords_en": [
+        "automotive",
+        "automobile",
+        "truck",
+        "electric vehicle",
+        "chassis",
+        "bodywork",
+        "tyre",
+        "tire",
+        "motor vehicle"
+      ],
+      "keywords_weak_en": [
+        "car",
+        "cars",
+        "vehicle",
+        "vehicles",
+        "engine"
+      ],
+      "keywords_es": [
+        "automocion",
+        "automoción",
+        "automovil",
+        "automóvil",
+        "camion",
+        "camión",
+        "vehiculo electrico",
+        "chasis",
+        "carroceria",
+        "carrocería",
+        "neumatico",
+        "vehiculo a motor"
+      ],
+      "keywords_weak_es": [
+        "coche",
+        "coches",
+        "vehiculo",
+        "vehículo",
+        "motor"
+      ],
+      "cpc_prefixes": [
+        "B60",
+        "B62",
+        "F02"
+      ],
+      "openalex_subfields": [
+        "Automotive Engineering"
+      ],
+      "candidate": false,
+      "min_records": 0
+    },
+    {
+      "id": "energy",
+      "label_en": "Energy",
+      "label_es": "Energía",
+      "label_pt": "Energia",
+      "description": "Applications in producing, storing or saving energy: solar, wind, batteries, fuel cells, biofuels, heat and power systems.",
+      "nace_rev21_divisions": [
+        "35"
+      ],
+      "keywords_en": [
+        "electricity",
+        "battery",
+        "heat pump",
+        "renewable",
+        "hydrogen",
+        "wind turbine",
+        "solar cell",
+        "photovoltaic",
+        "power grid",
+        "energy storage",
+        "tidal turbine",
+        "energy harvesting",
+        "energy harvester",
+        "power extraction",
+        "supercapacitor",
+        "fuel cell"
+      ],
+      "keywords_weak_en": [
+        "energy",
+        "power",
+        "solar",
+        "wind",
+        "grid",
+        "utility"
+      ],
+      "keywords_es": [
+        "electricidad",
+        "eolica",
+        "eólica",
+        "bateria",
+        "batería",
+        "red electrica",
+        "red eléctrica",
+        "bomba de calor",
+        "renovable",
+        "hidrogeno",
+        "hidrógeno",
+        "aerogenerador",
+        "celula solar",
+        "célula solar",
+        "fotovoltaica"
+      ],
+      "keywords_weak_es": [
+        "energia",
+        "energía",
+        "solar"
+      ],
+      "cpc_prefixes": [
+        "F03",
+        "F24S",
+        "F28",
+        "H01L31",
+        "H01M",
+        "H02",
+        "Y02E"
+      ],
+      "openalex_subfields": [
+        "Energy Engineering and Power Technology",
+        "Renewable Energy, Sustainability and the Environment",
+        "Fuel Technology",
+        "General Energy",
+        "Nuclear Energy and Engineering",
+        "Electrochemistry"
+      ],
+      "candidate": false,
+      "min_records": 0
+    },
+    {
+      "id": "agrifood",
+      "label_en": "Agriculture and food",
+      "label_es": "Agroalimentario",
+      "label_pt": "Agricultura e alimentação",
+      "description": "Applications in farming and food production: crops, livestock, soil, pest control, aquaculture and food processing.",
+      "nace_rev21_divisions": [
+        "01",
+        "10",
+        "11"
+      ],
+      "keywords_en": [
+        "agriculture",
+        "agrifood",
+        "farming",
+        "food processing",
+        "livestock",
+        "dairy",
+        "beverage",
+        "olive",
+        "vineyard",
+        "cork oak"
+      ],
+      "keywords_weak_en": [
+        "farm",
+        "food",
+        "crop",
+        "dehesa"
+      ],
+      "keywords_es": [
+        "agricultura",
+        "agroalimentario",
+        "explotacion agraria",
+        "explotación agraria",
+        "industria alimentaria",
+        "ganaderia",
+        "ganadería",
+        "lacteo",
+        "lácteo",
+        "bebida",
+        "olivar",
+        "vinedo",
+        "viñedo",
+        "alcornoque"
+      ],
+      "keywords_weak_es": [
+        "finca",
+        "alimentacion",
+        "alimentación",
+        "cultivo",
+        "dehesa"
+      ],
+      "cpc_prefixes": [
+        "A01",
+        "A22",
+        "A23",
+        "C12C",
+        "C12F",
+        "C12G",
+        "C12H",
+        "C12J"
+      ],
+      "openalex_subfields": [
+        "Agronomy and Crop Science",
+        "Food Science",
+        "Horticulture",
+        "Soil Science"
+      ],
+      "candidate": false,
+      "min_records": 0
+    },
+    {
+      "id": "water-utilities",
+      "label_en": "Water and waste utilities",
+      "label_es": "Agua (servicios)",
+      "label_pt": "Água (serviços)",
+      "description": "Applications in water supply, treatment and drainage: purification, desalination, membranes, flood and stormwater management, wastewater.",
+      "nace_rev21_divisions": [
+        "36",
+        "37"
+      ],
+      "keywords_en": [
+        "water utility",
+        "water supply",
+        "wastewater",
+        "sewage",
+        "treatment plant",
+        "desalination plant",
+        "water network",
+        "sanitation"
+      ],
+      "keywords_weak_en": [],
+      "keywords_es": [
+        "servicio de agua",
+        "abastecimiento de agua",
+        "aguas residuales",
+        "alcantarillado",
+        "depuradora",
+        "planta desaladora",
+        "red de agua",
+        "saneamiento"
+      ],
+      "keywords_weak_es": [],
+      "cpc_prefixes": [
+        "C02F",
+        "E03"
+      ],
+      "openalex_subfields": [
+        "Water Science and Technology",
+        "Environmental Engineering"
+      ],
+      "candidate": false,
+      "min_records": 0
+    },
+    {
+      "id": "chemicals",
+      "label_en": "Chemicals",
+      "label_es": "Química",
+      "label_pt": "Química",
+      "description": "Applications in chemical and materials processing: polymers, adhesives, catalysts, coatings, separations and bio-based chemicals.",
+      "nace_rev21_divisions": [
+        "20"
+      ],
+      "keywords_en": [
+        "chemicals",
+        "adhesive",
+        "solvent",
+        "surfactant",
+        "catalyst",
+        "fertiliser"
+      ],
+      "keywords_weak_en": [
+        "chemical",
+        "chemistry",
+        "polymer",
+        "resin",
+        "coating",
+        "paint"
+      ],
+      "keywords_es": [
+        "quimicos",
+        "químicos",
+        "adhesivo",
+        "disolvente",
+        "tensioactivo",
+        "catalizador",
+        "fertilizante"
+      ],
+      "keywords_weak_es": [
+        "quimica",
+        "química",
+        "polimero",
+        "polímero",
+        "resina",
+        "recubrimiento",
+        "pintura"
+      ],
+      "cpc_prefixes": [
+        "B01D",
+        "B01J",
+        "B82Y",
+        "C01",
+        "C07",
+        "C08",
+        "C09",
+        "C11",
+        "C12M",
+        "C12N",
+        "C12P",
+        "C12Q",
+        "C23"
+      ],
+      "openalex_subfields": [
+        "Polymers and Plastics",
+        "Biotechnology",
+        "Bioengineering",
+        "Applied Microbiology and Biotechnology",
+        "General Materials Science",
+        "Spectroscopy",
+        "Condensed Matter Physics",
+        "Organic Chemistry",
+        "Inorganic Chemistry",
+        "Catalysis",
+        "Process Chemistry and Technology",
+        "Surfaces, Coatings and Films",
+        "Physical and Theoretical Chemistry",
+        "Analytical Chemistry",
+        "Materials Chemistry",
+        "Filtration and Separation",
+        "Environmental Chemistry"
+      ],
+      "candidate": false,
+      "min_records": 0
+    },
+    {
+      "id": "health-medical",
+      "label_en": "Health and medical",
+      "label_es": "Salud y medicina",
+      "label_pt": "Saúde e medicina",
+      "description": "Applications in human or animal health care: implants, tissue engineering, drug delivery, diagnostics, surgical and dental devices.",
+      "nace_rev21_divisions": [
+        "21",
+        "32.5",
+        "86"
+      ],
+      "keywords_en": [
+        "medical device",
+        "surgical",
+        "implant",
+        "prosthesis",
+        "wound healing",
+        "wound dressing",
+        "biomedical",
+        "drug delivery",
+        "orthopaedic",
+        "orthopedic",
+        "hospital",
+        "catheter",
+        "suture",
+        "tissue engineering",
+        "dental implant",
+        "therapy",
+        "dental",
+        "wound",
+        "patient",
+        "patients",
+        "clinical",
+        "scaffold",
+        "scaffolds",
+        "bone regeneration",
+        "cartilage",
+        "tumour",
+        "tumor",
+        "cancer",
+        "antibacterial",
+        "biocompatible",
+        "biocompatibility"
+      ],
+      "keywords_weak_en": [
+        "medicine",
+        "diagnostic",
+        "bone",
+        "tissue",
+        "medical"
+      ],
+      "keywords_es": [
+        "dispositivo medico",
+        "dispositivo médico",
+        "quirurgico",
+        "quirúrgico",
+        "implante",
+        "protesis",
+        "prótesis",
+        "cicatrizacion",
+        "biomedico",
+        "biomédico",
+        "ingenieria de tejidos",
+        "terapia",
+        "dental",
+        "herida",
+        "paciente",
+        "pacientes",
+        "clinico",
+        "clínico",
+        "andamio",
+        "regeneracion osea",
+        "regeneración ósea",
+        "cartilago",
+        "cartílago",
+        "tumor",
+        "cancer",
+        "cáncer",
+        "antibacteriano",
+        "biocompatible",
+        "biocompatibilidad"
+      ],
+      "keywords_weak_es": [
+        "medicina",
+        "diagnostico",
+        "hueso",
+        "tejido"
+      ],
+      "cpc_prefixes": [
+        "A61B",
+        "A61F",
+        "A61K",
+        "A61L",
+        "A61M",
+        "A61N",
+        "A61P",
+        "G16H"
+      ],
+      "openalex_subfields": [
+        "Biomedical Engineering",
+        "Biomaterials",
+        "Surgery",
+        "Orthopedics and Sports Medicine",
+        "Pharmaceutical Science",
+        "Pharmacology",
+        "Oncology",
+        "Cardiology and Cardiovascular Medicine",
+        "Drug Discovery",
+        "Radiology, Nuclear Medicine and Imaging",
+        "Immunology",
+        "Infectious Diseases",
+        "Dermatology",
+        "Public Health, Environmental and Occupational Health",
+        "Health Informatics",
+        "Ophthalmology",
+        "Oral Surgery",
+        "Orthodontics",
+        "Neurology",
+        "Rehabilitation"
+      ],
+      "candidate": true,
+      "min_records": 300
+    },
+    {
+      "id": "electronics-ict",
+      "label_en": "Electronics and ICT",
+      "label_es": "Electrónica y TIC",
+      "label_pt": "Eletrónica e TIC",
+      "description": "Applications in electronics, sensors, computing and communications: chips, displays, photonics, networks and data systems.",
+      "nace_rev21_divisions": [
+        "26",
+        "61",
+        "62",
+        "63"
+      ],
+      "keywords_en": [
+        "electronics",
+        "semiconductor",
+        "photonic",
+        "wireless sensor",
+        "integrated circuit",
+        "display panel",
+        "display screen",
+        "microchip",
+        "computing",
+        "communication network",
+        "optical fibre",
+        "optical fiber"
+      ],
+      "keywords_weak_en": [
+        "sensor",
+        "optical",
+        "software",
+        "algorithm",
+        "neural network",
+        "wireless",
+        "circuit",
+        "electronic",
+        "chip",
+        "antenna"
+      ],
+      "keywords_es": [
+        "electronica",
+        "electrónica",
+        "semiconductor",
+        "fotonico",
+        "fotónico",
+        "circuito integrado",
+        "pantalla de visualizacion",
+        "computacion",
+        "computación",
+        "red de comunicaciones"
+      ],
+      "keywords_weak_es": [
+        "sensor",
+        "optico",
+        "óptico",
+        "algoritmo",
+        "red neuronal",
+        "inalambrico",
+        "inalámbrico",
+        "circuito",
+        "antena"
+      ],
+      "cpc_prefixes": [
+        "G01",
+        "G02B",
+        "G06",
+        "G11",
+        "H01L",
+        "H01Q",
+        "H03",
+        "H04",
+        "H05K"
+      ],
+      "openalex_subfields": [
+        "Electrical and Electronic Engineering",
+        "Electronic, Optical and Magnetic Materials",
+        "Computer Networks and Communications",
+        "Artificial Intelligence",
+        "Software",
+        "Signal Processing",
+        "Hardware and Architecture",
+        "Computer Vision and Pattern Recognition",
+        "Computer Science Applications",
+        "Information Systems",
+        "Atomic and Molecular Physics, and Optics",
+        "Instrumentation",
+        "Human-Computer Interaction"
+      ],
+      "candidate": true,
+      "min_records": 300
+    },
+    {
+      "id": "machinery-robotics",
+      "label_en": "Machinery and robotics",
+      "label_es": "Maquinaria y robótica",
+      "label_pt": "Maquinaria e robótica",
+      "description": "Applications in machines, robots and mechanical systems: actuators, grippers, locomotion, manufacturing equipment and control.",
+      "nace_rev21_divisions": [
+        "28"
+      ],
+      "keywords_en": [
+        "robot",
+        "robotics",
+        "gripper",
+        "actuator",
+        "machinery",
+        "machine tool",
+        "machine element",
+        "manipulator",
+        "soft robot",
+        "exoskeleton",
+        "gear box",
+        "gearbox",
+        "additive manufacturing",
+        "3d printing",
+        "cutting tool",
+        "tooling",
+        "robots",
+        "robotic",
+        "actuators",
+        "locomotion",
+        "legged",
+        "crawling robot",
+        "swimming robot",
+        "underwater robot"
+      ],
+      "keywords_weak_en": [
+        "pump",
+        "valve",
+        "gear",
+        "bearing",
+        "machine"
+      ],
+      "keywords_es": [
+        "robot",
+        "robotica",
+        "robótica",
+        "pinza robotica",
+        "actuador",
+        "maquinaria",
+        "herramienta de corte",
+        "manipulador",
+        "exoesqueleto",
+        "impresion 3d",
+        "impresión 3d",
+        "fabricacion aditiva",
+        "robotico",
+        "robótico"
+      ],
+      "keywords_weak_es": [
+        "bomba",
+        "valvula",
+        "válvula",
+        "maquina",
+        "máquina"
+      ],
+      "cpc_prefixes": [
+        "B23",
+        "B24",
+        "B25J",
+        "B33Y",
+        "B81",
+        "F04",
+        "F15",
+        "F16",
+        "G05B"
+      ],
+      "openalex_subfields": [
+        "Mechanical Engineering",
+        "Industrial and Manufacturing Engineering",
+        "Control and Systems Engineering",
+        "Mechanics of Materials",
+        "Fluid Flow and Transfer Processes",
+        "General Engineering",
+        "Computational Mechanics"
+      ],
+      "candidate": true,
+      "min_records": 300
+    },
+    {
+      "id": "aerospace-transport",
+      "label_en": "Aerospace and transport",
+      "label_es": "Aeroespacial y transporte",
+      "label_pt": "Aeroespacial e transportes",
+      "description": "Applications in aircraft, spacecraft, ships and rail: aerodynamics, flight, propulsion, hull and structural design for moving people or goods.",
+      "nace_rev21_divisions": [
+        "30",
+        "49",
+        "50",
+        "51"
+      ],
+      "keywords_en": [
+        "aircraft",
+        "aerospace",
+        "aviation",
+        "aircraft wing",
+        "unmanned aerial vehicle",
+        "propeller",
+        "spacecraft",
+        "satellite",
+        "ship hull",
+        "railway",
+        "rail vehicle",
+        "aerodynamic",
+        "airfoil",
+        "turbine blade",
+        "helicopter",
+        "wing",
+        "wings",
+        "aerofoil",
+        "UAV",
+        "MAV",
+        "drone",
+        "drones",
+        "flight",
+        "flapping wing",
+        "ship",
+        "hull",
+        "aerodynamics",
+        "hydrodynamic drag",
+        "marine vessel"
+      ],
+      "keywords_weak_en": [
+        "rotor",
+        "train",
+        "rail",
+        "vessel"
+      ],
+      "keywords_es": [
+        "aeronave",
+        "aeroespacial",
+        "aviacion",
+        "aviación",
+        "vehiculo aereo no tripulado",
+        "helice",
+        "hélice",
+        "satelite",
+        "satélite",
+        "casco del buque",
+        "ferrocarril",
+        "aerodinamico",
+        "aerodinámico",
+        "tren de aterrizaje",
+        "dron",
+        "drones",
+        "barco",
+        "buque"
+      ],
+      "keywords_weak_es": [],
+      "cpc_prefixes": [
+        "B61",
+        "B63",
+        "B64"
+      ],
+      "openalex_subfields": [
+        "Aerospace Engineering",
+        "Ocean Engineering",
+        "Transportation",
+        "Space and Planetary Science"
+      ],
+      "candidate": true,
+      "min_records": 300
+    },
+    {
+      "id": "buildings-architecture",
+      "label_en": "Buildings and architecture",
+      "label_es": "Edificios y arquitectura",
+      "label_pt": "Edifícios e arquitetura",
+      "description": "Applications in the design and operation of buildings and urban spaces: ventilation, cooling, facades, structures and nature-based urban design.",
+      "nace_rev21_divisions": [
+        "41",
+        "42",
+        "43",
+        "71.1"
+      ],
+      "keywords_en": [
+        "building design",
+        "green roof",
+        "green wall",
+        "living wall",
+        "facade",
+        "passive cooling",
+        "natural ventilation",
+        "urban design",
+        "termite mound",
+        "thermal comfort",
+        "bioclimatic",
+        "building envelope",
+        "architectural design"
+      ],
+      "keywords_weak_en": [
+        "architecture",
+        "architectural",
+        "shading",
+        "ventilation"
+      ],
+      "keywords_es": [
+        "diseño de edificios",
+        "cubierta verde",
+        "muro verde",
+        "fachada",
+        "enfriamiento pasivo",
+        "ventilacion natural",
+        "ventilación natural",
+        "bioclimatico",
+        "bioclimático",
+        "envolvente del edificio",
+        "diseño arquitectonico"
+      ],
+      "keywords_weak_es": [
+        "arquitectura",
+        "ventilacion",
+        "ventilación"
+      ],
+      "cpc_prefixes": [
+        "E04B",
+        "E04F",
+        "E04G",
+        "E04H",
+        "E06B",
+        "F24F"
+      ],
+      "openalex_subfields": [
+        "Architecture",
+        "Building and Construction",
+        "Urban Studies"
+      ],
+      "candidate": true,
+      "min_records": 300
+    },
+    {
+      "id": "forestry-fisheries",
+      "label_en": "Forestry and fisheries",
+      "label_es": "Silvicultura y pesca",
+      "label_pt": "Silvicultura e pescas",
+      "description": "Applications in managing forests, wild fisheries and marine or woodland resources: timber, restoration, stock management and ecosystem-based harvesting.",
+      "nace_rev21_divisions": [
+        "02",
+        "03"
+      ],
+      "keywords_en": [
+        "forestry",
+        "timber",
+        "silviculture",
+        "afforestation",
+        "reforestation",
+        "fishery",
+        "fisheries",
+        "aquaculture",
+        "fishing",
+        "shellfish",
+        "oyster",
+        "sawmill",
+        "kelp farming"
+      ],
+      "keywords_weak_en": [
+        "forest",
+        "wood",
+        "fish",
+        "seaweed",
+        "kelp"
+      ],
+      "keywords_es": [
+        "silvicultura",
+        "forestal",
+        "reforestacion",
+        "reforestación",
+        "pesqueria",
+        "pesquería",
+        "acuicultura",
+        "ostra",
+        "aserradero"
+      ],
+      "keywords_weak_es": [
+        "bosque",
+        "madera",
+        "pesca",
+        "pez",
+        "algas"
+      ],
+      "cpc_prefixes": [
+        "A01G",
+        "A01K61",
+        "A01K63",
+        "A01K79",
+        "B27"
+      ],
+      "openalex_subfields": [
+        "Forestry"
+      ],
+      "candidate": true,
+      "min_records": 300
+    },
+    {
+      "id": "waste-recycling",
+      "label_en": "Waste and recycling",
+      "label_es": "Residuos y reciclaje",
+      "label_pt": "Resíduos e reciclagem",
+      "description": "Applications in handling waste and recovering materials: recycling, composting, upcycling, circular reuse and cleaning up pollution.",
+      "nace_rev21_divisions": [
+        "38"
+      ],
+      "keywords_en": [
+        "waste management",
+        "recycling",
+        "recycled material",
+        "upcycling",
+        "composting",
+        "circular economy",
+        "landfill",
+        "waste valorisation",
+        "waste valorization",
+        "anaerobic digestion",
+        "biogas"
+      ],
+      "keywords_weak_en": [
+        "waste",
+        "recycled",
+        "compost",
+        "biodegradable",
+        "by-product"
+      ],
+      "keywords_es": [
+        "gestion de residuos",
+        "gestión de residuos",
+        "reciclaje",
+        "reciclado",
+        "compostaje",
+        "economia circular",
+        "economía circular",
+        "vertedero",
+        "biogas",
+        "biogás",
+        "valorizacion de residuos"
+      ],
+      "keywords_weak_es": [
+        "residuo",
+        "residuos",
+        "compost",
+        "biodegradable"
+      ],
+      "cpc_prefixes": [
+        "B03B",
+        "B09",
+        "B29B17",
+        "C05F",
+        "F23G",
+        "Y02W"
+      ],
+      "openalex_subfields": [
+        "Waste Management and Disposal",
+        "Pollution"
+      ],
+      "candidate": true,
+      "min_records": 300
+    },
+    {
+      "id": "other",
+      "label_en": "Other",
+      "label_es": "Otros",
+      "label_pt": "Outros",
+      "description": "Bio-inspired or nature-based work whose application area fits none of the sectors above.",
+      "nace_rev21_divisions": [],
+      "keywords_en": [],
+      "keywords_weak_en": [],
+      "keywords_es": [],
+      "keywords_weak_es": [],
+      "cpc_prefixes": [],
+      "openalex_subfields": [],
+      "candidate": false,
+      "min_records": 0
+    }
+  ]
+}

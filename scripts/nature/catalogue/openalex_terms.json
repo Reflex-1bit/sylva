@@ -1,0 +1,2434 @@
+{
+ "generated_on": "2026-10-11",
+ "keywords": [
+  {
+   "id": "https://openalex.org/keywords/silvoarable-agroforestry",
+   "display_name": "silvoarable agroforestry",
+   "works_count": 84,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biologically-inspired-neural-architecture",
+   "display_name": "biologically inspired neural architecture",
+   "works_count": 90,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-innovation",
+   "display_name": "agroforestry innovation",
+   "works_count": 94,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/nature-as-inspiration",
+   "display_name": "nature as inspiration",
+   "works_count": 96,
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  {
+   "id": "https://openalex.org/keywords/urban-ecological-infrastructure",
+   "display_name": "urban ecological infrastructure",
+   "works_count": 96,
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  {
+   "id": "https://openalex.org/keywords/cytochrome-p450-mimics",
+   "display_name": "cytochrome P450 mimics",
+   "works_count": 97,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/soil-and-water-bioengineering",
+   "display_name": "soil and water bioengineering",
+   "works_count": 97,
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  {
+   "id": "https://openalex.org/keywords/homegarden-agroforestry",
+   "display_name": "homegarden agroforestry",
+   "works_count": 97,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-nanovesicles",
+   "display_name": "biomimetic nanovesicles",
+   "works_count": 98,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-microfluidics",
+   "display_name": "biomimetic microfluidics",
+   "works_count": 98,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-computing",
+   "display_name": "biomimetic computing",
+   "works_count": 99,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-surface-design",
+   "display_name": "biomimetic surface design",
+   "works_count": 99,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-drug-carriers",
+   "display_name": "biomimetic drug carriers",
+   "works_count": 99,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/basement-membrane-mimicry",
+   "display_name": "basement membrane mimicry",
+   "works_count": 100,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-modeling",
+   "display_name": "bio-inspired modeling",
+   "works_count": 100,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/nature-inspired-optimisation",
+   "display_name": "nature-inspired optimisation",
+   "works_count": 100,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-prosthetics",
+   "display_name": "bionic prosthetics",
+   "works_count": 100,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/green-infrastructure-financing",
+   "display_name": "green infrastructure financing",
+   "works_count": 100,
+   "include": true,
+   "reason": "name contains scope term 'green infrastructure'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-model-complexes",
+   "display_name": "biomimetic model complexes",
+   "works_count": 102,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/cytochrome-p-450-model",
+   "display_name": "cytochrome P-450 model",
+   "works_count": 102,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/bioinspired-nanoparticles",
+   "display_name": "bioinspired nanoparticles",
+   "works_count": 102,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-control",
+   "display_name": "bionic control",
+   "works_count": 102,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-diversification",
+   "display_name": "agroforestry diversification",
+   "works_count": 103,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-training",
+   "display_name": "agroforestry training",
+   "works_count": 103,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-optimization",
+   "display_name": "biomimetic optimization",
+   "works_count": 104,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-imaging",
+   "display_name": "bio-inspired imaging",
+   "works_count": 104,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/natural-forms-in-design",
+   "display_name": "natural forms in design",
+   "works_count": 104,
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  {
+   "id": "https://openalex.org/keywords/smallholder-agroforestry",
+   "display_name": "smallholder agroforestry",
+   "works_count": 104,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/nature-inspired-solutions",
+   "display_name": "nature-inspired solutions",
+   "works_count": 105,
+   "include": true,
+   "reason": "name contains scope term 'nature-inspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-mechanism",
+   "display_name": "bionic mechanism",
+   "works_count": 105,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/mediterranean-agroforestry",
+   "display_name": "Mediterranean agroforestry",
+   "works_count": 106,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-textiles",
+   "display_name": "biomimetic textiles",
+   "works_count": 107,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-lubrication",
+   "display_name": "biomimetic lubrication",
+   "works_count": 108,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-system-design",
+   "display_name": "agroforestry system design",
+   "works_count": 108,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-applications",
+   "display_name": "biomimetic applications",
+   "works_count": 109,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-aircraft",
+   "display_name": "bio-inspired aircraft",
+   "works_count": 109,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bioinspired-mineralization",
+   "display_name": "bioinspired mineralization",
+   "works_count": 109,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bioinspired-hydrogels",
+   "display_name": "bioinspired hydrogels",
+   "works_count": 110,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-wing-design",
+   "display_name": "biomimetic wing design",
+   "works_count": 111,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/green-roof-construction",
+   "display_name": "green roof construction",
+   "works_count": 112,
+   "include": true,
+   "reason": "name contains scope term 'green roof'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-prosthesis",
+   "display_name": "bionic prosthesis",
+   "works_count": 113,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-scaffold",
+   "display_name": "bionic scaffold",
+   "works_count": 114,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-pancreas",
+   "display_name": "bionic pancreas",
+   "works_count": 114,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-economics",
+   "display_name": "agroforestry economics",
+   "works_count": 114,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-skin",
+   "display_name": "bionic skin",
+   "works_count": 115,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/jungle-rubber",
+   "display_name": "jungle rubber",
+   "works_count": 115,
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  {
+   "id": "https://openalex.org/keywords/bamboo-inspired-design",
+   "display_name": "bamboo-inspired design",
+   "works_count": 116,
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-artificial-intelligence",
+   "display_name": "bio-inspired artificial intelligence",
+   "works_count": 116,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/natural-forms-in-architecture",
+   "display_name": "natural forms in architecture",
+   "works_count": 116,
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  {
+   "id": "https://openalex.org/keywords/green-infrastructure-policy",
+   "display_name": "green infrastructure policy",
+   "works_count": 116,
+   "include": true,
+   "reason": "name contains scope term 'green infrastructure'"
+  },
+  {
+   "id": "https://openalex.org/keywords/metalloenzyme-mimicry",
+   "display_name": "metalloenzyme mimicry",
+   "works_count": 117,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/biologically-inspired-features",
+   "display_name": "biologically inspired features",
+   "works_count": 117,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/indigenous-agroforestry",
+   "display_name": "indigenous agroforestry",
+   "works_count": 117,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/carbonic-anhydrase-mimics",
+   "display_name": "carbonic anhydrase mimics",
+   "works_count": 118,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/cancellous-bone-mimicry",
+   "display_name": "cancellous bone mimicry",
+   "works_count": 118,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-robotic-fish",
+   "display_name": "bionic robotic fish",
+   "works_count": 118,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-sonar",
+   "display_name": "bio-inspired sonar",
+   "works_count": 118,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-leg",
+   "display_name": "bionic leg",
+   "works_count": 118,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biologically-inspired-cognitive-architectures",
+   "display_name": "biologically inspired cognitive architectures",
+   "works_count": 120,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-apatite-formation",
+   "display_name": "biomimetic apatite formation",
+   "works_count": 121,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-tissue-models",
+   "display_name": "biomimetic tissue models",
+   "works_count": 121,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/flat-green-roof",
+   "display_name": "flat green roof",
+   "works_count": 121,
+   "include": true,
+   "reason": "name contains scope term 'green roof'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-assembly",
+   "display_name": "biomimetic assembly",
+   "works_count": 122,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-nanochannels",
+   "display_name": "biomimetic nanochannels",
+   "works_count": 122,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-systems",
+   "display_name": "bionic systems",
+   "works_count": 122,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-clustering",
+   "display_name": "bio-inspired clustering",
+   "works_count": 123,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/advanced-bionics",
+   "display_name": "Advanced Bionics",
+   "works_count": 123,
+   "include": false,
+   "reason": "override: noise: cochlear implant company name, not bio-inspired design"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-technology",
+   "display_name": "bionic technology",
+   "works_count": 123,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bioinspired-biomaterials",
+   "display_name": "bioinspired biomaterials",
+   "works_count": 124,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/wastewater-treatment-wetlands",
+   "display_name": "wastewater treatment wetlands",
+   "works_count": 124,
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  {
+   "id": "https://openalex.org/keywords/plant-inspired-materials",
+   "display_name": "plant-inspired materials",
+   "works_count": 126,
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-development",
+   "display_name": "agroforestry development",
+   "works_count": 126,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/long-term-drainage",
+   "display_name": "long-term drainage",
+   "works_count": 127,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-biomass",
+   "display_name": "agroforestry biomass",
+   "works_count": 127,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/green-infrastructure-design",
+   "display_name": "green infrastructure design",
+   "works_count": 128,
+   "include": true,
+   "reason": "name contains scope term 'green infrastructure'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-sonar",
+   "display_name": "biomimetic sonar",
+   "works_count": 129,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biologically-inspired-architecture",
+   "display_name": "biologically inspired architecture",
+   "works_count": 130,
+   "include": true,
+   "reason": "name contains scope term 'biologically inspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-metal-complexes",
+   "display_name": "biomimetic metal complexes",
+   "works_count": 131,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/green-infrastructure-investment",
+   "display_name": "green infrastructure investment",
+   "works_count": 131,
+   "include": true,
+   "reason": "name contains scope term 'green infrastructure'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-nanotechnology",
+   "display_name": "biomimetic nanotechnology",
+   "works_count": 133,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-navigation",
+   "display_name": "biomimetic navigation",
+   "works_count": 133,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-tactile-sensor",
+   "display_name": "biomimetic tactile sensor",
+   "works_count": 134,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/silvoarable-systems",
+   "display_name": "silvoarable systems",
+   "works_count": 135,
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-swimming",
+   "display_name": "bio-inspired swimming",
+   "works_count": 136,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-nanozymes",
+   "display_name": "biomimetic nanozymes",
+   "works_count": 137,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-energy-harvesting",
+   "display_name": "bio-inspired energy harvesting",
+   "works_count": 138,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/urban-agroforestry",
+   "display_name": "urban agroforestry",
+   "works_count": 138,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-algorithms",
+   "display_name": "biomimetic algorithms",
+   "works_count": 139,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-waste",
+   "display_name": "agroforestry waste",
+   "works_count": 139,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-liposomes",
+   "display_name": "biomimetic liposomes",
+   "works_count": 140,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-implants",
+   "display_name": "biomimetic implants",
+   "works_count": 141,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-enzyme",
+   "display_name": "biomimetic enzymes",
+   "works_count": 142,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-ear",
+   "display_name": "bionic ear",
+   "works_count": 142,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/semi-bionic-extraction",
+   "display_name": "semi-bionic extraction",
+   "works_count": 142,
+   "include": false,
+   "reason": "override: noise: herbal extraction method, not bio-inspired design"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-indicators",
+   "display_name": "agroforestry indicators",
+   "works_count": 143,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/silvipasture",
+   "display_name": "silvipasture",
+   "works_count": 143,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/bioinspired-nanostructures",
+   "display_name": "bioinspired nanostructures",
+   "works_count": 144,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/taungya-system",
+   "display_name": "taungya system",
+   "works_count": 145,
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-sensors",
+   "display_name": "bionic sensors",
+   "works_count": 146,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-models",
+   "display_name": "agroforestry models",
+   "works_count": 146,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-molecules",
+   "display_name": "biomimetic molecules",
+   "works_count": 148,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-robot-design",
+   "display_name": "biomimetic robot design",
+   "works_count": 148,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/tidal-flow-constructed-wetland",
+   "display_name": "tidal flow constructed wetlands",
+   "works_count": 148,
+   "include": true,
+   "reason": "name contains scope term 'constructed wetland'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-nanocomposites",
+   "display_name": "biomimetic nanocomposites",
+   "works_count": 149,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-recognition",
+   "display_name": "biomimetic recognition",
+   "works_count": 152,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-flight-control",
+   "display_name": "bio-inspired flight control",
+   "works_count": 152,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-circuits",
+   "display_name": "bio-inspired circuits",
+   "works_count": 153,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/constructed-wetland-design",
+   "display_name": "constructed wetland design",
+   "works_count": 153,
+   "include": true,
+   "reason": "name contains scope term 'constructed wetland'"
+  },
+  {
+   "id": "https://openalex.org/keywords/cabruca",
+   "display_name": "cabruca",
+   "works_count": 153,
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  {
+   "id": "https://openalex.org/keywords/sustainable-agroforestry",
+   "display_name": "sustainable agroforestry",
+   "works_count": 154,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-cyclization",
+   "display_name": "biomimetic cyclization",
+   "works_count": 155,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biologically-inspired-neural-models",
+   "display_name": "biologically inspired neural models",
+   "works_count": 155,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-motion",
+   "display_name": "biomimetic motion",
+   "works_count": 156,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-hardware",
+   "display_name": "bio-inspired hardware",
+   "works_count": 157,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bioinspired-microstructures",
+   "display_name": "bioinspired microstructures",
+   "works_count": 159,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-technologies",
+   "display_name": "agroforestry technologies",
+   "works_count": 160,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-crops",
+   "display_name": "agroforestry crops",
+   "works_count": 160,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-parks",
+   "display_name": "agroforestry parks",
+   "works_count": 160,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-devices",
+   "display_name": "bionic devices",
+   "works_count": 162,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/urban-green-roofs",
+   "display_name": "urban green roofs",
+   "works_count": 162,
+   "include": true,
+   "reason": "name contains scope term 'green roof'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-signal-processing",
+   "display_name": "bio-inspired signal processing",
+   "works_count": 163,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/bioinspired-chemistry",
+   "display_name": "bioinspired chemistry",
+   "works_count": 164,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-design",
+   "display_name": "agroforestry design",
+   "works_count": 164,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-aerodynamics",
+   "display_name": "bio-inspired aerodynamics",
+   "works_count": 165,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biological-vision-models",
+   "display_name": "biological vision models",
+   "works_count": 166,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/embrapa-amazonia-ocidental",
+   "display_name": "Embrapa Amazônia Ocidental",
+   "works_count": 167,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-hydroxyapatite",
+   "display_name": "biomimetic hydroxyapatite",
+   "works_count": 168,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-pattern-recognition",
+   "display_name": "biomimetic pattern recognition",
+   "works_count": 168,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-limbs",
+   "display_name": "bionic limbs",
+   "works_count": 168,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-wings",
+   "display_name": "biomimetic wings",
+   "works_count": 169,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-planning",
+   "display_name": "agroforestry planning",
+   "works_count": 170,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/plant-inspired-design",
+   "display_name": "plant-inspired design",
+   "works_count": 171,
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-reactions",
+   "display_name": "biomimetic reactions",
+   "works_count": 172,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/nature-inspired-innovation",
+   "display_name": "nature-inspired innovation",
+   "works_count": 172,
+   "include": true,
+   "reason": "name contains scope term 'nature-inspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-dentistry",
+   "display_name": "biomimetic dentistry",
+   "works_count": 174,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/nacre-inspired-design",
+   "display_name": "nacre-inspired design",
+   "works_count": 174,
+   "include": true,
+   "reason": "name contains scope term 'nacre-inspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-nanomedicine",
+   "display_name": "biomimetic nanomedicine",
+   "works_count": 175,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-self-assembly",
+   "display_name": "biomimetic self-assembly",
+   "works_count": 179,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-underwater-robot",
+   "display_name": "biomimetic underwater robot",
+   "works_count": 179,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/nature-inspired-engineering",
+   "display_name": "nature-inspired engineering",
+   "works_count": 179,
+   "include": true,
+   "reason": "name contains scope term 'nature-inspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/integrated-constructed-wetlands",
+   "display_name": "integrated constructed wetlands",
+   "works_count": 179,
+   "include": true,
+   "reason": "name contains scope term 'constructed wetland'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-robotic-fish",
+   "display_name": "biomimetic robotic fish",
+   "works_count": 184,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-actuation",
+   "display_name": "biomimetic actuation",
+   "works_count": 187,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-ligands",
+   "display_name": "biomimetic ligands",
+   "works_count": 187,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/nadh-models",
+   "display_name": "NADH models",
+   "works_count": 187,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-restoration",
+   "display_name": "biomimetic restoration",
+   "works_count": 188,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/free-water-surface-constructed-wetlands",
+   "display_name": "free water surface constructed wetlands",
+   "works_count": 188,
+   "include": true,
+   "reason": "name contains scope term 'constructed wetland'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-fibers",
+   "display_name": "biomimetic fibers",
+   "works_count": 189,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/fefe-hydrogenase-mimics",
+   "display_name": "[FeFe]-hydrogenase mimics",
+   "works_count": 189,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-flow-control",
+   "display_name": "bio-inspired flow control",
+   "works_count": 189,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-security",
+   "display_name": "bio-inspired security",
+   "works_count": 191,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-learning",
+   "display_name": "bio-inspired learning",
+   "works_count": 191,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-total-synthesis",
+   "display_name": "biomimetic total synthesis",
+   "works_count": 192,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-architecture",
+   "display_name": "bionic architecture",
+   "works_count": 192,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-ion-channels",
+   "display_name": "biomimetic ion channels",
+   "works_count": 193,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/trabecular-bone-mimicry",
+   "display_name": "trabecular bone mimicry",
+   "works_count": 193,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/muscle-inspired-actuators",
+   "display_name": "muscle-inspired actuators",
+   "works_count": 194,
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-deposition",
+   "display_name": "biomimetic deposition",
+   "works_count": 196,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/artificial-lateral-line",
+   "display_name": "artificial lateral line",
+   "works_count": 197,
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  {
+   "id": "https://openalex.org/keywords/artificial-cochlea",
+   "display_name": "artificial cochlea",
+   "works_count": 197,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/green-infrastructure-network",
+   "display_name": "green infrastructure network",
+   "works_count": 197,
+   "include": true,
+   "reason": "name contains scope term 'green infrastructure'"
+  },
+  {
+   "id": "https://openalex.org/keywords/urban-rewilding",
+   "display_name": "urban rewilding",
+   "works_count": 197,
+   "include": true,
+   "reason": "name contains scope term 'rewilding'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-optimization-algorithms",
+   "display_name": "bio-inspired optimization algorithms",
+   "works_count": 199,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/nature-inspired-architecture",
+   "display_name": "nature-inspired architecture",
+   "works_count": 200,
+   "include": true,
+   "reason": "name contains scope term 'nature-inspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-arm",
+   "display_name": "bionic arm",
+   "works_count": 202,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/green-roof-maintenance",
+   "display_name": "green roof maintenance",
+   "works_count": 203,
+   "include": true,
+   "reason": "name contains scope term 'green roof'"
+  },
+  {
+   "id": "https://openalex.org/keywords/urban-nature-based-solutions",
+   "display_name": "urban nature-based solutions",
+   "works_count": 207,
+   "include": true,
+   "reason": "name contains scope term 'nature-based solution'"
+  },
+  {
+   "id": "https://openalex.org/keywords/active-site-mimics",
+   "display_name": "active site mimics",
+   "works_count": 208,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-mechanisms",
+   "display_name": "bio-inspired mechanisms",
+   "works_count": 212,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-extension",
+   "display_name": "agroforestry extension",
+   "works_count": 214,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-tissue-engineering",
+   "display_name": "biomimetic tissue engineering",
+   "works_count": 216,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-mechanism",
+   "display_name": "biomimetic mechanism",
+   "works_count": 219,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-surface-modification",
+   "display_name": "bio-inspired surface modification",
+   "works_count": 219,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/ecological-floating-bed",
+   "display_name": "ecological floating bed",
+   "works_count": 221,
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-underwater-vehicle",
+   "display_name": "biomimetic underwater vehicle",
+   "works_count": 223,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/trophic-rewilding",
+   "display_name": "trophic rewilding",
+   "works_count": 224,
+   "include": true,
+   "reason": "name contains scope term 'rewilding'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-robot-design",
+   "display_name": "bio-inspired robot design",
+   "works_count": 227,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-vision",
+   "display_name": "bionic vision",
+   "works_count": 229,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-education",
+   "display_name": "agroforestry education",
+   "works_count": 229,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-vision",
+   "display_name": "biomimetic vision",
+   "works_count": 230,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-optics",
+   "display_name": "biomimetic optics",
+   "works_count": 233,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-interfaces",
+   "display_name": "biomimetic interfaces",
+   "works_count": 234,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-remineralization",
+   "display_name": "biomimetic remineralization",
+   "works_count": 237,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-receptors",
+   "display_name": "biomimetic receptors",
+   "works_count": 238,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-prostheses",
+   "display_name": "bionic prostheses",
+   "works_count": 244,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/constructed-wetland-microbial-fuel-cell",
+   "display_name": "constructed wetland-microbial fuel cell",
+   "works_count": 244,
+   "include": true,
+   "reason": "name contains scope term 'constructed wetland'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-fabrication",
+   "display_name": "biomimetic fabrication",
+   "works_count": 247,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-underwater-vehicles",
+   "display_name": "bio-inspired underwater vehicles",
+   "works_count": 252,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-vesicles",
+   "display_name": "biomimetic vesicles",
+   "works_count": 253,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-engineering",
+   "display_name": "biomimetic engineering",
+   "works_count": 254,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-substrates",
+   "display_name": "biomimetic substrates",
+   "works_count": 257,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-apatite",
+   "display_name": "biomimetic apatite",
+   "works_count": 268,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/argus-ii",
+   "display_name": "Argus II",
+   "works_count": 268,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/temperate-agroforestry",
+   "display_name": "temperate agroforestry",
+   "works_count": 270,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-devices",
+   "display_name": "bio-inspired devices",
+   "works_count": 280,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-products",
+   "display_name": "agroforestry products",
+   "works_count": 281,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-technology",
+   "display_name": "biomimetic technology",
+   "works_count": 282,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/icraf",
+   "display_name": "ICRAF",
+   "works_count": 283,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/artificial-compound-eye",
+   "display_name": "artificial compound eye",
+   "works_count": 289,
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-nanoplatform",
+   "display_name": "biomimetic nanoplatform",
+   "works_count": 292,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-navigation",
+   "display_name": "bio-inspired navigation",
+   "works_count": 293,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-research",
+   "display_name": "agroforestry research",
+   "works_count": 298,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-underwater-robots",
+   "display_name": "bio-inspired underwater robots",
+   "works_count": 303,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/rubber-agroforestry",
+   "display_name": "rubber agroforestry",
+   "works_count": 307,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-communication",
+   "display_name": "bio-inspired communication",
+   "works_count": 314,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/nature-inspired-technology",
+   "display_name": "nature-inspired technology",
+   "works_count": 314,
+   "include": true,
+   "reason": "name contains scope term 'nature-inspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-residues",
+   "display_name": "agroforestry residues",
+   "works_count": 318,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-plantations",
+   "display_name": "agroforestry plantations",
+   "works_count": 324,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/artificial-cilia",
+   "display_name": "artificial cilia",
+   "works_count": 337,
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-microstructures",
+   "display_name": "biomimetic microstructures",
+   "works_count": 338,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/hydrogenase-mimics",
+   "display_name": "hydrogenase mimics",
+   "works_count": 338,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-electronics",
+   "display_name": "bio-inspired electronics",
+   "works_count": 346,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/intensive-green-roofs",
+   "display_name": "intensive green roofs",
+   "works_count": 347,
+   "include": true,
+   "reason": "name contains scope term 'green roof'"
+  },
+  {
+   "id": "https://openalex.org/keywords/pilot-scale-wetland",
+   "display_name": "pilot-scale wetland",
+   "works_count": 351,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-models",
+   "display_name": "bio-inspired models",
+   "works_count": 360,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-peptides",
+   "display_name": "biomimetic peptides",
+   "works_count": 368,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bioinspired-adhesion",
+   "display_name": "bioinspired adhesion",
+   "works_count": 370,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/green-roof-design",
+   "display_name": "green roof design",
+   "works_count": 373,
+   "include": true,
+   "reason": "name contains scope term 'green roof'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-microenvironment",
+   "display_name": "biomimetic microenvironment",
+   "works_count": 375,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/green-roof-substrates",
+   "display_name": "green roof substrates",
+   "works_count": 375,
+   "include": true,
+   "reason": "name contains scope term 'green roof'"
+  },
+  {
+   "id": "https://openalex.org/keywords/enzyme-mimicry",
+   "display_name": "enzyme mimicry",
+   "works_count": 377,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/bioinspired-polymers",
+   "display_name": "bioinspired polymers",
+   "works_count": 378,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-optics",
+   "display_name": "bio-inspired optics",
+   "works_count": 381,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-parklands",
+   "display_name": "agroforestry parklands",
+   "works_count": 383,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/artificial-cell-membranes",
+   "display_name": "artificial cell membranes",
+   "works_count": 387,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/tropical-agroforestry",
+   "display_name": "tropical agroforestry",
+   "works_count": 398,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-nanomaterials",
+   "display_name": "biomimetic nanomaterials",
+   "works_count": 401,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/mussel-inspired-adhesives",
+   "display_name": "mussel-inspired adhesives",
+   "works_count": 402,
+   "include": true,
+   "reason": "name contains scope term 'mussel-inspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-biomaterials",
+   "display_name": "biomimetic biomaterials",
+   "works_count": 403,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-structures",
+   "display_name": "bionic structures",
+   "works_count": 404,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bioinspired-nanomaterials",
+   "display_name": "bioinspired nanomaterials",
+   "works_count": 411,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-surface-modification",
+   "display_name": "biomimetic surface modification",
+   "works_count": 417,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-landscapes",
+   "display_name": "agroforestry landscapes",
+   "works_count": 417,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/nature-inspired-art",
+   "display_name": "nature-inspired art",
+   "works_count": 423,
+   "include": false,
+   "reason": "override: noise: art, not a physical design"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-routing",
+   "display_name": "bio-inspired routing",
+   "works_count": 426,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/nacre-inspired-materials",
+   "display_name": "nacre-inspired materials",
+   "works_count": 428,
+   "include": true,
+   "reason": "name contains scope term 'nacre-inspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-materials",
+   "display_name": "bionic materials",
+   "works_count": 436,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-surfaces",
+   "display_name": "bionic surfaces",
+   "works_count": 437,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-architecture",
+   "display_name": "bio-inspired architecture",
+   "works_count": 439,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-nanostructures",
+   "display_name": "biomimetic nanostructures",
+   "works_count": 448,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/nature-inspired-materials",
+   "display_name": "nature-inspired materials",
+   "works_count": 451,
+   "include": true,
+   "reason": "name contains scope term 'nature-inspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-species",
+   "display_name": "agroforestry species",
+   "works_count": 457,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/nature-inspired-computing",
+   "display_name": "nature-inspired computing",
+   "works_count": 460,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-vision",
+   "display_name": "bio-inspired vision",
+   "works_count": 468,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-neural-networks",
+   "display_name": "bio-inspired neural networks",
+   "works_count": 470,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-hand",
+   "display_name": "bionic hand",
+   "works_count": 470,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-oxidation",
+   "display_name": "biomimetic oxidation",
+   "works_count": 479,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/green-infrastructure-planning",
+   "display_name": "green infrastructure planning",
+   "works_count": 492,
+   "include": true,
+   "reason": "name contains scope term 'green infrastructure'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bioinspired-composites",
+   "display_name": "bioinspired composites",
+   "works_count": 500,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-composites",
+   "display_name": "biomimetic composites",
+   "works_count": 502,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-devices",
+   "display_name": "biomimetic devices",
+   "works_count": 509,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biologically-inspired-learning",
+   "display_name": "biologically inspired learning",
+   "works_count": 509,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/bioinspired-coatings",
+   "display_name": "bioinspired coatings",
+   "works_count": 511,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/surface-flow-constructed-wetlands",
+   "display_name": "surface flow constructed wetland",
+   "works_count": 511,
+   "include": true,
+   "reason": "name contains scope term 'constructed wetland'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-policy",
+   "display_name": "agroforestry policy",
+   "works_count": 519,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-practices",
+   "display_name": "agroforestry practices",
+   "works_count": 529,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-chemistry",
+   "display_name": "biomimetic chemistry",
+   "works_count": 531,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-sensing",
+   "display_name": "biomimetic sensing",
+   "works_count": 541,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-control",
+   "display_name": "biomimetic control",
+   "works_count": 543,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/substrate-depth",
+   "display_name": "substrate depth",
+   "works_count": 568,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/floating-treatment-wetlands",
+   "display_name": "floating treatment wetlands",
+   "works_count": 569,
+   "include": true,
+   "reason": "name contains scope term 'floating treatment wetland'"
+  },
+  {
+   "id": "https://openalex.org/keywords/hybrid-constructed-wetlands",
+   "display_name": "hybrid constructed wetlands",
+   "works_count": 579,
+   "include": true,
+   "reason": "name contains scope term 'constructed wetland'"
+  },
+  {
+   "id": "https://openalex.org/keywords/mussel-inspired-adhesion",
+   "display_name": "mussel-inspired adhesion",
+   "works_count": 582,
+   "include": true,
+   "reason": "name contains scope term 'mussel-inspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/nature-motifs",
+   "display_name": "natural motifs",
+   "works_count": 596,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/horizontal-flow-constructed-wetland",
+   "display_name": "horizontal flow constructed wetland",
+   "works_count": 614,
+   "include": true,
+   "reason": "name contains scope term 'constructed wetland'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-drug-delivery",
+   "display_name": "biomimetic drug delivery",
+   "works_count": 616,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/soil-bioengineering",
+   "display_name": "soil bioengineering",
+   "works_count": 616,
+   "include": true,
+   "reason": "name contains scope term 'soil bioengineering'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-technology",
+   "display_name": "bio-inspired technology",
+   "works_count": 623,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-metaheuristics",
+   "display_name": "bio-inspired metaheuristics",
+   "works_count": 645,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-architecture",
+   "display_name": "biomimetic architecture",
+   "works_count": 648,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-polymers",
+   "display_name": "biomimetic polymers",
+   "works_count": 650,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-nanocarriers",
+   "display_name": "biomimetic nanocarriers",
+   "works_count": 651,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biologically-inspired-vision",
+   "display_name": "biologically inspired vision",
+   "works_count": 658,
+   "include": true,
+   "reason": "name contains scope term 'biologically inspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-adhesion",
+   "display_name": "biomimetic adhesion",
+   "works_count": 665,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-mussel-temperature-loggers",
+   "display_name": "bionic mussel temperature loggers",
+   "works_count": 670,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-locomotion",
+   "display_name": "biomimetic locomotion",
+   "works_count": 702,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/learning-from-nature",
+   "display_name": "learning from nature",
+   "works_count": 715,
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-systems",
+   "display_name": "bio-inspired systems",
+   "works_count": 716,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-management",
+   "display_name": "agroforestry management",
+   "works_count": 726,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-actuators",
+   "display_name": "bio-inspired actuators",
+   "works_count": 728,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bioinspired-adhesives",
+   "display_name": "bioinspired adhesives",
+   "works_count": 749,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-structures",
+   "display_name": "bio-inspired structures",
+   "works_count": 754,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-sensing",
+   "display_name": "bio-inspired sensing",
+   "works_count": 759,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-engineering",
+   "display_name": "bio-inspired engineering",
+   "works_count": 769,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bioinspired-catalysts",
+   "display_name": "bioinspired catalysts",
+   "works_count": 772,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-robot",
+   "display_name": "bionic robot",
+   "works_count": 798,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-hydrogels",
+   "display_name": "biomimetic hydrogels",
+   "works_count": 809,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/green-stormwater-infrastructure",
+   "display_name": "green stormwater infrastructure",
+   "works_count": 822,
+   "include": true,
+   "reason": "name contains scope term 'green stormwater infrastructure'"
+  },
+  {
+   "id": "https://openalex.org/keywords/nature-inspired-metaheuristics",
+   "display_name": "nature-inspired metaheuristics",
+   "works_count": 843,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/traditional-agroforestry-systems",
+   "display_name": "traditional agroforestry",
+   "works_count": 845,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/artificial-retina",
+   "display_name": "artificial retina",
+   "works_count": 878,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/metalloenzyme-mimics",
+   "display_name": "metalloenzyme mimics",
+   "works_count": 879,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-adoption",
+   "display_name": "agroforestry adoption",
+   "works_count": 894,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-adhesives",
+   "display_name": "biomimetic adhesives",
+   "works_count": 897,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-locomotion",
+   "display_name": "bio-inspired locomotion",
+   "works_count": 915,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/horizontal-subsurface-flow-constructed-wetlands",
+   "display_name": "horizontal subsurface flow constructed wetlands",
+   "works_count": 926,
+   "include": true,
+   "reason": "name contains scope term 'constructed wetland'"
+  },
+  {
+   "id": "https://openalex.org/keywords/living-shorelines",
+   "display_name": "living shorelines",
+   "works_count": 926,
+   "include": true,
+   "reason": "name contains scope term 'living shoreline'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-structures",
+   "display_name": "biomimetic structures",
+   "works_count": 954,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bioinspired-sensors",
+   "display_name": "bio-inspired sensors",
+   "works_count": 1027,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biologically-inspired-models",
+   "display_name": "biologically inspired models",
+   "works_count": 1037,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-actuators",
+   "display_name": "biomimetic actuators",
+   "works_count": 1080,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-catalysts",
+   "display_name": "biomimetic catalysts",
+   "works_count": 1081,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/natural-climate-solutions",
+   "display_name": "natural climate solutions",
+   "works_count": 1106,
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  {
+   "id": "https://openalex.org/keywords/bioinspired-synthesis",
+   "display_name": "bioinspired synthesis",
+   "works_count": 1197,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-sensors",
+   "display_name": "biomimetic sensors",
+   "works_count": 1273,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-trees",
+   "display_name": "agroforestry trees",
+   "works_count": 1309,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-coatings",
+   "display_name": "biomimetic coatings",
+   "works_count": 1324,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/cocoa-agroforestry",
+   "display_name": "cocoa agroforestry",
+   "works_count": 1450,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/ecosystem-based-adaptation",
+   "display_name": "ecosystem-based adaptation",
+   "works_count": 1644,
+   "include": true,
+   "reason": "name contains scope term 'ecosystem-based adaptation'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-nanoparticles",
+   "display_name": "biomimetic nanoparticles",
+   "works_count": 1770,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/coffee-agroforestry",
+   "display_name": "coffee agroforestry",
+   "works_count": 1854,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-systems",
+   "display_name": "biomimetic systems",
+   "works_count": 1872,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/extensive-green-roofs",
+   "display_name": "extensive green roofs",
+   "works_count": 1939,
+   "include": true,
+   "reason": "name contains scope term 'green roof'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-flight",
+   "display_name": "bio-inspired flight",
+   "works_count": 1997,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-mineralization",
+   "display_name": "biomimetic mineralization",
+   "works_count": 2076,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/subsurface-flow-constructed-wetlands",
+   "display_name": "subsurface flow constructed wetlands",
+   "works_count": 2090,
+   "include": true,
+   "reason": "name contains scope term 'constructed wetland'"
+  },
+  {
+   "id": "https://openalex.org/keywords/robotic-fish",
+   "display_name": "robotic fish",
+   "works_count": 2273,
+   "include": true,
+   "reason": "override: in scope: named nature-inspired design or nature-based-solution practice that the stem rule misses"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-propulsion",
+   "display_name": "bio-inspired propulsion",
+   "works_count": 2480,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bionic-design",
+   "display_name": "bionic design",
+   "works_count": 2606,
+   "include": true,
+   "reason": "name contains scope term 'bionic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-control",
+   "display_name": "bio-inspired control",
+   "works_count": 2643,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/vertical-flow-constructed-wetlands",
+   "display_name": "vertical flow constructed wetlands",
+   "works_count": 2685,
+   "include": true,
+   "reason": "name contains scope term 'constructed wetland'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-catalysis",
+   "display_name": "biomimetic catalysis",
+   "works_count": 2997,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/extracellular-matrix-mimics",
+   "display_name": "extracellular matrix mimics",
+   "works_count": 3050,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-membranes",
+   "display_name": "biomimetic membranes",
+   "works_count": 3162,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-robots",
+   "display_name": "biomimetic robots",
+   "works_count": 3271,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-computing",
+   "display_name": "bio-inspired computing",
+   "works_count": 3567,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/blue-green-infrastructure",
+   "display_name": "blue-green infrastructure",
+   "works_count": 3572,
+   "include": true,
+   "reason": "name contains scope term 'green infrastructure'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-scaffolds",
+   "display_name": "biomimetic scaffolds",
+   "works_count": 3828,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/rewilding",
+   "display_name": "rewilding",
+   "works_count": 3833,
+   "include": true,
+   "reason": "name contains scope term 'rewilding'"
+  },
+  {
+   "id": "https://openalex.org/keywords/sustainable-urban-drainage-systems",
+   "display_name": "sustainable urban drainage systems",
+   "works_count": 3994,
+   "include": true,
+   "reason": "name contains scope term 'sustainable urban drainage'"
+  },
+  {
+   "id": "https://openalex.org/keywords/extracellular-matrix-mimicry",
+   "display_name": "extracellular matrix mimicry",
+   "works_count": 4693,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-synthesis",
+   "display_name": "biomimetic synthesis",
+   "works_count": 5147,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bioinspired-surfaces",
+   "display_name": "biomimetic surfaces",
+   "works_count": 5300,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bio-inspired-optimization",
+   "display_name": "bio-inspired optimization",
+   "works_count": 5429,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/retinal-prostheses",
+   "display_name": "retinal prosthesis",
+   "works_count": 6313,
+   "include": false,
+   "reason": "no scope term in the name (generic or off-topic keyword)"
+  },
+  {
+   "id": "https://openalex.org/keywords/urban-green-infrastructure",
+   "display_name": "urban green infrastructure",
+   "works_count": 8528,
+   "include": true,
+   "reason": "name contains scope term 'green infrastructure'"
+  },
+  {
+   "id": "https://openalex.org/keywords/bioinspired-robotics",
+   "display_name": "bio-inspired robotics",
+   "works_count": 10148,
+   "include": true,
+   "reason": "name contains scope term 'bioinspired'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry-systems",
+   "display_name": "agroforestry systems",
+   "works_count": 14089,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  },
+  {
+   "id": "https://openalex.org/keywords/nature-inspired-algorithms",
+   "display_name": "bio-inspired algorithms",
+   "works_count": 14459,
+   "include": false,
+   "reason": "override: S4-a: purely computational metaheuristic / neural-only keyword (no physical design, no organism to protect)"
+  },
+  {
+   "id": "https://openalex.org/keywords/bioinspired-design",
+   "display_name": "biomimetic design",
+   "works_count": 16113,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetics",
+   "display_name": "biomimetics",
+   "works_count": 17360,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/biomimetic-materials",
+   "display_name": "biomimetic materials",
+   "works_count": 20959,
+   "include": true,
+   "reason": "name contains scope term 'biomimetic'"
+  },
+  {
+   "id": "https://openalex.org/keywords/green-roofs",
+   "display_name": "green roofs",
+   "works_count": 21629,
+   "include": true,
+   "reason": "name contains scope term 'green roof'"
+  },
+  {
+   "id": "https://openalex.org/keywords/nature-based-solutions",
+   "display_name": "nature-based solutions",
+   "works_count": 27763,
+   "include": true,
+   "reason": "name contains scope term 'nature-based solution'"
+  },
+  {
+   "id": "https://openalex.org/keywords/green-infrastructure",
+   "display_name": "green infrastructure",
+   "works_count": 28983,
+   "include": true,
+   "reason": "name contains scope term 'green infrastructure'"
+  },
+  {
+   "id": "https://openalex.org/keywords/constructed-wetlands",
+   "display_name": "constructed wetlands",
+   "works_count": 29939,
+   "include": true,
+   "reason": "name contains scope term 'constructed wetland'"
+  },
+  {
+   "id": "https://openalex.org/keywords/agroforestry",
+   "display_name": "agroforestry",
+   "works_count": 56246,
+   "include": true,
+   "reason": "name contains scope term 'agroforestry'"
+  }
+ ]
+}

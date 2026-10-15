@@ -60,3 +60,24 @@ logs/
 frontend/node_modules/
 frontend/dist/
 
+
+# Nature harvest raw-response cache
+scripts/nature/.cache/
+
+# Nature review workflow files (local, not served). data/nature/index/ stays committable.
+data/nature/library_staging.json
+data/nature/review_log.jsonl
+
+# Open Nature Catalogue: raw harvests, generated build, harvest cache
+data/nature/catalogue/raw/
+!data/nature/catalogue/build/
+data/nature/catalogue/build/*
+!data/nature/catalogue/build/manifest.json
+scripts/nature/catalogue/.cache/
+data/nature/catalogue/spotcheck/packets/
+# The /catalogue page was removed; its published chunks are no longer served or committed.
+frontend/public/catalogue/
+
+# Sylva-wild search index (built locally from the catalogue) and local model cache
+data/nature/wild/index/
+data/nature/wild/.model_cache/

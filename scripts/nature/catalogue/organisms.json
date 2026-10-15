@@ -1,0 +1,1408 @@
+{
+  "gecko": {
+    "taxon": "Gekkonidae",
+    "rank": "FAMILY",
+    "habitat_id": "forest"
+  },
+  "gecko foot": {
+    "taxon": "Gekkonidae",
+    "rank": "FAMILY",
+    "habitat_id": "forest"
+  },
+  "lizard": {
+    "taxon": "Squamata",
+    "rank": "CLASS",
+    "habitat_id": "arid"
+  },
+  "thorny devil": {
+    "taxon": "Moloch horridus",
+    "rank": "SPECIES",
+    "habitat_id": "arid"
+  },
+  "horned lizard": {
+    "taxon": "Phrynosoma cornutum",
+    "rank": "SPECIES",
+    "habitat_id": "arid"
+  },
+  "sandfish": {
+    "taxon": "Scincus scincus",
+    "rank": "SPECIES",
+    "habitat_id": "arid"
+  },
+  "chameleon": {
+    "taxon": "Chamaeleonidae",
+    "rank": "FAMILY",
+    "habitat_id": "forest"
+  },
+  "snake": {
+    "taxon": "Serpentes",
+    "rank": "FAMILY",
+    "habitat_id": null
+  },
+  "snakeskin": {
+    "taxon": "Serpentes",
+    "rank": "FAMILY",
+    "habitat_id": null
+  },
+  "snake skin": {
+    "taxon": "Serpentes",
+    "rank": "FAMILY",
+    "habitat_id": null
+  },
+  "pit viper": {
+    "taxon": "Viperidae",
+    "rank": "FAMILY",
+    "habitat_id": null
+  },
+  "viper": {
+    "taxon": "Viperidae",
+    "rank": "FAMILY",
+    "habitat_id": null
+  },
+  "rattlesnake": {
+    "taxon": "Crotalus atrox",
+    "rank": "SPECIES",
+    "habitat_id": "arid"
+  },
+  "tree frog": {
+    "taxon": "Hylidae",
+    "rank": "FAMILY",
+    "habitat_id": "wetland"
+  },
+  "frog": {
+    "taxon": "Ranidae",
+    "rank": "FAMILY",
+    "habitat_id": "wetland"
+  },
+  "glass frog": {
+    "taxon": "Centrolenidae",
+    "rank": "FAMILY",
+    "habitat_id": "forest"
+  },
+  "salamander": {
+    "taxon": "Caudata",
+    "rank": "ORDER",
+    "habitat_id": "wetland"
+  },
+  "axolotl": {
+    "taxon": "Ambystoma mexicanum",
+    "rank": "SPECIES",
+    "habitat_id": "freshwater"
+  },
+  "turtle": {
+    "taxon": "Testudines",
+    "rank": "CLASS",
+    "habitat_id": "freshwater"
+  },
+  "sea turtle": {
+    "taxon": "Cheloniidae",
+    "rank": "FAMILY",
+    "habitat_id": "marine"
+  },
+  "tortoise": {
+    "taxon": "Testudinidae",
+    "rank": "FAMILY",
+    "habitat_id": "arid"
+  },
+  "crocodile": {
+    "taxon": "Crocodylidae",
+    "rank": "FAMILY",
+    "habitat_id": "freshwater"
+  },
+  "pangolin": {
+    "taxon": "Manidae",
+    "rank": "FAMILY",
+    "habitat_id": "forest"
+  },
+  "armadillo": {
+    "taxon": "Cingulata",
+    "rank": "ORDER",
+    "habitat_id": "grassland"
+  },
+  "kingfisher": {
+    "taxon": "Alcedinidae",
+    "rank": "FAMILY",
+    "habitat_id": "birds"
+  },
+  "owl": {
+    "taxon": "Strigiformes",
+    "rank": "ORDER",
+    "habitat_id": "birds"
+  },
+  "woodpecker": {
+    "taxon": "Picidae",
+    "rank": "FAMILY",
+    "habitat_id": "birds"
+  },
+  "hummingbird": {
+    "taxon": "Trochilidae",
+    "rank": "FAMILY",
+    "habitat_id": "birds"
+  },
+  "penguin": {
+    "taxon": "Spheniscidae",
+    "rank": "FAMILY",
+    "habitat_id": "polar"
+  },
+  "peacock": {
+    "taxon": "Pavo cristatus",
+    "rank": "SPECIES",
+    "habitat_id": "birds"
+  },
+  "peafowl": {
+    "taxon": "Pavo cristatus",
+    "rank": "SPECIES",
+    "habitat_id": "birds"
+  },
+  "bird": {
+    "taxon": "Aves",
+    "rank": "CLASS",
+    "habitat_id": "birds"
+  },
+  "bird feather": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "birds"
+  },
+  "feather": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "birds"
+  },
+  "beak": {
+    "taxon": "Aves",
+    "rank": "CLASS",
+    "habitat_id": "birds"
+  },
+  "bird nest": {
+    "taxon": "Aves",
+    "rank": "CLASS",
+    "habitat_id": "birds"
+  },
+  "eagle": {
+    "taxon": "Accipitridae",
+    "rank": "FAMILY",
+    "habitat_id": "birds"
+  },
+  "hawk": {
+    "taxon": "Accipitridae",
+    "rank": "FAMILY",
+    "habitat_id": "birds"
+  },
+  "harris hawk": {
+    "taxon": "Parabuteo unicinctus",
+    "rank": "SPECIES",
+    "habitat_id": "birds"
+  },
+  "falcon": {
+    "taxon": "Falco",
+    "rank": "GENUS",
+    "habitat_id": "birds"
+  },
+  "peregrine falcon": {
+    "taxon": "Falco peregrinus",
+    "rank": "SPECIES",
+    "habitat_id": "birds"
+  },
+  "albatross": {
+    "taxon": "Diomedeidae",
+    "rank": "FAMILY",
+    "habitat_id": "marine"
+  },
+  "pigeon": {
+    "taxon": "Columbidae",
+    "rank": "FAMILY",
+    "habitat_id": "urban"
+  },
+  "toucan": {
+    "taxon": "Ramphastidae",
+    "rank": "FAMILY",
+    "habitat_id": "forest"
+  },
+  "duck": {
+    "taxon": "Anatidae",
+    "rank": "FAMILY",
+    "habitat_id": "wetland"
+  },
+  "gull": {
+    "taxon": "Laridae",
+    "rank": "FAMILY",
+    "habitat_id": "coastal"
+  },
+  "seagull": {
+    "taxon": "Laridae",
+    "rank": "FAMILY",
+    "habitat_id": "coastal"
+  },
+  "swan": {
+    "taxon": "Cygnus olor",
+    "rank": "SPECIES",
+    "habitat_id": "wetland"
+  },
+  "pelican": {
+    "taxon": "Pelecanus",
+    "rank": "GENUS",
+    "habitat_id": "coastal"
+  },
+  "flamingo": {
+    "taxon": "Phoenicopteridae",
+    "rank": "FAMILY",
+    "habitat_id": "wetland"
+  },
+  "ostrich": {
+    "taxon": "Struthio camelus",
+    "rank": "SPECIES",
+    "habitat_id": "grassland"
+  },
+  "crow": {
+    "taxon": "Corvus corax",
+    "rank": "SPECIES",
+    "habitat_id": "urban"
+  },
+  "starling": {
+    "taxon": "Sturnus vulgaris",
+    "rank": "SPECIES",
+    "habitat_id": "urban"
+  },
+  "sparrow": {
+    "taxon": "Passeridae",
+    "rank": "FAMILY",
+    "habitat_id": "birds"
+  },
+  "cuckoo": {
+    "taxon": "Cuculidae",
+    "rank": "FAMILY",
+    "habitat_id": "birds"
+  },
+  "weaver bird": {
+    "taxon": "Ploceidae",
+    "rank": "FAMILY",
+    "habitat_id": "birds"
+  },
+  "bat": {
+    "taxon": "Chiroptera",
+    "rank": "ORDER",
+    "habitat_id": "forest"
+  },
+  "polar bear": {
+    "taxon": "Ursus maritimus",
+    "rank": "SPECIES",
+    "habitat_id": "polar"
+  },
+  "whale": {
+    "taxon": "Cetacea",
+    "rank": "ORDER",
+    "habitat_id": "marine"
+  },
+  "humpback whale": {
+    "taxon": "Megaptera novaeangliae",
+    "rank": "SPECIES",
+    "habitat_id": "marine"
+  },
+  "whale fin": {
+    "taxon": "Megaptera novaeangliae",
+    "rank": "SPECIES",
+    "habitat_id": "marine"
+  },
+  "dolphin": {
+    "taxon": "Delphinidae",
+    "rank": "FAMILY",
+    "habitat_id": "marine"
+  },
+  "harbor seal": {
+    "taxon": "Phoca vitulina",
+    "rank": "SPECIES",
+    "habitat_id": "marine"
+  },
+  "harbour seal": {
+    "taxon": "Phoca vitulina",
+    "rank": "SPECIES",
+    "habitat_id": "marine"
+  },
+  "seal whisker": {
+    "taxon": "Phocidae",
+    "rank": "FAMILY",
+    "habitat_id": "marine"
+  },
+  "sea lion": {
+    "taxon": "Otariidae",
+    "rank": "FAMILY",
+    "habitat_id": "marine"
+  },
+  "sea otter": {
+    "taxon": "Enhydra lutris",
+    "rank": "SPECIES",
+    "habitat_id": "marine"
+  },
+  "camel": {
+    "taxon": "Camelus dromedarius",
+    "rank": "SPECIES",
+    "habitat_id": "arid"
+  },
+  "zebra": {
+    "taxon": "Equus quagga",
+    "rank": "SPECIES",
+    "habitat_id": "grassland"
+  },
+  "giraffe": {
+    "taxon": "Giraffa",
+    "rank": "GENUS",
+    "habitat_id": "dehesa-savanna"
+  },
+  "elephant": {
+    "taxon": "Elephantidae",
+    "rank": "FAMILY",
+    "habitat_id": "dehesa-savanna"
+  },
+  "elephant trunk": {
+    "taxon": "Elephantidae",
+    "rank": "FAMILY",
+    "habitat_id": "dehesa-savanna"
+  },
+  "cheetah": {
+    "taxon": "Acinonyx jubatus",
+    "rank": "SPECIES",
+    "habitat_id": "dehesa-savanna"
+  },
+  "lion": {
+    "taxon": "Panthera leo",
+    "rank": "SPECIES",
+    "habitat_id": "dehesa-savanna"
+  },
+  "iberian lynx": {
+    "taxon": "Lynx pardinus",
+    "rank": "SPECIES",
+    "habitat_id": "dehesa-savanna"
+  },
+  "rhinoceros": {
+    "taxon": "Rhinocerotidae",
+    "rank": "FAMILY",
+    "habitat_id": "dehesa-savanna"
+  },
+  "kangaroo": {
+    "taxon": "Macropus giganteus",
+    "rank": "SPECIES",
+    "habitat_id": "grassland"
+  },
+  "horse": {
+    "taxon": "Equus caballus",
+    "rank": "SPECIES",
+    "habitat_id": "grassland"
+  },
+  "beaver": {
+    "taxon": "Castor fiber",
+    "rank": "SPECIES",
+    "habitat_id": "freshwater"
+  },
+  "hedgehog": {
+    "taxon": "Erinaceidae",
+    "rank": "FAMILY",
+    "habitat_id": "forest"
+  },
+  "porcupine": {
+    "taxon": "Erethizon dorsatum",
+    "rank": "SPECIES",
+    "habitat_id": "forest"
+  },
+  "sloth": {
+    "taxon": "Bradypus",
+    "rank": "GENUS",
+    "habitat_id": "forest"
+  },
+  "squirrel": {
+    "taxon": "Sciuridae",
+    "rank": "FAMILY",
+    "habitat_id": "forest"
+  },
+  "antler": {
+    "taxon": "Cervidae",
+    "rank": "FAMILY",
+    "habitat_id": "forest"
+  },
+  "grey wolf": {
+    "taxon": "Canis lupus",
+    "rank": "SPECIES",
+    "habitat_id": "forest"
+  },
+  "gray wolf": {
+    "taxon": "Canis lupus",
+    "rank": "SPECIES",
+    "habitat_id": "forest"
+  },
+  "chimpanzee": {
+    "taxon": "Pan troglodytes",
+    "rank": "SPECIES",
+    "habitat_id": "forest"
+  },
+  "shark": {
+    "taxon": "Elasmobranchii",
+    "rank": "CLASS",
+    "habitat_id": "marine"
+  },
+  "shark skin": {
+    "taxon": "Elasmobranchii",
+    "rank": "CLASS",
+    "habitat_id": "marine"
+  },
+  "sharkskin": {
+    "taxon": "Elasmobranchii",
+    "rank": "CLASS",
+    "habitat_id": "marine"
+  },
+  "boxfish": {
+    "taxon": "Ostraciidae",
+    "rank": "FAMILY",
+    "habitat_id": "marine"
+  },
+  "fish": {
+    "taxon": "Actinopterygii",
+    "rank": "CLASS",
+    "habitat_id": "marine",
+    "gbif_key": 204
+  },
+  "fish scale": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "marine"
+  },
+  "salmon": {
+    "taxon": "Salmo salar",
+    "rank": "SPECIES",
+    "habitat_id": "freshwater"
+  },
+  "trout": {
+    "taxon": "Salmo trutta",
+    "rank": "SPECIES",
+    "habitat_id": "freshwater"
+  },
+  "tuna": {
+    "taxon": "Thunnus",
+    "rank": "GENUS",
+    "habitat_id": "marine"
+  },
+  "swordfish": {
+    "taxon": "Xiphias gladius",
+    "rank": "SPECIES",
+    "habitat_id": "marine"
+  },
+  "sailfish": {
+    "taxon": "Istiophorus platypterus",
+    "rank": "SPECIES",
+    "habitat_id": "marine"
+  },
+  "remora": {
+    "taxon": "Echeneidae",
+    "rank": "FAMILY",
+    "habitat_id": "marine"
+  },
+  "pufferfish": {
+    "taxon": "Tetraodontidae",
+    "rank": "FAMILY",
+    "habitat_id": "marine"
+  },
+  "eel": {
+    "taxon": "Anguilliformes",
+    "rank": "ORDER",
+    "habitat_id": "freshwater"
+  },
+  "electric eel": {
+    "taxon": "Electrophorus electricus",
+    "rank": "SPECIES",
+    "habitat_id": "freshwater"
+  },
+  "zebrafish": {
+    "taxon": "Danio rerio",
+    "rank": "SPECIES",
+    "habitat_id": "freshwater"
+  },
+  "manta ray": {
+    "taxon": "Mobula birostris",
+    "rank": "SPECIES",
+    "habitat_id": "marine"
+  },
+  "stingray": {
+    "taxon": "Myliobatiformes",
+    "rank": "ORDER",
+    "habitat_id": "marine"
+  },
+  "archerfish": {
+    "taxon": "Toxotes",
+    "rank": "GENUS",
+    "habitat_id": "coastal"
+  },
+  "lamprey": {
+    "taxon": "Petromyzontiformes",
+    "rank": "ORDER",
+    "habitat_id": "freshwater"
+  },
+  "seahorse": {
+    "taxon": "Hippocampus",
+    "rank": "GENUS",
+    "habitat_id": "marine"
+  },
+  "hagfish": {
+    "taxon": "Myxinidae",
+    "rank": "FAMILY",
+    "habitat_id": "marine"
+  },
+  "octopus": {
+    "taxon": "Octopus",
+    "rank": "GENUS",
+    "habitat_id": "marine"
+  },
+  "octopus sucker": {
+    "taxon": "Octopus",
+    "rank": "GENUS",
+    "habitat_id": "marine"
+  },
+  "squid": {
+    "taxon": "Loliginidae",
+    "rank": "FAMILY",
+    "habitat_id": "marine"
+  },
+  "cuttlefish": {
+    "taxon": "Sepia officinalis",
+    "rank": "SPECIES",
+    "habitat_id": "marine"
+  },
+  "nautilus": {
+    "taxon": "Nautilus pompilius",
+    "rank": "SPECIES",
+    "habitat_id": "marine"
+  },
+  "jellyfish": {
+    "taxon": "Scyphozoa",
+    "rank": "CLASS",
+    "habitat_id": "marine"
+  },
+  "mussel": {
+    "taxon": "Mytilus edulis",
+    "rank": "SPECIES",
+    "habitat_id": "marine"
+  },
+  "blue mussel": {
+    "taxon": "Mytilus edulis",
+    "rank": "SPECIES",
+    "habitat_id": "marine"
+  },
+  "zebra mussel": {
+    "taxon": "Dreissena polymorpha",
+    "rank": "SPECIES",
+    "habitat_id": "freshwater"
+  },
+  "oyster": {
+    "taxon": "Ostreidae",
+    "rank": "FAMILY",
+    "habitat_id": "marine"
+  },
+  "pearl oyster": {
+    "taxon": "Pinctada",
+    "rank": "GENUS",
+    "habitat_id": "marine"
+  },
+  "shellfish": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "marine"
+  },
+  "seashell": {
+    "taxon": "Mollusca",
+    "rank": "PHYLUM",
+    "habitat_id": "marine"
+  },
+  "sea shell": {
+    "taxon": "Mollusca",
+    "rank": "PHYLUM",
+    "habitat_id": "marine"
+  },
+  "mollusc": {
+    "taxon": "Mollusca",
+    "rank": "PHYLUM",
+    "habitat_id": "marine"
+  },
+  "mollusk": {
+    "taxon": "Mollusca",
+    "rank": "PHYLUM",
+    "habitat_id": "marine"
+  },
+  "abalone": {
+    "taxon": "Haliotis rufescens",
+    "rank": "SPECIES",
+    "habitat_id": "marine"
+  },
+  "nacre": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "marine"
+  },
+  "mother of pearl": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "marine"
+  },
+  "conch": {
+    "taxon": "Strombidae",
+    "rank": "FAMILY",
+    "habitat_id": "marine"
+  },
+  "limpet": {
+    "taxon": "Patella vulgata",
+    "rank": "SPECIES",
+    "habitat_id": "marine"
+  },
+  "chiton": {
+    "taxon": "Polyplacophora",
+    "rank": "CLASS",
+    "habitat_id": "marine"
+  },
+  "barnacle": {
+    "taxon": "Balanidae",
+    "rank": "FAMILY",
+    "habitat_id": "marine"
+  },
+  "sandcastle worm": {
+    "taxon": "Phragmatopoma californica",
+    "rank": "SPECIES",
+    "habitat_id": "marine"
+  },
+  "mantis shrimp": {
+    "taxon": "Stomatopoda",
+    "rank": "ORDER",
+    "habitat_id": "marine"
+  },
+  "lobster": {
+    "taxon": "Nephropidae",
+    "rank": "FAMILY",
+    "habitat_id": "marine"
+  },
+  "crab": {
+    "taxon": "Brachyura",
+    "rank": "FAMILY",
+    "habitat_id": "marine"
+  },
+  "krill": {
+    "taxon": "Euphausiacea",
+    "rank": "ORDER",
+    "habitat_id": "polar"
+  },
+  "coral": {
+    "taxon": "Anthozoa",
+    "rank": "CLASS",
+    "habitat_id": "marine"
+  },
+  "coral reef": {
+    "taxon": "Anthozoa",
+    "rank": "CLASS",
+    "habitat_id": "marine"
+  },
+  "sea anemone": {
+    "taxon": "Actiniaria",
+    "rank": "ORDER",
+    "habitat_id": "marine"
+  },
+  "sea urchin": {
+    "taxon": "Echinoidea",
+    "rank": "CLASS",
+    "habitat_id": "marine"
+  },
+  "starfish": {
+    "taxon": "Asteroidea",
+    "rank": "CLASS",
+    "habitat_id": "marine"
+  },
+  "sea star": {
+    "taxon": "Asteroidea",
+    "rank": "CLASS",
+    "habitat_id": "marine"
+  },
+  "sea cucumber": {
+    "taxon": "Holothuroidea",
+    "rank": "CLASS",
+    "habitat_id": "marine"
+  },
+  "marine sponge": {
+    "taxon": "Porifera",
+    "rank": "PHYLUM",
+    "habitat_id": "marine"
+  },
+  "sea sponge": {
+    "taxon": "Porifera",
+    "rank": "PHYLUM",
+    "habitat_id": "marine"
+  },
+  "glass sponge": {
+    "taxon": "Hexactinellida",
+    "rank": "CLASS",
+    "habitat_id": "marine"
+  },
+  "venus flower basket": {
+    "taxon": "Euplectella aspergillum",
+    "rank": "SPECIES",
+    "habitat_id": "marine"
+  },
+  "diatom": {
+    "taxon": "Bacillariophyceae",
+    "rank": "CLASS",
+    "habitat_id": "marine"
+  },
+  "radiolarian": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "marine"
+  },
+  "salp": {
+    "taxon": "Salpidae",
+    "rank": "FAMILY",
+    "habitat_id": "marine"
+  },
+  "seaweed": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "marine"
+  },
+  "macroalgae": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "marine"
+  },
+  "kelp": {
+    "taxon": "Laminariales",
+    "rank": "ORDER",
+    "habitat_id": "marine"
+  },
+  "giant kelp": {
+    "taxon": "Macrocystis pyrifera",
+    "rank": "SPECIES",
+    "habitat_id": "marine"
+  },
+  "algae": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "marine"
+  },
+  "microalgae": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "freshwater"
+  },
+  "seagrass": {
+    "taxon": "Zostera",
+    "rank": "GENUS",
+    "habitat_id": "coastal"
+  },
+  "mangrove": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "coastal"
+  },
+  "spider": {
+    "taxon": "Araneae",
+    "rank": "ORDER",
+    "habitat_id": "forest"
+  },
+  "spider silk": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "forest"
+  },
+  "spider web": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "forest"
+  },
+  "spiderweb": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "forest"
+  },
+  "cobweb": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "forest"
+  },
+  "silkworm": {
+    "taxon": "Bombyx mori",
+    "rank": "SPECIES",
+    "habitat_id": null
+  },
+  "silk": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": null
+  },
+  "termite": {
+    "taxon": "Termitidae",
+    "rank": "FAMILY",
+    "habitat_id": "soil"
+  },
+  "termite mound": {
+    "taxon": "Macrotermes",
+    "rank": "GENUS",
+    "habitat_id": "soil"
+  },
+  "ant": {
+    "taxon": "Formicidae",
+    "rank": "FAMILY",
+    "habitat_id": "soil"
+  },
+  "fire ant": {
+    "taxon": "Solenopsis invicta",
+    "rank": "SPECIES",
+    "habitat_id": "soil"
+  },
+  "leafcutter ant": {
+    "taxon": "Atta cephalotes",
+    "rank": "SPECIES",
+    "habitat_id": "forest"
+  },
+  "leaf cutter ant": {
+    "taxon": "Atta cephalotes",
+    "rank": "SPECIES",
+    "habitat_id": "forest"
+  },
+  "bee": {
+    "taxon": "Apis mellifera",
+    "rank": "SPECIES",
+    "habitat_id": "pollinators"
+  },
+  "honeybee": {
+    "taxon": "Apis mellifera",
+    "rank": "SPECIES",
+    "habitat_id": "pollinators"
+  },
+  "honey bee": {
+    "taxon": "Apis mellifera",
+    "rank": "SPECIES",
+    "habitat_id": "pollinators"
+  },
+  "bumblebee": {
+    "taxon": "Bombus terrestris",
+    "rank": "SPECIES",
+    "habitat_id": "pollinators"
+  },
+  "honeycomb": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "pollinators"
+  },
+  "wasp": {
+    "taxon": "Vespidae",
+    "rank": "FAMILY",
+    "habitat_id": "pollinators"
+  },
+  "hornet": {
+    "taxon": "Vespa crabro",
+    "rank": "SPECIES",
+    "habitat_id": "pollinators"
+  },
+  "butterfly": {
+    "taxon": "Lepidoptera",
+    "rank": "ORDER",
+    "habitat_id": "pollinators"
+  },
+  "butterfly wing": {
+    "taxon": "Lepidoptera",
+    "rank": "ORDER",
+    "habitat_id": "pollinators"
+  },
+  "morpho butterfly": {
+    "taxon": "Morpho",
+    "rank": "GENUS",
+    "habitat_id": "forest"
+  },
+  "moth": {
+    "taxon": "Lepidoptera",
+    "rank": "ORDER",
+    "habitat_id": "pollinators"
+  },
+  "moth eye": {
+    "taxon": "Lepidoptera",
+    "rank": "ORDER",
+    "habitat_id": "pollinators"
+  },
+  "caterpillar": {
+    "taxon": "Lepidoptera",
+    "rank": "ORDER",
+    "habitat_id": "forest"
+  },
+  "inchworm": {
+    "taxon": "Geometridae",
+    "rank": "FAMILY",
+    "habitat_id": "forest"
+  },
+  "beetle": {
+    "taxon": "Coleoptera",
+    "rank": "ORDER",
+    "habitat_id": "forest"
+  },
+  "namib beetle": {
+    "taxon": "Stenocara",
+    "rank": "GENUS",
+    "habitat_id": "arid"
+  },
+  "namib desert beetle": {
+    "taxon": "Stenocara",
+    "rank": "GENUS",
+    "habitat_id": "arid"
+  },
+  "desert beetle": {
+    "taxon": "Stenocara",
+    "rank": "GENUS",
+    "habitat_id": "arid"
+  },
+  "fog basking beetle": {
+    "taxon": "Stenocara",
+    "rank": "GENUS",
+    "habitat_id": "arid"
+  },
+  "bombardier beetle": {
+    "taxon": "Brachinus",
+    "rank": "GENUS",
+    "habitat_id": "forest"
+  },
+  "dung beetle": {
+    "taxon": "Scarabaeidae",
+    "rank": "FAMILY",
+    "habitat_id": "grassland"
+  },
+  "jewel beetle": {
+    "taxon": "Buprestidae",
+    "rank": "FAMILY",
+    "habitat_id": "forest"
+  },
+  "weevil": {
+    "taxon": "Curculionidae",
+    "rank": "FAMILY",
+    "habitat_id": "forest"
+  },
+  "ladybird": {
+    "taxon": "Coccinellidae",
+    "rank": "FAMILY",
+    "habitat_id": "grassland"
+  },
+  "ladybug": {
+    "taxon": "Coccinellidae",
+    "rank": "FAMILY",
+    "habitat_id": "grassland"
+  },
+  "firefly": {
+    "taxon": "Lampyridae",
+    "rank": "FAMILY",
+    "habitat_id": "forest"
+  },
+  "cicada": {
+    "taxon": "Cicadidae",
+    "rank": "FAMILY",
+    "habitat_id": "forest"
+  },
+  "dragonfly": {
+    "taxon": "Odonata",
+    "rank": "ORDER",
+    "habitat_id": "freshwater"
+  },
+  "damselfly": {
+    "taxon": "Odonata",
+    "rank": "ORDER",
+    "habitat_id": "freshwater"
+  },
+  "mosquito": {
+    "taxon": "Culicidae",
+    "rank": "FAMILY",
+    "habitat_id": "wetland"
+  },
+  "housefly": {
+    "taxon": "Musca domestica",
+    "rank": "SPECIES",
+    "habitat_id": "urban"
+  },
+  "fruit fly": {
+    "taxon": "Drosophila melanogaster",
+    "rank": "SPECIES",
+    "habitat_id": null
+  },
+  "cockroach": {
+    "taxon": "Blattodea",
+    "rank": "ORDER",
+    "habitat_id": "urban"
+  },
+  "cricket": {
+    "taxon": "Gryllidae",
+    "rank": "FAMILY",
+    "habitat_id": "grassland"
+  },
+  "grasshopper": {
+    "taxon": "Acrididae",
+    "rank": "FAMILY",
+    "habitat_id": "grassland"
+  },
+  "locust": {
+    "taxon": "Acrididae",
+    "rank": "FAMILY",
+    "habitat_id": "grassland"
+  },
+  "praying mantis": {
+    "taxon": "Mantodea",
+    "rank": "ORDER",
+    "habitat_id": "grassland"
+  },
+  "mantis": {
+    "taxon": "Mantodea",
+    "rank": "ORDER",
+    "habitat_id": "grassland"
+  },
+  "stick insect": {
+    "taxon": "Phasmida",
+    "rank": "ORDER",
+    "habitat_id": "forest"
+  },
+  "flea": {
+    "taxon": "Pulicidae",
+    "rank": "FAMILY",
+    "habitat_id": null
+  },
+  "water strider": {
+    "taxon": "Gerridae",
+    "rank": "FAMILY",
+    "habitat_id": "freshwater"
+  },
+  "earwig": {
+    "taxon": "Dermaptera",
+    "rank": "ORDER",
+    "habitat_id": "soil"
+  },
+  "scorpion": {
+    "taxon": "Scorpiones",
+    "rank": "ORDER",
+    "habitat_id": "arid"
+  },
+  "springtail": {
+    "taxon": "Collembola",
+    "rank": "CLASS",
+    "habitat_id": "soil"
+  },
+  "earthworm": {
+    "taxon": "Lumbricidae",
+    "rank": "FAMILY",
+    "habitat_id": "soil"
+  },
+  "nematode": {
+    "taxon": "Nematoda",
+    "rank": "PHYLUM",
+    "habitat_id": "soil"
+  },
+  "leech": {
+    "taxon": "Hirudo medicinalis",
+    "rank": "SPECIES",
+    "habitat_id": "freshwater"
+  },
+  "snail": {
+    "taxon": "Gastropoda",
+    "rank": "CLASS",
+    "habitat_id": null
+  },
+  "velvet worm": {
+    "taxon": "Peripatidae",
+    "rank": "FAMILY",
+    "habitat_id": "forest"
+  },
+  "tardigrade": {
+    "taxon": "Tardigrada",
+    "rank": "PHYLUM",
+    "habitat_id": null
+  },
+  "slime mold": {
+    "taxon": "Physarum polycephalum",
+    "rank": "SPECIES",
+    "habitat_id": "forest"
+  },
+  "slime mould": {
+    "taxon": "Physarum polycephalum",
+    "rank": "SPECIES",
+    "habitat_id": "forest"
+  },
+  "cyanobacteria": {
+    "taxon": "Cyanobacteria",
+    "rank": "PHYLUM",
+    "habitat_id": "freshwater"
+  },
+  "lotus": {
+    "taxon": "Nelumbo",
+    "rank": "GENUS",
+    "habitat_id": "freshwater"
+  },
+  "lotus leaf": {
+    "taxon": "Nelumbo",
+    "rank": "GENUS",
+    "habitat_id": "freshwater"
+  },
+  "lotus effect": {
+    "taxon": "Nelumbo",
+    "rank": "GENUS",
+    "habitat_id": "freshwater"
+  },
+  "water lily": {
+    "taxon": "Nymphaeaceae",
+    "rank": "FAMILY",
+    "habitat_id": "freshwater"
+  },
+  "salvinia": {
+    "taxon": "Salvinia",
+    "rank": "GENUS",
+    "habitat_id": "freshwater"
+  },
+  "rice leaf": {
+    "taxon": "Oryza sativa",
+    "rank": "SPECIES",
+    "habitat_id": "wetland"
+  },
+  "taro leaf": {
+    "taxon": "Colocasia esculenta",
+    "rank": "SPECIES",
+    "habitat_id": "wetland"
+  },
+  "rose petal": {
+    "taxon": "Rosa",
+    "rank": "GENUS",
+    "habitat_id": null
+  },
+  "cactus": {
+    "taxon": "Cactaceae",
+    "rank": "FAMILY",
+    "habitat_id": "arid"
+  },
+  "saguaro": {
+    "taxon": "Carnegiea gigantea",
+    "rank": "SPECIES",
+    "habitat_id": "arid"
+  },
+  "succulent plant": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "arid"
+  },
+  "pitcher plant": {
+    "taxon": "Nepenthes",
+    "rank": "GENUS",
+    "habitat_id": "forest"
+  },
+  "nepenthes": {
+    "taxon": "Nepenthes",
+    "rank": "GENUS",
+    "habitat_id": "forest"
+  },
+  "venus flytrap": {
+    "taxon": "Dionaea muscipula",
+    "rank": "SPECIES",
+    "habitat_id": "wetland"
+  },
+  "venus fly trap": {
+    "taxon": "Dionaea muscipula",
+    "rank": "SPECIES",
+    "habitat_id": "wetland"
+  },
+  "sunflower": {
+    "taxon": "Helianthus annuus",
+    "rank": "SPECIES",
+    "habitat_id": "grassland"
+  },
+  "pine cone": {
+    "taxon": "Pinaceae",
+    "rank": "FAMILY",
+    "habitat_id": "forest"
+  },
+  "pinecone": {
+    "taxon": "Pinaceae",
+    "rank": "FAMILY",
+    "habitat_id": "forest"
+  },
+  "pine": {
+    "taxon": "Pinaceae",
+    "rank": "FAMILY",
+    "habitat_id": "forest"
+  },
+  "oak": {
+    "taxon": "Quercus",
+    "rank": "GENUS",
+    "habitat_id": "forest"
+  },
+  "cork": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "dehesa-savanna"
+  },
+  "cork oak": {
+    "taxon": "Quercus suber",
+    "rank": "SPECIES",
+    "habitat_id": "dehesa-savanna"
+  },
+  "holm oak": {
+    "taxon": "Quercus ilex",
+    "rank": "SPECIES",
+    "habitat_id": "dehesa-savanna"
+  },
+  "bamboo": {
+    "taxon": "Poaceae",
+    "rank": "FAMILY",
+    "habitat_id": "forest"
+  },
+  "grass": {
+    "taxon": "Poaceae",
+    "rank": "FAMILY",
+    "habitat_id": "grassland"
+  },
+  "burdock": {
+    "taxon": "Arctium lappa",
+    "rank": "SPECIES",
+    "habitat_id": "grassland"
+  },
+  "burr": {
+    "taxon": "Arctium lappa",
+    "rank": "SPECIES",
+    "habitat_id": "grassland"
+  },
+  "mimosa": {
+    "taxon": "Mimosa pudica",
+    "rank": "SPECIES",
+    "habitat_id": "grassland"
+  },
+  "sensitive plant": {
+    "taxon": "Mimosa pudica",
+    "rank": "SPECIES",
+    "habitat_id": "grassland"
+  },
+  "dandelion": {
+    "taxon": "Taraxacum officinale",
+    "rank": "SPECIES",
+    "habitat_id": "grassland"
+  },
+  "maple seed": {
+    "taxon": "Sapindaceae",
+    "rank": "FAMILY",
+    "habitat_id": "forest"
+  },
+  "samara": {
+    "taxon": "Sapindaceae",
+    "rank": "FAMILY",
+    "habitat_id": "forest"
+  },
+  "ice plant": {
+    "taxon": "Aizoaceae",
+    "rank": "FAMILY",
+    "habitat_id": "arid"
+  },
+  "wheat awn": {
+    "taxon": "Triticum",
+    "rank": "GENUS",
+    "habitat_id": "grassland"
+  },
+  "pomelo": {
+    "taxon": "Citrus maxima",
+    "rank": "SPECIES",
+    "habitat_id": null
+  },
+  "coconut": {
+    "taxon": "Cocos nucifera",
+    "rank": "SPECIES",
+    "habitat_id": "coastal"
+  },
+  "edelweiss": {
+    "taxon": "Leontopodium nivale",
+    "rank": "SPECIES",
+    "habitat_id": "mountain"
+  },
+  "baobab": {
+    "taxon": "Adansonia digitata",
+    "rank": "SPECIES",
+    "habitat_id": "dehesa-savanna"
+  },
+  "moss": {
+    "taxon": "Bryophyta",
+    "rank": "PHYLUM",
+    "habitat_id": "forest"
+  },
+  "fern": {
+    "taxon": "Polypodiopsida",
+    "rank": "CLASS",
+    "habitat_id": "forest"
+  },
+  "leaf": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "forest"
+  },
+  "plant leaf": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "forest"
+  },
+  "wood": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "forest"
+  },
+  "timber": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "forest"
+  },
+  "tree bark": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "forest"
+  },
+  "plant root": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "soil"
+  },
+  "root system": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "soil"
+  },
+  "root hair": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "soil"
+  },
+  "taproot": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "soil"
+  },
+  "pollen": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "pollinators"
+  },
+  "bone": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": null
+  },
+  "mycelium": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "soil"
+  },
+  "fungus": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "soil"
+  },
+  "mushroom": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "soil"
+  },
+  "mycorrhiza": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "soil"
+  },
+  "lichen": {
+    "taxon": null,
+    "rank": null,
+    "habitat_id": "mountain"
+  }
+}
