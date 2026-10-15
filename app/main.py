@@ -12,6 +12,7 @@ Security notes:
 from __future__ import annotations
 
 import os
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -23,7 +24,8 @@ from starlette.middleware.base import BaseHTTPMiddleware
 
 load_dotenv()
 
-from app.routers import farm, match, nature, recommendations, sensors  # noqa: E402
+from app.routers import farm, match, nature, recommendations, sensors, wild  # noqa: E402
+from app.services.wild.store import holder as wild_index  # noqa: E402
 
 APP_VERSION = "0.3.0"
 API_ONLY = os.getenv("SYLVA_API_ONLY", "").strip().lower() in {"1", "true", "yes", "on"} or bool(
@@ -47,7 +49,15 @@ def _allowed_origins() -> list[str]:
     ]
 
 
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    # Load the Sylva-wild search index in the background; /wild/ask answers 503 until ready.
+    wild_index.start_loading()
+    yield
+
+
 app = FastAPI(
+    lifespan=lifespan,
     title="Sylva",
     description=(
         "Agroforestry intelligence — farm profiling, species matching, "
@@ -100,6 +110,7 @@ app.include_router(match.router, prefix="/api/v1", tags=["match"])
 app.include_router(recommendations.router, prefix="/api/v1", tags=["recommendations"])
 app.include_router(sensors.router, prefix="/api/v1", tags=["sensors"])
 app.include_router(nature.router, prefix="/api/v1", tags=["nature"])
+app.include_router(wild.router, prefix="/api/v1", tags=["wild"])
 
 FRONTEND_DIST = Path(__file__).resolve().parent.parent / "frontend" / "dist"
 
@@ -174,4 +185,9 @@ if not API_ONLY:
     @app.get("/nature")
     @app.get("/nature/")
     def nature_spa():
+        return _serve_spa_file()
+
+    @app.get("/wild")
+    @app.get("/wild/")
+    def wild_spa():
         return _serve_spa_file()
