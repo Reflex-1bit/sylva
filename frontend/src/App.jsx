@@ -76,6 +76,7 @@ export default function App() {
           <Link to="/hardware">Hardware</Link>
           <Link to="/nature">Nature</Link>
           <Link to="/catalogue">Catalogue</Link>
+          <Link to="/wild">Wild</Link>
           {showResults && (
             <button type="button" className="ghost-btn" onClick={reset}>
               New location

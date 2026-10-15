@@ -116,3 +116,33 @@ export const askNature = (body) =>
     { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) },
     75_000,
   )
+
+// ── Sylva-wild ───────────────────────────────────────────────────────────────
+
+async function wildJson(path, options = {}, timeoutMs = 30_000) {
+  const res = await fetchWithTimeout(`${API_BASE}/wild${path}`, options, timeoutMs)
+  if (!res.ok) {
+    let detail = `Request failed (${res.status})`
+    if (res.status === 504) detail = 'That took too long to answer. Try again or shorten your description.'
+    try {
+      const body = await res.json()
+      if (typeof body.detail === 'string') detail = body.detail
+      else if (Array.isArray(body.detail)) {
+        const msgs = body.detail.map((d) => d?.msg).filter(Boolean)
+        if (msgs.length) detail = msgs.join('; ')
+      }
+    } catch {
+      /* ignore */
+    }
+    throw new Error(detail)
+  }
+  return res.json()
+}
+
+export const fetchWildMeta = () => wildJson('/meta')
+export const askWild = (body) =>
+  wildJson(
+    '/ask',
+    { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) },
+    90_000,
+  )

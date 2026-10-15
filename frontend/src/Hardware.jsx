@@ -169,6 +169,7 @@ export default function Hardware() {
         </Link>
         <nav className="hw-nav">
           <Link to="/">Plan</Link>
+          <Link to="/wild">Wild</Link>
           <span>Hardware</span>
         </nav>
       </header>

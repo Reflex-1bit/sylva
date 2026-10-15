@@ -647,6 +647,7 @@ export default function Catalogue() {
         <nav className="nat-nav">
           <Link to="/hardware">Hardware</Link>
           <Link to="/nature">Nature</Link>
+          <Link to="/wild">Wild</Link>
         </nav>
       </header>
 

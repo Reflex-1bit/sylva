@@ -155,6 +155,31 @@ python scripts/nature/catalogue/validate.py --build data/nature/catalogue/build
   Publishing again gives byte-identical files. Method, counts and limits are in [`data/nature/catalogue/README.md`](data/nature/catalogue/README.md).
 - **Known gaps:** the OpenAlex nature-based-solution keywords are not fully harvested (155 of 288 keyword jobs done, 133 pending); PatentsView patents are deferred until a USPTO API key is available, so the catalogue holds no patents yet.
 
+## Sylva-wild
+
+A marine-blue page at `/wild` for companies: pick **fix a problem** or **build something new**,
+pick an industry (the 15 catalogue sectors, or "Not sure"), describe it in a sentence or two,
+and get nature-inspired solutions that cite the actual studies, with donation links to groups
+that protect the habitat behind each study. A "custom research with wildlife reserves" offer
+follows the results (marked coming soon; no form yet).
+
+| Method | Path | Description |
+|---|---|---|
+| GET | `/api/v1/wild/meta` | Industry list, index status, record count, privacy notice |
+| POST | `/api/v1/wild/ask` | `{intent: fix\|build, sector: id\|null, problem: str}` in, solutions + cited records out |
+
+- **Search** runs over all 99,309 catalogue records with a local index and no key
+  (`data/nature/wild/README.md`). Build it once: `pip install -r requirements-wild.txt` then
+  `python -m scripts.nature.wild.build_index`. Until it is built, `/ask` answers 503.
+- **With `GEMINI_API_KEY`** the problem is rewritten into up to three short search phrases and the
+  top 12 records are grouped into solutions citing `R1`..`R12`. A guard drops any ref the model was
+  not given and any URL it writes; study links and donation links come from the records only.
+- **Without a key** (or if the model fails) the page shows the closest studies, search only.
+- **Free-key protection:** at most two model calls per question, answers cached for an hour,
+  10 model answers per visitor per 10 minutes (then search only).
+- **Privacy:** the page tells users not to include confidential details; the text is sent to
+  Gemini when a key is set and is not stored by Sylva.
+
 ## Project layout
 
 ```
